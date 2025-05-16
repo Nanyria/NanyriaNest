@@ -1,0 +1,38 @@
+.cards-form {
+  width: 50%;
+  padding: 2em;
+  display: flex; /* Add display: flex */
+  flex-direction: column; /* Add flex-direction: column */
+}
+
+.form-group {
+  display: flex; /* Ensure form-group is also a flex container */
+  flex-direction: row; /* Set the direction of flex items */
+  margin-bottom: 1em;
+}
+
+.form-group label {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="number"] {
+  width: 100%;
+  padding: 0.5em 0.3em;
+  margin: 0.5em;
+  font-size: 1.2em;
+  border-radius: 2px;
+}
+
+.form-group button {
+  background-color: black;
+  padding: 0.5em 1em;
+  color: wheat;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+}

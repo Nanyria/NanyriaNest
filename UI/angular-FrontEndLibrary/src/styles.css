@@ -1,0 +1,198 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --light-green: rgba(32, 175, 109, 1); /* Define the light green color */
+  --dark-green: rgba(29, 99, 66, 1); /* Define the dark green color */
+  --background-dark: rgba(31, 41, 55, 1);
+  --background-light: rgba(55, 65, 81, 1);
+  --text-light: rgba(255, 255, 255, 1);
+  --text-dark: rgba(178, 178, 178, 1);
+  --text-muted: rgba(156, 163, 175, 1);
+  --error-red: rgba(239, 68, 68, 1);
+  --disabled-gray: rgba(107, 114, 128, 1);
+}
+
+header{
+  background-color: rgba(17, 24, 39, 1);
+  font-family: Roboto, sans-serif;
+  margin: 0; /* Ensure no default margin */
+  padding: 0; /* Ensure no default padding */
+  box-sizing: border-box; /* Ensure padding is included in the width */
+}
+body {
+  display: flex;
+  flex-direction: column; /* Ensure children are stacked vertically */
+  background-color: rgba(17, 24, 39, 1);
+  font-family: Roboto, sans-serif;
+  margin: 0; /* Ensure no default margin */
+  padding: 32px;
+  box-sizing: border-box; /* Ensure padding is included in the width */
+  width: 100%;
+  height: calc(100vh - 64px); /* Subtract padding from height */
+}
+
+*, *::before, *::after {
+  box-sizing: inherit; /* Inherit box-sizing from body */
+}
+
+/* General container styles */
+.container {
+  border-radius: 8px;
+  background-color: rgba(31, 41, 55, 1);
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+  margin-top: 24px;
+  padding: 24px;
+  width: 100%;
+}
+
+.table-body {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+.sub-header {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  justify-content: center; /* Distribute space between items */
+  padding: 16px; /* Add some padding */
+  background-color: rgba(31, 41, 55, 1); /* Optional: Add background color */
+  color: rgba(255, 255, 255, 1); /* Optional: Add text color */
+}
+
+.header-text{
+  display: flex;
+  justify-self: center;
+}
+
+@media (max-width: 991px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+/* General form group styles */
+.form-group label {
+  color: rgba(156, 163, 175, 1);
+  text-transform: uppercase;
+  font: 600 12px/1 Roboto, sans-serif;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(55, 65, 81, 1);
+  background-color: rgba(55, 65, 81, 1);
+  color: rgba(255, 255, 255, 1);
+  font: 400 16px Roboto, sans-serif;
+}
+
+.form-group .text-danger {
+  color: rgba(239, 68, 68, 1);
+}
+
+/* General button styles */
+.btn-edit, .btn-delete, .btn-save, .btn-cancel, .btn-stock {
+  background-color: transparent;
+  border: none;
+  padding: 1px 10px;
+  border-radius: 4px;
+  font: 600 16px Roboto, sans-serif;
+
+  cursor: pointer;
+}
+.btn-edit {
+  color: var(--light-green);
+}
+.btn-delete {
+  color: var(--error-red);
+}
+.btn-edit:hover .bi-pen, .btn-delete:hover .bi-trash {
+  display: none;
+}
+.btn-edit:hover::before,
+.btn-delete:hover::before {
+  font-family: "bootstrap-icons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -0.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.btn-edit:hover::before {
+  content: "\F4C7"; /* Unicode for bi-pen-fill */
+}
+
+.btn-delete:hover::before {
+  content: "\F5DD"; /* Unicode for bi-trash-fill */
+}
+
+.btn-edit:disabled {
+  background-color: rgba(107, 114, 128, 1);
+  cursor: not-allowed;
+}
+
+.table-custom {
+  border-radius: 8px !important;
+  background-color: rgba(31, 41, 55, 1) !important;
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
+  margin-top: 24px !important;
+  width: 100% !important;
+  padding-bottom: 17px !important;
+  overflow: hidden;
+  border-collapse: collapse !important; /* Ensure table layout */
+}
+
+.table-custom .thead {
+  color: rgba(156, 163, 175, 1);
+  text-transform: uppercase;
+  background-color: rgba(55, 65, 81, 1);
+  font: 600 12px/1 Roboto, sans-serif;
+}
+
+.table-custom .th-1, .table-custom .th-2, .table-custom .th-3 {
+  padding: 20px 24px;
+}
+.table-custom .th-1 , .table-custom .th-2 {
+  text-align: left;
+}
+.table-custom .th-1 {
+  white-space: nowrap;
+}
+.table-custom .th-3 , .table-custom .th-4{
+  text-align: center;
+}
+.table-custom .th-4 {
+  padding: 20px 12px;
+}
+.table-custom .tbody {
+  color: rgba(255, 255, 255, 1);
+  font: 400 16px Roboto, sans-serif;
+}
+
+.table-custom .tr {
+  border-bottom: 1px solid rgba(55, 65, 81, 1);
+}
+
+.table-custom .td {
+  text-align: left;
+  padding: 1px 24px; /* Ensure padding is applied */
+}
+.table-custom .td-action {
+  text-align: center;
+  padding: 1px 6x; /* Ensure padding is applied */
+}
+.table-custom .td-short {
+  text-align: left;
+  padding: 1px 5px; /* Ensure padding is applied */
+}

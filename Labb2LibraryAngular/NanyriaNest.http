@@ -1,0 +1,6 @@
+@Labb2LibraryAngular_HostAddress = http://localhost:5224
+
+GET {{Labb2LibraryAngular_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

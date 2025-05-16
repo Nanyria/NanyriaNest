@@ -1,0 +1,12 @@
+<!--app.component.html-->
+
+
+<header *ngIf="isAuthenticated()">
+  <app-nav></app-nav>
+  <app-header></app-header>
+</header>
+<div class="body">
+  <router-outlet></router-outlet>
+  <footer></footer>
+</div>
+

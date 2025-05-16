@@ -1,0 +1,69 @@
+<table class="table-custom">
+  <thead class="thead">
+    <tr>
+
+      <th class="th-2">Titel</th>
+      <th class="th-2">Författare</th>
+      <th class="th-2">Genre</th>
+      <th class="th-2">Bokryp</th>
+      <th class="th-2">Publiceringsår</th>
+      <th class="th-2">Beskrivning</th>
+      <th class="th-4">Status</th>
+      <th class="th-3">Edit</th>
+      <th class="th-4">Delete</th>
+    </tr>
+  </thead>
+  <tbody class="tbody">
+    <tr *ngFor="let book of books">
+      <td class="td">
+        <input *ngIf="editBook && editBook.bookID === book.bookID" [(ngModel)]="editBook.title" />
+        <span *ngIf="!editBook || editBook.bookID !== book.bookID">{{ book.title }}</span>
+      </td>
+      <td class="td">
+        <input *ngIf="editBook && editBook.bookID === book.bookID" [(ngModel)]="editBook.author" />
+        <span *ngIf="!editBook || editBook.bookID !== book.bookID">{{ book.author }}</span>
+      </td>
+<td class="td">
+  <select *ngIf="editBook && editBook.bookID === book.bookID"
+          [(ngModel)]="editBook.genre"
+          name="genre-{{book.bookID}}">
+    <option *ngFor="let genre of genreOptions" [value]="genre">
+      {{ GenreDisplayNames[genre] }}
+    </option>
+  </select>
+  <span *ngIf="!editBook || editBook.bookID !== book.bookID">
+    {{ GenreDisplayNames[book.genre] || book.genre }}
+  </span>
+</td>
+      <td class="td">{{ book.bookType }}</td>
+      <td class="td">
+        <input *ngIf="editBook && editBook.bookID === book.bookID" [(ngModel)]="editBook.publicationYear" />
+        <span *ngIf="!editBook || editBook.bookID !== book.bookID">{{ book.publicationYear }}</span>
+      </td>
+      <td class="td">
+        <input *ngIf="editBook && editBook.bookID === book.bookID" [(ngModel)]="editBook.bookDescription" />
+        <span *ngIf="!editBook || editBook.bookID !== book.bookID">{{ book.bookDescription }}</span>
+      </td>
+      <td class="td">
+        <!-- Status: show dropdown if editing, else show Swedish name -->
+        <select *ngIf="editBook && editBook.bookID === book.bookID"
+                [(ngModel)]="editBook.bookStatus"
+                name="status-{{book.bookID}}">
+          <option *ngFor="let status of bookStatuses" [value]="status">
+        {{ BookStatusDisplayNames[status] }}
+          </option>
+        </select>
+        <span *ngIf="!editBook || editBook.bookID !== book.bookID">
+          {{ BookStatusDisplayNames[book.bookStatus] }}
+        </span>
+      </td>
+      <td class="td-action">
+        <button *ngIf="editBook && editBook.bookID === book.bookID" class="btn-save" (click)="saveBook(editBook)"><i class="bi bi-floppy"></i></button>
+        <button *ngIf="editBook && editBook.bookID === book.bookID" class="btn-cancel"(click)="cancelEdit()"><i class="bi bi-x-circle"></i></button>
+        <button *ngIf="!editBook || editBook.bookID !== book.bookID" class="btn-edit" (click)="editBookDetails(book)"><i class="bi bi-pen"></i></button>
+      </td>
+      <td class="td-action">
+        <button *ngIf="!editBook || editBook.bookID !== book.bookID" class="btn-delete"(click)="deleteBook(book.bookID)"><i class="bi bi-trash"></i></button>
+    </tr>
+  </tbody>
+</table>

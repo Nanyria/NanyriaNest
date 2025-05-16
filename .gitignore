@@ -134,3 +134,19 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Visual Studio
+.vs/
+
+# Angular cache
+UI/angular-FrontEndLibrary/.angular/cache/
+
+# Angular build output
+UI/angular-FrontEndLibrary/dist/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Example for GitHub chat files (if any)
+*.chat

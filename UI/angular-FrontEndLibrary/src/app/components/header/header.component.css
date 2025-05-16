@@ -1,0 +1,33 @@
+
+.header-container {
+  display: flex; /* Add display: flex */
+  flex-direction: column; /* Add flex-direction: column if needed */
+  align-items: center; /* Center items horizontally */
+}
+
+.img {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 60px;
+  align-self: center;
+}
+
+.nathalees-library {
+  color: rgba(255, 255, 255, 1);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  align-self: center;
+  margin-top: 15px;
+}
+
+.super-cool-books {
+  color: rgba(156, 163, 175, 1);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  align-self: center;
+  margin-top: 9px;
+}

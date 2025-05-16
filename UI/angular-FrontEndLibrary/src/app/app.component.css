@@ -1,0 +1,19 @@
+
+
+.body {
+  background-color: rgba(17, 24, 39, 1);
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, sans-serif;
+  justify-content: center;
+  padding: 61px 0;
+}
+
+@media (max-width: 991px) {
+  .body {
+    max-width: 100%;
+  }
+} 
+
+
+
