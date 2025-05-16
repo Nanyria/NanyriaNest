@@ -15,7 +15,7 @@ namespace FinalProjectLibrary
         public MappingConfig()
         {
             CreateMap<BookDto, Book>()
-                .ForMember(dest => dest.BookID, opt => opt.Ignore()) // Ignore BookID during mapping
+                .ForMember(dest => dest.BookId, opt => opt.Ignore()) // Ignore BookID during mapping
                 .ForMember(dest => dest.StatusHistory, opt => opt.Ignore()) // Ignore lists
                 .ForMember(dest => dest.Reservations, opt => opt.Ignore())
                 .ForMember(dest => dest.CheckedOutBy, opt => opt.Ignore());

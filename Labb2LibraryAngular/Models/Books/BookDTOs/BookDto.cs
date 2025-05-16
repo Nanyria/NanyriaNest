@@ -36,6 +36,7 @@ namespace FinalProjectLibrary.Models.Books.BookDTOs
         public int PublicationYear { get; set; }
         public string? BookDescription { get; set; }
         public BookTypeEnums BookType { get; set; }
+        public string? CoverImagePath { get; set; }
     }
     //public class CreateBookDto
     //{

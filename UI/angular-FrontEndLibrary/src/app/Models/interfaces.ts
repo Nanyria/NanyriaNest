@@ -1,4 +1,4 @@
-import { GenreEnums, BookStatusEnum, BookTypeEnums } from '../Services/Enums/enum.service';
+import { GenreEnums, BookStatusEnum, BookTypeEnums } from '../Helpers/Enums/enum';
 
 // Book interfaces
 export interface Book {
@@ -11,6 +11,7 @@ export interface Book {
     statusHistory: StatusHistoryItem[]; 
     bookStatus: BookStatusEnum; 
     bookType: BookTypeEnums;
+    coverImagePath?: string;
     reservations: ReservationItem[]; 
     checkedOutBy?: CheckedOutItem; 
 }
@@ -21,6 +22,7 @@ export interface BookDto {
     publicationYear: string;
     bookDescription?: string;
     bookType?: BookTypeEnums;
+    coverImagePath?: string;
   }
 
 export interface StatusHistoryItem {

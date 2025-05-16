@@ -16,8 +16,8 @@ namespace FinalProjectLibrary.Models.Users
         [MaxLength(100)]
         public required string LastName { get; set; }
 
-
-
+        public List<FavoriteItem> ReadingList { get; set; } = new List<FavoriteItem>();
+        public List<ReviewItem> Reviews { get; set; } = new List<ReviewItem>();
         public List<CheckedOutItem> CheckedOutBooks { get; set; } = new List<CheckedOutItem>();
         public List<ReservationItem> ReservedBooks { get; set; } = new List<ReservationItem>();
         public List<StatusHistoryItem> UserHistory { get; set; } = new List<StatusHistoryItem>();

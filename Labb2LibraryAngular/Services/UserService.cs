@@ -323,13 +323,13 @@ namespace FinalProjectLibrary.Services
 
             if (user != null && book != null)
             {
-                if (user.ReservedBooks.Any(r => r.BookID == book.BookID))
+                if (user.ReservedBooks.Any(r => r.BookId == book.BookId))
                 {
                     response.ErrorMessages.Add("Book already reserved by user.");
                     response.StatusCode = HttpStatusCode.Conflict;
                     return response;
                 }
-                else if (user.CheckedOutBooks.Any(b => b.BookId == book.BookID))
+                else if (user.CheckedOutBooks.Any(b => b.BookId == book.BookId))
                 {
                     response.ErrorMessages.Add("Book already checked out by user.");
                     response.StatusCode = HttpStatusCode.Conflict;
@@ -359,11 +359,11 @@ namespace FinalProjectLibrary.Services
         {
             var reservation = new ReservationItem
             {
-                BookID = book.BookID,
+                BookId = book.BookId,
                 Book = book,
                 BookIsAvaliableEmailSent = null,
                 AvailabilityDate = null,
-                UserID = user.Id,
+                UserId = user.Id,
                 User = user,
                 ReservationDate = DateTime.UtcNow
             };
@@ -375,7 +375,7 @@ namespace FinalProjectLibrary.Services
         public bool RemoveReservation(User user, Book book)
         {
             // Find the reservation item for the given book
-            var reservationItem = user.ReservedBooks.FirstOrDefault(r => r.BookID == book.BookID);
+            var reservationItem = user.ReservedBooks.FirstOrDefault(r => r.BookId == book.BookId);
             if (reservationItem != null)
             {
                 // Remove the reservation from both the user and the book
@@ -480,7 +480,7 @@ namespace FinalProjectLibrary.Services
         {
             var checkedOutItem = new CheckedOutItem
             {
-                BookId = book.BookID,
+                BookId = book.BookId,
                 UserId = user.Id,
                 CheckOutDate = DateTime.UtcNow,
                 ReturnDate = DateTime.UtcNow.AddMonths(1),
@@ -502,7 +502,7 @@ namespace FinalProjectLibrary.Services
             var user = userResponse.Result;
             if (user != null && book != null)
             {
-                if (user.CheckedOutBooks.Any(c => c.BookId == book.BookID))
+                if (user.CheckedOutBooks.Any(c => c.BookId == book.BookId))
                 {
                     RemoveFromCheckedOutList(user, book);
                 }
@@ -526,7 +526,7 @@ namespace FinalProjectLibrary.Services
         public bool RemoveFromCheckedOutList(User user, Book book)
         {
             // Find the reservation item for the given book
-            var checkedOutItem = user.CheckedOutBooks.FirstOrDefault(r => r.BookId == book.BookID);
+            var checkedOutItem = user.CheckedOutBooks.FirstOrDefault(r => r.BookId == book.BookId);
             if (checkedOutItem != null)
             {
                 // Remove the reservation from both the user and the book

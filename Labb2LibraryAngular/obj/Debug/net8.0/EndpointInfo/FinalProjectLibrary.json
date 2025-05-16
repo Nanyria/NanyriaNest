@@ -734,7 +734,7 @@
         ],
         "type": "object",
         "properties": {
-          "bookID": {
+          "bookId": {
             "type": "integer",
             "format": "int32"
           },
@@ -759,11 +759,8 @@
             "type": "string",
             "nullable": true
           },
-          "statusHistory": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StatusHistoryItem"
-            },
+          "coverImagePath": {
+            "type": "string",
             "nullable": true
           },
           "bookStatus": {
@@ -771,6 +768,20 @@
           },
           "bookType": {
             "$ref": "#/components/schemas/BookTypeEnums"
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewItem"
+            },
+            "nullable": true
+          },
+          "statusHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatusHistoryItem"
+            },
+            "nullable": true
           },
           "reservations": {
             "type": "array",
@@ -815,6 +826,10 @@
           },
           "bookType": {
             "$ref": "#/components/schemas/BookTypeEnums"
+          },
+          "coverImagePath": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -949,6 +964,32 @@
         },
         "additionalProperties": false
       },
+      "FavoriteItem": {
+        "required": [
+          "bookId",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "bookId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "GenreEnums": {
         "enum": [
           0,
@@ -983,10 +1024,32 @@
         },
         "additionalProperties": false
       },
+      "RatingItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reviewItemId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "ReservationItem": {
         "required": [
-          "bookID",
-          "userID"
+          "bookId",
+          "userId"
         ],
         "type": "object",
         "properties": {
@@ -994,11 +1057,11 @@
             "type": "integer",
             "format": "int32"
           },
-          "userID": {
+          "userId": {
             "minLength": 1,
             "type": "string"
           },
-          "bookID": {
+          "bookId": {
             "type": "integer",
             "format": "int32"
           },
@@ -1019,21 +1082,58 @@
         },
         "additionalProperties": false
       },
+      "ReviewItem": {
+        "required": [
+          "bookId",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "bookId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reviewHeader": {
+            "type": "string",
+            "nullable": true
+          },
+          "reviewText": {
+            "type": "string",
+            "nullable": true
+          },
+          "ratingItem": {
+            "$ref": "#/components/schemas/RatingItem"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "StatusHistoryItem": {
         "required": [
           "bookStatus"
         ],
         "type": "object",
         "properties": {
-          "statusHistoryItemID": {
+          "statusHistoryItemId": {
             "type": "integer",
             "format": "int32"
           },
-          "bookID": {
+          "bookId": {
             "type": "integer",
             "format": "int32"
           },
-          "userID": {
+          "userId": {
             "type": "string",
             "nullable": true
           },
@@ -1195,6 +1295,20 @@
             "minLength": 1,
             "type": "string"
           },
+          "readingList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FavoriteItem"
+            },
+            "nullable": true
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewItem"
+            },
+            "nullable": true
+          },
           "checkedOutBooks": {
             "type": "array",
             "items": {
@@ -1226,18 +1340,18 @@
         ],
         "type": "object",
         "properties": {
-          "userHistoryID": {
+          "userHistoryId": {
             "type": "integer",
             "format": "int32"
           },
-          "userID": {
+          "userId": {
             "type": "integer",
             "format": "int32"
           },
           "user": {
             "$ref": "#/components/schemas/User"
           },
-          "bookID": {
+          "bookId": {
             "type": "integer",
             "format": "int32"
           },

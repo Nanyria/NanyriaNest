@@ -9,15 +9,15 @@ namespace FinalProjectLibrary.Models.History
     public class ReservationItem
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         [Required]
         [ForeignKey("User")]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         [JsonIgnore]
         public User User { get; set; }
         [Required]
         [ForeignKey("Book")]
-        public int BookID { get; set; }
+        public int BookId { get; set; }
         [JsonIgnore]
         public Book Book { get; set; }
         public DateTime ReservationDate { get; set; }

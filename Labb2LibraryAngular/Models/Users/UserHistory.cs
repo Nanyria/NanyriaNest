@@ -5,10 +5,10 @@ namespace FinalProjectLibrary.Models.Users
 {
     public class UserHistory
     {
-        public int UserHistoryID { get; set; }
-        public int UserID { get; set; }
+        public int UserHistoryId { get; set; }
+        public int UserId { get; set; }
         public required User User { get; set; }
-        public int BookID { get; set; }
+        public int BookId { get; set; }
 
         public required Book Book { get; set; }
         public BookStatusEnum Action { get; set; }

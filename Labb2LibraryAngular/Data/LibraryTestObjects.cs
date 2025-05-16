@@ -10,7 +10,7 @@ namespace FinalProjectLibrary.Data
         {
             new Book
             {
-                BookID = 101,
+                BookId = 101,
                 Title = "The Great Gatsby",
                 Author = "F. Scott Fitzgerald",
                 Genre = GenreEnums.Fiction,
@@ -20,7 +20,7 @@ namespace FinalProjectLibrary.Data
             },
             new Book
             {
-                BookID = 102,
+                BookId = 102,
                 Title = "To Kill a Mockingbird",
                 Author = "Harper Lee",
                 Genre = GenreEnums.Fiction,
@@ -30,7 +30,7 @@ namespace FinalProjectLibrary.Data
             },
             new Book
             {
-                BookID = 103,
+                BookId = 103,
                 Title = "1984",
                 Author = "George Orwell",
                 Genre = GenreEnums.Fiction,
@@ -44,24 +44,24 @@ namespace FinalProjectLibrary.Data
         {
             new StatusHistoryItem
             {
-                StatusHistoryItemID = 1,
-                BookID = 101,
+                StatusHistoryItemId = 1,
+                BookId = 101,
                 BookStatus = BookStatusEnum.Available,
                 Timestamp = DateTime.UtcNow.AddDays(-1),
                 Notes = "Initial status"
             },
             new StatusHistoryItem
             {
-                StatusHistoryItemID = 2,
-                BookID = 102,
+                StatusHistoryItemId = 2,
+                BookId = 102,
                 BookStatus = BookStatusEnum.CheckedOut,
                 Timestamp = DateTime.UtcNow.AddDays(-2),
                 Notes = "Initial status"
             },
             new StatusHistoryItem
             {
-                StatusHistoryItemID = 3,
-                BookID = 103,
+                StatusHistoryItemId = 3,
+                BookId = 103,
                 BookStatus = BookStatusEnum.Reserved,
                 Timestamp = DateTime.UtcNow.AddDays(-3),
                 Notes = "Initial status"

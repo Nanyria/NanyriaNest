@@ -21,7 +21,7 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
         // Login successful, redirect or update UI
-        this.router.navigate(['/']); // Redirect to home or dashboard
+        this.router.navigate(['/home']); // Redirect to home or dashboard
       },
       error: () => {
         // Handle login error

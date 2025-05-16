@@ -7,7 +7,7 @@ namespace FinalProjectLibrary.Models.History.HistoryDTOs
 {
     public class StatusHistoryItemDto
     {
-        public int StatusHistoryItemID { get; set; }
+        public int StatusHistoryItemId { get; set; }
         public BookStatusEnum BookStatus { get; set; }
         public DateTime? Timestamp { get; set; } = DateTime.UtcNow;
         public int? UserID { get; set; } 

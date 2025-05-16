@@ -185,9 +185,11 @@ namespace FinalProjectLibrary.Services
                     Genre = bookDto.Genre,
                     BookDescription = bookDto.BookDescription,
                     PublicationYear = bookDto.PublicationYear,
-                    BookType = bookDto.BookType,    
-                    BookStatus = BookStatusEnum.Available 
-                };
+                    BookType = bookDto.BookType,
+                    CoverImagePath = bookDto.CoverImagePath,
+                    BookStatus = BookStatusEnum.Available
+                    
+    };
 
                 await _bookRepo.CreateBookAsync(book);
                 await _bookRepo.SaveAsync();
@@ -256,6 +258,7 @@ namespace FinalProjectLibrary.Services
                     existingBook.PublicationYear = updatedBook.PublicationYear != default ? updatedBook.PublicationYear : existingBook.PublicationYear;
                     existingBook.BookDescription = updatedBook.BookDescription ?? existingBook.BookDescription;
                     existingBook.BookType = updatedBook.BookType != default ? updatedBook.BookType : existingBook.BookType;
+                    existingBook.CoverImagePath = updatedBook.CoverImagePath ?? existingBook.CoverImagePath;
                     await _bookRepo.SaveAsync();
 
                     response.Result = existingBook;
@@ -342,8 +345,8 @@ namespace FinalProjectLibrary.Services
         {
             var statusHistoryItem = new StatusHistoryItem
             {
-                UserID = user.Id,
-                BookID = book.BookID,
+                UserId = user.Id,
+                BookId = book.BookId,
                 BookStatus = bookStatus,
                 Timestamp = DateTime.UtcNow,
                 Notes = notes

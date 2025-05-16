@@ -36,7 +36,7 @@ namespace FinalProjectLibrary.Repositories
         {
             return await _db.Books
                 .Include(b => b.StatusHistory)
-                .FirstOrDefaultAsync(b => b.BookID == id);
+                .FirstOrDefaultAsync(b => b.BookId == id);
         }
 
         public async Task<IEnumerable<Book>> GetByTitleAsync(string title)

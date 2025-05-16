@@ -1,0 +1,42 @@
+<div class="user-layout">
+  <nav class="user-nav">
+    <button 
+      (click)="selectedSection = 'settings'" 
+      [class.active]="selectedSection === 'settings'"
+      class="icon-btn"
+    >
+      <i class="bi bi-gear-fill"></i>
+      <span class="nav-label">Inställningar</span>
+    </button>
+    <button 
+      (click)="selectedSection = 'readlist'" 
+      [class.active]="selectedSection === 'readlist'"
+      class="icon-btn"
+    >
+      <i class="bi bi-heart-fill"></i>
+      <span class="nav-label">Min läslista</span>
+    </button>
+    <button 
+      (click)="selectedSection = 'reservations'" 
+      [class.active]="selectedSection === 'reservations'"
+      class="icon-btn"
+    >
+      <i class="bi bi-book"></i>
+      <span class="nav-label">Mina reserverade böcker</span>
+    </button>
+    <button 
+      (click)="selectedSection = 'checkouts'" 
+      [class.active]="selectedSection === 'checkouts'"
+      class="icon-btn"
+    >
+      <i class="bi bi-book-fill"></i>
+      <span class="nav-label">Mina lånade böcker</span>
+    </button>
+  </nav>
+  <div class="user-body">
+    <app-user-settings *ngIf="selectedSection === 'settings'"></app-user-settings>
+    <app-user-readlist *ngIf="selectedSection === 'readlist'"></app-user-readlist>
+    <app-user-reservations *ngIf="selectedSection === 'reservations'"></app-user-reservations>
+    <app-user-checkouts *ngIf="selectedSection === 'checkouts'"></app-user-checkouts>
+  </div>
+</div>

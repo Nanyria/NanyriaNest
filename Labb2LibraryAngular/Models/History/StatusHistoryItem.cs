@@ -10,14 +10,14 @@ namespace FinalProjectLibrary.Models.History
     public class StatusHistoryItem
     {
         [Key]
-        public int StatusHistoryItemID { get; set; }
+        public int StatusHistoryItemId { get; set; }
         [ForeignKey("Book")]
-        public int BookID { get; set; }
+        public int BookId { get; set; }
         [Required]
         [JsonIgnore]
         public Book Book { get; set; }
         [ForeignKey("User")]
-        public string? UserID { get; set; }
+        public string? UserId { get; set; }
         [JsonIgnore]
         public User? User { get; set; }
         [Required]
