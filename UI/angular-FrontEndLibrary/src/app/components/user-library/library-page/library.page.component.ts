@@ -51,7 +51,7 @@ export class LibraryComponent {
 
   handleFormSubmit(book: Book) {
     if (this.editBook) {
-      this.bookService.updateBook(this.editBook.bookID, book).subscribe(() => {
+      this.bookService.updateBook(this.editBook.bookId, book).subscribe(() => {
         this.getAllBooks();
         this.resetForm();
       });
@@ -69,10 +69,10 @@ export class LibraryComponent {
     });
   }
 
-  updateStatus(event: { bookID: string; userID: string; bookStatus: BookStatusEnum }) {
-    const { bookID, userID, bookStatus } = event;
+  updateStatus(event: { bookId: string; userId: string; bookStatus: BookStatusEnum }) {
+    const { bookId, userId, bookStatus } = event;
 
-    this.bookService.updateBookStatus(bookID, userID, bookStatus, 'Status updated via dropdown').subscribe(() => {
+    this.bookService.updateBookStatus(bookId, userId, bookStatus, 'Status updated via dropdown').subscribe(() => {
       this.getAllBooks(); // Refresh the book list after updating the status
     });
   }
@@ -95,7 +95,7 @@ export class LibraryComponent {
 
   saveBook(book: Book) {
     if (this.editBook) {
-      this.bookService.updateBook(this.editBook.bookID, book).subscribe(() => {
+      this.bookService.updateBook(this.editBook.bookId, book).subscribe(() => {
         this.getAllBooks();
         this.resetForm();
       });

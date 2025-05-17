@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ILoggedInUser } from '../Models/interfaces';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,21 @@ export class AuthService {
   private tokenKey = 'auth_token';
   private authStatus = new BehaviorSubject<boolean>(this.hasToken());
   private currentUserSubject = new BehaviorSubject<ILoggedInUser | null>(null);
-  
-  constructor(private http: HttpClient) {
-        const user = this.getUserFromToken();
-    if (user) {
-      this.currentUserSubject.next(user);
+
+  constructor(private http: HttpClient, private userService: UserService) {
+    const userId = this.getUserId();
+    if (userId) {
+      this.userService.getUserById(userId).subscribe(response => {
+        if (response.isSuccess) {
+          // Optionally, you can map adminRole/isSuperAdmin here if needed
+          this.currentUserSubject.next({
+            ...response.result,
+            userId: response.result.userId, // <-- map id to userID
+            adminRole: this.isAdminFromToken(),
+            isSuperAdmin: this.isSuperAdminFromToken()
+          });
+        }
+      });
     }
   }
 
@@ -26,9 +37,18 @@ export class AuthService {
         if (response && response.token) {
           localStorage.setItem(this.tokenKey, response.token);
           this.authStatus.next(true);
-          const user = this.getUserFromToken();
-          if (user) {
-            this.currentUserSubject.next(user);
+          const userId = this.getUserId();
+          if (userId) {
+            this.userService.getUserById(userId).subscribe(res => {
+              if (res.isSuccess) {
+                this.currentUserSubject.next({
+                  ...res.result,
+                  userId: res.result.userId, // <-- map id to userID
+                  adminRole: this.isAdminFromToken(),
+                  isSuperAdmin: this.isSuperAdminFromToken()
+                });
+              }
+            });
           }
         }
       })
@@ -38,6 +58,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     this.authStatus.next(false);
+    this.currentUserSubject.next(null);
   }
 
   isAuthenticated(): boolean {
@@ -51,33 +72,46 @@ export class AuthService {
   getAuthStatus(): Observable<boolean> {
     return this.authStatus.asObservable();
   }
-    getCurrentUser(): Observable<ILoggedInUser | null> {
+
+  getCurrentUser(): Observable<ILoggedInUser | null> {
     return this.currentUserSubject.asObservable();
   }
-    getUserId(): string | null {
-    const user = this.getUserFromToken();
-    return user ? user.userID : null;
-  }
-  private getUserFromToken(): ILoggedInUser | null {
+
+  getUserId(): string | null {
     const token = this.getToken();
     if (!token) return null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      // Map payload to ILoggedInUser as needed
-      return {
-        userID: payload.userID,
-        userName: payload.userName,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        email: payload.email,
-        adminRole: payload.adminRole,
-        isSuperAdmin: payload.isSuperAdmin,
-        password: '', // Do not store password
-      };
+      return payload.userId || payload.jti || null; // Prefer userId, fallback to jti
     } catch {
       return null;
     }
   }
+
+  private getRolesFromToken(): string[] {
+    const token = this.getToken();
+    if (!token) return [];
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      let roles = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      if (!roles) return [];
+      if (Array.isArray(roles)) return roles;
+      return [roles];
+    } catch {
+      return [];
+    }
+  }
+
+  isAdminFromToken(): boolean {
+    const roles = this.getRolesFromToken();
+    return roles.includes('Admin') || roles.includes('SuperAdmin');
+  }
+
+  isSuperAdminFromToken(): boolean {
+    const roles = this.getRolesFromToken();
+    return roles.includes('SuperAdmin');
+  }
+
   private hasToken(): boolean {
     return !!localStorage.getItem(this.tokenKey);
   }

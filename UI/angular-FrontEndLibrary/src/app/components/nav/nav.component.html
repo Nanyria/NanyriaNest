@@ -1,6 +1,8 @@
 <nav>
-    <a routerLink="/home"><i class="bi bi-house-fill"></i></a>
-    <a routerLink="/library"><i class="bi bi-book-fill"></i></a>
-    <a routerLink="/user-page"><i class="bi bi-person-fill"></i></a>
-    <a routerLink="/add-book"><i class="bi bi-plus-circle-fill"></i> Add Book</a>
-  </nav>
+  <a routerLink="/home" [class.active]="currentUrl.includes('/home')"><i class="bi bi-house-fill"></i></a>
+  <a routerLink="/library" [class.active]="currentUrl.includes('/library')"><i class="bi bi-book-fill"></i></a>
+  <a routerLink="/add-book" [class.active]="currentUrl.includes('/add-book')"><i class="bi bi-plus-circle-fill"></i> Add Book</a>
+  
+  <app-user-nav [currentUrl]="currentUrl"></app-user-nav>
+  <app-admin-nav *ngIf="isAdmin" [currentUrl]="currentUrl"></app-admin-nav>
+</nav>

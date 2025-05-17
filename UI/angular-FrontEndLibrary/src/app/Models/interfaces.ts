@@ -2,7 +2,7 @@ import { GenreEnums, BookStatusEnum, BookTypeEnums } from '../Helpers/Enums/enum
 
 // Book interfaces
 export interface Book {
-    bookID: string;
+    bookId: string;
     title: string;
     author: string;
     genre: GenreEnums; 
@@ -26,9 +26,9 @@ export interface BookDto {
   }
 
 export interface StatusHistoryItem {
-    statusHistoryItemID: string;
-    bookID: string; 
-    userID?: string; 
+    statusHistoryItemId: string;
+    bookId: string; 
+    userId?: string; 
     bookStatus: BookStatusEnum; 
     timestamp?: Date; 
     notes?: string; 
@@ -36,8 +36,8 @@ export interface StatusHistoryItem {
 
 export interface ReservationItem {
     id: string; 
-    userID: string; 
-    bookID: string; 
+    userId: string; 
+    bookId: string; 
     reservationDate: Date; 
     availabilityDate?: Date; 
     bookIsAvailableEmailSent?: Date; 
@@ -45,15 +45,15 @@ export interface ReservationItem {
 
 export interface CheckedOutItem {
     id: string; 
-    userID: string; 
-    bookID: string; 
+    userId: string; 
+    bookId: string; 
     checkOutDate: Date; 
     reminderEmailSent?: Date; 
 }
 
 // User interfaces
 export interface User {
-    userID: string;
+    userId: string;
     userName: string;
     firstName: string;
     lastName: string;
@@ -62,25 +62,26 @@ export interface User {
     checkedOutBooks: CheckedOutItem[];
     reservedBooks: ReservationItem[];
     userHistory: StatusHistoryItem[];
-    adminRole?: string;
+    adminRole?: boolean;
+    isSuperAdmin: boolean;
 }
 
 export interface ILoggedInUser{
-    userID: string;
+    userId: string;
     userName: string;
     firstName: string;
     lastName: string;
     email: string;
     password: string;
-    adminRole?: string;
+    adminRole?: boolean;
     isSuperAdmin: boolean;
 }
 
 export interface UserHistory {
-    userHistoryID: string;
-    userID: string;
+    userHistoryId: string;
+    userId: string;
     user: User;
-    bookID: string;
+    bookId: string;
     book: Book;
     action: BookStatusEnum;
     timestamp: Date;

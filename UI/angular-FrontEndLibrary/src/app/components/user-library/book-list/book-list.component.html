@@ -17,56 +17,56 @@
   <tbody class="tbody">
     <tr *ngFor="let book of books">
       <td class="td">
-        <input *ngIf="editBook && editBook.bookID === book.bookID" [(ngModel)]="editBook.title" />
-        <span *ngIf="!editBook || editBook.bookID !== book.bookID">{{ book.title }}</span>
+        <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.title" />
+        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.title }}</span>
       </td>
       <td class="td">
-        <input *ngIf="editBook && editBook.bookID === book.bookID" [(ngModel)]="editBook.author" />
-        <span *ngIf="!editBook || editBook.bookID !== book.bookID">{{ book.author }}</span>
+        <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.author" />
+        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.author }}</span>
       </td>
 <td class="td">
-  <select *ngIf="editBook && editBook.bookID === book.bookID"
+  <select *ngIf="editBook && editBook.bookId === book.bookId"
           [(ngModel)]="editBook.genre"
-          name="genre-{{book.bookID}}">
+          name="genre-{{book.bookId}}">
     <option *ngFor="let genre of genreOptions" [value]="genre">
       {{ GenreDisplayNames[genre] }}
     </option>
   </select>
-  <span *ngIf="!editBook || editBook.bookID !== book.bookID">
+  <span *ngIf="!editBook || editBook.bookId !== book.bookId">
     {{ GenreDisplayNames[book.genre] || book.genre }}
   </span>
 </td>
       <td class="td">{{ BookTypeDisplayNames[book.bookType]  }}</td>
       <td class="td">
-        <input *ngIf="editBook && editBook.bookID === book.bookID" [(ngModel)]="editBook.publicationYear" />
-        <span *ngIf="!editBook || editBook.bookID !== book.bookID">{{ book.publicationYear }}</span>
+        <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.publicationYear" />
+        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.publicationYear }}</span>
       </td>
       <td class="td">
-        <input *ngIf="editBook && editBook.bookID === book.bookID" [(ngModel)]="editBook.bookDescription" />
-        <span *ngIf="!editBook || editBook.bookID !== book.bookID">{{ book.bookDescription }}</span>
+        <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.bookDescription" />
+        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.bookDescription }}</span>
       </td>
       <td class="td">
         <!-- Status: show dropdown if editing, else show Swedish name -->
-        <select *ngIf="editBook && editBook.bookID === book.bookID"
+        <select *ngIf="editBook && editBook.bookId === book.bookId"
                 [(ngModel)]="editBook.bookStatus"
-                name="status-{{book.bookID}}">
+                name="status-{{book.bookId}}">
           <option *ngFor="let status of bookStatuses" [value]="status">
         {{ BookStatusDisplayNames[status] }}
           </option>
         </select>
-        <span *ngIf="!editBook || editBook.bookID !== book.bookID">
+        <span *ngIf="!editBook || editBook.bookId !== book.bookId">
           {{ BookStatusDisplayNames[book.bookStatus] }}
         </span>
       </td>
        <td class="td-action">
-        <button *ngIf="!editBook || editBook.bookID !== book.bookID" class="btn-delete"(click)="deleteBook(book.bookID)"><i class="bi bi-trash"></i></button>
+        <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-delete"(click)="deleteBook(book.bookId)"><i class="bi bi-trash"></i></button>
       <td class="td-action">
-        <button *ngIf="editBook && editBook.bookID === book.bookID" class="btn-save" (click)="saveBook(editBook)"><i class="bi bi-floppy"></i></button>
-        <button *ngIf="editBook && editBook.bookID === book.bookID" class="btn-cancel"(click)="cancelEdit()"><i class="bi bi-x-circle"></i></button>
-        <button *ngIf="!editBook || editBook.bookID !== book.bookID" class="btn-edit" (click)="editBookDetails(book)"><i class="bi bi-pen"></i></button>
+        <button *ngIf="editBook && editBook.bookId === book.bookId" class="btn-save" (click)="saveBook(editBook)"><i class="bi bi-floppy"></i></button>
+        <button *ngIf="editBook && editBook.bookId === book.bookId" class="btn-cancel"(click)="cancelEdit()"><i class="bi bi-x-circle"></i></button>
+        <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-edit" (click)="editBookDetails(book)"><i class="bi bi-pen"></i></button>
       </td>
       <td class="td-action">
-        <button *ngIf="!editBook || editBook.bookID !== book.bookID" class="btn-delete"(click)="deleteBook(book.bookID)"><i class="bi bi-trash"></i></button>
+        <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-delete"(click)="deleteBook(book.bookId)"><i class="bi bi-trash"></i></button>
     </tr>
   </tbody>
 </table>

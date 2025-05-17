@@ -31,7 +31,7 @@ export class UserPageComponent implements OnInit {
   borrowedBooks: any[] = [];
   reservedBooks: any[] = [];
   editMode = false;
-  selectedSection: 'settings' | 'readlist' | 'reservations' | 'checkouts' = 'settings';
+  selectedSection: 'messages' |'settings' | 'readlist' | 'reservations' | 'checkouts' = 'settings';
 
   constructor(
     private userService: UserActionsService,

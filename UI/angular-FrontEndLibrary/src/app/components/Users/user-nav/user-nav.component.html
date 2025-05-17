@@ -1,0 +1,51 @@
+<div class="user-nav-toggle-row" *ngIf="!userNavOpen">
+  <button
+    class="logout-btn"
+    aria-label="Logga ut"
+    (click)="logout()"
+  >
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
+  <button
+    (click)="toggleNav()"
+    class="user-nav-toggle-closed"
+    aria-label="Öppna användarmeny"
+  >
+    <i class="bi bi-person-fill"></i>
+  </button>
+</div>
+<!-- Backdrop -->
+<div *ngIf="userNavOpen" class="user-nav-backdrop" (click)="toggleNav()"></div>
+
+<!-- Overlay Menu -->
+<nav *ngIf="userNavOpen" class="user-nav-overlay">
+  <button (click)="toggleNav()" class="icon-btn user-nav-toggle" aria-label="Stäng användarmeny">
+    <i class="bi bi-person-fill"></i>
+    <span class="nav-label">Stäng meny</span>
+  </button>
+
+  <a [routerLink]="'/user/messages'" [class.active]="isActive('/messages')" class="icon-btn">
+    <i class="bi bi-envelope-fill"></i>
+    <span class="nav-label">Meddelanden</span>
+  </a>
+
+  <a [routerLink]="'/user/settings'" [class.active]="isActive('/settings')" class="icon-btn">
+    <i class="bi bi-gear-fill"></i>
+    <span class="nav-label">Inställningar</span>
+  </a>
+
+  <a [routerLink]="'/user/readlist'" [class.active]="isActive('/readlist')" class="icon-btn">
+    <i class="bi bi-heart-fill"></i>
+    <span class="nav-label">Min läslista</span>
+  </a>
+
+  <a [routerLink]="'/user/reservations'" [class.active]="isActive('/reservations')" class="icon-btn">
+    <i class="bi bi-book"></i>
+    <span class="nav-label">Mina reserverade böcker</span>
+  </a>
+
+  <a [routerLink]="'/user/checkouts'" [class.active]="isActive('/checkouts')" class="icon-btn">
+    <i class="bi bi-book-fill"></i>
+    <span class="nav-label">Mina lånade böcker</span>
+  </a>
+</nav>

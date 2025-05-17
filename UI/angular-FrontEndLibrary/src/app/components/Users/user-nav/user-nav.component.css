@@ -1,0 +1,139 @@
+.user-nav-toggle {
+  position: fixed;
+  top: 16px;
+  left: 0;
+  width: 220px;
+  height: 64px;
+  background: var(--background-dark);
+  z-index: 2101;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 8px;
+  align-items: stretch;
+}
+.user-nav-toggle-closed {
+  position: fixed;
+  top: 16px;
+  left: 0;
+  width: 220px;
+  height: 64px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2102;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  font-size: 1.5em;
+  color: #fff;
+}
+/* Overlay/backdrop */
+.user-nav-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: 2099;
+}
+
+/* Sidebar overlay */
+.user-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background: var(--background-dark);
+  z-index: 2101;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 8px;
+  align-items: stretch;
+}
+
+
+.icon-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Stack icon and label vertically */
+  align-items: center;    /* Center horizontally */
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 16px 0;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;            /* Make button fill nav width */
+}
+
+.icon-btn .nav-label {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  color: #fff;
+  background: #1e3284;
+  padding: 6px 14px;
+  border-radius: 6px;
+  position: absolute;
+  left: 75%;         /* Fixed distance to the right of the icon */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  text-align: left;
+  min-width: 120px;   /* Optional: ensures all tooltips have the same starting point */
+}
+
+.icon-btn:hover .nav-label {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.icon-btn i {
+  font-size: 1.5em;
+  color: #fff;
+}
+.icon-btn i:hover {
+  color: #2d3140;
+}
+.icon-btn.active i {
+  color: #dd1212;
+  font-size: 1.8em; /* 20% larger than the base 1.5em */
+}
+
+.user-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.user-nav {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  padding: 16px 0;
+  gap: 8px;
+}
+
+.user-nav button {
+  background: none;
+  border: none;
+  padding: 12px 24px;
+  text-align: left;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.user-body {
+  flex: 1;
+  padding: 24px;
+}

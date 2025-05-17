@@ -13,14 +13,14 @@ import { BookStatusEnum, BookStatusDisplayNames ,GenreEnums, GenreDisplayNames, 
 })
 export class BookListComponent {
   @Input() books: Book[] = [];
-  @Input() currentUserID!: string; 
+  @Input() currentUserId!: string; 
   @Input() user!: User; 
   @Input() editBook: Book | null = null;
   @Output() onEdit = new EventEmitter<Book>();
   @Output() onDelete = new EventEmitter<string>();
   @Output() onUpdateStatus = new EventEmitter<{
-    bookID: string;
-    userID: string;
+    bookId: string;
+    userId: string;
     bookStatus: BookStatusEnum;
   }>();
   @Output() onSave = new EventEmitter<Book>();
@@ -36,7 +36,7 @@ export class BookListComponent {
   ngOnInit() {
     console.log('BookListComponent initialized');
     console.log('Books received:', this.books);
-    if (this.user?.adminRole === 'SuperAdmin') {
+    if (this.user?.isSuperAdmin) {
       this.isSuperAdmin = true;
     }
   }
@@ -48,10 +48,10 @@ export class BookListComponent {
     this.onDelete.emit(bookID);
   }
 
-  updateBookStatus(book: Book, userID: string, bookStatus: string) {
+  updateBookStatus(book: Book, userId: string, bookStatus: string) {
     const statusEnumValue = Number(bookStatus) as BookStatusEnum;
-    const targetUserID = this.isSuperAdmin ? userID : this.currentUserID; 
-    this.onUpdateStatus.emit({ bookID: book.bookID, userID: targetUserID, bookStatus: statusEnumValue });
+    const targetUserId = this.isSuperAdmin ? userId : this.currentUserId;
+    this.onUpdateStatus.emit({ bookId: book.bookId, userId: targetUserId, bookStatus: statusEnumValue });
   }
 
   saveBook(book: Book) {

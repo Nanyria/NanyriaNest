@@ -21,6 +21,6 @@ namespace FinalProjectLibrary.Models.Users
         public List<CheckedOutItem> CheckedOutBooks { get; set; } = new List<CheckedOutItem>();
         public List<ReservationItem> ReservedBooks { get; set; } = new List<ReservationItem>();
         public List<StatusHistoryItem> UserHistory { get; set; } = new List<StatusHistoryItem>();
-
+        public List<NotificationItem> Notifications { get; set; } = new();
     }
 }

@@ -23,6 +23,7 @@ namespace FinalProjectLibrary.Data
         public DbSet<StatusHistoryItem> StatusHistoryItems { get; set; }
         public DbSet<CheckedOutItem> CheckOutItems { get; set; }
         public DbSet<ReservationItem> ReservationItems { get; set; }
+        public DbSet<NotificationItem> NotificationItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   
             base.OnModelCreating(modelBuilder);
@@ -99,6 +100,13 @@ namespace FinalProjectLibrary.Data
                 .WithMany(u => u.UserHistory)
                 .HasForeignKey(sh => sh.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            modelBuilder.Entity<NotificationItem>()
+                .HasOne(n => n.User)
+                .WithMany(u => u.Notifications)
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Book>()
                 .Property(b => b.BookId)

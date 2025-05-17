@@ -1024,6 +1024,38 @@
         },
         "additionalProperties": false
       },
+      "NotificationItem": {
+        "required": [
+          "message",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "RatingItem": {
         "type": "object",
         "properties": {
@@ -1327,6 +1359,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/StatusHistoryItem"
+            },
+            "nullable": true
+          },
+          "notifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationItem"
             },
             "nullable": true
           }
