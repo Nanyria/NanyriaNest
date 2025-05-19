@@ -59,6 +59,7 @@ export class UserPageComponent implements OnInit {
       this.reservedBooks = user?.reservedBooks || [];
       console.log('Reserved Books:', this.reservedBooks);
       this.checkedOutBooks = user?.checkedOutBooks || [];
+      console.log('Checked Out Books:', this.checkedOutBooks);
     });
         this.currentUrl = this.router.url;
   }

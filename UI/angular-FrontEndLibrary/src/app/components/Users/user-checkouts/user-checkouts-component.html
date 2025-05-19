@@ -13,7 +13,7 @@
       <tr *ngFor="let checkedOutBook of checkedOutBooks">
         <td>{{ checkedOutBook.book?.title }}</td>
         <td>{{ checkedOutBook.book?.author }}</td>
-        <td>{{ checkedOutBook.checkoutDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ checkedOutBook.checkOutDate | date:'yyyy-MM-dd' }}</td>
         <td>
           {{ checkedOutBook.returnDate ? (checkedOutBook.returnDate | date:'yyyy-MM-dd') : 'Ej återlämnad än' }}
         </td>

@@ -27,7 +27,7 @@ namespace FinalProjectLibrary.Services
         Task<APIResponse<List<User>>> GetAllUsersAsync();
         Task<APIResponse<User>> ReserveBookAsync(string userId, int bookId);
         Task<APIResponse<User>> CancelReservationAsync(string userId, int bookId);
-        Task<APIResponse<User>> CheckOutBookAsync(string userId, int bookId);
+        Task<APIResponse<UserDto>> CheckOutBookAsync(string userId, int bookId);
         Task<APIResponse<User>> ReturnBookAsync(string userId, int bookId);
         Task<APIResponse<CreateAdminUserDto>> CreateAdminUserAsync(CreateAdminUserDto createAdminUserDto);
         Task<APIResponse<List<ReservationItemDto>>> GetReservedBooksAsync(string userId);
@@ -433,9 +433,9 @@ namespace FinalProjectLibrary.Services
             return response;
         }
 
-        public async Task<APIResponse<User>> CheckOutBookAsync(string userId, int bookId)
+        public async Task<APIResponse<UserDto>> CheckOutBookAsync(string userId, int bookId)
         {
-            var response = new APIResponse<User>
+            var response = new APIResponse<UserDto>
             {
                 IsSuccess = false,
                 StatusCode = HttpStatusCode.BadRequest
@@ -465,9 +465,11 @@ namespace FinalProjectLibrary.Services
 
                 await _userRepo.UpdateAsync(user);
                 await _userRepo.SaveAsync();
+
+                var userDto = _mapper.Map<UserDto>(user);
                 response.IsSuccess = true;
                 response.StatusCode = HttpStatusCode.OK;
-                response.Result = user;
+                response.Result = userDto;
             }
             else
             {
