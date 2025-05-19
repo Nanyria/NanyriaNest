@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { AuthService } from '../../../Services/auth.service';
 @Component({
   selector: 'app-user-checkouts',
   standalone: true,
@@ -10,13 +10,14 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class UserCheckoutsComponent implements OnInit {
-  @Input() borrowedBooks: any[] = [];
-  editMode = false;
+  checkedOutBooks: any[] = [];
+  constructor(private authService: AuthService) {}
 
-  constructor(
-  ) {}
-
-ngOnInit(): void {
-
-    }
+  ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe(user => {
+      this.checkedOutBooks = user?.checkedOutBooks || [];
+    });
+  }
 }
+
+

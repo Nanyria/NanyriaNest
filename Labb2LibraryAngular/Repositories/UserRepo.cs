@@ -43,7 +43,9 @@ namespace FinalProjectLibrary.Repositories
             return await _db.Set<T>()
                 .Include(u => u.UserHistory)
                 .Include(u => u.ReservedBooks)
+                    .ThenInclude(r => r.Book)
                 .Include(u => u.CheckedOutBooks)
+                     .ThenInclude(r => r.Book)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 

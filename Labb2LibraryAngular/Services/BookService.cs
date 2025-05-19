@@ -24,7 +24,7 @@ namespace FinalProjectLibrary.Services
         Task<APIResponse<Book>> AddBookAsync(BookDto book);
         Task<APIResponse<Book>> DeleteBookAsync(int id);
         Task<APIResponse<Book>> UpdateBookInfoAsync(int id, BookDto bookDto);
-        Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, User user, BookStatusEnum bookStatus, string? n);
+        Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string userId, BookStatusEnum bookStatus, string? n);
         Task<APIResponse<List<StatusHistoryItem>>> GetBookHistoryAsync(int bookId);
         Task<APIResponse<List<ReservationItem>>> GetBookReservationsAsync(int bookId);
         Task<APIResponse<List<Book>>> GetBooksByGenreAsync(GenreEnums genre, string sortBy = "Title", bool ascending = true);
@@ -280,14 +280,14 @@ namespace FinalProjectLibrary.Services
             return response;
         }
 
-        public async Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, User user, BookStatusEnum bookStatus, string? notes)
+        public async Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string userId, BookStatusEnum bookStatus, string? notes)
         {
             var response = new APIResponse<Book>
             {
                 IsSuccess = false,
                 StatusCode = HttpStatusCode.BadRequest
             };
-
+            var user = await _userRepo.GetByIdAsync<User>(userId);
             try
             {
                 if (book == null || user == null)

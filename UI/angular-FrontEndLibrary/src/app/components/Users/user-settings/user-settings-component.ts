@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ILoggedInUser } from '../../../Models/interfaces';
 import { AuthService } from '../../../Services/auth.service';
-import { CardComponent } from '../../card/card.component';
 import { UserActionsService } from '../../../Services/user-actions.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { UserActionsService } from '../../../Services/user-actions.service';
   standalone: true,
   templateUrl: './user-settings-component.html',
   styleUrls: ['./user-settings-component.css'],
-  imports: [CommonModule, FormsModule, CardComponent]
+  imports: [CommonModule, FormsModule]
 })
 export class UserSettingsComponent  {
   editMode = false;
@@ -60,6 +59,30 @@ export class UserSettingsComponent  {
       },
       error: () => {
         alert('Kunde inte ändra lösenordet.');
+      }
+    });
+  }
+
+  submitNameChange() {
+    if (!this.user) return;
+    if (!this.user.firstName || !this.user.lastName) {
+      alert('Förnamn och efternamn måste fyllas i.');
+      return;
+    }
+
+    const updatePayload = {
+      userId: this.user.userId,
+      firstName: this.user.firstName,
+      lastName: this.user.lastName
+    };
+
+    this.userActionsService.updateUser(this.user.userId, updatePayload).subscribe({
+      next: () => {
+        alert('Namn har uppdaterats!');
+        this.editMode = false;
+      },
+      error: () => {
+        alert('Kunde inte uppdatera namn.');
       }
     });
   }

@@ -230,7 +230,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1001,
                             BookStatus = 0,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 16, 12, 53, 41, 736, DateTimeKind.Utc).AddTicks(6445)
+                            Timestamp = new DateTime(2025, 5, 18, 11, 45, 19, 329, DateTimeKind.Utc).AddTicks(3547)
                         },
                         new
                         {
@@ -238,7 +238,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1002,
                             BookStatus = 2,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 15, 12, 53, 41, 736, DateTimeKind.Utc).AddTicks(6450)
+                            Timestamp = new DateTime(2025, 5, 17, 11, 45, 19, 329, DateTimeKind.Utc).AddTicks(3552)
                         },
                         new
                         {
@@ -246,7 +246,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1003,
                             BookStatus = 1,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 14, 12, 53, 41, 736, DateTimeKind.Utc).AddTicks(6452)
+                            Timestamp = new DateTime(2025, 5, 16, 11, 45, 19, 329, DateTimeKind.Utc).AddTicks(3553)
                         });
                 });
 
@@ -345,6 +345,10 @@ namespace FinalProjectLibrary.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Bio")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -388,6 +392,9 @@ namespace FinalProjectLibrary.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

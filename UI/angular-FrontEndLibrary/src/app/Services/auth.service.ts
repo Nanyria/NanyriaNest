@@ -19,13 +19,7 @@ export class AuthService {
     if (userId) {
       this.userService.getUserById(userId).subscribe(response => {
         if (response.isSuccess) {
-          // Optionally, you can map adminRole/isSuperAdmin here if needed
-          this.currentUserSubject.next({
-            ...response.result,
-            userId: response.result.userId, // <-- map id to userID
-            adminRole: this.isAdminFromToken(),
-            isSuperAdmin: this.isSuperAdminFromToken()
-          });
+          this.currentUserSubject.next(this.mapUserResponse(response.result));
         }
       });
     }
@@ -41,12 +35,7 @@ export class AuthService {
           if (userId) {
             this.userService.getUserById(userId).subscribe(res => {
               if (res.isSuccess) {
-              this.currentUserSubject.next({
-                ...res.result,
-                userId: res.result.id ?? '', // <-- map id to userId
-                adminRole: this.isAdminFromToken(),
-                isSuperAdmin: this.isSuperAdminFromToken()
-                });
+                this.currentUserSubject.next(this.mapUserResponse(res.result));
               }
             });
           }
@@ -54,13 +43,32 @@ export class AuthService {
       })
     );
   }
-
+  refreshCurrentUser(): void {
+    const userId = this.getUserId();
+    if (userId) {
+      this.userService.getUserById(userId).subscribe(response => {
+        if (response.isSuccess) {
+          this.currentUserSubject.next(this.mapUserResponse(response.result));
+        }
+      });
+    }
+  }
+  setCurrentUser(user: ILoggedInUser) {
+    this.currentUserSubject.next(user);
+  }
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     this.authStatus.next(false);
     this.currentUserSubject.next(null);
   }
-
+  private mapUserResponse(result: any): ILoggedInUser {
+    return {
+      ...result,
+      userId: result.userId ?? result.id ?? '',
+      adminRole: this.isAdminFromToken(),
+      isSuperAdmin: this.isSuperAdminFromToken()
+    };
+  }
   isAuthenticated(): boolean {
     return this.hasToken();
   }

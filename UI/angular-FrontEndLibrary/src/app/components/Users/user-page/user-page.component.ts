@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { UserActionsService } from '../../../Services/user-actions.service';
 import { AuthService } from '../../../Services/auth.service';
 import { ILoggedInUser } from '../../../Models/interfaces';
-import { CardComponent } from '../../card/card.component';
 import { UserSettingsComponent } from '../user-settings/user-settings-component';
 import { UserReservationsComponent } from '../user-reservations/user-reservations-component';
 import { UserReadlistComponent } from '../user-readlist/user-readlist-component';
 import { UserCheckoutsComponent } from '../user-checkouts/user-checkouts-component';
-import { RouterModule } from '@angular/router';
-
+import { Router, RouterModule, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { UserPageNavComponent } from '../user-page-nav/user-page-nav.component';
 @Component({
   selector: 'app-user-page',
   standalone: true,
@@ -19,36 +19,48 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    CardComponent,
     RouterModule
+    ,
+    UserPageNavComponent
   ]
 })
 export class UserPageComponent implements OnInit {
   user: ILoggedInUser | null = null;
-  borrowedBooks: any[] = [];
+  checkedOutBooks: any[] = [];
   reservedBooks: any[] = [];
   readList: any[] = [];
   editMode = false;
+  hasNewNotification = false;
+  currentUrl: string = '';
 
+  @ViewChild(UserReservationsComponent) reservationsComp?: UserReservationsComponent;
+  @ViewChild(UserCheckoutsComponent) checkoutsComp?: UserCheckoutsComponent;
   @ViewChild(UserReadlistComponent) readlistComp?: UserReadlistComponent;
   @ViewChild(UserSettingsComponent) settingsComp?: UserSettingsComponent;
 
   constructor(
     private userService: UserActionsService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private router: Router, // <-- inject Router
+    private route: ActivatedRoute
+  ) {
+    // Subscribe to router events to update currentUrl
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(event => {
+        this.currentUrl = event.urlAfterRedirects;
+      });
+  }
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe(user => {
       this.user = user;
+      console.log('User:', this.user);
+      this.reservedBooks = user?.reservedBooks || [];
+      console.log('Reserved Books:', this.reservedBooks);
+      this.checkedOutBooks = user?.checkedOutBooks || [];
     });
-  }
-
-
-  loadUserData(userId: string) {
-
-    this.userService.getBorrowedBooks(userId).subscribe(data => this.borrowedBooks = data);
-    this.userService.getReservedBooks(userId).subscribe(data => this.reservedBooks = data);
+        this.currentUrl = this.router.url;
   }
 
   updateUserInfo() {
@@ -57,6 +69,8 @@ export class UserPageComponent implements OnInit {
       this.userService.updateUser(userId, this.user).subscribe(updated => {
         this.user = updated;
         this.editMode = false;
+        this.reservedBooks = updated.reservedBooks || [];
+        this.checkedOutBooks = updated.checkedOutBooks || [];
       });
     }
   }

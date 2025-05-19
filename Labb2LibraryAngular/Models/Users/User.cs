@@ -15,6 +15,9 @@ namespace FinalProjectLibrary.Models.Users
         [Required]
         [MaxLength(100)]
         public required string LastName { get; set; }
+        public string? ProfilePictureUrl { get; set; } // or ProfilePictureName
+        [MaxLength(500)]
+        public string? Bio { get; set; }
 
         public List<FavoriteItem> ReadingList { get; set; } = new List<FavoriteItem>();
         public List<ReviewItem> Reviews { get; set; } = new List<ReviewItem>();

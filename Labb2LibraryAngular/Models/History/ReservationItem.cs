@@ -18,7 +18,7 @@ namespace FinalProjectLibrary.Models.History
         [Required]
         [ForeignKey("Book")]
         public int BookId { get; set; }
-        [JsonIgnore]
+
         public Book Book { get; set; }
         public DateTime ReservationDate { get; set; }
 

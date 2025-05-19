@@ -57,12 +57,8 @@ public class BookController : ControllerBase
             return StatusCode((int)bookResponse.StatusCode, bookResponse);
         }
 
-        var userResponse = await _userService.GetUserByIdAsync(userId); 
-        if (!userResponse.IsSuccess)
-        {
-            return StatusCode((int)userResponse.StatusCode, userResponse);
-        }
-        var response = await _bookService.UpdateBookStatusAsync(bookResponse.Result, userResponse.Result, bookStatus, notes);
+
+        var response = await _bookService.UpdateBookStatusAsync(bookResponse.Result, userId, bookStatus, notes);
         return StatusCode((int)response.StatusCode, response);
     }
 

@@ -1,19 +1,26 @@
 <h1>Settings Works!</h1>
 <div *ngIf="user" class="settings-flex-row">
-  <!-- Left column: two cards stacked vertically -->
+  <!-- Left column: two custom boxes stacked vertically -->
   <div class="settings-left-col">
-    <app-card>
-      <!-- Card 1 content, e.g. user info summary -->
-      <div><strong>Användarnamn:</strong> {{ user.userName }}</div>
-      <div><strong>Email:</strong> {{ user.email }}</div>
-    </app-card>
-    <app-card>
-      <!-- Card 2 content, e.g. admin info or stats -->
-      <div><strong>Förnamn:</strong> {{ user.firstName }}</div>
-      <div><strong>Efternamn:</strong> {{ user.lastName }}</div>
-    </app-card>
+    <div class="profile-picture-box">
+      <img
+        *ngIf="user.profilePictureUrl; else noPic"
+        [src]="user.profilePictureUrl"
+        alt="Profilbild"
+        class="profile-picture-img"
+      />
+      <ng-template #noPic>
+        <!-- Inline SVG fallback -->
+        <img src="assets/images/profile-pictures/BlueKidDragon.svg" alt="Standardprofilbild" class="profile-picture-img" />
+        <!-- Or, paste the SVG markup directly here for full control -->
+      </ng-template>
+    </div>
+    <div class="bio-box">
+      <div class="bio-label"><strong>Bio:</strong></div>
+      <div class="bio-content">{{ user.bio || 'Ingen bio tillagd.' }}</div>
+    </div>
   </div>
-  <!-- Right column: rest of the form -->
+  <!-- Right column: rest of the form (unchanged) -->
   <div class="settings-right-col">
     <div class="settings-actions">
       <button class="btn btn-primary" (click)="editMode = !editMode">
@@ -22,19 +29,25 @@
     </div>
     <div class="form-group">
       <label>Användarnamn</label>
-      <input class="form-control" [value]="user.userName" readonly>
+      <input class="form-control readonly-field" [value]="user.userName" readonly tabindex="-1">
     </div>
     <div class="form-group">
       <label>Förnamn</label>
-      <input class="form-control" [value]="user.firstName" readonly>
+      <input class="form-control"
+             [readonly]="!editMode"
+             [(ngModel)]="user.firstName"
+             name="firstName">
     </div>
     <div class="form-group">
       <label>Efternamn</label>
-      <input class="form-control" [value]="user.lastName" readonly>
+      <input class="form-control"
+             [readonly]="!editMode"
+             [(ngModel)]="user.lastName"
+             name="lastName">
     </div>
     <div class="form-group">
       <label>Email</label>
-      <input class="form-control" [value]="user.email" readonly>
+      <input class="form-control readonly-field" [value]="user.email" readonly tabindex="-1">
     </div>
     <div class="form-group" *ngIf="!changePasswordMode">
       <label>Lösenord</label>
@@ -57,6 +70,8 @@
       <button class="btn btn-success" (click)="submitPasswordChange()">Spara nytt lösenord</button>
       <button class="btn btn-link" (click)="changePasswordMode = false">Avbryt</button>
     </div>
-    <!-- Add more fields as needed -->
+    <div *ngIf="editMode" class="settings-actions">
+      <button class="btn btn-success" (click)="submitNameChange()">Spara namnändringar</button>
+    </div>
   </div>
 </div>

@@ -60,6 +60,8 @@ export interface User {
     lastName: string;
     email: string;
     password: string;
+    bio: string;
+    profilePictureUrl?: string;
     checkedOutBooks: CheckedOutItem[];
     reservedBooks: ReservationItem[];
     userHistory: StatusHistoryItem[];
@@ -76,6 +78,8 @@ export interface ILoggedInUser{
     lastName: string;
     email: string;
     password: string;
+    bio: string;
+    profilePictureUrl?: string;
     checkedOutBooks: CheckedOutItem[];
     reservedBooks: ReservationItem[];
     userHistory: StatusHistoryItem[];

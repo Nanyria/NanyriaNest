@@ -1,7 +1,7 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ILoggedInUser } from '../../../Models/interfaces';
+import { AuthService } from '../../../Services/auth.service';
 
 @Component({
   selector: 'app-user-reservations',
@@ -11,13 +11,13 @@ import { ILoggedInUser } from '../../../Models/interfaces';
   imports: [CommonModule, FormsModule]
 })
 export class UserReservationsComponent implements OnInit {
-@Input() reservedBooks: any[] = [];
-  editMode = false;
+  reservedBooks: any[] = [];
 
-  constructor(
-  ) {}
+  constructor(private authService: AuthService) {}
 
-ngOnInit(): void {
-
-    }
+  ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe(user => {
+      this.reservedBooks = user?.reservedBooks || [];
+    });
+  }
 }

@@ -7,10 +7,8 @@ namespace FinalProjectLibrary.Models
     {
 
         public int Id { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public int BookID { get; set; }
-        public string BookTitle { get; set; }
+        public int BookId { get; set; }
+        public BookDto Book { get; set; }
         public DateTime ReservationDate { get; set; }
         public DateTime? AvailabilityDate { get; set; }
         public DateTime? BookIsAvaliableEmailSent { get; set; }

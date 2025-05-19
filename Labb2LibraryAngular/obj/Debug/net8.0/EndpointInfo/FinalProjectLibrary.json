@@ -1097,6 +1097,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "book": {
+            "$ref": "#/components/schemas/Book"
+          },
           "reservationDate": {
             "type": "string",
             "format": "date-time"
@@ -1249,6 +1252,14 @@
           "password": {
             "type": "string",
             "nullable": true
+          },
+          "profilePictureUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "bio": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1326,6 +1337,15 @@
             "maxLength": 100,
             "minLength": 1,
             "type": "string"
+          },
+          "profilePictureUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "bio": {
+            "maxLength": 500,
+            "type": "string",
+            "nullable": true
           },
           "readingList": {
             "type": "array",
