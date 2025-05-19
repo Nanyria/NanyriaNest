@@ -1,13 +1,12 @@
-<!-- Toggle open button -->
+<div class="admin-nav-toggle-row" *ngIf="!adminNavOpen">
 <button
-  *ngIf="!adminNavOpen"
   (click)="toggleNav()"
   class="admin-nav-toggle-closed"
   aria-label="Öppna användarmeny"
 >
   <i class="bi bi-person-badge-fill"></i>
 </button>
-
+</div>
 <!-- Backdrop -->
 <div *ngIf="adminNavOpen" class="admin-nav-backdrop" (click)="toggleNav()"></div>
 

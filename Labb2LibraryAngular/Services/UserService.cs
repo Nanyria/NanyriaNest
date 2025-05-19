@@ -216,6 +216,7 @@ namespace FinalProjectLibrary.Services
             var user = await _userRepo.GetByIdAsync<User>(userId);
             if (user != null)
             {
+
                 // Map UpdateUserDto to User
                 _mapper.Map(userToUpdate, user);
 

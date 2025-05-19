@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ILoggedInUser } from '../../../Models/interfaces';
 
 @Component({
   selector: 'app-user-reservations',
@@ -10,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class UserReservationsComponent implements OnInit {
-
+@Input() reservedBooks: any[] = [];
   editMode = false;
 
   constructor(

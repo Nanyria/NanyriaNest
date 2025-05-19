@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserActionsService } from '../../../Services/user-actions.service';
 import { AuthService } from '../../../Services/auth.service';
-import { User } from '../../../Models/interfaces';
+import { ILoggedInUser } from '../../../Models/interfaces';
 import { CardComponent } from '../../card/card.component';
 import { UserSettingsComponent } from '../user-settings/user-settings-component';
 import { UserReservationsComponent } from '../user-reservations/user-reservations-component';
 import { UserReadlistComponent } from '../user-readlist/user-readlist-component';
 import { UserCheckoutsComponent } from '../user-checkouts/user-checkouts-component';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-page',
@@ -20,18 +20,18 @@ import { UserCheckoutsComponent } from '../user-checkouts/user-checkouts-compone
     CommonModule,
     FormsModule,
     CardComponent,
-    UserSettingsComponent,
-    UserReservationsComponent,
-    UserReadlistComponent,
-    UserCheckoutsComponent
+    RouterModule
   ]
 })
 export class UserPageComponent implements OnInit {
-  user: User | null = null;
+  user: ILoggedInUser | null = null;
   borrowedBooks: any[] = [];
   reservedBooks: any[] = [];
+  readList: any[] = [];
   editMode = false;
-  selectedSection: 'messages' |'settings' | 'readlist' | 'reservations' | 'checkouts' = 'settings';
+
+  @ViewChild(UserReadlistComponent) readlistComp?: UserReadlistComponent;
+  @ViewChild(UserSettingsComponent) settingsComp?: UserSettingsComponent;
 
   constructor(
     private userService: UserActionsService,
@@ -39,11 +39,11 @@ export class UserPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const userId = this.authService.getUserId(); 
-    if (userId) {
-      this.loadUserData(userId);
-    }
+    this.authService.getCurrentUser().subscribe(user => {
+      this.user = user;
+    });
   }
+
 
   loadUserData(userId: string) {
 
@@ -51,13 +51,17 @@ export class UserPageComponent implements OnInit {
     this.userService.getReservedBooks(userId).subscribe(data => this.reservedBooks = data);
   }
 
-updateUserInfo() {
-  const userId = this.authService.getUserId();
-  if (this.user && userId) {
-    this.userService.updateUser(userId, this.user).subscribe(updated => {
-      this.user = updated;
-      this.editMode = false;
-    });
+  updateUserInfo() {
+    const userId = this.authService.getUserId();
+    if (this.user && userId) {
+      this.userService.updateUser(userId, this.user).subscribe(updated => {
+        this.user = updated;
+        this.editMode = false;
+      });
+    }
   }
-}
+
+  refreshReadlist() {
+    // this.readlistComp?.refresh();
+  }
 }

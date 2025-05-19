@@ -53,6 +53,7 @@ export interface CheckedOutItem {
 
 // User interfaces
 export interface User {
+    id?: string;
     userId: string;
     userName: string;
     firstName: string;
@@ -62,19 +63,34 @@ export interface User {
     checkedOutBooks: CheckedOutItem[];
     reservedBooks: ReservationItem[];
     userHistory: StatusHistoryItem[];
+    readList: FavoriteItem[];
     adminRole?: boolean;
     isSuperAdmin: boolean;
 }
 
 export interface ILoggedInUser{
+    id?: string;
     userId: string;
     userName: string;
     firstName: string;
     lastName: string;
     email: string;
     password: string;
+    checkedOutBooks: CheckedOutItem[];
+    reservedBooks: ReservationItem[];
+    userHistory: StatusHistoryItem[];
+    readList: FavoriteItem[];
     adminRole?: boolean;
     isSuperAdmin: boolean;
+}
+
+export interface FavoriteItem {
+    id: number;
+    userId: string;
+    bookId: number;
+    createdAt: string; // ISO string (DateTime in C#)
+    user?: User;       // Optional, if you include navigation properties
+    book?: Book;       // Optional, if you include navigation properties
 }
 
 export interface UserHistory {
@@ -86,4 +102,9 @@ export interface UserHistory {
     action: BookStatusEnum;
     timestamp: Date;
     notes?: string;
+}
+
+export interface INavlink {
+    name: string;
+    route: string;
 }

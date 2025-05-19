@@ -24,12 +24,17 @@ export const routes: Routes = [
       { path: 'builder-page', component: BuilderPage },
       { path: 'library', component: LibraryComponent },
       { path: 'add-book', component: AddBookComponent },
-      { path: 'user-page', component: UserPageComponent },
-      { path: 'user/settings', component: UserSettingsComponent },
-      // { path: 'messages', component: UserMessagesComponent },
-      { path: 'user/readlist', component: UserReadlistComponent },
-      { path: 'user/reservations', component: UserReservationsComponent },
-      { path: 'user/checkouts', component: UserCheckoutsComponent },
+      {
+        path: 'user-page',
+        component: UserPageComponent,
+        children: [
+          { path: 'settings', component: UserSettingsComponent },
+          { path: 'readlist', component: UserReadlistComponent },
+          { path: 'reservations', component: UserReservationsComponent },
+          { path: 'checkouts', component: UserCheckoutsComponent },
+          { path: '', redirectTo: 'settings', pathMatch: 'full' }
+        ]
+      },
       { path: 'admin', component: AdminPageComponent },
       { path: 'admin/manage-books', component: ManageBooksComponent },
       { path: 'admin/manage-users', component: ManageUsersComponent },

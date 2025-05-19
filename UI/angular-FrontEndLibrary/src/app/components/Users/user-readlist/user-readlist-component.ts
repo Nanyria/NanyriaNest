@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { ILoggedInUser } from '../../../Models/interfaces';
 @Component({
   selector: 'app-user-readlist',
   standalone: true,
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class UserReadlistComponent implements OnInit {
-
+  @Input() readList: any[] = [];
   editMode = false;
 
   constructor(

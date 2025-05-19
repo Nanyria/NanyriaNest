@@ -1,0 +1,29 @@
+.settings-flex-row {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  max-width: 70%;      /* or use 80vw, 70%, etc. */
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;       /* optional: adds some space on very small screens */
+}
+
+.settings-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 220px;
+}
+
+.settings-right-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}

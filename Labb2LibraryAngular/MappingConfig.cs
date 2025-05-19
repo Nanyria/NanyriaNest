@@ -30,8 +30,15 @@ namespace FinalProjectLibrary
 
             CreateMap<User, CreateUserDto>();
             CreateMap<CreateUserDto, User>();
-            CreateMap<User, UpdateUserAsAdminDto>().ReverseMap();
-            CreateMap<User, UpdateUserDto>().ReverseMap();
+
+
+            CreateMap<User, UpdateUserAsAdminDto>();
+            CreateMap<UpdateUserAsAdminDto, User>()
+                            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<User, UpdateUserDto>();
+            CreateMap<UpdateUserDto, User>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<CreateAdminUserDto, User>().ReverseMap();
 

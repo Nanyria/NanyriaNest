@@ -41,11 +41,11 @@ export class AuthService {
           if (userId) {
             this.userService.getUserById(userId).subscribe(res => {
               if (res.isSuccess) {
-                this.currentUserSubject.next({
-                  ...res.result,
-                  userId: res.result.userId, // <-- map id to userID
-                  adminRole: this.isAdminFromToken(),
-                  isSuperAdmin: this.isSuperAdminFromToken()
+              this.currentUserSubject.next({
+                ...res.result,
+                userId: res.result.id ?? '', // <-- map id to userId
+                adminRole: this.isAdminFromToken(),
+                isSuperAdmin: this.isSuperAdminFromToken()
                 });
               }
             });

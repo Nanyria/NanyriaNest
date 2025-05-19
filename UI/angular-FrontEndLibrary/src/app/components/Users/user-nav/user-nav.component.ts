@@ -10,6 +10,7 @@ import { RouterModule, Router } from '@angular/router';
 })
 export class UserNavComponent {
   @Input() currentUrl: string = '';
+  @Input() hasNewNotification: boolean = false; // <-- Add this line
   userNavOpen = false;
 
   constructor(private router: Router) {}

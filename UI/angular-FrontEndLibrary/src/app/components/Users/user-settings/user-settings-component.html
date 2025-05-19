@@ -1,0 +1,62 @@
+<h1>Settings Works!</h1>
+<div *ngIf="user" class="settings-flex-row">
+  <!-- Left column: two cards stacked vertically -->
+  <div class="settings-left-col">
+    <app-card>
+      <!-- Card 1 content, e.g. user info summary -->
+      <div><strong>Användarnamn:</strong> {{ user.userName }}</div>
+      <div><strong>Email:</strong> {{ user.email }}</div>
+    </app-card>
+    <app-card>
+      <!-- Card 2 content, e.g. admin info or stats -->
+      <div><strong>Förnamn:</strong> {{ user.firstName }}</div>
+      <div><strong>Efternamn:</strong> {{ user.lastName }}</div>
+    </app-card>
+  </div>
+  <!-- Right column: rest of the form -->
+  <div class="settings-right-col">
+    <div class="settings-actions">
+      <button class="btn btn-primary" (click)="editMode = !editMode">
+        {{ editMode ? 'Avbryt' : 'Ändra inställningar' }}
+      </button>
+    </div>
+    <div class="form-group">
+      <label>Användarnamn</label>
+      <input class="form-control" [value]="user.userName" readonly>
+    </div>
+    <div class="form-group">
+      <label>Förnamn</label>
+      <input class="form-control" [value]="user.firstName" readonly>
+    </div>
+    <div class="form-group">
+      <label>Efternamn</label>
+      <input class="form-control" [value]="user.lastName" readonly>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input class="form-control" [value]="user.email" readonly>
+    </div>
+    <div class="form-group" *ngIf="!changePasswordMode">
+      <label>Lösenord</label>
+      <input class="form-control" type="password" value="********" disabled>
+      <button *ngIf="editMode" class="btn btn-link" (click)="changePasswordMode = true">Byt lösenord</button>
+    </div>
+    <div *ngIf="changePasswordMode">
+      <div class="form-group">
+        <label>Nuvarande lösenord</label>
+        <input class="form-control" type="password" [(ngModel)]="oldPassword">
+      </div>
+      <div class="form-group">
+        <label>Nytt lösenord</label>
+        <input class="form-control" type="password" [(ngModel)]="newPassword">
+      </div>
+      <div class="form-group">
+        <label>Bekräfta nytt lösenord</label>
+        <input class="form-control" type="password" [(ngModel)]="confirmPassword">
+      </div>
+      <button class="btn btn-success" (click)="submitPasswordChange()">Spara nytt lösenord</button>
+      <button class="btn btn-link" (click)="changePasswordMode = false">Avbryt</button>
+    </div>
+    <!-- Add more fields as needed -->
+  </div>
+</div>

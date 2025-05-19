@@ -35,7 +35,7 @@ export class UserActionsService {
 
   // To add - list of borrowed books
   getBorrowedBooks(userId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/borrowed/${userId}`);
+    return this.http.get<any>(`${this.apiUrl}/checkedout/${userId}`);
   }
 
   // To add - list of reserved books

@@ -1,24 +1,17 @@
-.user-nav-toggle {
-  position: fixed;
-  top: 16px;
-  left: 0;
+/* --- Layout: Toggle Row & Overlay --- */
+.user-nav-toggle-row {
+  /* position: fixed;
+  left: 0; */
   width: 220px;
-  height: 64px;
-  background: var(--background-dark);
-  z-index: 2101;
-  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  height: 52px;
   display: flex;
-  flex-direction: column;
-  padding: 0;
-  gap: 8px;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
+  z-index: 2102;
 }
+
+/* --- Toggle Button (Closed State) --- */
 .user-nav-toggle-closed {
-  position: fixed;
-  top: 16px;
-  left: 0;
-  width: 220px;
-  height: 64px;
   background: none;
   border: none;
   cursor: pointer;
@@ -26,12 +19,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2102;
-  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
-  font-size: 1.5em;
   color: #fff;
+  z-index: 1;
 }
-/* Overlay/backdrop */
+.user-nav-toggle-closed .icon-svg,
+.user-nav-toggle-closed i {
+  vertical-align: middle;
+}
+
+.user-nav-toggle-closed i {
+  transform: translateY(-7px); /* Fine-tune as needed */
+}
+
+/* --- Logout Button --- */
+.logout-btn {
+  position: absolute;
+  left: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.logout-btn:hover {
+  color: #dd1212;
+}
+
+/* --- Overlay/Backdrop --- */
 .user-nav-backdrop {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -39,39 +57,71 @@
   z-index: 2099;
 }
 
-/* Sidebar overlay */
-.user-nav-overlay {
+/* --- Sidebar Overlay --- */
+.user-nav-overlay,
+.user-nav-toggle {
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
   width: 220px;
   background: var(--background-dark);
   z-index: 2101;
   box-shadow: 2px 0 12px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
-  padding: 0;
-  gap: 8px;
   align-items: stretch;
+  gap: 8px;
+  padding: 0;
+}
+.user-nav-overlay {
+  height: 100vh;
+}
+.user-nav-toggle {
+  height: 52px;
+  top: 16px;
+
 }
 
-
+/* --- Icon Button Styles --- */
 .icon-btn {
   position: relative;
   display: flex;
-  flex-direction: column; /* Stack icon and label vertically */
-  align-items: center;    /* Center horizontally */
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   background: none;
   border: none;
   padding: 16px 0;
-  font-size: 20px;
+  font-size: 1.5em;
   cursor: pointer;
   transition: background 0.2s;
-  width: 100%;            /* Make button fill nav width */
+  width: 100%;
+}
+.icon-svg {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+}
+.person-exclamation-svg {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: middle;
+  transform: translateY(-2px); 
+}
+.icon-btn i {
+  color: #fff;
+  transition: color 0.2s, font-size 0.2s;
+}
+.icon-btn i:hover {
+  color: #2d3140;
+}
+.icon-btn.active i {
+  color: #dd1212;
+  font-size: 1.8em;
 }
 
+/* --- Tooltip/Label --- */
 .icon-btn .nav-label {
   opacity: 0;
   pointer-events: none;
@@ -82,58 +132,16 @@
   padding: 6px 14px;
   border-radius: 6px;
   position: absolute;
-  left: 75%;         /* Fixed distance to the right of the icon */
+  left: 75%;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
   font-size: 15px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   text-align: left;
-  min-width: 120px;   /* Optional: ensures all tooltips have the same starting point */
+  min-width: 120px;
 }
-
 .icon-btn:hover .nav-label {
   opacity: 1;
   pointer-events: auto;
-}
-
-.icon-btn i {
-  font-size: 1.5em;
-  color: #fff;
-}
-.icon-btn i:hover {
-  color: #2d3140;
-}
-.icon-btn.active i {
-  color: #dd1212;
-  font-size: 1.8em; /* 20% larger than the base 1.5em */
-}
-
-.user-layout {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-
-.user-nav {
-  display: flex;
-  flex-direction: column;
-  width: 220px;
-  padding: 16px 0;
-  gap: 8px;
-}
-
-.user-nav button {
-  background: none;
-  border: none;
-  padding: 12px 24px;
-  text-align: left;
-  font-size: 1.5em;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.user-body {
-  flex: 1;
-  padding: 24px;
 }
