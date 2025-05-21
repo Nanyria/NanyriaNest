@@ -5,13 +5,13 @@ import { LibraryService } from '../../../Services/library.services';
 import { Book } from '../../../Models/interfaces';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
+  selector: 'app-admin-search',
+  templateUrl: './admin-search.component.html',
+  styleUrls: ['./admin-search.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
-export class SearchComponent {
+export class AdminSearchComponent {
   title: string = '';
   author: string = '';
   @Output() searchResults = new EventEmitter<Book[]>();

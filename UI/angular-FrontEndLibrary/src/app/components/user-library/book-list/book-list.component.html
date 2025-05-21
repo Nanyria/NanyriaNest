@@ -1,72 +1,52 @@
+<div *ngIf="showInfoCard"
+     class="info-card-popup"
+     [ngStyle]="{
+       position: 'absolute',
+       top: popupPosition.top + 'px',
+       left: popupPosition.left + 'px',
+       width: (popupTableWidth * 0.7) + 'px'
+     }">
+  <app-info-card
+    [id]="selectedBook?.bookId ?? ''"
+    [imageUrl]="selectedBook?.coverImagePath || 'assets/images/book-covers/BrownBook.svg'"
+    [col2]="infoCardCol2"
+    [col3]="infoCardCol3"
+    (close)="closeInfoCard()">
+  </app-info-card>
+</div>
+
 <table class="table-custom">
   <thead class="thead">
     <tr>
-
+      <th class="th-2">Omslag</th>
       <th class="th-2">Titel</th>
       <th class="th-2">Författare</th>
       <th class="th-2">Genre</th>
       <th class="th-2">Boktyp</th>
-      <th class="th-2">Publiceringsår</th>
       <th class="th-2">Beskrivning</th>
       <th class="th-2">Status</th>
-      <th class="th-2">Actions</th>
-      <th class="th-3">Edit</th>
-      <th class="th-4">Delete</th>
+      <th class="th-2">Recenssioner</th>
+      <th class="th-3">Rating</th>
     </tr>
   </thead>
   <tbody class="tbody">
-    <tr *ngFor="let book of books">
+  <tr *ngFor="let book of books" class="book-row" (click)="onBookRowClick(book, $event)">
       <td class="td">
-        <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.title" />
-        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.title }}</span>
+        <img 
+          [src]="book.coverImagePath ? book.coverImagePath : 'assets/images/book-covers/BrownBook.svg'" 
+          alt="Omslag" 
+          width="40" 
+          height="60"
+        />
       </td>
-      <td class="td">
-        <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.author" />
-        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.author }}</span>
-      </td>
-<td class="td">
-  <select *ngIf="editBook && editBook.bookId === book.bookId"
-          [(ngModel)]="editBook.genre"
-          name="genre-{{book.bookId}}">
-    <option *ngFor="let genre of genreOptions" [value]="genre">
-      {{ GenreDisplayNames[genre] }}
-    </option>
-  </select>
-  <span *ngIf="!editBook || editBook.bookId !== book.bookId">
-    {{ GenreDisplayNames[book.genre] || book.genre }}
-  </span>
-</td>
-      <td class="td">{{ BookTypeDisplayNames[book.bookType]  }}</td>
-      <td class="td">
-        <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.publicationYear" />
-        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.publicationYear }}</span>
-      </td>
-      <td class="td">
-        <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.bookDescription" />
-        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.bookDescription }}</span>
-      </td>
-      <td class="td">
-        <!-- Status: show dropdown if editing, else show Swedish name -->
-        <select *ngIf="editBook && editBook.bookId === book.bookId"
-                [(ngModel)]="editBook.bookStatus"
-                name="status-{{book.bookId}}">
-          <option *ngFor="let status of bookStatuses" [value]="status">
-        {{ BookStatusDisplayNames[status] }}
-          </option>
-        </select>
-        <span *ngIf="!editBook || editBook.bookId !== book.bookId">
-          {{ BookStatusDisplayNames[book.bookStatus] }}
-        </span>
-      </td>
-       <td class="td-action">
-        <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-delete"(click)="deleteBook(book.bookId)"><i class="bi bi-trash"></i></button>
-      <td class="td-action">
-        <button *ngIf="editBook && editBook.bookId === book.bookId" class="btn-save" (click)="saveBook(editBook)"><i class="bi bi-floppy"></i></button>
-        <button *ngIf="editBook && editBook.bookId === book.bookId" class="btn-cancel"(click)="cancelEdit()"><i class="bi bi-x-circle"></i></button>
-        <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-edit" (click)="editBookDetails(book)"><i class="bi bi-pen"></i></button>
-      </td>
-      <td class="td-action">
-        <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-delete"(click)="deleteBook(book.bookId)"><i class="bi bi-trash"></i></button>
+      <td class="td">{{ book.title }}</td>
+      <td class="td">{{ book.author }}</td>
+      <td class="td">{{ GenreDisplayNames[book.genre] || book.genre }}</td>
+      <td class="td">{{ BookTypeDisplayNames[book.bookType] }}</td>
+      <td class="td">{{ book.bookDescription }}</td>
+      <td class="td">{{ BookStatusDisplayNames[book.bookStatus] }}</td>
+      <td class="td-reviews"></td>
+      <td class="td">{{ book.reviews }}</td>
     </tr>
   </tbody>
 </table>

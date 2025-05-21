@@ -13,6 +13,7 @@ import { UserCheckoutsComponent } from './components/Users/user-checkouts/user-c
 import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
 import { ManageBooksComponent } from './components/admin/manage-books/manage-books.component';
 import { ManageUsersComponent } from './components/admin/manage-users/manage-users.component';
+import { InfoCardComponent } from './components/card-components/info-card/info-card.component';
 import { AuthGuard } from './Services/auth.guard';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,7 +23,9 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomePageComponent },
       { path: 'builder-page', component: BuilderPage },
+      { path: 'info-card', component: InfoCardComponent },
       { path: 'library', component: LibraryComponent },
+
       { path: 'add-book', component: AddBookComponent },
       {
         path: 'user-page',
@@ -35,9 +38,13 @@ export const routes: Routes = [
           { path: '', redirectTo: 'settings', pathMatch: 'full' }
         ]
       },
-      { path: 'admin', component: AdminPageComponent },
-      { path: 'admin/manage-books', component: ManageBooksComponent },
-      { path: 'admin/manage-users', component: ManageUsersComponent },
+      { path: 'admin', component: AdminPageComponent,
+        children: [
+
+          { path: 'manage-books', component: ManageBooksComponent },
+          { path: 'manage-users', component: ManageUsersComponent },
+       ]
+       },
       { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: '**', redirectTo: '/login' }
     ]

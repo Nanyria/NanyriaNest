@@ -8,10 +8,12 @@ export interface Book {
     genre: GenreEnums; 
     publicationYear: string; 
     bookDescription?: string; 
-    statusHistory: StatusHistoryItem[]; 
+    coverImagePath?: string;
     bookStatus: BookStatusEnum; 
     bookType: BookTypeEnums;
-    coverImagePath?: string;
+
+    reviews?: string[];
+    statusHistory: StatusHistoryItem[]; 
     reservations: ReservationItem[]; 
     checkedOutBy?: CheckedOutItem; 
 }
@@ -25,6 +27,69 @@ export interface BookDto {
     coverImagePath?: string;
   }
 
+
+
+// User interfaces
+// export interface User {
+//     id?: string;
+//     userId: string;
+//     userName: string;
+//     firstName: string;
+//     lastName: string;
+//     email: string;
+//     password: string;
+//     bio: string;
+//     profilePictureUrl?: string;
+//     checkedOutBooks: CheckedOutItem[];
+//     reservedBooks: ReservationItem[];
+//     userHistory: StatusHistoryItem[];
+//     readList: FavoriteItem[];
+//     adminRole?: boolean;
+//     isSuperAdmin: boolean;
+// }
+
+export interface ILoggedInUser{
+    id?: string;
+    userId: string;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+
+    profilePictureUrl?: string;
+    bio: string;
+
+    readList: FavoriteItem[];
+    reviews: ReviewItem[];
+    checkedOutBooks: CheckedOutItem[];
+    reservedBooks: ReservationItem[];
+    userHistory: StatusHistoryItem[];
+    notifications: NotificationItem[];
+    adminRole?: boolean;
+    isSuperAdmin: boolean;
+}
+
+export interface UserHistory {
+    userHistoryId: string;
+    userId: string;
+    user: ILoggedInUser;
+    bookId: string;
+    book: Book;
+    action: BookStatusEnum;
+    timestamp: Date;
+    notes?: string;
+}
+export interface NotificationItem {
+    notificationId: string;
+    userId: string;
+    message: string;
+    isRead: boolean;
+    createdAt: Date;
+}
+
+
+  //Joint interfaces
 export interface StatusHistoryItem {
     statusHistoryItemId: string;
     bookId: string; 
@@ -51,61 +116,26 @@ export interface CheckedOutItem {
     reminderEmailSent?: Date; 
 }
 
-// User interfaces
-export interface User {
-    id?: string;
-    userId: string;
-    userName: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    bio: string;
-    profilePictureUrl?: string;
-    checkedOutBooks: CheckedOutItem[];
-    reservedBooks: ReservationItem[];
-    userHistory: StatusHistoryItem[];
-    readList: FavoriteItem[];
-    adminRole?: boolean;
-    isSuperAdmin: boolean;
-}
-
-export interface ILoggedInUser{
-    id?: string;
-    userId: string;
-    userName: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    bio: string;
-    profilePictureUrl?: string;
-    checkedOutBooks: CheckedOutItem[];
-    reservedBooks: ReservationItem[];
-    userHistory: StatusHistoryItem[];
-    readList: FavoriteItem[];
-    adminRole?: boolean;
-    isSuperAdmin: boolean;
-}
-
 export interface FavoriteItem {
     id: number;
     userId: string;
     bookId: number;
     createdAt: string; // ISO string (DateTime in C#)
-    user?: User;       // Optional, if you include navigation properties
-    book?: Book;       // Optional, if you include navigation properties
 }
-
-export interface UserHistory {
-    userHistoryId: string;
+export interface ReviewItem {
+    reviewId: string;
     userId: string;
-    user: User;
     bookId: string;
-    book: Book;
-    action: BookStatusEnum;
-    timestamp: Date;
-    notes?: string;
+    reviewHeader: string;
+    reviewText: string;
+    ratingItem: RatingItem;
+    createdAt: Date;
+}
+export interface RatingItem {
+    ratingId: string;
+    reviewItemId: string;
+    Rating: number;
+    CreatedAt: Date;
 }
 
 export interface INavlink {

@@ -13,7 +13,7 @@ namespace FinalProjectLibrary.Models
         public BookDto Book { get; set; }
         public string? ReviewHeader { get; set; }
         public string? ReviewText { get; set; }
-        public RatingItem? RatingItem { get; set; }
+        public RatingItemDto? RatingItem { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

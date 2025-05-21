@@ -1,20 +1,20 @@
 import { Component, Input, Output, EventEmitter, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Book, User } from '../../../Models/interfaces';
+import { Book, ILoggedInUser } from '../../../Models/interfaces';
 import { BookStatusEnum, BookStatusDisplayNames ,GenreEnums, GenreDisplayNames, BookTypeEnums, BookTypeDisplayNames } from '../../../Helpers/Enums/enum';
 
 @Component({
-  selector: 'app-book-list',
-  templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.css'],
+  selector: 'app-admin-book-list',
+  templateUrl: './admin-book-list.component.html',
+  styleUrls: ['./admin-book-list.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
-export class BookListComponent {
+export class AdminBookListComponent {
   @Input() books: Book[] = [];
   @Input() currentUserId!: string; 
-  @Input() user!: User; 
+  @Input() user!: ILoggedInUser; 
   @Input() editBook: Book | null = null;
   @Output() onEdit = new EventEmitter<Book>();
   @Output() onDelete = new EventEmitter<string>();

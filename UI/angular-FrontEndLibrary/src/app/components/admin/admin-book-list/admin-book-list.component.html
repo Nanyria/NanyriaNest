@@ -1,7 +1,7 @@
 <table class="table-custom">
   <thead class="thead">
     <tr>
-
+      <th class="th-2">Id</th>
       <th class="th-2">Titel</th>
       <th class="th-2">Författare</th>
       <th class="th-2">Genre</th>
@@ -16,6 +16,9 @@
   </thead>
   <tbody class="tbody">
     <tr *ngFor="let book of books">
+            <td class="td">
+        <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.bookId }}</span>
+      </td>
       <td class="td">
         <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.title" />
         <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.title }}</span>
