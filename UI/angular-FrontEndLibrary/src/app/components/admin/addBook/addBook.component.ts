@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../../Services/book.services';
-import { BookDto } from '../../../Models/interfaces';
+import { SlimBookDto } from '../../../Models/interfaces';
 import { GenreEnums, GenreDisplayNames } from '../../../Helpers/Enums/enum'; // Adjust path if needed
 
 @Component({
@@ -45,7 +45,7 @@ export class AddBookComponent implements OnInit {
   onSubmit(): void {
     if (this.addBookForm.valid) {
       console.log('Selected genre value:', this.addBookForm.get('genre')!.value);
-      const newBook: BookDto = {
+      const newBook: SlimBookDto = {
         title: this.addBookForm.get('title')!.value,
         author: this.addBookForm.get('author')!.value,
         genre: Number(this.addBookForm.get('genre')!.value) as unknown as GenreEnums,

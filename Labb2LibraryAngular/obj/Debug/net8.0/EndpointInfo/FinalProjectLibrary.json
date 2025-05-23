@@ -68,17 +68,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookDto"
+                "$ref": "#/components/schemas/SlimBookDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookDto"
+                "$ref": "#/components/schemas/SlimBookDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/BookDto"
+                "$ref": "#/components/schemas/SlimBookDto"
               }
             }
           }
@@ -1128,6 +1128,30 @@
           "coverImagePath": {
             "type": "string",
             "nullable": true
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewItemDto"
+            },
+            "nullable": true
+          },
+          "statusHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatusHistoryItemDto"
+            },
+            "nullable": true
+          },
+          "reservations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReservationItemDto"
+            },
+            "nullable": true
+          },
+          "checkedOutBy": {
+            "$ref": "#/components/schemas/CheckedOutItemDto"
           }
         },
         "additionalProperties": false
@@ -1168,6 +1192,36 @@
           "bookId": {
             "type": "integer",
             "format": "int32"
+          },
+          "checkOutDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "returnDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reminderEmailSent": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CheckedOutItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "book": {
+            "$ref": "#/components/schemas/SlimBookDto"
           },
           "checkOutDate": {
             "type": "string",
@@ -1486,6 +1540,37 @@
         },
         "additionalProperties": false
       },
+      "ReservationItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "book": {
+            "$ref": "#/components/schemas/SlimBookDto"
+          },
+          "reservationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "availabilityDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "bookIsAvaliableEmailSent": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ReviewItem": {
         "required": [
           "bookId",
@@ -1539,7 +1624,7 @@
             "format": "int32"
           },
           "book": {
-            "$ref": "#/components/schemas/BookDto"
+            "$ref": "#/components/schemas/SlimBookDto"
           },
           "reviewHeader": {
             "type": "string",
@@ -1555,6 +1640,44 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SlimBookDto": {
+        "required": [
+          "author",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "author": {
+            "maxLength": 75,
+            "minLength": 1,
+            "type": "string"
+          },
+          "genre": {
+            "$ref": "#/components/schemas/GenreEnums"
+          },
+          "publicationYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookType": {
+            "$ref": "#/components/schemas/BookTypeEnums"
+          },
+          "coverImagePath": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1584,6 +1707,40 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusHistoryItemDto": {
+        "type": "object",
+        "properties": {
+          "statusHistoryItemId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookStatus": {
+            "$ref": "#/components/schemas/BookStatusEnum"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "userID": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "book": {
+            "$ref": "#/components/schemas/SlimBookDto"
           },
           "notes": {
             "type": "string",

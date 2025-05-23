@@ -21,7 +21,7 @@ namespace FinalProjectLibrary.Services
         Task<APIResponse<Book>> GetBookByIdAsync(int id);
         Task<APIResponse<List<Book>>> GetBooksByTitleAsync(string title);
         Task<APIResponse<List<Book>>> GetBooksByAuthorAsync(string author);
-        Task<APIResponse<Book>> AddBookAsync(BookDto book);
+        Task<APIResponse<Book>> AddBookAsync(SlimBookDto book);
         Task<APIResponse<Book>> DeleteBookAsync(int id);
         Task<APIResponse<Book>> UpdateBookInfoAsync(int id, BookDto bookDto);
         Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string userId, BookStatusEnum bookStatus, string? n);
@@ -163,7 +163,7 @@ namespace FinalProjectLibrary.Services
             return response;
         }
 
-        public async Task<APIResponse<Book>> AddBookAsync(BookDto bookDto)
+        public async Task<APIResponse<Book>> AddBookAsync(SlimBookDto bookDto)
         {
             var response = new APIResponse<Book>
             {

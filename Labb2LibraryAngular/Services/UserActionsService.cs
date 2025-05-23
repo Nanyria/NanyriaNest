@@ -317,6 +317,7 @@ namespace FinalProjectLibrary.Services
                 ReturnDate = DateTime.UtcNow.AddMonths(1),
             };
             user.CheckedOutBooks.Add(checkedOutItem);
+            book.CheckedOutBy = checkedOutItem;
         }
 
         public async Task<APIResponse<UserDto>> ReturnBookAsync(string userId, int bookId)

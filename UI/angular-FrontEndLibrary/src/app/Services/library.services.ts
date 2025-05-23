@@ -3,9 +3,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Book, BookDto, StatusHistoryItem } from '../Models/interfaces';
-import { BookStatusEnum } from '../Helpers/Enums/enum';
-import { map } from 'rxjs/operators';
+import { Book} from '../Models/interfaces';
+
 
 @Injectable({
   providedIn: 'root',

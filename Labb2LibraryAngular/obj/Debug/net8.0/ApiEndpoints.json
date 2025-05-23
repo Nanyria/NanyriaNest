@@ -25,7 +25,7 @@
     "Parameters": [
       {
         "Name": "book",
-        "Type": "FinalProjectLibrary.Models.Books.BookDTOs.BookDto",
+        "Type": "FinalProjectLibrary.Models.Books.BookDTOs.SlimBookDto",
         "IsRequired": true
       }
     ],

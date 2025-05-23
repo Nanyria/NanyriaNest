@@ -32,7 +32,6 @@ namespace FinalProjectLibrary.Repositories
         public async Task<IEnumerable<T>> GetAllAsync<T>() where T : User
         {
             return await _db.Set<T>()
-                .Include(u => u.UserHistory)
                 .Include(u => u.ReservedBooks)
                 .Include(u => u.CheckedOutBooks)
                 .ToListAsync();
@@ -41,7 +40,6 @@ namespace FinalProjectLibrary.Repositories
         public async Task<T> GetByIdAsync<T>(string id) where T : User
         {
             return await _db.Set<T>()
-                .Include(u => u.UserHistory)
                 .Include(u => u.ReservedBooks)
                     .ThenInclude(r => r.Book)
                 .Include(u => u.CheckedOutBooks)
@@ -54,7 +52,6 @@ namespace FinalProjectLibrary.Repositories
         public async Task<T> GetByEmailAsync<T>(string email) where T : User
         {
             return await _db.Set<T>()
-                .Include(u => u.UserHistory)
                 .Include(u => u.ReservedBooks)
                 .Include(u => u.CheckedOutBooks)
                 .FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { BuilderPage } from './components/builder-page.component';
 import { LibraryComponent } from './components/user-library/library-page/library.page.component';
-import { AddBookComponent } from './components/user-library/addBook/addBook.component';
+import { AddBookComponent } from './components/admin/addBook/addBook.component';
 import { LoginComponent } from './components/Users/login-page/login.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserPageComponent } from './components/Users/user-page/user-page.component';

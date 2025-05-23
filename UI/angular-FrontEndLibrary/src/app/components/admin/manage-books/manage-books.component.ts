@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Book, BookDto } from '../../../Models/interfaces';
+import { Book, SlimBookDto } from '../../../Models/interfaces';
 import { LibraryService } from '../../../Services/library.services';
 import { BookService } from '../../../Services/book.services';
 import { BookStatusEnum } from '../../../Helpers/Enums/enum';

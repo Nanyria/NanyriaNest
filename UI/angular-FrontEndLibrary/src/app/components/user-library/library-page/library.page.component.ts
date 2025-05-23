@@ -199,9 +199,6 @@ export class LibraryComponent {
 
   toggleBorrow(book: Book) {
     const isCheckedOutByUser = this.user?.checkedOutBooks?.some(item => +item.bookId === +book.bookId) ?? false;
-    const newStatus = isCheckedOutByUser ? BookStatusEnum.Available : BookStatusEnum.CheckedOut;
-    const notes = isCheckedOutByUser ? 'Returned by user' : 'Borrowed by user';
-
     // First, perform the user action
     const obs = isCheckedOutByUser
       ? this.userActionsService.returnBook(this.currentUserId, book.bookId)

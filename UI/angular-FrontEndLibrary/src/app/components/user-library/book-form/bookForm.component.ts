@@ -3,7 +3,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BookDto } from '../../../Models/interfaces';
+import { SlimBookDto } from '../../../Models/interfaces';
 import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
 
 @Component({
@@ -14,11 +14,11 @@ import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
   imports: [CommonModule, FormsModule]
 })
 export class BookFormComponent {
-  @Input() editBook: BookDto | null = null;
-  @Output() onSubmit = new EventEmitter<BookDto>();
+  @Input() editBook: SlimBookDto | null = null;
+  @Output() onSubmit = new EventEmitter<SlimBookDto>();
   @Output() onCancel = new EventEmitter<void>();
 
-  book: BookDto = {  
+  book: SlimBookDto = {  
     title: '', 
     author: '', 
     genre: GenreEnums.None, // Default to "None"

@@ -22,6 +22,22 @@ namespace FinalProjectLibrary.Models.Books.BookDTOs
     //    public CheckedOutItemDto? CheckedOutBy { get; set; }
     //}
 
+    public class SlimBookDto
+    {
+        [Required]
+        [MaxLength(100)]
+        public required string Title { get; set; }
+
+        [Required]
+        [MaxLength(75)]
+        public required string Author { get; set; }
+
+        public GenreEnums Genre { get; set; }
+        public int PublicationYear { get; set; }
+        public string? BookDescription { get; set; }
+        public BookTypeEnums BookType { get; set; }
+        public string? CoverImagePath { get; set; }
+    }
     public class BookDto
     {
         [Required]
@@ -38,6 +54,10 @@ namespace FinalProjectLibrary.Models.Books.BookDTOs
         public BookTypeEnums BookType { get; set; }
         public DateTime AvailabilityDate { get; set; }
         public string? CoverImagePath { get; set; }
+        public List<ReviewItemDto> Reviews { get; set; } = new();
+        public List<StatusHistoryItemDto> StatusHistory { get; set; } = new();
+        public List<ReservationItemDto> Reservations { get; set; } = new();
+        public CheckedOutItemDto? CheckedOutBy { get; set; }
     }
     //public class CreateBookDto
     //{

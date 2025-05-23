@@ -12,7 +12,7 @@ namespace FinalProjectLibrary.Models.History.HistoryDTOs
         public DateTime? Timestamp { get; set; } = DateTime.UtcNow;
         public string? UserID { get; set; } 
         public int? BookID { get; set; }
-        public BookDto? Book { get; set; }
+        public SlimBookDto? Book { get; set; }
         public string? Notes { get; set; }
     }
 }

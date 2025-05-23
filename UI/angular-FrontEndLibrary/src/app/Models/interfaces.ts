@@ -22,7 +22,7 @@ export interface Book {
   reservations: ReservationItem[];
   checkedOutBy?: CheckedOutItem;
 }
-export interface BookDto {
+export interface SlimBookDto {
   title: string;
   author: string;
   genre: GenreEnums;

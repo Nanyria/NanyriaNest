@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinalProjectLibrary.Helpers.Enums;
 using FinalProjectLibrary.Models;
 using FinalProjectLibrary.Models.Books;
 using FinalProjectLibrary.Models.Books.BookDTOs;
@@ -20,28 +21,14 @@ namespace FinalProjectLibrary
                 .ForMember(dest => dest.StatusHistory, opt => opt.Ignore())
                 .ForMember(dest => dest.Reservations, opt => opt.Ignore())
                 .ForMember(dest => dest.CheckedOutBy, opt => opt.Ignore())
-                .ForMember(dest => dest.Reviews, opt => opt.Ignore())
-                .ForMember(dest => dest.AvailabilityDate, opt => opt.MapFrom(src => src.AvailabilityDate));
+                .ForMember(dest => dest.Reviews, opt => opt.Ignore());
 
-            CreateMap<Book, BookDto>()
-                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
-                .ForMember(dest => dest.Genre, opt => opt.MapFrom(src => src.Genre))
-                .ForMember(dest => dest.PublicationYear, opt => opt.MapFrom(src => src.PublicationYear))
-                .ForMember(dest => dest.BookDescription, opt => opt.MapFrom(src => src.BookDescription))
-                .ForMember(dest => dest.BookType, opt => opt.MapFrom(src => src.BookType))
-                .ForMember(dest => dest.CoverImagePath, opt => opt.MapFrom(src => src.CoverImagePath))
-                .ForMember(dest => dest.AvailabilityDate, opt => opt.MapFrom(src => src.AvailabilityDate)); // <-- Add this line
+            CreateMap<Book, BookDto>();
 
             CreateMap<User, UserDto>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.CheckedOutBooks, opt => opt.MapFrom(src => src.CheckedOutBooks))
-                .ForMember(dest => dest.ReservedBooks, opt => opt.MapFrom(src => src.ReservedBooks))
-                .ForMember(dest => dest.UserHistory, opt => opt.MapFrom(src => src.UserHistory))
-                .ForMember(dest => dest.ReadList, opt => opt.MapFrom(src => src.ReadList))
-                .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.Reviews))
-                .ForMember(dest => dest.Notifications, opt => opt.MapFrom(src => src.Notifications))
-                .ReverseMap()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id)); // Only needed for Id/UserId
+
+            CreateMap<UserDto, User>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.CheckedOutBooks, opt => opt.Ignore())
                 .ForMember(dest => dest.ReservedBooks, opt => opt.Ignore())
@@ -50,6 +37,14 @@ namespace FinalProjectLibrary
                 .ForMember(dest => dest.Reviews, opt => opt.Ignore())
                 .ForMember(dest => dest.Notifications, opt => opt.Ignore());
 
+            CreateMap<Book, SlimBookDto>();
+            CreateMap<SlimBookDto, Book>()
+                .ForMember(dest => dest.BookId, opt => opt.Ignore())
+                .ForMember(dest => dest.StatusHistory, opt => opt.Ignore())
+                .ForMember(dest => dest.Reservations, opt => opt.Ignore())
+                .ForMember(dest => dest.CheckedOutBy, opt => opt.Ignore())
+                .ForMember(dest => dest.Reviews, opt => opt.Ignore());
+            
             CreateMap<User, CreateUserDto>();
             CreateMap<CreateUserDto, User>();
 

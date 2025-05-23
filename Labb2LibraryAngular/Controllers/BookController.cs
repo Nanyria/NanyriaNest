@@ -27,7 +27,7 @@ public class BookController : ControllerBase
         return StatusCode((int)response.StatusCode, response);
     }
     [HttpPost]
-    public async Task<IActionResult> AddBook([FromBody] BookDto book)
+    public async Task<IActionResult> AddBook([FromBody] SlimBookDto book)
     {
         var response = await _bookService.AddBookAsync(book);
         return StatusCode((int)response.StatusCode, response);
