@@ -1,33 +1,38 @@
-import { GenreEnums, BookStatusEnum, BookTypeEnums } from '../Helpers/Enums/enum';
+import {
+  GenreEnums,
+  BookStatusEnum,
+  BookTypeEnums,
+} from '../Helpers/Enums/enum';
 
 // Book interfaces
 export interface Book {
-    bookId: string;
-    title: string;
-    author: string;
-    genre: GenreEnums; 
-    publicationYear: string; 
-    bookDescription?: string; 
-    coverImagePath?: string;
-    bookStatus: BookStatusEnum; 
-    bookType: BookTypeEnums;
+  bookId: string;
+  title: string;
+  author: string;
+  genre: GenreEnums;
+  publicationYear: string;
+  bookDescription?: string;
+  coverImagePath?: string;
+  bookStatus: BookStatusEnum;
+  bookType: BookTypeEnums;
+  availabilityDate: Date;
 
-    reviews?: string[];
-    statusHistory: StatusHistoryItem[]; 
-    reservations: ReservationItem[]; 
-    checkedOutBy?: CheckedOutItem; 
+  reviews?: string[];
+  statusHistory: StatusHistoryItem[];
+  reservations: ReservationItem[];
+  checkedOutBy?: CheckedOutItem;
 }
 export interface BookDto {
-    title: string;
-    author: string;
-    genre: GenreEnums;
-    publicationYear: string;
-    bookDescription?: string;
-    bookType?: BookTypeEnums;
-    coverImagePath?: string;
-  }
+  title: string;
+  author: string;
+  genre: GenreEnums;
+  publicationYear: string;
+  bookDescription?: string;
+  bookType?: BookTypeEnums;
+  coverImagePath?: string;
+  availabilityDate?: Date;
 
-
+}
 
 // User interfaces
 // export interface User {
@@ -48,97 +53,110 @@ export interface BookDto {
 //     isSuperAdmin: boolean;
 // }
 
-export interface ILoggedInUser{
-    id?: string;
-    userId: string;
-    userName: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
+export interface ILoggedInUser {
+  id?: string;
+  userId: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 
-    profilePictureUrl?: string;
-    bio: string;
+  profilePictureUrl?: string;
+  bio: string;
 
-    readList: FavoriteItem[];
-    reviews: ReviewItem[];
-    checkedOutBooks: CheckedOutItem[];
-    reservedBooks: ReservationItem[];
-    userHistory: StatusHistoryItem[];
-    notifications: NotificationItem[];
-    adminRole?: boolean;
-    isSuperAdmin: boolean;
+  readList: FavoriteItem[];
+  reviews: ReviewItemDto[];
+  checkedOutBooks: CheckedOutItem[];
+  reservedBooks: ReservationItem[];
+  userHistory: StatusHistoryItem[];
+  notifications: NotificationItem[];
+  adminRole?: boolean;
+  isSuperAdmin: boolean;
 }
 
 export interface UserHistory {
-    userHistoryId: string;
-    userId: string;
-    user: ILoggedInUser;
-    bookId: string;
-    book: Book;
-    action: BookStatusEnum;
-    timestamp: Date;
-    notes?: string;
+  userHistoryId: string;
+  userId: string;
+  user: ILoggedInUser;
+  bookId: string;
+  book: Book;
+  action: BookStatusEnum;
+  timestamp: Date;
+  notes?: string;
 }
 export interface NotificationItem {
-    notificationId: string;
-    userId: string;
-    message: string;
-    isRead: boolean;
-    createdAt: Date;
+  notificationId: string;
+  userId: string;
+  message: string;
+  isRead: boolean;
+  createdAt: Date;
+}
+export interface CreateRatingItemDto {
+  rating: number;
+  createdAt?: string;
+}
+export interface CreateReviewItemDto {
+  userId: string;
+  bookId: number;
+  reviewHeader?: string;
+  reviewText?: string;
+  ratingItem?: CreateRatingItemDto;
+  createdAt?: string; // ISO string, will default to now if not provided
 }
 
-
-  //Joint interfaces
+//Joint interfaces
 export interface StatusHistoryItem {
-    statusHistoryItemId: string;
-    bookId: string; 
-    userId?: string; 
-    bookStatus: BookStatusEnum; 
-    timestamp?: Date; 
-    notes?: string; 
+  statusHistoryItemId: string;
+  bookId: string;
+  userId?: string;
+  bookStatus: BookStatusEnum;
+  timestamp?: Date;
+  notes?: string;
 }
 
 export interface ReservationItem {
-    id: string; 
-    userId: string; 
-    bookId: string; 
-    reservationDate: Date; 
-    availabilityDate?: Date; 
-    bookIsAvailableEmailSent?: Date; 
+  id: string;
+  userId: string;
+  bookId: string;
+  reservationDate: Date;
+  availabilityDate?: Date;
+  bookIsAvailableEmailSent?: Date;
 }
 
 export interface CheckedOutItem {
-    id: string; 
-    userId: string; 
-    bookId: string; 
-    checkOutDate: Date; 
-    reminderEmailSent?: Date; 
+  id: string;
+  userId: string;
+  bookId: string;
+  checkOutDate: Date;
+  reminderEmailSent?: Date;
 }
 
 export interface FavoriteItem {
-    id: number;
-    userId: string;
-    bookId: number;
-    createdAt: string; // ISO string (DateTime in C#)
+  id: number;
+  userId: string;
+  bookId: number;
+  createdAt: string; // ISO string (DateTime in C#)
 }
-export interface ReviewItem {
-    reviewId: string;
-    userId: string;
-    bookId: string;
-    reviewHeader: string;
-    reviewText: string;
-    ratingItem: RatingItem;
-    createdAt: Date;
+export interface ReviewItemDto {
+  id: string;
+  userId: string;
+  bookId: string;
+  BookDto: Book;
+  reviewHeader: string;
+  reviewText: string;
+  ratingItem: RatingItemDto;
+  createdAt: Date;
 }
-export interface RatingItem {
-    ratingId: string;
-    reviewItemId: string;
-    Rating: number;
-    CreatedAt: Date;
+
+export interface RatingItemDto {
+  id: string;
+  reviewItemId: string;
+  rating: number;
+  createdAt: Date;
 }
 
 export interface INavlink {
-    name: string;
-    route: string;
+  name: string;
+  route: string;
 }

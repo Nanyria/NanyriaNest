@@ -53,12 +53,7 @@ namespace FinalProjectLibrary.Controllers
             var response = await _userService.UpdateUserAsAdminAsync(userId, updateUserDto);
             return StatusCode((int)response.StatusCode, response);
         }
-        //[HttpPut("update/{userId}")]
-        //public async Task<IActionResult> UpdateUser([FromRoute] int userId, [FromBody] UpdateUserDto updateUserDto)
-        //{
-        //    var response = await _userService.UpdateUserAsync(userId, updateUserDto);
-        //    return StatusCode((int)response.StatusCode, response);
-        //}
+
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserById([FromRoute] string userId)
         {
@@ -66,32 +61,6 @@ namespace FinalProjectLibrary.Controllers
             return StatusCode((int)response.StatusCode, response);
         }
 
-        //[HttpPut("borrow/{userId}/{bookId}")]
-        //public async Task<IActionResult> BorrowBook([FromRoute] int userId, [FromRoute] int bookId)
-        //{
-        //    var response = await _userService.CheckOutBookAsync(userId, bookId);
-        //    return StatusCode((int)response.StatusCode, response);
-        //}
-
-        //[HttpPut("reserve/{userId}/{bookId}")]
-        //public async Task<IActionResult> ReserveBook([FromRoute] int userId, [FromRoute] int bookId)
-        //{
-        //    var response = await _userService.ReserveBookAsync(userId, bookId);
-        //    return StatusCode((int)response.StatusCode, response);
-        //}
-        //[HttpPut("unreserve/{userId}/{bookId}")]
-        //public async Task<IActionResult> UnreserveBook([FromRoute] int userId, [FromRoute] int bookId)
-        //{
-        //    var response = await _userService.CancelReservationAsync(userId, bookId);
-        //    return StatusCode((int)response.StatusCode, response);
-        //}
-
-        //[HttpPut("return/{userId}/{bookId}")]
-        //public async Task<IActionResult> ReturnBook([FromRoute] int userId, [FromRoute] int bookId)
-        //{
-        //    var response = await _userService.ReturnBookAsync(userId, bookId);
-        //    return StatusCode((int)response.StatusCode, response);
-        //}
 
         [HttpGet("history/{userId}")]
         public async Task<IActionResult> GetUserHistory([FromRoute] string userId)

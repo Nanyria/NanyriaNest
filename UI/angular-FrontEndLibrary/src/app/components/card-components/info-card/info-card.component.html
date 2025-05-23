@@ -1,8 +1,25 @@
 <div class="info-card-body">
+  <div class="action-column">
+    <ng-container *ngFor="let action of actions">
+      <button
+        (click)="action.action()"
+        [ngClass]="actionIconMap[action.label].styleClass"
+        type="button"
+      >
+        <ng-container *ngIf="actionIconMap[action.label]?.icon?.endsWith('.svg'); else fontIcon">
+          <img [src]="actionIconMap[action.label].icon" alt="" class="action-svg-icon" />
+        </ng-container>
+        <ng-template #fontIcon>
+          <i [ngClass]="actionIconMap[action.label].icon"></i>
+        </ng-template>
+        <span class="action-label">{{ action.label }}</span>
+      </button>
+    </ng-container>
+  </div>
 
   <div class="col1">
     <img *ngIf="imageUrl" [src]="imageUrl" alt="Image"/>
-  <div *ngIf="id" class="info-card-pair-box info-card-id info-card-row">
+  <div *ngIf="id" class="info-box info-card-id info-card-row">
     <span class="info-card-title">ID:</span>
     <span class="info-card-value">{{ id }}</span>
   </div>
@@ -12,51 +29,77 @@
   <div class="col2">
     <!-- Layout 1: Only rows and longText -->
     <ng-container *ngIf="!col2.rowPairs || col2.rowPairs.length === 0">
-      <div class="info-card-pair-box" *ngFor="let row of col2.rows">
+      <div class="info-box" *ngFor="let row of col2.rows">
         <div class="info-card-title">{{ row.title }}:</div>
         <div class="info-card-value">{{ row.value }}</div>
       </div>
-      <div class="info-card-pair-box info-card-long" *ngIf="col2.longText">
+      <div class="info-box info-card-long" *ngIf="col2.longText">
         <div class="info-card-title">{{ col2.longText.title }}:</div>
         <div class="info-card-value">{{ col2.longText.value }}</div>
       </div>
     </ng-container>
     <!-- Layout 2: rows, rowPairs, longText -->
     <ng-container *ngIf="col2.rowPairs && col2.rowPairs.length > 0">
-      <div class="info-card-pair-box" *ngFor="let row of col2.rows?.slice(0,2)">
+      <div class="info-box" *ngFor="let row of col2.rows?.slice(0,2)">
         <div class="info-card-title">{{ row.title }}:</div>
         <div class="info-card-value">{{ row.value }}</div>
       </div>
-      <div class="info-card-pair-group" *ngFor="let pair of col2.rowPairs">
-        <div class="info-card-pair-box">
+      <div class="short-pair-group" *ngFor="let pair of col2.rowPairs">
+        <div class="info-box pair-item">
           <div class="info-card-title">{{ pair.first?.title }}:</div>
           <div class="info-card-value">{{ pair.first?.value }}</div>
         </div>
-        <div class="info-card-pair-box" *ngIf="pair.second; else emptyBox">
+        <div class="info-box pair-item" *ngIf="pair.second; else emptyBox">
           <div class="info-card-title">{{ pair.second.title }}:</div>
           <div class="info-card-value">{{ pair.second.value }}</div>
         </div>
         <ng-template #emptyBox>
-          <div class="info-card-pair-box" style="visibility: hidden;"></div>
+          <div class="info-box pair-item" style="visibility: hidden;"></div>
         </ng-template>
       </div>
-      <div class="info-card-pair-box info-card-long" *ngIf="col2.longText">
+      <div class="info-box info-card-long" *ngIf="col2.longText">
         <div class="info-card-title">{{ col2.longText.title }}:</div>
         <div class="info-card-value">{{ col2.longText.value }}</div>
       </div>
     </ng-container>
   </div>
-
-  <!-- Column 3: 6 rows of normal fields -->
-  <div class="col3">
-    <div class="info-card-pair-box" *ngFor="let row of col3.rows">
-      <div class="info-card-title">{{ row.title }}:</div>
-      <div class="info-card-value">{{ row.value }}</div>
+<!-- Column 3: Clickable row -->
+<div class="col3">
+  <div
+    class="info-box"
+    *ngFor="let row of col3.rows"
+    (click)="onCol3RowClick(row)"
+    style="cursor:pointer"
+  >
+    <div class="info-card-title">{{ row.title }}:</div>
+    <div class="info-card-value">
+      <!-- Show count or summary if value is a list -->
+      <ng-container *ngIf="row.value?.length !== undefined">
+        {{ row.value.length }} objekt
+      </ng-container>
+      <ng-container *ngIf="row.value?.length === undefined">
+        {{ row.value }}
+      </ng-container>
     </div>
   </div>
+</div>
 
-  <!-- Column 4: Close button -->
-  <div class="col4">
-    <button class="close-btn" (click)="closeInfoCard()">Stäng</button>
+<!-- Column 4: Show list if selected, else show close button -->
+<div class="col4">
+  <div class="info-box" *ngIf="selectedCol3List; else closeBtn">
+    <div class="info-card-title">Detaljer:</div>
+    <ng-container *ngFor="let reviewRows of selectedCol3List">
+      <ng-container *ngFor="let row of reviewRows">
+        <div *ngIf="!row.isBreak">{{ row.label ? row.label + ': ' : '' }}{{ row.value }}</div>
+        <hr *ngIf="row.isBreak">
+      </ng-container>
+      <br>
+    </ng-container>
+    <button (click)="clearCol4()">Tillbaka</button>
   </div>
+  <ng-template #closeBtn>
+    <div class="info-box">
+      <button class="close-btn" (click)="closeInfoCard()">Stäng</button>
+    </div>
+  </ng-template>
 </div>

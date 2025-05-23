@@ -201,6 +201,22 @@
   },
   {
     "ContainingType": "LibraryController",
+    "Method": "GetBookReview",
+    "RelativePath": "api/Library/review/{bookId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraryController",
     "Method": "GetBooksByTitle",
     "RelativePath": "api/Library/title/{title}",
     "HttpMethod": "GET",
@@ -365,6 +381,133 @@
   },
   {
     "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "DeleteRating",
+    "RelativePath": "api/UserActions/deleteRating/{reviewId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reviewId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "DeleteReview",
+    "RelativePath": "api/UserActions/deleteReview/{reviewId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reviewId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "EditRating",
+    "RelativePath": "api/UserActions/editRating/{reviewId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reviewId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "ratingDto",
+        "Type": "FinalProjectLibrary.Models.RatingItemDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "EditReview",
+    "RelativePath": "api/UserActions/editReview/{reviewId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reviewId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateReviewDto",
+        "Type": "FinalProjectLibrary.Models.ReviewItemDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "AddToFavorites",
+    "RelativePath": "api/UserActions/favorite/{userId}/{bookId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "bookId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "GetFavoriteBooks",
+    "RelativePath": "api/UserActions/favorites/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "CreateReview",
+    "RelativePath": "api/UserActions/newReview",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createReviewDto",
+        "Type": "FinalProjectLibrary.Models.CreateReviewItemDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
     "Method": "ReserveBook",
     "RelativePath": "api/UserActions/reserve/{userId}/{bookId}",
     "HttpMethod": "PUT",
@@ -405,6 +548,43 @@
     "Method": "ReturnBook",
     "RelativePath": "api/UserActions/return/{userId}/{bookId}",
     "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "bookId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "GetUserReviews",
+    "RelativePath": "api/UserActions/reviews/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "RemoveFromFavorites",
+    "RelativePath": "api/UserActions/unfavorite/{userId}/{bookId}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [

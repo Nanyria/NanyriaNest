@@ -1,6 +1,6 @@
 export interface InfoCardField {
   title: string;
-  value: string;
+  value: string | any[]; // <-- allow arrays
 }
 
 export interface InfoCardRowPair {
@@ -16,4 +16,9 @@ export interface InfoCardColumn2 {
 
 export interface InfoCardColumn3 {
   rows?: InfoCardField[]; // For normal fields with titles
+}
+export interface InfoCardDisplayRow {
+  label?: string;
+  value: string;
+  isBreak?: boolean;
 }

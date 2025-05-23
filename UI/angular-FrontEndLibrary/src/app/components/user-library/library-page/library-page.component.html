@@ -3,9 +3,6 @@
   <div class="table-body">
     <div class="library-search-container">
       <app-search (searchResults)="handleSearchResults($event)"></app-search>
-      <button class="add-new-book-button" (click)="addNewBook()">
-        <i class="bi bi-plus"></i> <i class="bi bi-book-fill"></i>
-      </button>
     </div>
 
     <div *ngIf="books.length === 0" class="loading">
@@ -14,11 +11,25 @@
     <app-book-list
       *ngIf="books.length > 0"
       [books]="books"
-      (onEdit)="populateForm($event)"
+      [currentUserId]="currentUserId"
+      [user]="user"
       (onUpdateStatus)="updateStatus($event)"
       (onSave)="saveBook($event)"
-      (onCancel)="cancelEdit()"
+      (bookRowClicked)="onBookRowClicked($event)"
     ></app-book-list>
+
+    <div *ngIf="showInfoCard" class="info-card-overlay">
+      <div class="info-card-popup">
+        <app-info-card
+          [id]="selectedBook?.bookId ?? ''"
+          [imageUrl]="selectedBook?.coverImagePath || 'assets/images/book-covers/BrownBook.svg'"
+          [col2]="infoCardCol2"
+          [col3]="infoCardCol3"
+          [actions]="infoCardActions"
+          (close)="closeInfoCard()">
+        </app-info-card>
+      </div>
+    </div>
     <footer></footer>
   </div>
 </div>

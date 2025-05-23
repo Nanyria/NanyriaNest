@@ -19,7 +19,7 @@ namespace FinalProjectLibrary.Models.Users
         [MaxLength(500)]
         public string? Bio { get; set; }
 
-        public List<FavoriteItem> ReadingList { get; set; } = new List<FavoriteItem>();
+        public List<FavoriteItem> ReadList { get; set; } = new List<FavoriteItem>();
         public List<ReviewItem> Reviews { get; set; } = new List<ReviewItem>();
         public List<CheckedOutItem> CheckedOutBooks { get; set; } = new List<CheckedOutItem>();
         public List<ReservationItem> ReservedBooks { get; set; } = new List<ReservationItem>();

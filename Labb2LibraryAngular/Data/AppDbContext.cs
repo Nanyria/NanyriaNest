@@ -52,7 +52,7 @@ namespace FinalProjectLibrary.Data
             // FavoriteItem: User (many favorites per user)
             modelBuilder.Entity<FavoriteItem>()
                 .HasOne(f => f.User)
-                .WithMany(u => u.ReadingList)
+                .WithMany(u => u.ReadList)
                 .HasForeignKey(f => f.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 

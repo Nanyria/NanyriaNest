@@ -26,3 +26,4 @@ export interface BookDto {
     bookType?: BookTypeEnums;
     coverImagePath?: string;
   }
+  

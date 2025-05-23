@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FinalProjectLibrary.Data;
-using FinalProjectLibrary.Models.Books;
+﻿using FinalProjectLibrary.Data;
 using FinalProjectLibrary.Helpers.Enums;
+using FinalProjectLibrary.Models.Books;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace FinalProjectLibrary.Repositories
 {
@@ -28,15 +29,20 @@ namespace FinalProjectLibrary.Repositories
         public async Task<IEnumerable<Book>> GetAllAsync()
         {
             return await _db.Books
-                .Include(b => b.StatusHistory) // to access current status
+                .Include(b => b.StatusHistory)
+                
+                .Include(b => b.Reviews)// to access current status
                 .ToListAsync();
         }
 
         public async Task<Book> GetByIdAsync(int id)
         {
             return await _db.Books
-                .Include(b => b.StatusHistory)
-                .FirstOrDefaultAsync(b => b.BookId == id);
+                   .Include(b => b.Reviews)
+                       .ThenInclude(r => r.User)
+                   .Include(b => b.Reviews)
+                       .ThenInclude(r => r.RatingItem)
+                   .FirstOrDefaultAsync(b => b.BookId == id);
         }
 
         public async Task<IEnumerable<Book>> GetByTitleAsync(string title)

@@ -21,6 +21,7 @@ namespace FinalProjectLibrary.Models.Books
         public string? BookDescription { get; set; }
         public string? CoverImagePath { get; set; }
         public required BookStatusEnum BookStatus { get; set; }
+        public DateTime AvailabilityDate { get; set; }
         public BookTypeEnums BookType { get; set; }
 
         // Lists

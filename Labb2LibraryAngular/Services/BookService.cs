@@ -28,7 +28,8 @@ namespace FinalProjectLibrary.Services
         Task<APIResponse<List<StatusHistoryItem>>> GetBookHistoryAsync(int bookId);
         Task<APIResponse<List<ReservationItem>>> GetBookReservationsAsync(int bookId);
         Task<APIResponse<List<Book>>> GetBooksByGenreAsync(GenreEnums genre, string sortBy = "Title", bool ascending = true);
-
+        Task<APIResponse<List<BookReviewDto>>> GetBookReviewsAsync (int bookId);
+        Task<APIResponse<DateTime>> SetAvailabilityDatesForReservations(Book book);
     }
     public class BookService : IBookService
     {
@@ -187,7 +188,8 @@ namespace FinalProjectLibrary.Services
                     PublicationYear = bookDto.PublicationYear,
                     BookType = bookDto.BookType,
                     CoverImagePath = bookDto.CoverImagePath,
-                    BookStatus = BookStatusEnum.Available
+                    BookStatus = BookStatusEnum.Available,
+                    AvailabilityDate = DateTime.UtcNow
                     
     };
 
@@ -341,6 +343,60 @@ namespace FinalProjectLibrary.Services
 
             return book;
         }
+        public async Task<APIResponse<DateTime>> SetAvailabilityDatesForReservations(Book book)
+        {
+            var response = new APIResponse<DateTime>
+            {
+                IsSuccess = false,
+                StatusCode = HttpStatusCode.BadRequest
+            };
+            try
+            {
+                DateTime baseDate;
+                if (book.CheckedOutBy != null)
+                {
+                    // Book is checked out, start from return date
+                    baseDate = book.CheckedOutBy.ReturnDate;
+                }
+                else
+                {
+                    // Book is available, start from today
+                    baseDate = DateTime.UtcNow;
+                }
+
+                if (book.Reservations == null || book.Reservations.Count == 0)
+                {
+                    response.Result = baseDate;
+                    response.IsSuccess = true;
+                    response.StatusCode = HttpStatusCode.OK;
+                }
+                else
+                {   // Sort reservations by ReservationDate (FIFO)
+                    var sortedReservations = book.Reservations
+                        .OrderBy(r => r.ReservationDate)
+                        .ToList();
+
+                    for (int i = 0; i < sortedReservations.Count; i++)
+                    {
+                        sortedReservations[i].AvailabilityDate = baseDate.AddMonths(i);
+                    }
+                    book.AvailabilityDate = sortedReservations.Count > 0
+                    ? sortedReservations.Last().AvailabilityDate ?? baseDate
+                    : baseDate;
+
+                    response.Result = book.AvailabilityDate;
+                    response.StatusCode = HttpStatusCode.OK;
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ErrorMessages.Add(ex.Message);
+                response.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            return response;
+        }
         public void AddStatusHistoryItem(User user, Book book, BookStatusEnum bookStatus, string? notes)
         {
             var statusHistoryItem = new StatusHistoryItem
@@ -453,6 +509,30 @@ namespace FinalProjectLibrary.Services
                 response.IsSuccess = false;
                 response.ErrorMessages.Add(ex.Message);
                 response.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            return response;
+        }
+
+        public async Task<APIResponse<List<BookReviewDto>>> GetBookReviewsAsync(int bookId)
+        {
+            var response = new APIResponse<List<BookReviewDto>>
+            {
+                IsSuccess = false,
+                StatusCode = HttpStatusCode.BadRequest
+            };
+
+            var book = await _bookRepo.GetByIdAsync(bookId);
+            if (book != null)
+            {
+                // Use AutoMapper to map ReviewItem to BookReviewDto
+                response.Result = _mapper.Map<List<BookReviewDto>>(book.Reviews.OrderByDescending(r => r.CreatedAt).ToList());
+                response.IsSuccess = true;
+                response.StatusCode = HttpStatusCode.OK;
+            }
+            else
+            {
+                response.ErrorMessages.Add("Book not found.");
+                response.StatusCode = HttpStatusCode.NotFound;
             }
             return response;
         }

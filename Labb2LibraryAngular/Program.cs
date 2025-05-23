@@ -56,6 +56,7 @@ namespace FinalProjectLibrary
             });
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserActionsService, UserActionsService>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IBookRepo, BookRepo>();
             builder.Services.AddAutoMapper(typeof(MappingConfig));

@@ -17,7 +17,7 @@ namespace FinalProjectLibrary.Models.Users.UserDTOs
         public string? ProfilePictureUrl { get; set; } // or ProfilePictureName
         [MaxLength(500)]
         public string? Bio { get; set; }
-        public List<FavoriteItemDto> ReadingList { get; set; } = new List<FavoriteItemDto>();
+        public List<FavoriteItemDto> ReadList { get; set; } = new List<FavoriteItemDto>();
         public List<ReviewItemDto> Reviews { get; set; } = new List<ReviewItemDto>();
         public List<CheckedOutItemDto> CheckedOutBooks { get; set; } = new List<CheckedOutItemDto>();
 		public List<ReservationItemDto> ReservedBooks { get; set; } = new List<ReservationItemDto>();

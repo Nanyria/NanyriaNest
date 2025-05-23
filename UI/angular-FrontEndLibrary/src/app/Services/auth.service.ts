@@ -14,16 +14,30 @@ export class AuthService {
   private authStatus = new BehaviorSubject<boolean>(this.hasToken());
   private currentUserSubject = new BehaviorSubject<ILoggedInUser | null>(null);
 
-  constructor(private http: HttpClient, private userService: UserService) {
-    const userId = this.getUserId();
-    if (userId) {
-      this.userService.getUserById(userId).subscribe(response => {
-        if (response.isSuccess) {
-          this.currentUserSubject.next(this.mapUserResponse(response.result));
-        }
-      });
-    }
+constructor(private http: HttpClient, private userService: UserService) {
+  const userId = this.getUserId();
+  const storedUser = localStorage.getItem('current_user');
+  if (userId && storedUser) {
+    this.currentUserSubject.next(JSON.parse(storedUser));
+    // Optionally, refresh from backend:
+    this.userService.getUserById(userId).subscribe(response => {
+      if (response.isSuccess) {
+        const user = this.mapUserResponse(response.result);
+        this.currentUserSubject.next(user);
+        localStorage.setItem('current_user', JSON.stringify(user));
+      }
+    });
+  } else if (userId) {
+    // Fallback: fetch from backend if not in localStorage
+    this.userService.getUserById(userId).subscribe(response => {
+      if (response.isSuccess) {
+        const user = this.mapUserResponse(response.result);
+        this.currentUserSubject.next(user);
+        localStorage.setItem('current_user', JSON.stringify(user));
+      }
+    });
   }
+}
 
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
@@ -53,14 +67,19 @@ export class AuthService {
       });
     }
   }
+
   setCurrentUser(user: ILoggedInUser) {
     this.currentUserSubject.next(user);
+    localStorage.setItem('current_user', JSON.stringify(user));
   }
+
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('current_user');
     this.authStatus.next(false);
     this.currentUserSubject.next(null);
   }
+  
   private mapUserResponse(result: any): ILoggedInUser {
     return {
       ...result,

@@ -1,5 +1,6 @@
 ﻿using FinalProjectLibrary.Models.Books;
 using FinalProjectLibrary.Models.Users;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -15,6 +16,7 @@ namespace FinalProjectLibrary.Models
         [JsonIgnore]
         public ReviewItem ReviewItem { get; set; }
 
+        [Range(0, 10, ErrorMessage = "Rating must be between 0 and 10.")]
         public int Rating { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

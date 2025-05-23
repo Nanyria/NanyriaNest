@@ -36,6 +36,7 @@ namespace FinalProjectLibrary.Models.Books.BookDTOs
         public int PublicationYear { get; set; }
         public string? BookDescription { get; set; }
         public BookTypeEnums BookType { get; set; }
+        public DateTime AvailabilityDate { get; set; }
         public string? CoverImagePath { get; set; }
     }
     //public class CreateBookDto
@@ -73,6 +74,7 @@ namespace FinalProjectLibrary.Models.Books.BookDTOs
 
         public int BookID { get; set; }
         public BookStatusEnum BookStatus { get; set; }
+        public DateTime AvailabilityDate { get; set; }
         public CheckedOutItemDto? CheckedOutBy { get; set; }
         public List<StatusHistoryItemDto> StatusHistory { get; set; } = new();
         public List<ReservationItemDto> Reservations { get; set; } = new();

@@ -24,21 +24,12 @@
   align-items: center;
 }
 
-.col2 {
-  flex: 2;
+.col2, .col3, .col4 {
+  flex: 1;
+  min-width: 0; /* Allow shrinking */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-
-.col3 {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-}
-
-.col4 {
-  flex: 1;
 }
 
 .info-card-row {
@@ -70,44 +61,46 @@
   align-items: center;
   gap: 0.5em;
 }
-.info-card-pair-group {
+.short-pair-group {
   display: flex;
   flex-direction: row;
-  gap: 1em; /* space between boxes */
-  margin-bottom: 8px; /* space between rows */
-  align-items: flex-start;
+  gap: 0.5em;
+  margin-bottom: 8px;
+  align-items: stretch; /* <-- ensures both boxes stretch to same height */
   width: 100%;
   box-sizing: border-box;
 }
-
-.info-card-pair-box {
+.pair-item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.info-box {
   background: #f8f6f2;
   border-radius: 6px;
   padding: 8px 16px;
-  width: 100%;     /* Set a min-width or width for alignment */
+  width: 100%;    
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.info-card-pair-group .info-card-pair-box {
+.short-pair-group .info-box {
   width: 50%;          /* Each box takes up half the column */
   box-sizing: border-box;
   margin-bottom: 0;
 }
-.info-card-pair-group .info-card-title,
-.info-card-pair-group .info-card-value {
+.short-pair-group .info-card-title,
+.short-pair-group .info-card-value {
   width: 100%;         /* Fill the pair-box */
   box-sizing: border-box;
   display: block;
 }
 
-.info-card-pair-group .info-card-pair-box {
+.short-pair-group .info-box {
   width: 50%;          /* Each box takes up half the column */
   box-sizing: border-box;
   margin-bottom: 0;
-}
-.col2 > .info-card-pair-box,
-.col3 > .info-card-pair-box {
-  width: 100%;
 }

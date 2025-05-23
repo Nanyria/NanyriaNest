@@ -4,6 +4,7 @@ using FinalProjectLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProjectLibrary.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250521154347_newServiceAddedReviewFavorite")]
+    partial class newServiceAddedReviewFavorite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +37,6 @@ namespace FinalProjectLibrary.Migrations
                         .IsRequired()
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
-
-                    b.Property<DateTime>("AvailabilityDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("BookDescription")
                         .HasColumnType("nvarchar(max)");
@@ -70,7 +70,6 @@ namespace FinalProjectLibrary.Migrations
                         {
                             BookId = 1001,
                             Author = "F. Scott Fitzgerald",
-                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 2,
@@ -82,7 +81,6 @@ namespace FinalProjectLibrary.Migrations
                         {
                             BookId = 1002,
                             Author = "Harper Lee",
-                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 2,
@@ -94,7 +92,6 @@ namespace FinalProjectLibrary.Migrations
                         {
                             BookId = 1003,
                             Author = "George Orwell",
-                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 1,
@@ -236,7 +233,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1001,
                             BookStatus = 0,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 22, 17, 16, 31, 647, DateTimeKind.Utc).AddTicks(5430)
+                            Timestamp = new DateTime(2025, 5, 20, 15, 43, 46, 819, DateTimeKind.Utc).AddTicks(6610)
                         },
                         new
                         {
@@ -244,7 +241,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1002,
                             BookStatus = 2,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 21, 17, 16, 31, 647, DateTimeKind.Utc).AddTicks(5435)
+                            Timestamp = new DateTime(2025, 5, 19, 15, 43, 46, 819, DateTimeKind.Utc).AddTicks(6615)
                         },
                         new
                         {
@@ -252,7 +249,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1003,
                             BookStatus = 1,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 20, 17, 16, 31, 647, DateTimeKind.Utc).AddTicks(5436)
+                            Timestamp = new DateTime(2025, 5, 18, 15, 43, 46, 819, DateTimeKind.Utc).AddTicks(6616)
                         });
                 });
 

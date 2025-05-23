@@ -1,20 +1,3 @@
-<div *ngIf="showInfoCard"
-     class="info-card-popup"
-     [ngStyle]="{
-       position: 'absolute',
-       top: popupPosition.top + 'px',
-       left: popupPosition.left + 'px',
-       width: (popupTableWidth * 0.7) + 'px'
-     }">
-  <app-info-card
-    [id]="selectedBook?.bookId ?? ''"
-    [imageUrl]="selectedBook?.coverImagePath || 'assets/images/book-covers/BrownBook.svg'"
-    [col2]="infoCardCol2"
-    [col3]="infoCardCol3"
-    (close)="closeInfoCard()">
-  </app-info-card>
-</div>
-
 <table class="table-custom">
   <thead class="thead">
     <tr>
@@ -39,14 +22,14 @@
           height="60"
         />
       </td>
-      <td class="td">{{ book.title }}</td>
-      <td class="td">{{ book.author }}</td>
-      <td class="td">{{ GenreDisplayNames[book.genre] || book.genre }}</td>
-      <td class="td">{{ BookTypeDisplayNames[book.bookType] }}</td>
-      <td class="td">{{ book.bookDescription }}</td>
-      <td class="td">{{ BookStatusDisplayNames[book.bookStatus] }}</td>
-      <td class="td-reviews"></td>
-      <td class="td">{{ book.reviews }}</td>
+    <td class="td">{{ book.title }}</td>
+    <td class="td">{{ book.author }}</td>
+    <td class="td">{{ genreOptions.displayNames[book.genre] || book.genre }}</td>
+    <td class="td">{{ bookTypeOptions.displayNames[book.bookType] }}</td>
+    <td class="td">{{ book.bookDescription }}</td>
+    <td class="td">{{ bookStatusOptions.displayNames[book.bookStatus] }}</td>
+    <td class="td-reviews"></td>
+    <td class="td">{{ book.reviews?.length }}</td>
     </tr>
   </tbody>
 </table>

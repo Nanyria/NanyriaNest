@@ -46,6 +46,8 @@ namespace FinalProjectLibrary.Repositories
                     .ThenInclude(r => r.Book)
                 .Include(u => u.CheckedOutBooks)
                      .ThenInclude(r => r.Book)
+                .Include(u => u.ReadList)
+                    .ThenInclude(f => f.Book)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 

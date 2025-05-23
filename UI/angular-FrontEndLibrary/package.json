@@ -26,6 +26,7 @@
     "@angular/ssr": "^18.2.7",
     "@builder.io/dev-tools": "^1.6.48",
     "@builder.io/sdk-angular": "^0.2.27",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.13.1",
     "concurrently": "^9.1.2",

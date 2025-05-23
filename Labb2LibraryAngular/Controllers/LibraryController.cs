@@ -56,5 +56,11 @@ public class LibraryController : ControllerBase
         var response = await _bookService.GetBooksByGenreAsync(genre, sortBy, ascending);
         return StatusCode((int)response.StatusCode, response);
     }
+    [HttpGet("review/{bookId:int}")]
+    public async Task<IActionResult> GetBookReview(int bookId)
+    {
+        var response = await _bookService.GetBookReviewsAsync(bookId);
+        return StatusCode((int)response.StatusCode, response);
+    }
 
 }

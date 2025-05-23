@@ -34,9 +34,13 @@ getAllBooks(): Observable<{ isSuccess: boolean; result: Book[] }> {
     .set('sortBy', sortBy)
     .set('ascending', ascending.toString());
 
-  return this.http.get<{ isSuccess: boolean; result: Book[] }>(
-    `${this.apiUrl}/booksbygenre/${genre}`,
-    { params }
-  );
-}
+    return this.http.get<{ isSuccess: boolean; result: Book[] }>(
+      `${this.apiUrl}/booksbygenre/${genre}`,
+      { params }
+    );
+  }
+  
+    getBookReviews(bookId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/review/${bookId}`);
+  }
 }
