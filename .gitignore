@@ -150,3 +150,6 @@ Thumbs.db
 
 # Example for GitHub chat files (if any)
 *.chat
+/Labb2LibraryAngular/obj/Debug/net8.0/FinalProjectLibrary.AssemblyInfo.cs
+/Labb2LibraryAngular/obj/Debug/net8.0/FinalProjectLibrary.AssemblyInfoInputs.cache
+/Labb2LibraryAngular/obj/Debug/net8.0/rpswa.dswa.cache.json
