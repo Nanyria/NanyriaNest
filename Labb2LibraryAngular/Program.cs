@@ -1,4 +1,3 @@
-
 using FinalProjectLibrary.Data;
 using FinalProjectLibrary.Helpers;
 using FinalProjectLibrary.Models.Users;
@@ -116,6 +115,8 @@ namespace FinalProjectLibrary
             app.UseAuthentication();
             app.UseAuthorization();
             
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.MapControllers();
 

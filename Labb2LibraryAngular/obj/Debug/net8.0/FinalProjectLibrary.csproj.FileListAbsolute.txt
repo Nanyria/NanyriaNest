@@ -459,7 +459,6 @@ C:\Users\Natha\source\repos\Examensarbete\NanyriaNest\Labb2LibraryAngular\obj\De
 C:\Users\Natha\source\repos\Examensarbete\NanyriaNest\Labb2LibraryAngular\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Natha\source\repos\Examensarbete\NanyriaNest\Labb2LibraryAngular\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Natha\source\repos\Examensarbete\NanyriaNest\Labb2LibraryAngular\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Natha\source\repos\Examensarbete\NanyriaNest\Labb2LibraryAngular\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Natha\source\repos\Examensarbete\NanyriaNest\Labb2LibraryAngular\obj\Debug\net8.0\FinalPro.FAB069F0.Up2Date
 C:\Users\Natha\source\repos\Examensarbete\NanyriaNest\Labb2LibraryAngular\obj\Debug\net8.0\FinalProjectLibrary.dll
 C:\Users\Natha\source\repos\Examensarbete\NanyriaNest\Labb2LibraryAngular\obj\Debug\net8.0\refint\FinalProjectLibrary.dll
