@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
 import { Book, SlimBookDto, StatusHistoryItem } from '../Models/interfaces';
 import { BookStatusEnum } from '../Helpers/Enums/enum';
 import { map } from 'rxjs/operators';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  private apiUrl = 'https://localhost:7291/api/Book';
+  private apiUrl = environment.baseUrl + 'api/Book';
 
   constructor(private http: HttpClient) {}
 

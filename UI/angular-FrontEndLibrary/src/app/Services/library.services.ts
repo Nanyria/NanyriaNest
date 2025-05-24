@@ -1,5 +1,5 @@
 //book.services.ts
-
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { Book} from '../Models/interfaces';
   providedIn: 'root',
 })
 export class LibraryService {
-  private apiUrl = 'https://localhost:7291/api/Library';
+  private apiUrl = environment.baseUrl + 'api/Library';
 
   constructor(private http: HttpClient) {}
 

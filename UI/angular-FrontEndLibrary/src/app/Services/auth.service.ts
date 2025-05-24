@@ -4,12 +4,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ILoggedInUser } from '../Models/interfaces';
 import { UserService } from './user.service';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7291/api/Auth';
+  private apiUrl = environment.baseUrl + 'api/Auth';
   private tokenKey = 'auth_token';
   private authStatus = new BehaviorSubject<boolean>(this.hasToken());
   private currentUserSubject = new BehaviorSubject<ILoggedInUser | null>(null);

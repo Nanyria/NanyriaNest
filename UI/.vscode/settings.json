@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c319d718-f2dd-4c68-b13a-01dd34147b16/resourceGroups/NyriaNest_Resource/providers/Microsoft.Web/sites/NyriaNest",
+    "appService.deploySubpath": "angular-FrontEndLibrary\\dist\\angular-front-end-library"
+}
