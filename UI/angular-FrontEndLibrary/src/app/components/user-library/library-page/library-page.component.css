@@ -1,0 +1,68 @@
+:host {
+  display: contents;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.library-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* or adjust as needed */
+}
+
+.table-body {
+  flex: 1;
+  overflow-x: auto;
+  padding: 0 24px;
+}
+.library-search-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  color: rgba(178, 178, 178, 1);
+  font-weight: 400;
+  flex-direction: row;
+  height: 80px; 
+}
+app-search {
+  display: flex; /* Set display to flex to allow flex properties to take effect */
+  flex-grow: 1; /* Allow app-search to take up more space */
+}
+
+.table-popup-container {
+  position: relative;
+  width: 100%;
+}
+
+.info-card-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.info-card-popup {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  padding: 24px;
+}
+
+@media (max-width: 991px) {
+  .body {
+    max-width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+  }
+}

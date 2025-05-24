@@ -24,16 +24,19 @@ namespace FinalProjectLibrary.Migrations
 
             modelBuilder.Entity("FinalProjectLibrary.Models.Books.Book", b =>
                 {
-                    b.Property<int>("BookID")
+                    b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookID"), 1001L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"), 1001L);
 
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
+
+                    b.Property<DateTime>("AvailabilityDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("BookDescription")
                         .HasColumnType("nvarchar(max)");
@@ -43,6 +46,9 @@ namespace FinalProjectLibrary.Migrations
 
                     b.Property<int>("BookType")
                         .HasColumnType("int");
+
+                    b.Property<string>("CoverImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Genre")
                         .HasColumnType("int");
@@ -55,15 +61,16 @@ namespace FinalProjectLibrary.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("BookID");
+                    b.HasKey("BookId");
 
                     b.ToTable("Books");
 
                     b.HasData(
                         new
                         {
-                            BookID = 1001,
+                            BookId = 1001,
                             Author = "F. Scott Fitzgerald",
+                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 2,
@@ -73,8 +80,9 @@ namespace FinalProjectLibrary.Migrations
                         },
                         new
                         {
-                            BookID = 1002,
+                            BookId = 1002,
                             Author = "Harper Lee",
+                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 2,
@@ -84,8 +92,9 @@ namespace FinalProjectLibrary.Migrations
                         },
                         new
                         {
-                            BookID = 1003,
+                            BookId = 1003,
                             Author = "George Orwell",
+                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 1,
@@ -93,6 +102,33 @@ namespace FinalProjectLibrary.Migrations
                             PublicationYear = 1949,
                             Title = "1984"
                         });
+                });
+
+            modelBuilder.Entity("FinalProjectLibrary.Models.FavoriteItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1001L);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteItems");
                 });
 
             modelBuilder.Entity("FinalProjectLibrary.Models.History.CheckedOutItem", b =>
@@ -131,16 +167,16 @@ namespace FinalProjectLibrary.Migrations
 
             modelBuilder.Entity("FinalProjectLibrary.Models.History.ReservationItem", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1001L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1001L);
 
                     b.Property<DateTime?>("AvailabilityDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("BookID")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("BookIsAvaliableEmailSent")
@@ -149,28 +185,28 @@ namespace FinalProjectLibrary.Migrations
                     b.Property<DateTime>("ReservationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserID")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BookID");
+                    b.HasIndex("BookId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ReservationItems");
                 });
 
             modelBuilder.Entity("FinalProjectLibrary.Models.History.StatusHistoryItem", b =>
                 {
-                    b.Property<int>("StatusHistoryItemID")
+                    b.Property<int>("StatusHistoryItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusHistoryItemID"), 1001L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusHistoryItemId"), 1001L);
 
-                    b.Property<int>("BookID")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<int>("BookStatus")
@@ -182,42 +218,129 @@ namespace FinalProjectLibrary.Migrations
                     b.Property<DateTime?>("Timestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserID")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("StatusHistoryItemID");
+                    b.HasKey("StatusHistoryItemId");
 
-                    b.HasIndex("BookID");
+                    b.HasIndex("BookId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("StatusHistoryItems");
 
                     b.HasData(
                         new
                         {
-                            StatusHistoryItemID = 1001,
-                            BookID = 1001,
+                            StatusHistoryItemId = 1001,
+                            BookId = 1001,
                             BookStatus = 0,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 14, 13, 8, 23, 798, DateTimeKind.Utc).AddTicks(6446)
+                            Timestamp = new DateTime(2025, 5, 23, 14, 24, 21, 725, DateTimeKind.Utc).AddTicks(3957)
                         },
                         new
                         {
-                            StatusHistoryItemID = 1002,
-                            BookID = 1002,
+                            StatusHistoryItemId = 1002,
+                            BookId = 1002,
                             BookStatus = 2,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 13, 13, 8, 23, 798, DateTimeKind.Utc).AddTicks(6451)
+                            Timestamp = new DateTime(2025, 5, 22, 14, 24, 21, 725, DateTimeKind.Utc).AddTicks(3962)
                         },
                         new
                         {
-                            StatusHistoryItemID = 1003,
-                            BookID = 1003,
+                            StatusHistoryItemId = 1003,
+                            BookId = 1003,
                             BookStatus = 1,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 12, 13, 8, 23, 798, DateTimeKind.Utc).AddTicks(6452)
+                            Timestamp = new DateTime(2025, 5, 21, 14, 24, 21, 725, DateTimeKind.Utc).AddTicks(3963)
                         });
+                });
+
+            modelBuilder.Entity("FinalProjectLibrary.Models.NotificationItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("NotificationItems");
+                });
+
+            modelBuilder.Entity("FinalProjectLibrary.Models.RatingItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1001L);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReviewItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReviewItemId")
+                        .IsUnique();
+
+                    b.ToTable("RatingItems");
+                });
+
+            modelBuilder.Entity("FinalProjectLibrary.Models.ReviewItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1001L);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReviewHeader")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReviewText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReviewItems");
                 });
 
             modelBuilder.Entity("FinalProjectLibrary.Models.Users.User", b =>
@@ -227,6 +350,10 @@ namespace FinalProjectLibrary.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Bio")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -271,6 +398,9 @@ namespace FinalProjectLibrary.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -428,6 +558,25 @@ namespace FinalProjectLibrary.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FinalProjectLibrary.Models.FavoriteItem", b =>
+                {
+                    b.HasOne("FinalProjectLibrary.Models.Books.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinalProjectLibrary.Models.Users.User", "User")
+                        .WithMany("ReadList")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("FinalProjectLibrary.Models.History.CheckedOutItem", b =>
                 {
                     b.HasOne("FinalProjectLibrary.Models.Books.Book", "Book")
@@ -451,13 +600,13 @@ namespace FinalProjectLibrary.Migrations
                 {
                     b.HasOne("FinalProjectLibrary.Models.Books.Book", "Book")
                         .WithMany("Reservations")
-                        .HasForeignKey("BookID")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FinalProjectLibrary.Models.Users.User", "User")
                         .WithMany("ReservedBooks")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -470,14 +619,55 @@ namespace FinalProjectLibrary.Migrations
                 {
                     b.HasOne("FinalProjectLibrary.Models.Books.Book", "Book")
                         .WithMany("StatusHistory")
-                        .HasForeignKey("BookID")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FinalProjectLibrary.Models.Users.User", "User")
                         .WithMany("UserHistory")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinalProjectLibrary.Models.NotificationItem", b =>
+                {
+                    b.HasOne("FinalProjectLibrary.Models.Users.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinalProjectLibrary.Models.RatingItem", b =>
+                {
+                    b.HasOne("FinalProjectLibrary.Models.ReviewItem", "ReviewItem")
+                        .WithOne("RatingItem")
+                        .HasForeignKey("FinalProjectLibrary.Models.RatingItem", "ReviewItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ReviewItem");
+                });
+
+            modelBuilder.Entity("FinalProjectLibrary.Models.ReviewItem", b =>
+                {
+                    b.HasOne("FinalProjectLibrary.Models.Books.Book", "Book")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinalProjectLibrary.Models.Users.User", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Book");
 
@@ -541,14 +731,27 @@ namespace FinalProjectLibrary.Migrations
 
                     b.Navigation("Reservations");
 
+                    b.Navigation("Reviews");
+
                     b.Navigation("StatusHistory");
+                });
+
+            modelBuilder.Entity("FinalProjectLibrary.Models.ReviewItem", b =>
+                {
+                    b.Navigation("RatingItem");
                 });
 
             modelBuilder.Entity("FinalProjectLibrary.Models.Users.User", b =>
                 {
                     b.Navigation("CheckedOutBooks");
 
+                    b.Navigation("Notifications");
+
+                    b.Navigation("ReadList");
+
                     b.Navigation("ReservedBooks");
+
+                    b.Navigation("Reviews");
 
                     b.Navigation("UserHistory");
                 });

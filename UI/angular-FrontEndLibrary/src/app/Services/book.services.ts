@@ -3,8 +3,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Book, BookDto, StatusHistoryItem } from '../Models/interfaces';
-import { BookStatusEnum } from './Enums/enum.service';
+import { Book, SlimBookDto, StatusHistoryItem } from '../Models/interfaces';
+import { BookStatusEnum } from '../Helpers/Enums/enum';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -19,11 +19,11 @@ export class BookService {
     return this.http.get<{ isSuccess: boolean; result: Book }>(`${this.apiUrl}/${bookID}`);
   }
 
-  addBook(book: BookDto): Observable<any> {
+  addBook(book: SlimBookDto): Observable<any> {
     return this.http.post<any>(this.apiUrl, book);
   }
 
-  updateBook(bookID: string, updatedBook: BookDto): Observable<any> {
+  updateBook(bookID: string, updatedBook: Book): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${bookID}`, updatedBook);
   }
 
@@ -50,5 +50,6 @@ export class BookService {
       `${this.apiUrl}/history/${bookID}`
     );
   }
+
 
 }

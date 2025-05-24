@@ -27,7 +27,7 @@ public class BookController : ControllerBase
         return StatusCode((int)response.StatusCode, response);
     }
     [HttpPost]
-    public async Task<IActionResult> AddBook([FromBody] BookDto book)
+    public async Task<IActionResult> AddBook([FromBody] SlimBookDto book)
     {
         var response = await _bookService.AddBookAsync(book);
         return StatusCode((int)response.StatusCode, response);
@@ -57,12 +57,8 @@ public class BookController : ControllerBase
             return StatusCode((int)bookResponse.StatusCode, bookResponse);
         }
 
-        var userResponse = await _userService.GetUserByIdAsync(userId); 
-        if (!userResponse.IsSuccess)
-        {
-            return StatusCode((int)userResponse.StatusCode, userResponse);
-        }
-        var response = await _bookService.UpdateBookStatusAsync(bookResponse.Result, userResponse.Result, bookStatus, notes);
+
+        var response = await _bookService.UpdateBookStatusAsync(bookResponse.Result, userId, bookStatus, notes);
         return StatusCode((int)response.StatusCode, response);
     }
 
@@ -72,6 +68,7 @@ public class BookController : ControllerBase
         var response = await _bookService.GetBookHistoryAsync(bookId);
         return StatusCode((int)response.StatusCode, response);
     }
+
 
 
 

@@ -3,9 +3,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Book, BookDto, StatusHistoryItem } from '../Models/interfaces';
-import { BookStatusEnum } from './Enums/enum.service';
-import { map } from 'rxjs/operators';
+import { Book} from '../Models/interfaces';
+
 
 @Injectable({
   providedIn: 'root',
@@ -34,9 +33,13 @@ getAllBooks(): Observable<{ isSuccess: boolean; result: Book[] }> {
     .set('sortBy', sortBy)
     .set('ascending', ascending.toString());
 
-  return this.http.get<{ isSuccess: boolean; result: Book[] }>(
-    `${this.apiUrl}/booksbygenre/${genre}`,
-    { params }
-  );
-}
+    return this.http.get<{ isSuccess: boolean; result: Book[] }>(
+      `${this.apiUrl}/booksbygenre/${genre}`,
+      { params }
+    );
+  }
+  
+    getBookReviews(bookId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/review/${bookId}`);
+  }
 }

@@ -1,0 +1,69 @@
+/* :host ::ng-deep .table-custom {
+  border-radius: 8px !important;
+  background-color: rgba(31, 41, 55, 1) !important;
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
+  margin-top: 24px !important;
+  width: 100% !important;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+@media (max-width: 991px) {
+  :host ::ng-deep .table {
+    max-width: 100%;
+  }
+}
+
+
+:host ::ng-deep .thead {
+  color: rgba(156, 163, 175, 1) !important;
+  text-transform: uppercase !important;
+  background-color: rgba(55, 65, 81, 1) !important;
+  font: 600 12px/1 Roboto, sans-serif !important;
+}
+
+:host ::ng-deep .th, :host ::ng-deep .th-2, :host ::ng-deep .th-3, :host ::ng-deep .th-4, :host ::ng-deep .th-5, :host ::ng-deep .th-6 {
+  text-align: left !important;
+  padding: 20px 24px !important;
+}
+
+@media (max-width: 991px) {
+  :host ::ng-deep .th-2, :host ::ng-deep .th-3, :host ::ng-deep .th-5, :host ::ng-deep .th-6 {
+    white-space: initial !important;
+    padding: 0 20px !important;
+  }
+  :host ::ng-deep .th-4 {
+    padding: 0 20px !important;
+  }
+} */
+tr.book-row {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+tr.book-row:hover {
+  background: #f0e6d2; /* or any highlight color you prefer */
+}
+.table-popup-container {
+  position: relative;
+  width: 100%;
+}
+
+.info-card-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.info-card-popup {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  max-height: 90%;
+  overflow: auto;
+  padding: 24px;
+}
+

@@ -26,7 +26,7 @@ body {
   background-color: rgba(17, 24, 39, 1);
   font-family: Roboto, sans-serif;
   margin: 0; /* Ensure no default margin */
-  padding: 32px;
+  padding: 16px;
   box-sizing: border-box; /* Ensure padding is included in the width */
   width: 100%;
   height: calc(100vh - 64px); /* Subtract padding from height */
@@ -195,4 +195,77 @@ body {
 .table-custom .td-short {
   text-align: left;
   padding: 1px 5px; /* Ensure padding is applied */
+}
+.action-borrow img,
+.action-return img {
+  width: 2.2em;
+  height: 2.2em;
+  vertical-align: middle;
+  margin-right: 0.3em;
+  display: inline-block;
+}
+/* General action button style */
+.action-borrow,
+.action-return,
+.action-reserve,
+.action-unreserve,
+.action-add-readlist,
+.action-remove-readlist {
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin: 2px 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 56px;      /* Set your desired width */
+  height: 56px;     /* Set your desired height */
+  cursor: pointer;
+  transition: background 0.2s;
+  background: none;
+}
+
+/* Specific styles for each action */
+/* .action-borrow { color: #00796b; } this is a svg*/ 
+.action-reserve { color: #74bd7f; }
+.action-unreserve { color: #721c24; }
+.action-add-readlist { color: #b91c1c; }
+.action-remove-readlist { color: #626670; }
+/* .action-return {
+  color: #388e3c;
+} this is a svg*/
+
+/* Optional: style icons for consistent size */
+.action-borrow i,
+.action-reserve i,
+.action-unreserve i,
+.action-add-readlist i,
+.action-remove-readlist i {
+  font-size: 2em;
+}
+.action-label {
+  display: none;
+  margin-left: 0.4em;
+  white-space: nowrap;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  font-size: 0.95em;
+  pointer-events: none;
+}
+
+/* Show the label on hover */
+button:hover .action-label,
+button:focus .action-label {
+  display: inline-block;
+}
+button {
+  position: relative; /* Needed for absolute label positioning */
 }

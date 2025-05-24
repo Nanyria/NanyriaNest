@@ -32,7 +32,8 @@ namespace FinalProjectLibrary.Controllers
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+	                new Claim(JwtRegisteredClaimNames.Jti, user.Id), // Use user.Id here
+	                new Claim("userId", user.Id), // Custom claim for clarity
                 };
 
                 // Add role claims

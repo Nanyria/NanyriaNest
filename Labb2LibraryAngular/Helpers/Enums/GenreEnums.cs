@@ -13,7 +13,7 @@
         NonFiction,
         Fiction,
         Biography,
-        History,
+        FeelGood,
         Poetry,
         SelfHelp,
     }

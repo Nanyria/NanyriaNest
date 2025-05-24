@@ -56,6 +56,8 @@ namespace FinalProjectLibrary
             });
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserActionsService, UserActionsService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IBookRepo, BookRepo>();
             builder.Services.AddAutoMapper(typeof(MappingConfig));
@@ -94,6 +96,9 @@ namespace FinalProjectLibrary
             var app = builder.Build();
             using (var scope = app.Services.CreateScope())
             {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate(); // Ensures DB is created and up-to-date
+
                 var services = scope.ServiceProvider;
                 Helper.IdentityDataInitializer.SeedRolesAndAdminAsync(services).GetAwaiter().GetResult();
             }

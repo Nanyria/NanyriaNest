@@ -1,5 +1,10 @@
-<nav>
-    <a routerLink="/landing-page">Landing Page</a>
-    <a routerLink="/library">Library</a>
-    <a routerLink="/add-book">Add Book</a>
-  </nav>
+<div class="main-header-row">
+  <div class="nav-container">
+    <nav>
+      <a class="nav-first-link" routerLink="/home" [class.active]="currentUrl.includes('/home')"><i class="bi bi-house-fill"></i></a>
+      <a routerLink="/library" [class.active]="currentUrl.includes('/library')"><i class="bi bi-book-fill"></i></a>
+      <!-- <app-admin-nav *ngIf="isAdmin" [currentUrl]="currentUrl"></app-admin-nav> -->
+    </nav>
+    <app-user-nav [currentUrl]="currentUrl"></app-user-nav>
+  </div>
+</div>

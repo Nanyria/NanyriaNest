@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Natha\\source\\repos\\Examensarbete\\Labb2LibraryAngular\\Labb2LibraryAngular\\FinalProjectLibrary.csproj": {}
+    "C:\\Users\\Natha\\source\\repos\\Examensarbete\\NanyriaNest\\Labb2LibraryAngular\\FinalProjectLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Natha\\source\\repos\\Examensarbete\\Labb2LibraryAngular\\Labb2LibraryAngular\\FinalProjectLibrary.csproj": {
+    "C:\\Users\\Natha\\source\\repos\\Examensarbete\\NanyriaNest\\Labb2LibraryAngular\\FinalProjectLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Natha\\source\\repos\\Examensarbete\\Labb2LibraryAngular\\Labb2LibraryAngular\\FinalProjectLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\Natha\\source\\repos\\Examensarbete\\NanyriaNest\\Labb2LibraryAngular\\FinalProjectLibrary.csproj",
         "projectName": "FinalProjectLibrary",
-        "projectPath": "C:\\Users\\Natha\\source\\repos\\Examensarbete\\Labb2LibraryAngular\\Labb2LibraryAngular\\FinalProjectLibrary.csproj",
+        "projectPath": "C:\\Users\\Natha\\source\\repos\\Examensarbete\\NanyriaNest\\Labb2LibraryAngular\\FinalProjectLibrary.csproj",
         "packagesPath": "C:\\Users\\Natha\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Natha\\source\\repos\\Examensarbete\\Labb2LibraryAngular\\Labb2LibraryAngular\\obj\\",
+        "outputPath": "C:\\Users\\Natha\\source\\repos\\Examensarbete\\NanyriaNest\\Labb2LibraryAngular\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

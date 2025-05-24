@@ -1,0 +1,11 @@
+<div class="user-layout">
+  <div class="nav-row">
+  <app-user-page-nav
+  [currentUrl]="currentUrl"
+  [hasNewNotification]="hasNewNotification">
+</app-user-page-nav>
+  </div>
+  <div class="user-body">
+    <router-outlet></router-outlet>
+  </div>
+</div>

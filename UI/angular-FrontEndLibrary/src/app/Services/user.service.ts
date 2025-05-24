@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../Models/interfaces';
+import { ILoggedInUser } from '../Models/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +12,13 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   // Get all users
-  getAllUsers(): Observable<{ isSuccess: boolean; result: User[] }> {
-    return this.http.get<{ isSuccess: boolean; result: User[] }>(this.apiUrl);
+  getAllUsers(): Observable<{ isSuccess: boolean; result: ILoggedInUser[] }> {
+    return this.http.get<{ isSuccess: boolean; result: ILoggedInUser[] }>(this.apiUrl);
   }
 
   // Get user by ID
-  getUserById(userId: string): Observable<{ isSuccess: boolean; result: User }> {
-    return this.http.get<{ isSuccess: boolean; result: User }>(`${this.apiUrl}/${userId}`);
+  getUserById(userId: string): Observable<{ isSuccess: boolean; result: ILoggedInUser }> {
+    return this.http.get<{ isSuccess: boolean; result: ILoggedInUser }>(`${this.apiUrl}/${userId}`);
   }
 
   // Add a new user

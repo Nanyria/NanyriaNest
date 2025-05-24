@@ -1,0 +1,107 @@
+.admin-nav-toggle-row {
+  position: fixed;
+  right: 0;
+  width: 220px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2102;
+}
+.admin-nav-toggle-closed {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  z-index: 1;
+  vertical-align: middle;
+}
+.admin-nav-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: 2099;
+}
+.admin-nav-toggle,
+.admin-nav-overlay {
+  position: fixed;
+  top: 16px;
+  right: 0;
+  width: 220px;
+  background: var(--background-dark);
+  z-index: 2101;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.admin-nav-overlay {
+  height: 100vh;
+}
+.admin-nav-toggle {
+  height: 52px;
+  top: 16px;
+}
+.icon-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 16px 0;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+
+
+.icon-btn:hover .nav-label {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.icon-btn i {
+  color: #fff;
+  transition: color 0.2s, font-size 0.2s;
+}
+.icon-btn i:hover {
+  color: #2d3140;
+}
+.icon-btn.active i {
+  color: #dd1212;
+  font-size: 1.8em;
+}
+.icon-btn .nav-label {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  color: #fff;
+  background: #1e3284;
+  padding: 6px 14px;
+  border-radius: 6px;
+  position: absolute;
+  right: 75%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  text-align: left;
+  min-width: 120px;
+}
+.icon-btn:hover .nav-label {
+  opacity: 1;
+  pointer-events: auto;
+}

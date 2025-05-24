@@ -1,0 +1,26 @@
+<h1>Reservationer</h1>
+<div *ngIf="checkedOutBooks?.length; else noReservations">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Boktitel</th>
+        <th>Författare</th>
+        <th>Lånad datum</th>
+        <th>Tillgänglig från</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let checkedOutBook of checkedOutBooks">
+        <td>{{ checkedOutBook.book?.title }}</td>
+        <td>{{ checkedOutBook.book?.author }}</td>
+        <td>{{ checkedOutBook.checkOutDate | date:'yyyy-MM-dd' }}</td>
+        <td>
+          {{ checkedOutBook.returnDate ? (checkedOutBook.returnDate | date:'yyyy-MM-dd') : 'Ej återlämnad än' }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noReservations>
+  <div>Inga reservationer.</div>
+</ng-template>

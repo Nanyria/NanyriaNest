@@ -1,0 +1,35 @@
+<table class="table-custom">
+  <thead class="thead">
+    <tr>
+      <th class="th-2">Omslag</th>
+      <th class="th-2">Titel</th>
+      <th class="th-2">Författare</th>
+      <th class="th-2">Genre</th>
+      <th class="th-2">Boktyp</th>
+      <th class="th-2">Beskrivning</th>
+      <th class="th-2">Status</th>
+      <th class="th-2">Recenssioner</th>
+      <th class="th-3">Rating</th>
+    </tr>
+  </thead>
+  <tbody class="tbody">
+  <tr *ngFor="let book of books" class="book-row" (click)="onBookRowClick(book, $event)">
+      <td class="td">
+        <img 
+          [src]="book.coverImagePath ? book.coverImagePath : 'assets/images/book-covers/BrownBook.svg'" 
+          alt="Omslag" 
+          width="40" 
+          height="60"
+        />
+      </td>
+    <td class="td">{{ book.title }}</td>
+    <td class="td">{{ book.author }}</td>
+    <td class="td">{{ genreOptions.displayNames[book.genre] || book.genre }}</td>
+    <td class="td">{{ bookTypeOptions.displayNames[book.bookType] }}</td>
+    <td class="td">{{ book.bookDescription }}</td>
+    <td class="td">{{ bookStatusOptions.displayNames[book.bookStatus] }}</td>
+    <td class="td-reviews"></td>
+    <td class="td">{{ book.reviews?.length }}</td>
+    </tr>
+  </tbody>
+</table>

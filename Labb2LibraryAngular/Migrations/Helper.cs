@@ -31,7 +31,7 @@ namespace FinalProjectLibrary.Helpers
                         LastName = "Wilund",
                         EmailConfirmed = true
                     };
-                    var createResult = await userManager.CreateAsync(superAdminUser, "SuperSecurePassword123!");
+                    var createResult = await userManager.CreateAsync(superAdminUser, "SuperSecurePassword123!!");
                     if (!createResult.Succeeded)
                     {
                         // Log or throw the errors for debugging

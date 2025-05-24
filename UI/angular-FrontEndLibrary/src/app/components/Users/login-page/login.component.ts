@@ -17,16 +17,17 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  onLogin(): void {
-    this.authService.login(this.username, this.password).subscribe({
-      next: () => {
-        // Login successful, redirect or update UI
-        this.router.navigate(['/']); // Redirect to home or dashboard
-      },
-      error: () => {
-        // Handle login error
-        this.errorMessage = 'Invalid username or password';
-      }
-    });
-  }
+onLogin(): void {
+  this.authService.login(this.username, this.password).subscribe({
+    next: () => {
+      // Wait for the token to be set before navigating
+      setTimeout(() => {
+        this.router.navigate(['/home']);
+      }, 0);
+    },
+    error: () => {
+      this.errorMessage = 'Invalid username or password';
+    }
+  });
+}
 }

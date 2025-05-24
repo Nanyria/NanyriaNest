@@ -1,0 +1,77 @@
+<h1>Settings Works!</h1>
+<div *ngIf="user" class="settings-flex-row">
+  <!-- Left column: two custom boxes stacked vertically -->
+  <div class="settings-left-col">
+    <div class="profile-picture-box">
+      <img
+        *ngIf="user.profilePictureUrl; else noPic"
+        [src]="user.profilePictureUrl"
+        alt="Profilbild"
+        class="profile-picture-img"
+      />
+      <ng-template #noPic>
+        <!-- Inline SVG fallback -->
+        <img src="assets/images/profile-pictures/BlueKidDragon.svg" alt="Standardprofilbild" class="profile-picture-img" />
+        <!-- Or, paste the SVG markup directly here for full control -->
+      </ng-template>
+    </div>
+    <div class="bio-box">
+      <div class="bio-label"><strong>Bio:</strong></div>
+      <div class="bio-content">{{ user.bio || 'Ingen bio tillagd.' }}</div>
+    </div>
+  </div>
+  <!-- Right column: rest of the form (unchanged) -->
+  <div class="settings-right-col">
+    <div class="settings-actions">
+      <button class="btn btn-primary" (click)="editMode = !editMode">
+        {{ editMode ? 'Avbryt' : 'Ändra inställningar' }}
+      </button>
+    </div>
+    <div class="form-group">
+      <label>Användarnamn</label>
+      <input class="form-control readonly-field" [value]="user.userName" readonly tabindex="-1">
+    </div>
+    <div class="form-group">
+      <label>Förnamn</label>
+      <input class="form-control"
+             [readonly]="!editMode"
+             [(ngModel)]="user.firstName"
+             name="firstName">
+    </div>
+    <div class="form-group">
+      <label>Efternamn</label>
+      <input class="form-control"
+             [readonly]="!editMode"
+             [(ngModel)]="user.lastName"
+             name="lastName">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input class="form-control readonly-field" [value]="user.email" readonly tabindex="-1">
+    </div>
+    <div class="form-group" *ngIf="!changePasswordMode">
+      <label>Lösenord</label>
+      <input class="form-control" type="password" value="********" disabled>
+      <button *ngIf="editMode" class="btn btn-link" (click)="changePasswordMode = true">Byt lösenord</button>
+    </div>
+    <div *ngIf="changePasswordMode">
+      <div class="form-group">
+        <label>Nuvarande lösenord</label>
+        <input class="form-control" type="password" [(ngModel)]="oldPassword">
+      </div>
+      <div class="form-group">
+        <label>Nytt lösenord</label>
+        <input class="form-control" type="password" [(ngModel)]="newPassword">
+      </div>
+      <div class="form-group">
+        <label>Bekräfta nytt lösenord</label>
+        <input class="form-control" type="password" [(ngModel)]="confirmPassword">
+      </div>
+      <button class="btn btn-success" (click)="submitPasswordChange()">Spara nytt lösenord</button>
+      <button class="btn btn-link" (click)="changePasswordMode = false">Avbryt</button>
+    </div>
+    <div *ngIf="editMode" class="settings-actions">
+      <button class="btn btn-success" (click)="submitNameChange()">Spara namnändringar</button>
+    </div>
+  </div>
+</div>
