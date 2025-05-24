@@ -13,7 +13,7 @@ import { ACTION_ICON_MAP } from '../../../Helpers/action-icons/action-icon-map';
 export class InfoCardComponent {
   @Input() id: string = '';
   @Input() imageUrl: string = '';
-  @Input() actions: { label: string, action: () => void }[] = [];
+  @Input() actions: { label: string, action: () => void, disabled?: boolean }[] = [];
   @Input() col2: InfoCardColumn2 = {};
   @Input() col3: InfoCardColumn3 = {};
   @Input() col2longText: string = '';

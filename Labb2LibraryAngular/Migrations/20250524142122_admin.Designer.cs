@@ -4,6 +4,7 @@ using FinalProjectLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProjectLibrary.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250524142122_admin")]
+    partial class admin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,7 +239,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1001,
                             BookStatus = 0,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 23, 14, 24, 21, 725, DateTimeKind.Utc).AddTicks(3957)
+                            Timestamp = new DateTime(2025, 5, 23, 14, 21, 22, 244, DateTimeKind.Utc).AddTicks(6897)
                         },
                         new
                         {
@@ -244,7 +247,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1002,
                             BookStatus = 2,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 22, 14, 24, 21, 725, DateTimeKind.Utc).AddTicks(3962)
+                            Timestamp = new DateTime(2025, 5, 22, 14, 21, 22, 244, DateTimeKind.Utc).AddTicks(6902)
                         },
                         new
                         {
@@ -252,7 +255,7 @@ namespace FinalProjectLibrary.Migrations
                             BookId = 1003,
                             BookStatus = 1,
                             Notes = "Initial status",
-                            Timestamp = new DateTime(2025, 5, 21, 14, 24, 21, 725, DateTimeKind.Utc).AddTicks(3963)
+                            Timestamp = new DateTime(2025, 5, 21, 14, 21, 22, 244, DateTimeKind.Utc).AddTicks(6903)
                         });
                 });
 

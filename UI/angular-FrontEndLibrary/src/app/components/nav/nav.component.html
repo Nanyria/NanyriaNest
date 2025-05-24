@@ -1,9 +1,10 @@
 <div class="main-header-row">
-  <app-user-nav [currentUrl]="currentUrl"></app-user-nav>
-  <nav>
-    <a class= "nav-first-link" routerLink="/home" [class.active]="currentUrl.includes('/home')"><i class="bi bi-house-fill"></i></a>
-    <a routerLink="/library" [class.active]="currentUrl.includes('/library')"><i class="bi bi-book-fill"></i></a>
-
-    <app-admin-nav *ngIf="isAdmin" [currentUrl]="currentUrl"></app-admin-nav>
-  </nav>
+  <div class="nav-container">
+    <nav>
+      <a class="nav-first-link" routerLink="/home" [class.active]="currentUrl.includes('/home')"><i class="bi bi-house-fill"></i></a>
+      <a routerLink="/library" [class.active]="currentUrl.includes('/library')"><i class="bi bi-book-fill"></i></a>
+      <!-- <app-admin-nav *ngIf="isAdmin" [currentUrl]="currentUrl"></app-admin-nav> -->
+    </nav>
+    <app-user-nav [currentUrl]="currentUrl"></app-user-nav>
+  </div>
 </div>

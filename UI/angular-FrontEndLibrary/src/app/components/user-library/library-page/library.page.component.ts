@@ -30,7 +30,7 @@ export class LibraryComponent {
   showInfoCard = false;
   selectedBook: Book | null = null;
   selectedBookReviews: any[] = [];
-  infoCardActions: { label: string; action: () => void }[] = [];
+  infoCardActions: { label: string; action: () => void; disabled?: boolean }[] = [];
   isSuperAdmin: boolean = false;
   bookTypeOptions = BookTypeOptions;
   bookStatusOptions = BookStatusOptions;
@@ -147,7 +147,8 @@ export class LibraryComponent {
     this.infoCardActions = [
       {
         label: isCheckedOutByUser ? 'Återlämna' : 'Låna',
-        action: () => this.toggleBorrow(book)
+        action: () => this.toggleBorrow(book),
+        disabled: this.isBorrowDisabled(book)
       },
       {
         label: isReservedByUser ? 'Ta bort reservation' : 'Reservera',
@@ -162,7 +163,7 @@ export class LibraryComponent {
   isBorrowDisabled(book: Book): boolean {
     const isCheckedOutBySomeoneElse =
       book.bookStatus === BookStatusEnum.CheckedOut &&
-      !this.user?.checkedOutBooks?.some(item => +item.bookId === +book.bookId);
+      book.checkedOutBy?.userId !== this.currentUserId;
 
     // If the book is not checked out, but there are prior reservations (not by this user)
     const hasPriorReservations =
@@ -264,7 +265,7 @@ toggleReservation(book: Book) {
         },
         {
           first: { title: 'Publicerad', value: this.selectedBook.publicationYear?.toString() || '' },
-          second: { title: 'Status', value: statusObj.status }
+          second: { title: statusObj.status, value: statusObj.availability }
         }
       ],
       longText: { title: 'Bokbeskrivning', value: this.selectedBook.bookDescription ?? '' }

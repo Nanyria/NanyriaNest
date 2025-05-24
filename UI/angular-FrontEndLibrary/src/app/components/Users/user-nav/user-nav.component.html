@@ -1,7 +1,5 @@
 <div class="user-nav-toggle-row" *ngIf="!userNavOpen">
-  <button class="logout-btn" aria-label="Logga ut" (click)="logout()">
-    <i class="bi bi-box-arrow-right"></i>
-  </button>
+
   <button (click)="toggleNav()" class="user-nav-toggle-closed" aria-label="Öppna användarmeny">
     <ng-container *ngIf="hasNewNotification; else defaultPerson">
       <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill-exclamation person-exclamation-svg" viewBox="0 0 16 16">
@@ -23,7 +21,9 @@
     <i class="bi bi-person-fill"></i>
     <span class="nav-label">Stäng meny</span>
   </button>
-
+  <button class="logout-btn" aria-label="Logga ut" (click)="logout()">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
 <a [routerLink]="'/user/messages'" [class.active]="isActive('/messages')" class="icon-btn">
   <ng-container *ngIf="hasNewNotification; else defaultIcon">
     <svg

@@ -29,8 +29,7 @@ namespace FinalProjectLibrary.Repositories
         public async Task<IEnumerable<Book>> GetAllAsync()
         {
             return await _db.Books
-                .Include(b => b.StatusHistory)
-                
+                .Include(b => b.CheckedOutBy)
                 .Include(b => b.Reviews)// to access current status
                 .ToListAsync();
         }
@@ -42,6 +41,7 @@ namespace FinalProjectLibrary.Repositories
                        .ThenInclude(r => r.User)
                    .Include(b => b.Reviews)
                        .ThenInclude(r => r.RatingItem)
+                   .Include(b => b.CheckedOutBy)
                    .FirstOrDefaultAsync(b => b.BookId == id);
         }
 

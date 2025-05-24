@@ -43,8 +43,8 @@ namespace FinalProjectLibrary.Services
         private readonly IBookService _bookService;
         private readonly AppDbContext _dbContext;
         private readonly UserManager<User> _userManager;
-
-        public UserService(IUserRepo userRepo, IBookRepo bookRepo, IMapper mapper, IBookService bookService, AppDbContext dbContext, UserManager<User> userManager)
+        private readonly IEmailService _emailService;
+        public UserService(IUserRepo userRepo, IBookRepo bookRepo, IMapper mapper, IBookService bookService, AppDbContext dbContext, UserManager<User> userManager, IEmailService emailService)
         {
             _userRepo = userRepo;
             _bookRepo = bookRepo;
@@ -52,6 +52,7 @@ namespace FinalProjectLibrary.Services
             _bookService = bookService;
             _dbContext = dbContext;
             _userManager = userManager;
+            _emailService = emailService;
         }
 
         public async Task<APIResponse<CreateUserDto>> AddUserAsync(CreateUserDto createUserDTO)

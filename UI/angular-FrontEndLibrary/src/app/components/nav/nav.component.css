@@ -1,13 +1,19 @@
 .main-header-row {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 }
-
+.nav-container{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  
+}
 nav {
     display: flex;
-    justify-content: center;
     gap: 16px;
     background-color: var (--background-dark);
+  margin-left: auto;
   }
   nav i {
   font-size: 1.5em;
@@ -25,7 +31,10 @@ nav {
   nav a:hover {
     background-color: var(--background-light);
   }
-
-nav a:first-child {
-  margin-left: 150px; /* Adjust as needed */
+app-user-nav {
+  display: flex;
+  align-items: center;
 }
+/* nav a:first-child {
+  margin-right: 150px; /* Adjust as needed 
+} */
