@@ -1,0 +1,12 @@
+.web-icon-svg {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  /* Use currentColor for fill in SVG for easy color override */
+}
+
+.icon-green .web-icon-svg { color: #74bd7f; }
+.icon-orange .web-icon-svg { color: #f39100; }
+.icon-black .web-icon-svg { color: #000; }
+.icon-red .web-icon-svg { color: #dd1212; }
+

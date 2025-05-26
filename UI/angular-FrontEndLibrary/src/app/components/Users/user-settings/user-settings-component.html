@@ -2,19 +2,27 @@
 <div *ngIf="user" class="settings-flex-row">
   <!-- Left column: two custom boxes stacked vertically -->
   <div class="settings-left-col">
-    <div class="profile-picture-box">
-      <img
-        *ngIf="user.profilePictureUrl; else noPic"
-        [src]="user.profilePictureUrl"
-        alt="Profilbild"
-        class="profile-picture-img"
-      />
-      <ng-template #noPic>
-        <!-- Inline SVG fallback -->
-        <img src="assets/images/profile-pictures/BlueKidDragon.svg" alt="Standardprofilbild" class="profile-picture-img" />
-        <!-- Or, paste the SVG markup directly here for full control -->
-      </ng-template>
+  <div class="profile-picture-box">
+    <img
+      [src]="user.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
+      alt="Profilbild"
+      class="profile-picture-img"
+    />
+    <!-- Profile picture selection, only in edit mode -->
+    <div *ngIf="editMode" class="profile-picture-selection">
+      <label>Välj profilbild:</label>
+      <div class="profile-picture-options">
+        <img
+          *ngFor="let pic of profilePictures"
+          [src]="pic"
+          [class.selected]="user.profilePictureUrl === pic"
+          (click)="selectProfilePicture(pic)"
+          class="profile-picture-option"
+          alt="Profilbild val"
+        />
+      </div>
     </div>
+  </div>
     <div class="bio-box">
       <div class="bio-label"><strong>Bio:</strong></div>
       <div class="bio-content">{{ user.bio || 'Ingen bio tillagd.' }}</div>

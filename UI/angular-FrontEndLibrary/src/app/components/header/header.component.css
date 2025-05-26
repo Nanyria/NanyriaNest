@@ -1,27 +1,30 @@
-
 .header-container {
-  display: flex; /* Add display: flex */
-  flex-direction: column; /* Add flex-direction: column if needed */
-  align-items: center; /* Center items horizontally */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;         /* Make header fixed */
+  top: 0;                  /* Stick to top */
+  left: 0;
+  width: 100%;             /* Full width */
+  z-index: 1000;           /* High z-index to stay above other content */
+  background: var(--background);        /* Optional: set background to avoid transparency */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Optional: subtle shadow */
 }
-
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Space between logo and text */
+}
 .img {
   aspect-ratio: 1;
   object-fit: contain;
   object-position: center;
-  width: 60px;
+  width: 150px;
+  height: 110px;
   align-self: center;
 }
 
-.nathalees-library {
-  color: rgba(255, 255, 255, 1);
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-  align-self: center;
-  margin-top: 15px;
-}
 
 .super-cool-books {
   color: rgba(156, 163, 175, 1);
@@ -29,5 +32,9 @@
   font-weight: 400;
   text-align: center;
   align-self: center;
-  margin-top: 9px;
+  margin-top: 0px;
+}
+.nav-right {
+  display: flex;
+  align-items: flex-end;
 }

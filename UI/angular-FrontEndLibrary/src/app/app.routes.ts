@@ -15,7 +15,9 @@ import { ManageBooksComponent } from './components/admin/manage-books/manage-boo
 import { ManageUsersComponent } from './components/admin/manage-users/manage-users.component';
 import { InfoCardComponent } from './components/card-components/info-card/info-card.component';
 import { AuthGuard } from './Services/auth.guard';
+import { StartPageComponent } from './components/start-page/start-page.component';
 export const routes: Routes = [
+  { path: '', component: StartPageComponent }, // Show start page for unauthenticated users
   { path: 'login', component: LoginComponent },
   {
     path: '',
@@ -25,7 +27,6 @@ export const routes: Routes = [
       { path: 'builder-page', component: BuilderPage },
       { path: 'info-card', component: InfoCardComponent },
       { path: 'library', component: LibraryComponent },
-
       { path: 'add-book', component: AddBookComponent },
       {
         path: 'user-page',
@@ -38,15 +39,14 @@ export const routes: Routes = [
           { path: '', redirectTo: 'settings', pathMatch: 'full' }
         ]
       },
-      { path: 'admin', component: AdminPageComponent,
+      {
+        path: 'admin',
+        component: AdminPageComponent,
         children: [
-
           { path: 'manage-books', component: ManageBooksComponent },
           { path: 'manage-users', component: ManageUsersComponent },
-       ]
-       },
-      { path: '', redirectTo: '/login', pathMatch: 'full' },
-      { path: '**', redirectTo: '/login' }
+        ]
+      },
     ]
   }
 ];

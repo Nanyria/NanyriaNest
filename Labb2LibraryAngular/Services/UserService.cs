@@ -139,9 +139,56 @@ namespace FinalProjectLibrary.Services
             };
 
             // Find the user using UserManager (by Id)
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _userManager.Users
+                .Include(u => u.Reviews)
+                .Include(u => u.CheckedOutBooks)
+                .Include(u => u.ReservedBooks)
+                .Include(u => u.UserHistory)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
             if (user != null)
             {
+                // Remove all ReservationItems for this user
+                var reservations = await _dbContext.ReservationItems.Where(r => r.UserId == userId).ToListAsync();
+                _dbContext.ReservationItems.RemoveRange(reservations);
+
+                // Remove all CheckedOutItems for this user
+                var checkedOuts = await _dbContext.CheckOutItems.Where(c => c.UserId == userId).ToListAsync();
+                _dbContext.CheckOutItems.RemoveRange(checkedOuts);
+
+                // Remove all ReviewItems for this user
+                var reviews = await _dbContext.ReviewItems.Where(r => r.UserId == userId).ToListAsync();
+                _dbContext.ReviewItems.RemoveRange(reviews);
+
+                // Remove all StatusHistoryItems for this user
+                var statusHistory = await _dbContext.StatusHistoryItems.Where(s => s.UserId == userId).ToListAsync();
+                _dbContext.StatusHistoryItems.RemoveRange(statusHistory);
+
+                // Remove from Book lists (if needed, EF should handle this if relationships are set up with cascade delete)
+                // But to be explicit, update each affected book:
+                var books = await _dbContext.Books
+                    .Include(b => b.Reservations)
+                    .Include(b => b.CheckedOutBy)
+                    .Include(b => b.Reviews)
+                    .Include(b => b.StatusHistory)
+                    .ToListAsync();
+
+                foreach (var book in books)
+                {
+                    // Remove user-related items
+                    book.Reservations.RemoveAll(r => r.UserId == userId);
+                    if (book.CheckedOutBy != null && book.CheckedOutBy.UserId == userId)
+                        book.CheckedOutBy = null;
+                    book.Reviews.RemoveAll(r => r.UserId == userId);
+                    book.StatusHistory.RemoveAll(s => s.UserId == userId);
+
+                    // Always update status after user-related items are removed
+                    await _bookService.UpdateBookStatusAsync(book, null, book.BookStatus, "Updated after user deletion");
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                // Now delete the user
                 var result = await _userManager.DeleteAsync(user);
                 if (!result.Succeeded)
                 {
@@ -151,7 +198,7 @@ namespace FinalProjectLibrary.Services
                 }
 
                 response.IsSuccess = true;
-                response.StatusCode = HttpStatusCode.NoContent;
+                response.StatusCode = HttpStatusCode.OK;
                 response.Result = user;
             }
             else

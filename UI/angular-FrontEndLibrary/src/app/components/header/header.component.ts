@@ -3,12 +3,13 @@
  */
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NavComponent } from '../nav/nav.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, NavComponent]
 })
 export class HeaderComponent {}

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ILoggedInUser } from '../Models/interfaces';
-import { environment } from '../../environments/environment';
+import { ILoggedInUser, CreateUserDto } from '../Models/interfaces';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-private apiUrl = environment.baseUrl + 'api/User'; // Base URL for the User API
+private apiUrl = 'api/User'; // Base URL for the User API
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ private apiUrl = environment.baseUrl + 'api/User'; // Base URL for the User API
   }
 
   // Add a new user
-  addUser(user: any): Observable<any> {
+  addUser(user: CreateUserDto): Observable<any> {
     return this.http.post<any>(this.apiUrl, user);
   }
 

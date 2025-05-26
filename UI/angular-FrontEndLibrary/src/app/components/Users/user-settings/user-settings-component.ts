@@ -86,4 +86,15 @@ export class UserSettingsComponent  {
       }
     });
   }
+  profilePictures: string[] = [
+  'assets/images/profile-pictures/BlueKidDragon.svg',
+  'assets/images/profile-pictures/PinkKidDragon.svg',
+  'assets/images/profile-pictures/RedDragon.svg'
+];
+
+selectProfilePicture(pic: string) {
+  if (this.user) {
+    this.user.profilePictureUrl = pic;
+  }
+}
 }

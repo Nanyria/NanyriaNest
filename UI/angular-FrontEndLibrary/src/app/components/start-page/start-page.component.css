@@ -1,0 +1,43 @@
+
+.img {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 400px;
+  height: 400x;
+  align-self: center;
+}
+.start-page-container {
+  top: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  justify-content: space-evenly;
+  gap: 16px;
+  padding: 16px;
+  height: 100vh;
+    color: rgba(156, 163, 175, 1);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+}
+.start-page-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.start-page.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.start-page-left-text {
+  color: rgba(156, 163, 175, 1);
+  font-size: 16px;
+  font-weight: 400;
+
+}

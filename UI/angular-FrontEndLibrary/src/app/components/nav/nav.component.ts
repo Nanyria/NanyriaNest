@@ -6,12 +6,13 @@ import { UserNavComponent } from '../Users/user-nav/user-nav.component';
 import { AdminNavComponent } from '../admin/admin-nav/admin-nav.component';
 import { AuthService } from '../../Services/auth.service';
 import { ILoggedInUser } from '../../Models/interfaces';
+import { WebIconsComponent } from '../../../assets/images/webpage-images/web-icons.component';
 @Component({
   selector: 'app-nav',
   standalone: true,
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
-  imports: [CommonModule, RouterModule, UserNavComponent, AdminNavComponent ],
+  imports: [CommonModule, RouterModule, UserNavComponent, AdminNavComponent, WebIconsComponent],
 })
 export class NavComponent {
   currentUrl = '';
@@ -28,7 +29,9 @@ export class NavComponent {
       this.currentUser = user;
     });
   }
-
+get hasNewNotification(): boolean {
+  return !!this.currentUser?.notifications?.some(n => !n.isRead);
+}
   get isAdmin(): boolean {
     return !!this.currentUser?.adminRole || !!this.currentUser?.isSuperAdmin;
   }

@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = environment.baseUrl + 'api/Auth';
+  private apiUrl = 'api/Auth';
   private tokenKey = 'auth_token';
   private authStatus = new BehaviorSubject<boolean>(this.hasToken());
   private currentUserSubject = new BehaviorSubject<ILoggedInUser | null>(null);

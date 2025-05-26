@@ -1,10 +1,23 @@
 <div class="main-header-row">
   <div class="nav-container">
     <nav>
-      <a class="nav-first-link" routerLink="/home" [class.active]="currentUrl.includes('/home')"><i class="fa-solid fa-house"></i></a>
-      <a routerLink="/library" [class.active]="currentUrl.includes('/library')"><i class="fa-solid fa-book-open"></i></a>
+      <a class="nav-first-link" routerLink="/home" [class.active]="currentUrl.includes('/home')">
+        <app-web-icon
+          icon="home-cutout">
+        </app-web-icon>
+      </a>
+      <a routerLink="/library" [class.active]="currentUrl.includes('/library')">
+        <app-web-icon
+          icon="library"
+          [iconColor1]="'#ffffff'">
+        </app-web-icon>
+      </a>
       <!-- <app-admin-nav *ngIf="isAdmin" [currentUrl]="currentUrl"></app-admin-nav> -->
     </nav>
-    <app-user-nav [currentUrl]="currentUrl"></app-user-nav>
+    <app-user-nav
+      [currentUrl]="currentUrl"
+
+      [user]="currentUser">
+    </app-user-nav>
   </div>
 </div>

@@ -1,0 +1,33 @@
+<div class="start-page-container">
+  <div class="start-page-left">
+      <img src="assets/images/webpage-images/NyriaNestCircle.svg" alt="Logo" class="img">
+    <div class="start-page-left-text">
+      <h1>Välkommen till Nyria Nest</h1>
+      <p>Din portal till fantastiska äventyr och litterära upptäckter.</p>
+      <p>Utforska, recensera och dela dina favoritböcker med andra.</p>
+      <h2>Vad är Nyria Nest?</h2>
+      <p>Nyria Nest är en plattform för bokälskare där du kan:</p>
+      <ul>
+        <li>Upptäcka nya böcker</li>
+        <li>Dela dina recensioner</li>
+        <li>Följ andra läsare och deras äventyr</li>
+      </ul>
+      <p>Registrera dig idag och börja ditt litterära äventyr!</p>
+    </div>
+  </div>
+  <div class="start-page-right">
+    <div class="start-page-right-text">
+      <ng-container *ngIf="!showRegister; else registerForm">
+        <h1>Logga in</h1>
+        <p>Välkommen tillbaka! Logga in för att fortsätta ditt äventyr.</p>
+        <app-login></app-login>
+        <p>Inte medlem än? Klicka här för att registrera dig!</p>
+        <button (click)="showRegister = true">Registrera</button>
+      </ng-container>
+      <ng-template #registerForm>
+        <app-register-user></app-register-user>
+        <button (click)="showRegister = false">Tillbaka till login</button>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -25,7 +25,8 @@
                 "glob": "**/*",
                 "input": "node_modules/bootstrap-icons/font/fonts",
                 "output": "/fonts/"
-              }
+              },
+              "src/web.config"
             ],
             "styles": [
               "src/styles.css",

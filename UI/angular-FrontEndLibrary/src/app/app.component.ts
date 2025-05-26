@@ -3,8 +3,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LibraryService } from './Services/library.services';
-import { Book } from './Models/interfaces';
 import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
 import { FormsModule } from '@angular/forms'; // <-- Import this
@@ -17,7 +15,6 @@ import { AuthService } from './Services/auth.service';
   imports: [
     CommonModule,
     RouterModule, // Import RouterModule without forRoot
-    NavComponent,
     HeaderComponent,
     FormsModule, // <-- Add this
   ]

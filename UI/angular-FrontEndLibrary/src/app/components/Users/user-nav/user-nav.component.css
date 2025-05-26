@@ -84,7 +84,7 @@
   background: none;
   border: none;
   padding: 16px 0;
-  font-size: 1.5em;
+  font-size: 2.1em;
   cursor: pointer;
   transition: background 0.2s;
   width: 100%;
@@ -95,12 +95,6 @@
   display: inline-block;
   vertical-align: middle;
 }
-.person-exclamation-svg {
-  width: 1.1em;
-  height: 1.1em;
-  vertical-align: middle;
-  transform: translateY(-2px); 
-}
 .icon-btn i {
   color: #fff;
   transition: color 0.2s, font-size 0.2s;
@@ -110,9 +104,39 @@
 }
 .icon-btn.active i {
   color: #dd1212;
-  font-size: 1.8em;
 }
-
+.user-nav-mini-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.profile-pic-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.profile-img-mini {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: none;
+}
+.notification-exclamation {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  color: #dd1212;
+  background: #fff;
+  border-radius: 50%;
+  font-size: 1rem;
+  padding: 0.05em;
+  border: 1px solid #fff;
+}
+.username-mini {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+}
 /* --- Tooltip/Label --- */
 .icon-btn .nav-label {
   opacity: 0;
@@ -120,7 +144,7 @@
   transition: opacity 0.2s;
   white-space: nowrap;
   color: #fff;
-  background: #1e3284;
+  background: #000000;
   padding: 6px 14px;
   border-radius: 6px;
   position: absolute;
@@ -136,4 +160,25 @@
 .icon-btn:hover .nav-label {
   opacity: 1;
   pointer-events: auto;
+}
+app-web-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-block; /* Add this for good measure */
+}
+app-web-icon {
+  --icon-color-1: #ffffff;
+}
+app-web-icon:hover {
+  --icon-color-1: #2d3140; /* Example hover color */
+}
+app-web-icon.special {
+  --icon-color-1: #ffffff;
+  --icon-color-2: #810000;
+  --icon-color-3: #ffffff;
+}
+app-web-icon.special:hover {
+  --icon-color-1: #2d3140;
+  --icon-color-2: #810000;
+  --icon-color-3: #ffffff;
 }

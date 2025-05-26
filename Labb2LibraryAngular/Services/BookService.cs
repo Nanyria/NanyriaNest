@@ -282,49 +282,57 @@ namespace FinalProjectLibrary.Services
             return response;
         }
 
-        public async Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string userId, BookStatusEnum bookStatus, string? notes)
+        public async Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string? userId, BookStatusEnum bookStatus, string? notes)
         {
             var response = new APIResponse<Book>
             {
                 IsSuccess = false,
                 StatusCode = HttpStatusCode.BadRequest
             };
-            var user = await _userRepo.GetByIdAsync<User>(userId);
-            try
-            {
-                if (book == null || user == null)
-                {
-                    string errorMessage = book == null ? "Book not found." : "User not found.";
-                    response.ErrorMessages.Add(errorMessage);
-                    response.StatusCode = HttpStatusCode.NotFound;
-                    return response;
-                }
 
-                var newBookStatus = GetBookStatus(book, bookStatus); 
+            User? user = null;
+            if (!string.IsNullOrEmpty(userId))
+                user = await _userRepo.GetByIdAsync<User>(userId);
+
+            if (book == null)
+            {
+                response.ErrorMessages.Add("Book not found.");
+                response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+
+            var newBookStatus = GetBookStatus(book, bookStatus);
+
+            // Only add status history if user is present
+            if (user != null)
                 AddStatusHistoryItem(user, book, bookStatus, notes);
 
-                book.BookStatus = newBookStatus.BookStatus;
-                book.CheckedOutBy = newBookStatus.CheckedOutBy ?? book.CheckedOutBy;
-                book.Reservations = newBookStatus.Reservations ?? book.Reservations;
+            book.BookStatus = newBookStatus.BookStatus;
+            book.CheckedOutBy = newBookStatus.CheckedOutBy ?? book.CheckedOutBy;
+            book.Reservations = newBookStatus.Reservations ?? book.Reservations;
+
+            if (user != null)
                 await _userRepo.UpdateAsync(user);
-                await _bookRepo.UpdateAsync(book);
-                await _bookRepo.SaveAsync();
 
-                response.Result = newBookStatus;
-                response.IsSuccess = true;
-                response.StatusCode = HttpStatusCode.OK;
-            }
-            catch (Exception ex)
-            {
-                response.ErrorMessages.Add(ex.Message);
-                response.StatusCode = HttpStatusCode.InternalServerError;
-            }
+            await _bookRepo.UpdateAsync(book);
+            await _bookRepo.SaveAsync();
 
+            response.Result = newBookStatus;
+            response.IsSuccess = true;
+            response.StatusCode = HttpStatusCode.OK;
             return response;
         }
         public Book GetBookStatus(Book book, BookStatusEnum bookStatus)
         {
-            if (bookStatus == BookStatusEnum.Returned)
+            // If the book was checked out and the user is now removed
+            if (book.CheckedOutBy == null && (bookStatus == BookStatusEnum.CheckedOut || bookStatus == BookStatusEnum.Returned))
+            {
+                // If there are reservations, set to Reserved, else Available
+                book.BookStatus = (book.Reservations != null && book.Reservations.Any())
+                    ? BookStatusEnum.Reserved
+                    : BookStatusEnum.Available;
+            }
+            else if (bookStatus == BookStatusEnum.Returned)
             {
                 // Set to Reserved if there are reservations, otherwise Available
                 book.BookStatus = (book.Reservations != null && book.Reservations.Any())

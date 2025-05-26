@@ -1,3 +1,4 @@
+import e from 'express';
 import {
   GenreEnums,
   BookStatusEnum,
@@ -52,7 +53,13 @@ export interface SlimBookDto {
 //     adminRole?: boolean;
 //     isSuperAdmin: boolean;
 // }
-
+export interface CreateUserDto {
+  userName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 export interface ILoggedInUser {
   id?: string;
   userId: string;

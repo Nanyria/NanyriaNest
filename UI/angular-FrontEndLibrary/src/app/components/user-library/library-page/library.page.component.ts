@@ -115,28 +115,31 @@ export class LibraryComponent {
     });
   }
 
-  onBookRowClicked(book: Book) {
-    this.selectedBook = book;
-    this.showInfoCard = true;
-    this.selectedBookReviews = [];
-    this.libraryService.getBookReviews(book.bookId).subscribe({
-      next: (response) => {
-        this.selectedBookReviews = (response.result || []).map((review: any): InfoCardDisplayRow[] => [
-          { label: '', value: review.userName },
-          { label: '', value: review.createdAt },
-          { label: '', value: `Betyg: ${review.ratingItem?.rating}` },
-          { isBreak: true, value: '' },
-          { label: '', value: review.reviewHeader },
-          { label: '', value: review.reviewText }
-        ]);
-      },
-      error: () => {
-        this.selectedBookReviews = [];
-      }
-    });
-
-    this.updateInfoCardActions(book); // <--- Use this instead of duplicating logic
-  }
+onBookRowClicked(book: Book) {
+  this.bookService.getBookById(book.bookId).subscribe(response => {
+    if (response.isSuccess && response.result) {
+      this.selectedBook = response.result;
+      this.showInfoCard = true;
+      this.selectedBookReviews = [];
+      this.libraryService.getBookReviews(book.bookId).subscribe({
+        next: (reviewResponse) => {
+          this.selectedBookReviews = (reviewResponse.result || []).map((review: any): InfoCardDisplayRow[] => [
+            { label: '', value: review.userName },
+            { label: '', value: review.createdAt },
+            { label: '', value: `Betyg: ${review.ratingItem?.rating}` },
+            { isBreak: true, value: '' },
+            { label: '', value: review.reviewHeader },
+            { label: '', value: review.reviewText }
+          ]);
+        },
+        error: () => {
+          this.selectedBookReviews = [];
+        }
+      });
+      this.updateInfoCardActions(response.result);
+    }
+  });
+}
 
 
   updateInfoCardActions(book: Book) {

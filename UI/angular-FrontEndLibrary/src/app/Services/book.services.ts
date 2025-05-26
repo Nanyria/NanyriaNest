@@ -5,13 +5,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Book, SlimBookDto, StatusHistoryItem } from '../Models/interfaces';
 import { BookStatusEnum } from '../Helpers/Enums/enum';
-import { map } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  private apiUrl = environment.baseUrl + 'api/Book';
+  private apiUrl = '/api/Book'; // Use relative URL
 
   constructor(private http: HttpClient) {}
 
@@ -50,6 +49,4 @@ export class BookService {
       `${this.apiUrl}/history/${bookID}`
     );
   }
-
-
 }
