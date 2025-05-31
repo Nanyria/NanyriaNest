@@ -59,6 +59,7 @@ namespace FinalProjectLibrary
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IBookRepo, BookRepo>();
+            //builder.Services.AddScoped<AzureResourceService>();
             builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 

@@ -4,12 +4,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from '../nav/nav.component';
+import { BookshelfComponent } from '../bookshelf/bookshelf.component';
+import { HeaderSignComponent } from '../header-sign/header-sign.component';
+import { UserSignComponent } from '../user-sign/user-sign.component';
+import { UserNavComponent } from '../Users/user-nav/user-nav.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   standalone: true,
-  imports: [CommonModule, NavComponent]
+  imports: [CommonModule, NavComponent, BookshelfComponent, HeaderSignComponent, UserSignComponent, UserNavComponent]
 })
 export class HeaderComponent {}

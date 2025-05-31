@@ -24,7 +24,7 @@ export class UserNavComponent {
   logout() {
     // Adjust this to use your AuthService if needed
     localStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
   isActive(path: string): boolean {
     return this.currentUrl.includes(path);

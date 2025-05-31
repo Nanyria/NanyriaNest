@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Texturina:ital,opsz,wght@0,12..72,100..900;1,12..72,100..900&display=swap');
 
 
 :root {
@@ -5,19 +7,32 @@
   --dark-green: rgba(29, 99, 66, 1); /* Define the dark green color */
   --background-dark: rgba(31, 41, 55, 1);
   --background-light: rgba(55, 65, 81, 1);
+  --background-beige: rgba(254, 235, 207 ,1);
+  --input-background: rgba(92, 80, 63, 1);
+  --input-text: rgba(255, 255, 255, 1);
   --text-light: rgba(255, 255, 255, 1);
   --text-dark: rgba(178, 178, 178, 1);
   --text-muted: rgba(156, 163, 175, 1);
   --error-red: rgba(239, 68, 68, 1);
   --disabled-gray: rgba(107, 114, 128, 1);
+  --navy-book-color: rgba(16, 38, 69, 1);
+  --red-dragon-color: rgba(143, 1, 24, 1);
+  --dark-brown: rgba(32, 17, 10, 1);  
   --golden-gradient: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
                      radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+  --height: 120px;
+  --width: 100%;
+  --depth: 25px;
+  --frame-thickness: 10px;
+  --sign-height: 100%;
+
+
 }
 
 
 header{
   background-color: rgba(17, 24, 39, 1);
-  font-family: Roboto, sans-serif;
+  font-family: 'Eagle Lake', cursive;
   margin: 0; /* Ensure no default margin */
   padding: 0; /* Ensure no default padding */
   box-sizing: border-box; /* Ensure padding is included in the width */
@@ -26,14 +41,15 @@ body {
   display: flex;
   flex-direction: column; /* Ensure children are stacked vertically */
   background-color: rgba(17, 24, 39, 1);
-  font-family: Roboto, sans-serif;
   margin: 0; /* Ensure no default margin */
   padding: 16px;
   box-sizing: border-box; /* Ensure padding is included in the width */
   width: 100%;
   height: calc(100vh - 64px); /* Subtract padding from height */
 }
-
+body, html {
+  font-family: 'Texturina', serif; /* Set the default font for the body */
+}
 *, *::before, *::after {
   box-sizing: inherit; /* Inherit box-sizing from body */
 }
@@ -80,7 +96,7 @@ body {
 .form-group label {
   color: rgba(156, 163, 175, 1);
   text-transform: uppercase;
-  font: 600 12px/1 Roboto, sans-serif;
+  font: 600 12px/1 'Texturina', serif;
 }
 
 .form-group input,
@@ -92,7 +108,7 @@ body {
   border: 1px solid rgba(55, 65, 81, 1);
   background-color: rgba(55, 65, 81, 1);
   color: rgba(255, 255, 255, 1);
-  font: 400 16px Roboto, sans-serif;
+  font-family: 'Texturina', serif;
 }
 
 .form-group .text-danger {
@@ -105,7 +121,7 @@ body {
   border: none;
   padding: 1px 10px;
   border-radius: 4px;
-  font: 600 16px Roboto, sans-serif;
+  font-family: 'Texturina', serif;
 
   cursor: pointer;
 }
@@ -159,7 +175,7 @@ body {
   color: rgba(156, 163, 175, 1);
   text-transform: uppercase;
   background-color: rgba(55, 65, 81, 1);
-  font: 600 12px/1 Roboto, sans-serif;
+  font: 600 12px/1 'Eagle Lake', cursive;;
 }
 
 .table-custom .th-1, .table-custom .th-2, .table-custom .th-3 {
@@ -179,7 +195,7 @@ body {
 }
 .table-custom .tbody {
   color: rgba(255, 255, 255, 1);
-  font: 400 16px Roboto, sans-serif;
+  font: 400 16px 'Texturina', serif;
 }
 
 .table-custom .tr {

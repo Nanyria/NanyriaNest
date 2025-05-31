@@ -1,7 +1,8 @@
 <div class="main-header-row">
   <div class="nav-container">
     <nav>
-      <a class="nav-first-link" routerLink="/home" [class.active]="currentUrl.includes('/home')">
+      <app-stacked-books></app-stacked-books>
+      <!-- <a class="nav-first-link" routerLink="/home" [class.active]="currentUrl.includes('/home')">
         <app-web-icon
           icon="home-cutout">
         </app-web-icon>
@@ -11,13 +12,10 @@
           icon="library"
           [iconColor1]="'#ffffff'">
         </app-web-icon>
-      </a>
+      </a> -->
       <!-- <app-admin-nav *ngIf="isAdmin" [currentUrl]="currentUrl"></app-admin-nav> -->
     </nav>
-    <app-user-nav
-      [currentUrl]="currentUrl"
 
-      [user]="currentUser">
-    </app-user-nav>
   </div>
+
 </div>

@@ -26,7 +26,7 @@ nav {
     border-radius: 4px;
   }
   nav a.active i {
-  color: #dd1212; /* or any color you want for the active icon */
+  color: #1a1107; /* any color you want for the active icon */
 }
   nav a:hover {
     background-color: var(--background-light);

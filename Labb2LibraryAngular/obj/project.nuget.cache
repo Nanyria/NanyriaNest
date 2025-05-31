@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "G7T2NWa9QW0=",
+  "dgSpecHash": "ve3wm6SuYJ4=",
   "success": true,
   "projectFilePath": "C:\\Users\\Natha\\source\\repos\\Examensarbete\\NanyriaNest\\Labb2LibraryAngular\\FinalProjectLibrary.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Natha\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
+    "C:\\Users\\Natha\\.nuget\\packages\\azure.communication.email\\1.0.1\\azure.communication.email.1.0.1.nupkg.sha512",
     "C:\\Users\\Natha\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Natha\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\Natha\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

@@ -21,10 +21,7 @@ private apiUrl = 'api/User'; // Base URL for the User API
     return this.http.get<{ isSuccess: boolean; result: ILoggedInUser }>(`${this.apiUrl}/${userId}`);
   }
 
-  // Add a new user
-  addUser(user: CreateUserDto): Observable<any> {
-    return this.http.post<any>(this.apiUrl, user);
-  }
+
 
   // Create an admin user
   createAdminUser(adminUser: any): Observable<any> {

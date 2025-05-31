@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { UserService } from "../../../Services/user.service";
+import { UserActionsService } from "../../../Services/user-actions.service";
 import { CreateUserDto } from "../../../Models/interfaces";
 @Component({
   selector: "app-register-user",
@@ -18,13 +18,15 @@ export class RegisterUserComponent {
     email: '',
     password: ''
   };
+  registrationSuccess = false;
   confirmPassword: string = '';
-  constructor(private userService: UserService) {}
+  constructor(private userActionsService: UserActionsService) {}
 
   registerUser() {
-    this.userService.addUser(this.user).subscribe({
+    this.userActionsService.addUser(this.user).subscribe({
       next: (response) => {
         console.log("User registered successfully:", response);
+        this.registrationSuccess = true;
       },
       error: (error) => {
         console.error("Error registering user:", error);

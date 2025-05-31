@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CreateReviewItemDto, CreateRatingItemDto, ReviewItemDto, RatingItemDto } from '../Models/interfaces';
-
+import { CreateUserDto } from '../Models/interfaces';
 @Injectable({
   providedIn: 'root',
 })
@@ -10,7 +10,10 @@ export class UserActionsService {
 private apiUrl = 'api//UserActions'; // Base URL for the User API
 
   constructor(private http: HttpClient) {}
-
+  // Add a new user
+  addUser(user: CreateUserDto): Observable<any> {
+    return this.http.post<any>(this.apiUrl, user);
+  }
   // Borrow a book
   borrowBook(userId: string, bookId: string): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/borrow/${userId}/${bookId}`, {});

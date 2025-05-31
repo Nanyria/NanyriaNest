@@ -132,6 +132,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "FinalProjectLibrary.Controllers.EmailController",
+    "Method": "SendTestEmail",
+    "RelativePath": "api/Email/send",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LibraryController",
     "Method": "GetAllBooks",
     "RelativePath": "api/Library",
@@ -243,22 +253,6 @@
   },
   {
     "ContainingType": "FinalProjectLibrary.Controllers.UserController",
-    "Method": "AddUser",
-    "RelativePath": "api/User",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "createUserDto",
-        "Type": "FinalProjectLibrary.Models.Users.UserDTOs.CreateUserDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "FinalProjectLibrary.Controllers.UserController",
     "Method": "DeleteUser",
     "RelativePath": "api/User/{userId}",
     "HttpMethod": "DELETE",
@@ -337,6 +331,22 @@
       {
         "Name": "updateUserDto",
         "Type": "FinalProjectLibrary.Models.Users.UserDTOs.UpdateUserAsAdminDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProjectLibrary.Controllers.UserActionsController",
+    "Method": "AddUser",
+    "RelativePath": "api/UserActions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createUserDto",
+        "Type": "FinalProjectLibrary.Models.Users.UserDTOs.CreateUserDto",
         "IsRequired": true
       }
     ],

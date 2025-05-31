@@ -5,7 +5,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2102;
+  font-family: 'Eagle Lake', cursive;
+
 }
 
 /* --- Toggle Button (Closed State) --- */
@@ -18,7 +19,7 @@
   align-items: center;
   justify-content: center;
   color: #fff;
-  z-index: 1;
+
 }
 .user-nav-toggle-closed .icon-svg,
 .user-nav-toggle-closed i {
@@ -55,9 +56,13 @@
 /* --- Sidebar Overlay --- */
 .user-nav-overlay,
 .user-nav-toggle {
+  position: fixed;
+  top: 64px;      /* Match your header height */
+  right: 50px;
+  height: calc(100vh - 120px); 
   width: 150px;
   background: var(--background-dark);
-  z-index: 2101;
+  z-index: 2100;
   box-shadow: 2px 0 12px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
@@ -70,7 +75,8 @@
 }
 .user-nav-toggle {
   height: 52px;
-  top: 16px;
+  right: 0;
+  top: 0;
 
 }
 
@@ -135,7 +141,8 @@
 .username-mini {
   font-size: 1rem;
   font-weight: 500;
-  color: #fff;
+  color: #000;
+  font-family: 'Eagle Lake', cursive;
 }
 /* --- Tooltip/Label --- */
 .icon-btn .nav-label {

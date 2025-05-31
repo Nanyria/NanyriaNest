@@ -21,6 +21,14 @@ namespace FinalProjectLibrary.Controllers
             _userService = userService;
             _userActionsService = userActionsService;
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> AddUser([FromBody] CreateUserDto createUserDto)
+        {
+            var response = await _userActionsService.AddUserAsync(createUserDto);
+            return StatusCode((int)response.StatusCode, response);
+        }
+
         [HttpPut("update/{userId}")]
         public async Task<IActionResult> UpdateUser([FromRoute] string userId, [FromBody] UpdateUserDto updateUserDto)
         {

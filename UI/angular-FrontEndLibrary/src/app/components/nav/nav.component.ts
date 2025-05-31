@@ -7,12 +7,14 @@ import { AdminNavComponent } from '../admin/admin-nav/admin-nav.component';
 import { AuthService } from '../../Services/auth.service';
 import { ILoggedInUser } from '../../Models/interfaces';
 import { WebIconsComponent } from '../../../assets/images/webpage-images/web-icons.component';
+import { StackedBooksComponent } from '../stacked-books/stacked-books.component';
+
 @Component({
   selector: 'app-nav',
   standalone: true,
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
-  imports: [CommonModule, RouterModule, UserNavComponent, AdminNavComponent, WebIconsComponent],
+  imports: [CommonModule, RouterModule, UserNavComponent, AdminNavComponent, WebIconsComponent, StackedBooksComponent],
 })
 export class NavComponent {
   currentUrl = '';

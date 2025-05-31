@@ -1,38 +1,32 @@
-<div class="user-nav-toggle-row" *ngIf="!userNavOpen">
-
-  <button (click)="toggleNav()" class="user-nav-toggle-closed" aria-label="Öppna användarmeny">
-    <ng-container *ngIf="hasNewNotification; else defaultPerson">
-      <div class="user-nav-mini-profile notification">
-        <span class="profile-pic-wrapper">
-          <img
-            [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
-            alt="Profilbild"
-            class="profile-img-mini"
-          />
-          <i class="fa-solid fa-circle-exclamation notification-exclamation"></i>
-        </span>
+<div class="user-nav-toggle-row">
+  <button (click)="toggleNav()" class="user-nav-toggle-closed" aria-label="Öppna/stäng användarmeny">
+    <ng-container *ngIf="userNavOpen; else closedState">
+      <!-- OPEN STATE (toggle back) -->
+      <div class="user-nav-mini-profile">
+        <img [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
+             alt="Profilbild" class="profile-img-mini" />
         <span class="username-mini">{{ user?.userName }}</span>
       </div>
     </ng-container>
-    <ng-template #defaultPerson>
-      <div class="user-nav-mini-profile">
-        <img
-          [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
-          alt="Profilbild"
-          class="profile-img-mini"
-        />
-        <span class="username-mini">{{ user?.userName }}</span>
-      </div>
-    </ng-template>
-    <ng-template #defaultPerson>
-      <div class="user-nav-mini-profile">
-        <img
-          [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
-          alt="Profilbild"
-          class="profile-img-mini"
-        />
-        <span class="username-mini">{{ user?.userName }}</span>
-      </div>
+    <ng-template #closedState>
+      <!-- CLOSED STATE (default) -->
+      <ng-container *ngIf="hasNewNotification; else defaultPerson">
+        <div class="user-nav-mini-profile notification">
+          <span class="profile-pic-wrapper">
+            <img [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
+                 alt="Profilbild" class="profile-img-mini" />
+            <i class="fa-solid fa-circle-exclamation notification-exclamation"></i>
+          </span>
+          <span class="username-mini">{{ user?.userName }}</span>
+        </div>
+      </ng-container>
+      <ng-template #defaultPerson>
+        <div class="user-nav-mini-profile">
+          <img [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
+               alt="Profilbild" class="profile-img-mini" />
+          <span class="username-mini">{{ user?.userName }}</span>
+        </div>
+      </ng-template>
     </ng-template>
   </button>
 </div>

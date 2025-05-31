@@ -1,25 +1,33 @@
-<form #registerForm="ngForm" (ngSubmit)="registerUser()">
-  <div>
-    <label for="userName">Användarnamn:</label>
-    <input id="userName" name="userName" [(ngModel)]="user.userName" required />
+
+<div class="register-user-container">
+  <div class="register-header">
+  <h1>Registrera dig</h1>
+  <p>Fyll i formuläret nedan för att skapa ett nytt konto.</p>
   </div>
-  <div>
+  
+
+<form #registerForm="ngForm" (ngSubmit)="registerUser()" autocomplete="off">
+  <div class="label-input-container">
+    <label for="userName">Användarnamn:</label>
+    <input id="userName" name="userName" [(ngModel)]="user.userName" required autocomplete="new-username" />
+  </div>
+  <div class="label-input-container">
     <label for="firstName">Förnamn:</label>
     <input id="firstName" name="firstName" [(ngModel)]="user.firstName" required />
   </div>
-  <div>
+  <div class="label-input-container">
     <label for="lastName">Efternamn:</label>
     <input id="lastName" name="lastName" [(ngModel)]="user.lastName" required />
   </div>
-  <div>
+  <div class="label-input-container">
     <label for="email">E-post:</label>
     <input id="email" name="email" type="email" [(ngModel)]="user.email" required />
   </div>
-<div>
-  <label for="password">Lösenord:</label>
-  <input id="password" name="password" type="password" [(ngModel)]="user.password" required />
+  <div class="label-input-container">
+    <label for="password">Lösenord:</label>
+    <input id="password" name="password" type="password" [(ngModel)]="user.password" autocomplete="new-password" />
 </div>
-<div>
+<div class="label-input-container">
   <label for="confirmPassword">Bekräfta lösenord:</label>
   <input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" required />
 </div>
@@ -33,3 +41,8 @@
         [disabled]="registerForm.invalid || user.password !== confirmPassword || !passwordValid()">
   Registrera
 </button>
+</form> 
+<div *ngIf="registrationSuccess" style="color:green; font-weight:bold; margin-top:1em;">
+  Grattis, du är nu registrerad! Dina inloggningsuppgifter har skickats till din mail. Nu är det bara för dig att logga in!
+</div>
+</div>

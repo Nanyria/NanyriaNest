@@ -4,7 +4,10 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ILoggedInUser } from '../Models/interfaces';
 import { UserService } from './user.service';
-import { environment } from '../../environments/environment';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Router } from '@angular/router';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,14 +17,22 @@ export class AuthService {
   private authStatus = new BehaviorSubject<boolean>(this.hasToken());
   private currentUserSubject = new BehaviorSubject<ILoggedInUser | null>(null);
 
-constructor(private http: HttpClient, private userService: UserService) {
+constructor(private http: HttpClient, private userService: UserService, private router: Router) {
   const userId = this.getUserId();
   const storedUser = localStorage.getItem('current_user');
   if (userId && storedUser) {
     this.currentUserSubject.next(JSON.parse(storedUser));
     // Optionally, refresh from backend:
-    this.userService.getUserById(userId).subscribe(response => {
-      if (response.isSuccess) {
+    this.userService.getUserById(userId).pipe(
+      catchError(err => {
+        if (err.status === 401) {
+          this.logout();
+          this.router.navigate(['']);
+        }
+        return of(null);
+      })
+    ).subscribe(response => {
+      if (response && response.isSuccess) {
         const user = this.mapUserResponse(response.result);
         this.currentUserSubject.next(user);
         localStorage.setItem('current_user', JSON.stringify(user));
@@ -29,8 +40,16 @@ constructor(private http: HttpClient, private userService: UserService) {
     });
   } else if (userId) {
     // Fallback: fetch from backend if not in localStorage
-    this.userService.getUserById(userId).subscribe(response => {
-      if (response.isSuccess) {
+    this.userService.getUserById(userId).pipe(
+      catchError(err => {
+        if (err.status === 401) {
+          this.logout();
+          this.router.navigate(['']);
+        }
+        return of(null);
+      })
+    ).subscribe(response => {
+      if (response && response.isSuccess) {
         const user = this.mapUserResponse(response.result);
         this.currentUserSubject.next(user);
         localStorage.setItem('current_user', JSON.stringify(user));

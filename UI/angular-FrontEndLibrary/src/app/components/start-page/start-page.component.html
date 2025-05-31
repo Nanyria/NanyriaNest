@@ -18,15 +18,13 @@
   <div class="start-page-right">
     <div class="start-page-right-text">
       <ng-container *ngIf="!showRegister; else registerForm">
-        <h1>Logga in</h1>
-        <p>Välkommen tillbaka! Logga in för att fortsätta ditt äventyr.</p>
         <app-login></app-login>
         <p>Inte medlem än? Klicka här för att registrera dig!</p>
         <button (click)="showRegister = true">Registrera</button>
       </ng-container>
       <ng-template #registerForm>
-        <app-register-user></app-register-user>
         <button (click)="showRegister = false">Tillbaka till login</button>
+        <app-register-user></app-register-user>
       </ng-template>
     </div>
   </div>

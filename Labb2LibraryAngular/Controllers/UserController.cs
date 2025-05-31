@@ -25,12 +25,12 @@ namespace FinalProjectLibrary.Controllers
             var response = await _userService.GetAllUsersAsync();
             return StatusCode((int)response.StatusCode, response);
         }
-        [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody] CreateUserDto createUserDto)
-        {
-            var response = await _userService.AddUserAsync(createUserDto);
-            return StatusCode((int)response.StatusCode, response);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> AddUser([FromBody] CreateUserDto createUserDto)
+        //{
+        //    var response = await _userService.AddUserAsync(createUserDto);
+        //    return StatusCode((int)response.StatusCode, response);
+        //}
         [Authorize(Roles = AdminRoles.SuperAdmin)]
         [HttpPost("create-admin")]
         public async Task<IActionResult> CreateAdminUser([FromBody] CreateAdminUserDto adminUserDto)

@@ -17,8 +17,7 @@ import { InfoCardComponent } from './components/card-components/info-card/info-c
 import { AuthGuard } from './Services/auth.guard';
 import { StartPageComponent } from './components/start-page/start-page.component';
 export const routes: Routes = [
-  { path: '', component: StartPageComponent }, // Show start page for unauthenticated users
-  { path: 'login', component: LoginComponent },
+  { path: '', component: StartPageComponent, canActivate: [AuthGuard] }, // Add canActivate here
   {
     path: '',
     canActivateChild: [AuthGuard],

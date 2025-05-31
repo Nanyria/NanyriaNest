@@ -16,6 +16,8 @@ namespace FinalProjectLibrary.Services
 {
     public interface IUserActionsService
     {
+        // Register methods
+        Task<APIResponse<CreateUserDto>> AddUserAsync(CreateUserDto createUserDTO);
         // Reservation methods
         Task<APIResponse<List<ReservationItemDto>>> GetReservedBooksAsync(string userId);
         Task<APIResponse<UserDto>> ReserveBookAsync(string userId, int bookId);
@@ -47,8 +49,9 @@ namespace FinalProjectLibrary.Services
         private readonly IBookService _bookService;
         private readonly AppDbContext _dbContext;
         private readonly UserManager<User> _userManager;
+        private readonly IEmailService _emailService;
 
-        public UserActionsService(IUserRepo userRepo, IBookRepo bookRepo, IMapper mapper, IBookService bookService, AppDbContext dbContext, UserManager<User> userManager)
+        public UserActionsService(IUserRepo userRepo, IBookRepo bookRepo, IMapper mapper, IBookService bookService, AppDbContext dbContext, UserManager<User> userManager, IEmailService emailService)
         {
             _userRepo = userRepo;
             _bookRepo = bookRepo;
@@ -56,9 +59,53 @@ namespace FinalProjectLibrary.Services
             _bookService = bookService;
             _dbContext = dbContext;
             _userManager = userManager;
-
+            _emailService = emailService;
         }
+        //Register methods
+        public async Task<APIResponse<CreateUserDto>> AddUserAsync(CreateUserDto createUserDTO)
+        {
+            var response = new APIResponse<CreateUserDto>
+            {
+                IsSuccess = false,
+                StatusCode = HttpStatusCode.BadRequest
+            };
+            CheckIfExists(createUserDTO.Email, createUserDTO.UserName);
 
+            var user = _mapper.Map<User>(createUserDTO);
+            // Create user with password
+            var result = await _userManager.CreateAsync(user, createUserDTO.Password);
+            if (!result.Succeeded)
+            {
+                response.ErrorMessages.AddRange(result.Errors.Select(e => e.Description));
+                return response;
+            }
+
+            await _emailService.SendRegistrationEmailAsync(
+                createUserDTO.Email,
+                createUserDTO.FirstName,
+                createUserDTO.UserName,
+                createUserDTO.Password
+            );
+
+            var createdUserDto = _mapper.Map<CreateUserDto>(user);
+            response.IsSuccess = true;
+            response.StatusCode = HttpStatusCode.Created;
+            response.Result = createdUserDto;
+            return response;
+        }
+        private void CheckIfExists(string email, string userName)
+        {
+            var user = _userRepo.GetByEmailAsync<User>(email).Result;
+            if (user != null)
+            {
+                throw new Exception("Email already exists.");
+            }
+            var userNameExists = _userRepo.GetByUserNameAsync<User>(userName).Result;
+            if (userNameExists != null)
+            {
+                throw new Exception("UserName already exists.");
+            }
+        }
         // Reservation methods
         public async Task<APIResponse<List<ReservationItemDto>>> GetReservedBooksAsync(string userId)
         {

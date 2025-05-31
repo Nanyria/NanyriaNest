@@ -19,7 +19,7 @@ namespace FinalProjectLibrary.Services
 {
     public interface IUserService
     {
-        Task<APIResponse<CreateUserDto>> AddUserAsync(CreateUserDto createUserDTO);
+        //Task<APIResponse<CreateUserDto>> AddUserAsync(CreateUserDto createUserDTO);
         Task<APIResponse<User>> DeleteUserAsync(string userId);
         Task<APIResponse<UpdateUserAsAdminDto>> UpdateUserAsAdminAsync(string userId, UpdateUserAsAdminDto userToUpdate);
         Task<APIResponse<UpdateUserDto>> UpdateUserAsync(string userId, UpdateUserDto userToUpdate);
@@ -55,30 +55,37 @@ namespace FinalProjectLibrary.Services
             _emailService = emailService;
         }
 
-        public async Task<APIResponse<CreateUserDto>> AddUserAsync(CreateUserDto createUserDTO)
-        {
-            var response = new APIResponse<CreateUserDto>
-            {
-                IsSuccess = false,
-                StatusCode = HttpStatusCode.BadRequest
-            };
-            CheckIfExists(createUserDTO.Email, createUserDTO.UserName);
+        //public async Task<APIResponse<CreateUserDto>> AddUserAsync(CreateUserDto createUserDTO)
+        //{
+        //    var response = new APIResponse<CreateUserDto>
+        //    {
+        //        IsSuccess = false,
+        //        StatusCode = HttpStatusCode.BadRequest
+        //    };
+        //    CheckIfExists(createUserDTO.Email, createUserDTO.UserName);
 
-            var user = _mapper.Map<User>(createUserDTO);
-            // Create user with password
-            var result = await _userManager.CreateAsync(user, createUserDTO.Password);
-            if (!result.Succeeded)
-            {
-                response.ErrorMessages.AddRange(result.Errors.Select(e => e.Description));
-                return response;
-            }
+        //    var user = _mapper.Map<User>(createUserDTO);
+        //    // Create user with password
+        //    var result = await _userManager.CreateAsync(user, createUserDTO.Password);
+        //    if (!result.Succeeded)
+        //    {
+        //        response.ErrorMessages.AddRange(result.Errors.Select(e => e.Description));
+        //        return response;
+        //    }
 
-            var createdUserDto = _mapper.Map<CreateUserDto>(user);
-            response.IsSuccess = true;
-            response.StatusCode = HttpStatusCode.Created;
-            response.Result = createdUserDto;
-            return response;
-        }
+        //    await _emailService.SendRegistrationEmailAsync(
+        //        createUserDTO.Email,
+        //        createUserDTO.FirstName,
+        //        createUserDTO.UserName,
+        //        createUserDTO.Password
+        //    );
+
+        //    var createdUserDto = _mapper.Map<CreateUserDto>(user);
+        //    response.IsSuccess = true;
+        //    response.StatusCode = HttpStatusCode.Created;
+        //    response.Result = createdUserDto;
+        //    return response;
+        //}
         public async Task<APIResponse<CreateAdminUserDto>> CreateAdminUserAsync(CreateAdminUserDto createAdminUserDto)
         {
             var response = new APIResponse<CreateAdminUserDto>
