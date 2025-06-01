@@ -1,33 +1,51 @@
 /* --- Layout: Toggle Row & Overlay --- */
-.user-nav-toggle-row {
-  width: 150px;
-  height: 52px;
-  display: flex;
+.user-nav-root {
+  position: relative;
   justify-content: center;
-  align-items: center;
-  font-family: 'Eagle Lake', cursive;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 
 }
 
-/* --- Toggle Button (Closed State) --- */
-.user-nav-toggle-closed {
-  background: none;
+.user-nav-toggle-row {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  height: 70px;
+  z-index: 12; /* Make sure this is higher than .user-nav-overlay */
+}
+.user-nav-toggle-btn {
+  position: relative;
+  justify-items: center;
+  background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 1.5em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 64px;
+  width: 100%;
+}
+
+.user-nav-toggle-btn .hover-label {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
   color: #fff;
-
+  background: #000000;
+  padding: 6px 14px;
+  border-radius: 6px;
+  z-index: 10;
+  font-size: 15px;
+  text-align: right;
+  min-width: 120px;
 }
-.user-nav-toggle-closed .icon-svg,
-.user-nav-toggle-closed i {
-  vertical-align: middle;
-}
 
-.user-nav-toggle-closed i {
-  transform: translateY(-7px); /* Fine-tune as needed */
+.user-nav-toggle-btn:hover .hover-label {
+  opacity: 1;
 }
 
 /* --- Logout Button --- */
@@ -41,43 +59,19 @@
   align-items: center;
   justify-content: center;
 }
-.logout-btn:hover {
-  color: #dd1212;
-}
 
-/* --- Overlay/Backdrop --- */
-.user-nav-backdrop {
-  position: fixed;
+/* .user-nav-backdrop {
+  position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.2);
-  z-index: 2099;
-}
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+} */
 
 /* --- Sidebar Overlay --- */
-.user-nav-overlay,
-.user-nav-toggle {
-  position: fixed;
-  top: 64px;      /* Match your header height */
-  right: 50px;
-  height: calc(100vh - 120px); 
-  width: 150px;
-  background: var(--background-dark);
-  z-index: 2100;
-  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
-  padding: 0;
-}
 .user-nav-overlay {
-  height: 100vh;
-}
-.user-nav-toggle {
-  height: 52px;
-  right: 0;
-  top: 0;
-
+  width: 100%;
+  z-index: 10; /* Lower than .user-nav-toggle-row */
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
 }
 
 /* --- Icon Button Styles --- */
@@ -89,11 +83,12 @@
   justify-content: center;
   background: none;
   border: none;
-  padding: 16px 0;
+  padding: 15px 0;
   font-size: 2.1em;
   cursor: pointer;
   transition: background 0.2s;
   width: 100%;
+  height: 70px;
 }
 .icon-svg {
   width: 1em;
@@ -102,8 +97,20 @@
   vertical-align: middle;
 }
 .icon-btn i {
-  color: #fff;
-  transition: color 0.2s, font-size 0.2s;
+  color: #2d1c0f;
+  text-shadow:
+    1px 1px 2px #bba37a,   /* light highlight, top-left */
+   -2px -2px 2px #1a120a,  /* deep shadow, bottom-right */
+    0 1px 2px #1a120a;     /* extra depth */
+  transition: color 0.2s, font-size 0.2s, text-shadow 0.2s;
+  text-decoration: none;
+  outline: none;
+}
+.icon-btn:visited i {
+  text-decoration: none;
+}
+.icon-btn {
+  text-decoration: none;
 }
 .icon-btn i:hover {
   color: #2d3140;
@@ -119,10 +126,14 @@
 .profile-pic-wrapper {
   position: relative;
   display: inline-block;
+  filter:
+    drop-shadow(1px 1px 2px #bba37a)
+    drop-shadow(-2px -2px 2px #1a120a)
+    drop-shadow(0 1px 2px #1a120a);
 }
 .profile-img-mini {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
   border: none;
@@ -139,13 +150,17 @@
   border: 1px solid #fff;
 }
 .username-mini {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #000;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #2d1c0f; /* deep brown for wood */
   font-family: 'Eagle Lake', cursive;
+  text-shadow:
+    2px 1px 2px #bba37a,   /* light highlight, top-left */
+   -1px -1px 1px #1a120a,  /* deep shadow, bottom-right */
+    0 1px 2px #1a120a;     /* extra depth */
 }
 /* --- Tooltip/Label --- */
-.icon-btn .nav-label {
+.icon-btn .nav-label{
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;
@@ -174,18 +189,26 @@ app-web-icon {
   display: inline-block; /* Add this for good measure */
 }
 app-web-icon {
-  --icon-color-1: #ffffff;
+  position: relative;
+  --icon-color-1: #2d1c0f;
+  filter:
+    drop-shadow(1px 1px 2px #bba37a)
+    drop-shadow(-1px -1px 1px #1a120a)
+    drop-shadow(0 1px 2px #1a120a);
 }
+
+
 app-web-icon:hover {
-  --icon-color-1: #2d3140; /* Example hover color */
+  --icon-color-1: #32402d; /* Example hover color */
 }
 app-web-icon.special {
-  --icon-color-1: #ffffff;
+  --icon-color-1: #2d1c0f;
   --icon-color-2: #810000;
-  --icon-color-3: #ffffff;
+  --icon-color-3: #2d1c0f;
 }
 app-web-icon.special:hover {
   --icon-color-1: #2d3140;
   --icon-color-2: #810000;
-  --icon-color-3: #ffffff;
+  --icon-color-3: #2d1c0f;
 }
+

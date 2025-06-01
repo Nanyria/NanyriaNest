@@ -1,11 +1,5 @@
-.bookshelf-canvas-container {
-  /* width: 100px;    
-  height: 50px;     */
-  position: relative;
-}
-
-canvas {
+.bookshelf-canvas-container, canvas {
+  width: 100% !important;
+  height: 98px; /* or 100% if you want it to scale vertically too */
   display: block;
-
-  background: transparent;
 }

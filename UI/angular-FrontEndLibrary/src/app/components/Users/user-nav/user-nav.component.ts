@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ILoggedInUser } from '../../../Models/interfaces';
@@ -11,6 +11,7 @@ import { WebIconsComponent } from '../../../../assets/images/webpage-images/web-
   imports: [CommonModule, RouterModule, WebIconsComponent]
 })
 export class UserNavComponent {
+  @Output() navOpenChange = new EventEmitter<boolean>();
   @Input() currentUrl: string = '';
   @Input() hasNewNotification: boolean = true; // <-- Add this line
   @Input() user: ILoggedInUser | null = null; // <-- Add this line
@@ -20,6 +21,7 @@ export class UserNavComponent {
 
   toggleNav() {
     this.userNavOpen = !this.userNavOpen;
+    this.navOpenChange.emit(this.userNavOpen);
   }
   logout() {
     // Adjust this to use your AuthService if needed

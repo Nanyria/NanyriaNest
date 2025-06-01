@@ -4,26 +4,38 @@ body {
   margin: 0;
 }
 
-.user-sign {
-  width: var(--width);
-  height: var(--sign-height);
-  overflow: hidden;
+.user-sign-container{
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 11;
+  z-index: 10;
+  width: 200px;
+  height: var(--height);
 }
+
+.user-sign {
+  position: relative; 
+  width: 100%;
+  height: 100%;
+  /* overflow: hidden; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 12;
+}
+
 .sign-container {
-  width: calc(var(--width) - 2 * var(--frame-thickness));
-  height: calc(var(--sign-height) - 2 * var(--frame-thickness));
+  width: calc(100% - 2 * var(--frame-thickness));
+  height: calc(var(--height) - 2 * var(--frame-thickness));
   perspective: 500px;
-  box-shadow: 0 8px 32px rgba(60,40,20,1);
+box-shadow:
+  inset 0px 2px 3px rgba(0,0,0,0.7);
   background: 
-    url('/assets/images/webpage-images/backgrounds/velvet.png'),
-    var(--red-dragon-color);
-  background-size: 300%;
+    url('/assets/images/webpage-images/backgrounds/darkerwoodbg.png'), #b68e72; /* Fallback color */
+  background-size: 150%, contain;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top center;
 }
 
 .frame-bar {
@@ -33,7 +45,7 @@ body {
 }
 .frame-bar--top,
 .frame-bar--bottom {
-  width: calc(var(--width) + 2 * var(--frame-thickness));
+  width: calc(100% + 2 * var(--frame-thickness));
   height: var(--frame-thickness);
   left: calc(-1 * var(--frame-thickness));
   position: absolute;
@@ -58,7 +70,7 @@ body {
 }
 
 .frame-bar--bottom {
-  top: var(--sign-height);
+  top: var(--height);
     background:
     linear-gradient(rgba(32, 15, 0, 0.5), rgba(89, 43, 0, 0.5)), /* semi-transparent overlay */
     url('/assets/images/webpage-images/frames/frameborderbott.png');
@@ -74,7 +86,7 @@ body {
 .frame-bar--left,
 .frame-bar--right {
   width: var(--frame-thickness);
-  height: calc(var(--sign-height) + 2 * var(--frame-thickness));
+  height: calc(var(--height) + 2 * var(--frame-thickness));
   top: calc(-1 * var(--frame-thickness));
   position: absolute;
   z-index: 3;
@@ -84,7 +96,7 @@ body {
   left: calc(-1 * var(--frame-thickness));
         background:
     linear-gradient(rgba(169, 116, 79, 0.5), rgba(169, 116, 79, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/frames/frameborder.png');
+    url('/assets/images/webpage-images/frames/frameborderleft.png');
   background-size: contain;
   background-repeat: repeat;
   background-position: center;
@@ -96,10 +108,10 @@ body {
 }
 
 .frame-bar--right {
-  left: var(--width);
+  left: 100%;
   background:
     linear-gradient(rgba(138, 95, 64, 0.5), rgba(138, 95, 64, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/frameright.png');
+    url('/assets/images/webpage-images/frames/frameborderright.png');
   background-size: contain;
   background-repeat: repeat;
   background-position: center;
@@ -110,10 +122,12 @@ body {
 }
 
 .user-nav-absolute {
-  width: 100%;
-  height: 100%;
-  z-index: 2;
+  position: absolute; /* Add this */
+  z-index: 100; /* Make sure this is higher than .user-sign */
+  width: calc(100% - 2 * var(--frame-thickness));
+  height: calc(100% - 2 * var(--frame-thickness));
   display: flex;
+  justify-self: center;
   align-self: center;
   flex-direction: column;
 }

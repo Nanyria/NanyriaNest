@@ -14,6 +14,8 @@ import { UserNavComponent } from '../Users/user-nav/user-nav.component';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   standalone: true,
-  imports: [CommonModule, NavComponent, BookshelfComponent, HeaderSignComponent, UserSignComponent, UserNavComponent]
+  imports: [CommonModule, NavComponent, BookshelfComponent, HeaderSignComponent, UserSignComponent]
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+    userNavOpen = false;
+}

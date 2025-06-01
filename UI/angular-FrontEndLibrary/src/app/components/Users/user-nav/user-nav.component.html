@@ -1,88 +1,51 @@
-<div class="user-nav-toggle-row">
-  <button (click)="toggleNav()" class="user-nav-toggle-closed" aria-label="Öppna/stäng användarmeny">
-    <ng-container *ngIf="userNavOpen; else closedState">
-      <!-- OPEN STATE (toggle back) -->
-      <div class="user-nav-mini-profile">
-        <img [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
-             alt="Profilbild" class="profile-img-mini" />
-        <span class="username-mini">{{ user?.userName }}</span>
-      </div>
-    </ng-container>
-    <ng-template #closedState>
-      <!-- CLOSED STATE (default) -->
-      <ng-container *ngIf="hasNewNotification; else defaultPerson">
-        <div class="user-nav-mini-profile notification">
-          <span class="profile-pic-wrapper">
-            <img [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
-                 alt="Profilbild" class="profile-img-mini" />
-            <i class="fa-solid fa-circle-exclamation notification-exclamation"></i>
-          </span>
-          <span class="username-mini">{{ user?.userName }}</span>
-        </div>
-      </ng-container>
-      <ng-template #defaultPerson>
-        <div class="user-nav-mini-profile">
+<div class="user-nav-root">
+  <div class="user-nav-toggle-row">
+    <button (click)="toggleNav()" class="user-nav-toggle-btn" aria-label="Öppna/stäng användarmeny">
+      <div class="user-nav-mini-profile" [class.notification]="hasNewNotification && !userNavOpen">
+        <span class="profile-pic-wrapper">
           <img [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
                alt="Profilbild" class="profile-img-mini" />
-          <span class="username-mini">{{ user?.userName }}</span>
-        </div>
-      </ng-template>
-    </ng-template>
-  </button>
-</div>
-<!-- Backdrop -->
-<div *ngIf="userNavOpen" class="user-nav-backdrop" (click)="toggleNav()"></div>
-
-<!-- Overlay Menu -->
-<nav *ngIf="userNavOpen" class="user-nav-overlay">
-<button (click)="toggleNav()" class="icon-btn user-nav-toggle" aria-label="Stäng användarmeny">
-  <div class="user-nav-mini-profile">
-    <img
-      [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
-      alt="Profilbild"
-      class="profile-img-mini"
-    />
-    <span class="username-mini">{{ user?.userName }}</span>
+          <i *ngIf="hasNewNotification && !userNavOpen" class="fa-solid fa-circle-exclamation notification-exclamation"></i>
+        </span>
+        <span class="username-mini">{{ user?.userName }}</span>
+      </div>
+      <span class="hover-label">{{ userNavOpen ? 'Stäng meny' : 'Öppna meny' }}</span>
+    </button>
   </div>
-  <span class="nav-label">Stäng meny</span>
-</button>
-<button class="logout-btn icon-btn" aria-label="Logga ut" (click)="logout()">
-  <app-web-icon
-    icon="logout">
-  </app-web-icon>
-  <span class="nav-label">Logga ut</span>
-</button>
-<a [routerLink]="'/user/messages'" [class.active]="isActive('/messages')" class="icon-btn">
-  <ng-container *ngIf="hasNewNotification; else defaultIcon">
-    <app-web-icon
-      icon="messagesnew"
-        class="special"
-    ></app-web-icon>
-  </ng-container>
-  <ng-template #defaultIcon>
-    <app-web-icon
-      icon="messages">
-    </app-web-icon>
-  </ng-template>
-  <span class="nav-label">Meddelanden</span>
-</a>
 
-  <a [routerLink]="'/user-page/settings'" [class.active]="isActive('/settings')" class="icon-btn">
-    <app-web-icon
-      icon="profile"
-    ></app-web-icon>
-    <span class="nav-label">Inställningar</span>
-  </a>
-  <a [routerLink]="'/user-page/readlist'" [class.active]="isActive('/readlist')" class="icon-btn">
-    <i class="fa-solid fa-heart"></i>
-    <span class="nav-label">Min läslista</span>
-  </a>
-  <a [routerLink]="'/user-page/reservations'" [class.active]="isActive('/reservations')" class="icon-btn">
-    <i class="fa-solid fa-bookmark"></i>
-    <span class="nav-label">Mina reserverade böcker</span>
-  </a>
-  <a [routerLink]="'/user-page/checkouts'" [class.active]="isActive('/checkouts')" class="icon-btn">
-    <i class="fa-solid fa-book-open"></i>
-    <span class="nav-label">Mina lånade böcker</span>
-  </a>
-</nav>
+  <!-- Backdrop -->
+  <div *ngIf="userNavOpen" class="user-nav-backdrop" (click)="toggleNav()"></div>
+
+  <!-- Overlay Menu -->
+  <nav *ngIf="userNavOpen" class="user-nav-overlay">
+    <button class="logout-btn icon-btn" aria-label="Logga ut" (click)="logout()">
+      <app-web-icon icon="logout"></app-web-icon>
+      <span class="nav-label">Logga ut</span>
+    </button>
+    <a [routerLink]="'/user/messages'" [class.active]="isActive('/messages')" class="icon-btn">
+      <ng-container *ngIf="hasNewNotification; else defaultIcon">
+        <app-web-icon icon="messagesnew" class="special"></app-web-icon>
+      </ng-container>
+      <ng-template #defaultIcon>
+        <app-web-icon icon="messages"></app-web-icon>
+      </ng-template>
+      <span class="nav-label">Meddelanden</span>
+    </a>
+    <a [routerLink]="'/user-page/settings'" [class.active]="isActive('/settings')" class="icon-btn">
+      <app-web-icon icon="profile"></app-web-icon>
+      <span class="nav-label">Inställningar</span>
+    </a>
+    <a [routerLink]="'/user-page/readlist'" [class.active]="isActive('/readlist')" class="icon-btn">
+      <i class="fa-solid fa-heart"></i>
+      <span class="nav-label">Min läslista</span>
+    </a>
+    <a [routerLink]="'/user-page/reservations'" [class.active]="isActive('/reservations')" class="icon-btn">
+      <i class="fa-solid fa-bookmark"></i>
+      <span class="nav-label">Mina reserverade böcker</span>
+    </a>
+    <a [routerLink]="'/user-page/checkouts'" [class.active]="isActive('/checkouts')" class="icon-btn">
+      <i class="fa-solid fa-book-open"></i>
+      <span class="nav-label">Mina lånade böcker</span>
+    </a>
+  </nav>
+</div>

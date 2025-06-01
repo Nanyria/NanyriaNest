@@ -1,27 +1,25 @@
-<div class="header-sign">
-  <app-header-sign></app-header-sign>
-</div>
-<div class="header-container">
-<div class="header-background">
-  <app-bookshelf></app-bookshelf>
+<div class="container-fluid header-container">
+  <!-- Header sign on top, absolutely positioned -->
+  <div class="header-sign position-absolute w-100" style="z-index: 20">
+    <app-header-sign></app-header-sign>
+  </div>
 
-  <!-- <div class="scroll-banner"> -->
-    <!-- <img src="assets/images/webpage-images/banners/scroll-left.png" alt="Scroll Left" class="scroll-corner left"> -->
-    <!-- <div class="scroll-middle-color"></div> -->
-  <div class="header-inner"></div>
-
-    <div class="scroll-item-container">
-      <app-nav class="nav-right"></app-nav>
+  <!-- Main content row -->
+  <div class="row">
+    <div class="header-background">
+      <app-bookshelf></app-bookshelf>
+      <div class="col-12 col-lg-12 col-md-12 col-sm-12 nav-container">
+        <app-nav class="nav-right"></app-nav>
+      </div>
     </div>
-    
-    <!-- <img src="assets/images/webpage-images/banners/scroll-left.png" alt="Scroll Right" class="scroll-corner right"> -->
   </div>
 
+
+  <div class="row">
+    <div class="col-6 col-lg-6 col-md-6 col-sm-6 position-relative">
+      <div class="user-nav-sign" [style.height]="userNavOpen ? '520px' : '100px'">
+        <app-user-sign (navOpenChange)="userNavOpen = $event"></app-user-sign>
+      </div>
+    </div>
+  </div>
 </div>
-    <div class="user-nav-sign">
-    <app-user-sign></app-user-sign>
-  </div>
-
-
-
-<!-- </div> -->

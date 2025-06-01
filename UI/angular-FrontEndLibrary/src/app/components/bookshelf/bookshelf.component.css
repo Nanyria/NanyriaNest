@@ -7,7 +7,7 @@ body {
 
 .bookshelf {
   width: var(--width);
-  height: var(--height);
+  height: var(--shelf-height);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -15,7 +15,7 @@ body {
 }
 .bookshelf-container {
   width: calc(var(--width) - 2 * var(--frame-thickness));
-  height: calc(var(--height) - 2 * var(--frame-thickness));
+  height: calc(var(--shelf-height) - 2 * var(--frame-thickness));
   perspective: 500px;
   box-shadow: 0 8px 32px rgba(60,40,20,0.15);
       background:
@@ -30,14 +30,14 @@ body {
 .cuboid {
   position: relative;
   width: var(--width);
-  height: var(--height);
+  height: var(--shelf-height);
   transform-style: preserve-3d;
   
 }
 
 .cuboid__face {
   width: calc(var(--width) - 2 * var(--frame-thickness));
-  height: calc(var(--height) - 2 * var(--frame-thickness));
+  height: calc(var(--shelf-height) - 2 * var(--frame-thickness));
   border: 1px solid black;
   position: absolute;
   opacity: 0;
@@ -89,7 +89,7 @@ body {
   transform-origin: top center;
   /* Move to bottom edge, then back by half the depth */
   transform:
-  translateY(calc(var(--height) / 2 + var(--height) / 2))
+  translateY(calc(var(--shelf-height) / 2 + var(--shelf-height) / 2))
   translateZ(calc(var(--depth) * -0.001))
     rotateX(-90deg);
 }
@@ -126,7 +126,7 @@ body {
 }
 
 .frame-bar--bottom {
-  top: calc(var(--height) - 2 * var(--frame-thickness));
+  top: calc(var(--shelf-height) - 2 * var(--frame-thickness));
       background:
     linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), /* semi-transparent overlay */
     url('/assets/images/webpage-images/backgrounds/framebot.png');
@@ -143,7 +143,7 @@ body {
 .frame-bar--left,
 .frame-bar--right {
   width: var(--frame-thickness);
-  height: var(--height);
+  height: var(--shelf-height);
   top: calc(-1 * var(--frame-thickness));
   position: absolute;
   z-index: 3;

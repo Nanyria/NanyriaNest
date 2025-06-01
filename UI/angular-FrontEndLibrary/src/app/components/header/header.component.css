@@ -1,14 +1,15 @@
 .header-container {
   position: relative;
   z-index: 10;
-  height: 150px;
+  height: 150px;    
+  min-height: 120px;      
   width: 100%;
-
+  padding: 12px 32px;
 }
 .header-background {
   width: 100%;
   margin: 0 auto;         /* Center on large screens */
-  padding: 12px 32px;        /* Add horizontal padding */
+  padding: 12px 0;        /* Add horizontal padding */
   box-sizing: border-box; /* Ensure padding is included in width */
   display: flex;
   justify-content: center;
@@ -17,91 +18,99 @@
 .header-sign {
   z-index: 11;
   position: absolute;
-  top: 0;
-  left: 50px;
-}
-@media (max-width: 600px) {
-  .header-background {
-    padding: 0 8px;
-  }
+  top: -180px;
+  left: 0;         /* Use vw for responsiveness */
+  width: 100vw;       /* Let it scale with viewport */        /* Maintains 5:3 aspect ratio */
+  height: auto;
+  max-width: 500px;  /* Prevent it from getting too large */
+  min-width: 220px;  /* Prevent it from getting too small */
+  pointer-events: none; /* Optional: let clicks pass through */
+  display: flex;
+  justify-content: center;
 }
 
-app-user-sign {
-  z-index: 1;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
 .user-nav-sign {
-  width: 200px;
-  height: 80px;
-  position: absolute;
-  right: 48px;
-  top: 166px;
-  z-index: 11;
+  width: 100%;
+  z-index: 15;
   display: flex;
+  flex-direction: column;
   overflow: visible;
-  align-items: center;    /* Center vertically */
+  align-items: flex-end;    /* Center vertically */
   justify-content: center;/* Center horizontally */
 }
-/*  */
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px; /* Space between logo and text */
-}
-.img {
-  aspect-ratio: 1;
-  object-fit: contain;
-  object-position: center;
-  width: 150px;
-  height: 110px;
-  align-self: center;
-}
 
-
-.super-cool-books {
-  color: rgb(40, 54, 77);
-  font-size: 16px;
-  font-weight: 400;
-  text-align: center;
-  align-self: center;
-  margin-top: 0px;
-}
 .nav-right {
+  width: 100%;
   display: flex;
   align-items: flex-end;
+  padding: 0 16px; /* Add horizontal padding */
+  z-index: 15;
 }
 
-.scroll-item-container {
+.nav-container {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  z-index: 10; /* Above the banner and corners */
+  height: 100%;;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   pointer-events: auto; /* Set to none if you want clicks to pass through */
-  /* Optional: add padding to push items further left/right */
-  padding: 0 50px;
+
+  padding: 22px 42px;
 }
 
-.header-inner {
-  position: relative;
-
-  z-index: 1;
-  display: flex;
-  align-self: center;
-  align-items: center;
-  justify-content: space-between;
-
-}
 
 app-bookshelf {
   width: 100%;
   height: 100%;
   display: block;
 }
+
+/* === MEDIA QUERIES === */
+
+/* Tablets and below (<= 1024px) */
+@media (max-width: 1024px) {
+  .header-sign {
+    top: -180px;
+    transform: scale(0.9);
+  }
+}
+
+/* Mobile Large (<= 768px) */
+@media (max-width: 768px) {
+
+}
+
+/* Mobile Small (<= 600px) */
+@media (max-width: 600px) {
+
+
+  .header-sign {
+    left: -30px;
+    top: -90px;
+    transform: scale(0.8);
+    transform-origin: top left;
+  }
+}
+
+/* Very Small Devices (<= 400px) */
+@media (max-width: 400px) {
+ .header-container {
+  height: 290px;
+    padding: 0px 8px; /* Reduce padding for smaller screens */
+  }
+  .user-nav-sign {
+    padding: 255px 0;
+    align-items: center; /* Center items for smaller screens */
+  }
+  .header-sign {
+    left: -20px;
+    top: -50px;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .nav-right {
+  padding: 0 0px; 
+}
+ }
