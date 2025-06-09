@@ -1,12 +1,12 @@
 /* --- Layout: Toggle Row & Overlay --- */
 .user-nav-root {
   position: relative;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 800px; /* Adjust height as needed */
 
 }
 
@@ -15,17 +15,20 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 70px;
-  z-index: 12; /* Make sure this is higher than .user-nav-overlay */
+  height: 100%;
+  z-index: 3; /* Make sure this is higher than .user-nav-overlay */
 }
 .user-nav-toggle-btn {
   position: relative;
-  justify-items: center;
+  align-items: center;
+  display: block;
+  justify-content: center;
   background: transparent;
   border: none;
   cursor: pointer;
-  height: 64px;
+  height: 100%;
   width: 100%;
 }
 
@@ -38,10 +41,11 @@
   background: #000000;
   padding: 6px 14px;
   border-radius: 6px;
-  z-index: 10;
+  z-index: 2;
   font-size: 15px;
   text-align: right;
-  min-width: 120px;
+  height: 120px;
+
 }
 
 .user-nav-toggle-btn:hover .hover-label {
@@ -120,8 +124,11 @@
 }
 .user-nav-mini-profile {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  height: 100%;
 }
 .profile-pic-wrapper {
   position: relative;
@@ -132,8 +139,8 @@
     drop-shadow(0 1px 2px #1a120a);
 }
 .profile-img-mini {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   border: none;
@@ -150,7 +157,7 @@
   border: 1px solid #fff;
 }
 .username-mini {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: #2d1c0f; /* deep brown for wood */
   font-family: 'Eagle Lake', cursive;
@@ -173,7 +180,7 @@
   right: 75%;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 10;
+  z-index: 3;
   font-size: 15px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   text-align: right;
@@ -212,3 +219,148 @@ app-web-icon.special:hover {
   --icon-color-3: #2d1c0f;
 }
 
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.user-sign-container{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  width: 150px;
+}
+
+.user-sign {
+  position: relative; 
+  width: 100%;
+  height: 110px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.user-nav-shelf{
+  position: relative;
+  width: 100%;
+  height: var(--shelf-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    transform: 
+    translateZ(var(--shelf-z, -8px));
+  /* Adjust --shelf-y and --shelf-z for each shelf */
+  z-index: 2;
+
+}
+.sign-container {
+  width: calc(100% - 2 * var(--frame-thickness));
+  height: 90px;
+  perspective: 500px;
+box-shadow:
+  inset 0px 2px 3px rgba(0,0,0,0.7);
+  background: 
+    url('/assets/images/webpage-images/backgrounds/darkerwoodbg.png'), #b68e72; /* Fallback color */
+  background-size: 150%, contain;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+.frame-bar {
+  position: absolute;
+  box-shadow: none;
+  
+}
+.frame-bar--top,
+.frame-bar--bottom {
+  width: calc(100% + 2 * var(--frame-thickness));
+  height: var(--frame-thickness);
+  left: calc(-1 * var(--frame-thickness));
+  position: absolute;
+  z-index: 2;
+}
+
+.frame-bar--top {
+  top: calc(-1 * var(--frame-thickness));
+    background:
+    linear-gradient(rgba(32, 15, 0, 0.5), rgba(89, 43, 0, 0.5)), /* semi-transparent overlay */
+    url('/assets/images/webpage-images/frames/framebordertop.png');
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: center;
+
+  clip-path: polygon(
+    1 0, var(--frame-thickness) 100%, 
+    calc(100% - var(--frame-thickness)) 100%, 100% 0
+  );
+  box-shadow: 0 10px 40px 0 rgba(0,0,0,1);
+  overflow: hidden;
+}
+
+.frame-bar--bottom {
+  top: var(--height);
+    background:
+    linear-gradient(rgba(32, 15, 0, 0.5), rgba(89, 43, 0, 0.5)), /* semi-transparent overlay */
+    url('/assets/images/webpage-images/frames/frameborderbott.png');
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: center;
+  clip-path: polygon(
+    1 100%, var(--frame-thickness) 0, 
+    calc(100% - var(--frame-thickness)) 0, 100% 100%
+  );
+}
+
+.frame-bar--left,
+.frame-bar--right {
+  width: var(--frame-thickness);
+  height: calc(var(--height) + 2 * var(--frame-thickness));
+  top: calc(-1 * var(--frame-thickness));
+  position: absolute;
+  z-index: 3;
+}
+
+.frame-bar--left {
+  left: calc(-1 * var(--frame-thickness));
+        background:
+    linear-gradient(rgba(169, 116, 79, 0.5), rgba(169, 116, 79, 0.5)), /* semi-transparent overlay */
+    url('/assets/images/webpage-images/frames/frameborderleft.png');
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: center;
+  clip-path: polygon(
+    0 0, 100% var(--frame-thickness), 
+    100% calc(100% - var(--frame-thickness)), 0 100%
+  );
+  
+}
+
+.frame-bar--right {
+  left: 100%;
+  background:
+    linear-gradient(rgba(138, 95, 64, 0.5), rgba(138, 95, 64, 0.5)), /* semi-transparent overlay */
+    url('/assets/images/webpage-images/frames/frameborderright.png');
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: center;
+  clip-path: polygon(
+    100% 0, 0 var(--frame-thickness), 
+    0 calc(100% - var(--frame-thickness)), 100% 100%
+  );
+}
+
+.user-nav-absolute {
+  position: absolute; 
+
+  width: calc(100% - 2 * var(--frame-thickness));
+  height: 800px;
+  display: flex;
+  justify-self: center;
+  align-self: center;
+}

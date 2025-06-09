@@ -28,9 +28,11 @@ export enum GenreEnums {
     FeelGood,
     Poetry,
     SelfHelp,
+    All,
 }
 
 export const GenreDisplayNames: Record<GenreEnums, string> = {
+    [GenreEnums.All]: 'Alla böcker',
     [GenreEnums.None]: 'Ej satt',
     [GenreEnums.Fantasy]: 'Fantasy',
     [GenreEnums.Children]: 'Barn & Ungdom',

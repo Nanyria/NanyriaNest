@@ -1,51 +1,112 @@
 <div class="user-nav-root">
-  <div class="user-nav-toggle-row">
-    <button (click)="toggleNav()" class="user-nav-toggle-btn" aria-label="Öppna/stäng användarmeny">
-      <div class="user-nav-mini-profile" [class.notification]="hasNewNotification && !userNavOpen">
-        <span class="profile-pic-wrapper">
-          <img [src]="user?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
-               alt="Profilbild" class="profile-img-mini" />
-          <i *ngIf="hasNewNotification && !userNavOpen" class="fa-solid fa-circle-exclamation notification-exclamation"></i>
-        </span>
-        <span class="username-mini">{{ user?.userName }}</span>
+  <div class="shelves">
+    <div class="user-nav-shelf" style="--shelf-h: 125px">
+    <div class="user-sign">
+      <div class="sign-container">
+        <!-- 3D Frame Bars -->
+        <div class="frame-bar frame-bar--top"></div>
+        <div class="frame-bar frame-bar--bottom"></div>
+        <div class="frame-bar frame-bar--left"></div>
+        <div class="frame-bar frame-bar--right"></div>
+        <div class="user-nav-toggle-row">
+          <div class="user-nav-toggle-btn">
+            <div
+              class="user-nav-mini-profile"
+              [class.notification]="hasNewNotification && !userNavOpen"
+            >
+              <span class="profile-pic-wrapper">
+                <img
+                  [src]="
+                    user?.profilePictureUrl ||
+                    'assets/images/profile-pictures/BlueKidDragon.svg'
+                  "
+                  alt="Profilbild"
+                  class="profile-img-mini"
+                />
+                <i
+                  *ngIf="hasNewNotification && !userNavOpen"
+                  class="fa-solid fa-circle-exclamation notification-exclamation"
+                ></i>
+              </span>
+              <span class="username-mini">{{ user?.userName }}</span>
+            </div>
+            <span class="hover-label">{{
+              userNavOpen ? "Stäng meny" : "Öppna meny"
+            }}</span>
+          </div>
+        </div>
       </div>
-      <span class="hover-label">{{ userNavOpen ? 'Stäng meny' : 'Öppna meny' }}</span>
-    </button>
+      </div>
+      </div>
   </div>
+  <div class="user-nav-shelf" style="--shelf-h: 68px">
+ <button
+          class="logout-btn icon-btn"
+          aria-label="Logga ut"
+          (click)="logout()"
+        >
+          <app-web-icon icon="logout"></app-web-icon>
+          <span class="nav-label">Logga ut</span>
+        </button>
+  </div>
+    <div class="user-nav-shelf" style="--shelf-h: 108px">
+ 
+        <a
+          [routerLink]="'/user/messages'"
+          [class.active]="isActive('/messages')"
+          class="icon-btn"
+        >
+          <ng-container *ngIf="hasNewNotification; else defaultIcon">
+            <app-web-icon icon="messagesnew" class="special"></app-web-icon>
+          </ng-container>
+          <ng-template #defaultIcon>
+            <app-web-icon icon="messages"></app-web-icon>
+          </ng-template>
+          <span class="nav-label">Meddelanden</span>
+        </a>
+  </div>
+    <div class="user-nav-shelf" style="--shelf-h: 133px">
 
-  <!-- Backdrop -->
-  <div *ngIf="userNavOpen" class="user-nav-backdrop" (click)="toggleNav()"></div>
+        <a
+          [routerLink]="'/user-page/settings'"
+          [class.active]="isActive('/settings')"
+          class="icon-btn"
+        >
+          <app-web-icon icon="profile"></app-web-icon>
+          <span class="nav-label">Inställningar</span>
+        </a>
+  </div>
+      <div class="user-nav-shelf" style="--shelf-h: 133px">
 
-  <!-- Overlay Menu -->
-  <nav *ngIf="userNavOpen" class="user-nav-overlay">
-    <button class="logout-btn icon-btn" aria-label="Logga ut" (click)="logout()">
-      <app-web-icon icon="logout"></app-web-icon>
-      <span class="nav-label">Logga ut</span>
-    </button>
-    <a [routerLink]="'/user/messages'" [class.active]="isActive('/messages')" class="icon-btn">
-      <ng-container *ngIf="hasNewNotification; else defaultIcon">
-        <app-web-icon icon="messagesnew" class="special"></app-web-icon>
-      </ng-container>
-      <ng-template #defaultIcon>
-        <app-web-icon icon="messages"></app-web-icon>
-      </ng-template>
-      <span class="nav-label">Meddelanden</span>
-    </a>
-    <a [routerLink]="'/user-page/settings'" [class.active]="isActive('/settings')" class="icon-btn">
-      <app-web-icon icon="profile"></app-web-icon>
-      <span class="nav-label">Inställningar</span>
-    </a>
-    <a [routerLink]="'/user-page/readlist'" [class.active]="isActive('/readlist')" class="icon-btn">
-      <i class="fa-solid fa-heart"></i>
-      <span class="nav-label">Min läslista</span>
-    </a>
-    <a [routerLink]="'/user-page/reservations'" [class.active]="isActive('/reservations')" class="icon-btn">
-      <i class="fa-solid fa-bookmark"></i>
-      <span class="nav-label">Mina reserverade böcker</span>
-    </a>
-    <a [routerLink]="'/user-page/checkouts'" [class.active]="isActive('/checkouts')" class="icon-btn">
-      <i class="fa-solid fa-book-open"></i>
-      <span class="nav-label">Mina lånade böcker</span>
-    </a>
-  </nav>
+        <a
+          [routerLink]="'/user-page/readlist'"
+          [class.active]="isActive('/readlist')"
+          class="icon-btn"
+        >
+          <i class="fa-solid fa-heart"></i>
+          <span class="nav-label">Min läslista</span>
+        </a>
+  </div>
+    <div class="user-nav-shelf" style="--shelf-h: 133px">
+      
+        <a
+          [routerLink]="'/user-page/reservations'"
+          [class.active]="isActive('/reservations')"
+          class="icon-btn"
+        >
+          <i class="fa-solid fa-bookmark"></i>
+          <span class="nav-label">Mina reserverade böcker</span>
+        </a>
+  </div>
+      <div class="user-nav-shelf" style="--shelf-h: 100px">
+        
+        <a
+          [routerLink]="'/user-page/checkouts'"
+          [class.active]="isActive('/checkouts')"
+          class="icon-btn"
+        >
+          <i class="fa-solid fa-book-open"></i>
+          <span class="nav-label">Mina lånade böcker</span>
+        </a>
+  </div>
 </div>

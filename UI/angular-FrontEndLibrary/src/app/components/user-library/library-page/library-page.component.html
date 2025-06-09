@@ -1,35 +1,55 @@
 <div class="library-layout">
-  <app-genre-list></app-genre-list>
-  <div class="table-body">
-    <div class="library-search-container">
-      <app-search (searchResults)="handleSearchResults($event)"></app-search>
+  <div class="row page-row">
+    <div class="col-2 left-bar">
+<app-genre-list (genreSelected)="onGenreSelected($event)"></app-genre-list>
     </div>
+    <div class="col-8 page-container">
+      <div class="info-container">
+        <div class="library-header">
+          <h1 class="library-title">Library</h1>
+          <p class="library-subtitle">
+            Explore your collection of books, manage your reading status, and
+            discover new titles.
+          </p>
+        <div class="table-body">
+          <!-- <div class="library-search-container">
+            <app-search
+              (searchResults)="handleSearchResults($event)"
+            ></app-search>
+          </div> -->
 
-    <div *ngIf="books.length === 0" class="loading">
-      Loading books...
-    </div>
-    <app-book-list
-      *ngIf="books.length > 0"
-      [books]="books"
-      [currentUserId]="currentUserId"
-      [user]="user"
-      (onUpdateStatus)="updateStatus($event)"
-      (onSave)="saveBook($event)"
-      (bookRowClicked)="onBookRowClicked($event)"
-    ></app-book-list>
+          <div *ngIf="books.length === 0" class="loading">Loading books...</div>
+          <app-book-list
+            *ngIf="books.length > 0"
+            [books]="books"
+            [currentUserId]="currentUserId"
+            [user]="user"
+            (onUpdateStatus)="updateStatus($event)"
+            (onSave)="saveBook($event)"
+            (bookRowClicked)="onBookRowClicked($event)"
+          ></app-book-list>
 
-    <div *ngIf="showInfoCard" class="info-card-overlay">
-      <div class="info-card-popup">
-        <app-info-card
-          [id]="selectedBook?.bookId ?? ''"
-          [imageUrl]="selectedBook?.coverImagePath || 'assets/images/book-covers/BrownBook.svg'"
-          [col2]="infoCardCol2"
-          [col3]="infoCardCol3"
-          [actions]="infoCardActions"
-          (close)="closeInfoCard()">
-        </app-info-card>
+          <div *ngIf="showInfoCard" class="info-card-overlay">
+            <div class="info-card-popup">
+              <app-info-card
+                [id]="selectedBook?.bookId ?? ''"
+                [imageUrl]="
+                  selectedBook?.coverImagePath ||
+                  'assets/images/book-covers/BrownBook.svg'
+                "
+                [col2]="infoCardCol2"
+                [col3]="infoCardCol3"
+                [actions]="infoCardActions"
+                (close)="closeInfoCard()"
+              >
+              </app-info-card>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <footer></footer>
+
   </div>
+    <div class="col-2 right-bar">
+    </div>
 </div>

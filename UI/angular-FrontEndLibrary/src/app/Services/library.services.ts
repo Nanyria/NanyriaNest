@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Book} from '../Models/interfaces';
+import { GenreEnums } from '../Helpers/Enums/enum';
 
 
 @Injectable({
@@ -27,7 +28,7 @@ getAllBooks(): Observable<{ isSuccess: boolean; result: Book[] }> {
   }
 
 
-  getBooksByGenre(genre: string, sortBy: string = 'Title', ascending: boolean = true): Observable<{ isSuccess: boolean; result: Book[] }> {
+  getBooksByGenre(genre: GenreEnums, sortBy: string = 'Title', ascending: boolean = true): Observable<{ isSuccess: boolean; result: Book[] }> {
   const params = new HttpParams()
     .set('sortBy', sortBy)
     .set('ascending', ascending.toString());

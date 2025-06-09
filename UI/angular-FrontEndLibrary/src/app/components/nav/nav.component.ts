@@ -14,7 +14,7 @@ import { StackedBooksComponent } from '../stacked-books/stacked-books.component'
   standalone: true,
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
-  imports: [CommonModule, RouterModule, UserNavComponent, AdminNavComponent, WebIconsComponent, StackedBooksComponent],
+  imports: [CommonModule, RouterModule, StackedBooksComponent],
 })
 export class NavComponent {
   currentUrl = '';

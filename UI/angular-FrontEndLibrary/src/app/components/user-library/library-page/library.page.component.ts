@@ -5,7 +5,7 @@ import { LibraryService } from '../../../Services/library.services';
 import { BookService } from '../../../Services/book.services';
 import { UserActionsService } from '../../../Services/user-actions.service';
 import { AuthService } from '../../../Services/auth.service';
-import { BookStatusEnum } from '../../../Helpers/Enums/enum';
+import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
 import { SearchComponent } from '../search/search.component';
 import { BookListComponent } from '../book-list/book-list.component';
 import { Router } from '@angular/router';
@@ -286,4 +286,14 @@ toggleReservation(book: Book) {
         ]
       };
     }
+
+    onGenreSelected(genre: GenreEnums) {
+  if (genre === GenreEnums.All) {
+    this.getAllBooks(); // Fetch all books
+  } else {
+    this.libraryService.getBooksByGenre(genre, 'Title', true).subscribe(response => {
+      this.books = response.isSuccess ? response.result : [];
+    });
+  }
+}
 }

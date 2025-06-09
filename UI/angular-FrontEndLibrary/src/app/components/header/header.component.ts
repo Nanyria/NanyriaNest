@@ -8,13 +8,15 @@ import { BookshelfComponent } from '../bookshelf/bookshelf.component';
 import { HeaderSignComponent } from '../header-sign/header-sign.component';
 import { UserSignComponent } from '../user-sign/user-sign.component';
 import { UserNavComponent } from '../Users/user-nav/user-nav.component';
+import { BookshelfRightComponent} from "../bookshelf-right/bookshelf-right.component";
+import { BookshelfLeftComponent } from '../bookshelf-left/bookshelf-left.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   standalone: true,
-  imports: [CommonModule, NavComponent, BookshelfComponent, HeaderSignComponent, UserSignComponent]
+  imports: [CommonModule, NavComponent, BookshelfComponent, HeaderSignComponent, UserSignComponent, BookshelfRightComponent, BookshelfLeftComponent]
 })
 export class HeaderComponent {
     userNavOpen = false;

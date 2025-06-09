@@ -1,11 +1,20 @@
 <!--app.component.html-->
 
-
 <header *ngIf="isAuthenticated()">
   <app-header></app-header>
+      <div class="left-bookshelf-container">
+      <app-bookshelf-left></app-bookshelf-left>
+    </div>
+    <div class="right-bookshelf-container">
+      <app-bookshelf-right></app-bookshelf-right>
+    </div>
 </header>
-<div class="body">
-  <router-outlet></router-outlet>
-  <footer></footer>
-</div>
+    <div class="body-row">
+      <div class="main">
+        <main class="app-body">
+          <router-outlet></router-outlet>
+        </main>
+        <footer></footer>
+      </div>
+    </div>
 

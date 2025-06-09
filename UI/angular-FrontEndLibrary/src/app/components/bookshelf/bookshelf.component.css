@@ -1,22 +1,20 @@
 
 
-body {
-  padding: 0;
-  margin: 0;
-}
+
 
 .bookshelf {
   width: var(--width);
-  height: var(--shelf-height);
-  overflow: hidden;
+  height: var(--height);
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.bookshelf-container {
+.bookshelf-box {
   width: calc(var(--width) - 2 * var(--frame-thickness));
-  height: calc(var(--shelf-height) - 2 * var(--frame-thickness));
+  height: calc(var(--height) - 2 * var(--frame-thickness));
   perspective: 500px;
+  perspective-origin: 50% 10%;
   box-shadow: 0 8px 32px rgba(60,40,20,0.15);
       background:
     linear-gradient(rgba(109, 72, 37, 0.5), rgba(109, 72, 37, 0.5)), /* semi-transparent overlay */
@@ -24,20 +22,19 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin: 0 auto;
 }
 
 .cuboid {
   position: relative;
   width: var(--width);
-  height: var(--shelf-height);
+  height: var(--height);
   transform-style: preserve-3d;
   
 }
 
 .cuboid__face {
-  width: calc(var(--width) - 2 * var(--frame-thickness));
-  height: calc(var(--shelf-height) - 2 * var(--frame-thickness));
+  width: var(--width);
+  height: var(--height);
   border: 1px solid black;
   position: absolute;
   opacity: 0;
@@ -58,21 +55,24 @@ body {
 
 .cuboid__face--back {
   opacity: 1;
+    border-right: 2px solid black;
+  border-left: 2px solid black;
   background:
     linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
     url('/assets/images/webpage-images/backgrounds/wood3.png');
   background-size: cover;
   background-repeat: repeat;
   background-position: center;
-  transform: translateZ(calc(var(--depth) * -1)) rotateY(180deg);
+  transform: translateZ(calc(var(--side-depth) * -0.6)) rotateY(180deg);
     box-shadow:
-     16px 0 24px 10px rgba(0,0,0,0.5),
-     -16px 0 24px 10px rgba(0,0,0,0.5);
+     inset 16px 0 24px 10px rgba(0,0,0,0.5),
+     inset -16px 0 24px 10px rgba(0,0,0,0.5);
 }
 
 .cuboid__face--top {
-  transform: translateZ(calc(var(--depth) * -0.5)) translateY(calc(var(--depth) * -0.5)) rotateX(90deg);
-  height: calc(var(--depth) - 2 * var(--frame-thickness));
+  transform: translateZ(calc(var(--side-depth) * -0.5)) 
+  translateY(calc(var(--side-depth) * -0.5)) rotateX(90deg);
+  height: var(--side-depth);
   background-color: rgba(26, 17, 7, 1);
   opacity:1;
 
@@ -81,17 +81,89 @@ body {
 .cuboid__face--bottom {
   border: 2px solid black;
   background:
-    linear-gradient(rgba(26, 17, 7, 0.7), rgba(26, 17, 7, 0.7)), /* semi-transparent overlay */
+    linear-gradient(rgba(26, 17, 7, 0.7), rgba(26, 17, 7, 0.7)),
     url('/assets/images/webpage-images/backgrounds/wood3.png');
-  height: var(--depth);
+  height: var(--side-depth);
   opacity: 1;
-  /* Set transform origin to top center */
   transform-origin: top center;
-  /* Move to bottom edge, then back by half the depth */
   transform:
-  translateY(calc(var(--shelf-height) / 2 + var(--shelf-height) / 2))
-  translateZ(calc(var(--depth) * -0.001))
+    translateY(calc(150px - 2 * var(--frame-thickness)))
     rotateX(-90deg);
+}
+
+.shelf {
+  position: absolute;
+  width: var(--shelf-thickness);
+  height: calc(var(--height) );
+  left: var(--shelf-x);
+  transform-style: preserve-3d;
+  transform:
+    translateZ(calc(var(--side-depth) * -0.01))
+    rotateX(0deg);
+
+}
+
+.shelf-face {
+position: absolute;
+width: var(--shelf-thickness);
+height: calc(var(--height));
+pointer-events: none;
+z-index: 10;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.shelf-face--left, .cuboid__face--left {
+  position: absolute;
+  width: calc(var(--side-depth) * 0.6);  /* depth into shelf */
+  height: 100%;
+  background:
+    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
+    url('/assets/images/webpage-images/backgrounds/wood4.png');
+  background-size: 300%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  box-shadow: inset -35px -0 16px 0 rgba(0,0,0,0.5);
+  transform: rotateY(90deg) translateZ(0px);
+  transform-origin: left;
+  opacity: 1;
+}
+.shelf-face--right, .cuboid__face--right {
+  position: absolute;
+  width: calc(var(--side-depth) * 0.6);  /* depth into shelf */
+  height: 100%;
+  background:
+    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
+    url('/assets/images/webpage-images/backgrounds/wood4.png');
+  background-size: 300%;
+  background-repeat: no-repeat;
+  background-position: top right;
+  box-shadow: inset -35px -0 16px 0 rgba(0,0,0,0.5);
+  opacity: 1;
+}
+
+.shelf-face--right{
+transform: translateX(var(--shelf-thickness)) rotateY(90deg);
+  transform-origin: left;
+}
+.cuboid__face--right{
+  right:0;
+  transform: translateX(var(--width))rotateY(90deg) translateZ(0px);
+  transform-origin: left;
+}
+.shelf-face--front {
+  width: var(--shelf-thickness);
+  height: 100%;
+  background:
+    linear-gradient(rgba(169, 116, 79, 0.5), rgba(169, 116, 79, 0.5)), /* semi-transparent overlay */
+    url('/assets/images/webpage-images/backgrounds/frameleft.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: left;
+  box-shadow: inset -2px -0 16px 0 rgba(0,0,0,0.5);
+  opacity: 1;
+  transform: translateZ(0);
 }
 
 .frame-bar {
@@ -126,8 +198,8 @@ body {
 }
 
 .frame-bar--bottom {
-  top: calc(var(--shelf-height) - 2 * var(--frame-thickness));
-      background:
+  top: calc(var(--height) );
+  background:
     linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), /* semi-transparent overlay */
     url('/assets/images/webpage-images/backgrounds/framebot.png');
   background-size: 100% 100%;
@@ -143,7 +215,7 @@ body {
 .frame-bar--left,
 .frame-bar--right {
   width: var(--frame-thickness);
-  height: var(--shelf-height);
+  height: calc(var(--height) + 2 * var(--frame-thickness));
   top: calc(-1 * var(--frame-thickness));
   position: absolute;
   z-index: 3;
@@ -151,8 +223,8 @@ body {
 
 .frame-bar--left {
   left: calc(-1 * var(--frame-thickness));
-        background:
-    linear-gradient(rgba(169, 116, 79, 0.5), rgba(169, 116, 79, 0.5)), /* semi-transparent overlay */
+  background:
+    linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), /* semi-transparent overlay */
     url('/assets/images/webpage-images/backgrounds/frameleft.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -168,7 +240,7 @@ body {
 .frame-bar--right {
   left: var(--width);
         background:
-    linear-gradient(rgba(138, 95, 64, 0.5), rgba(138, 95, 64, 0.5)), /* semi-transparent overlay */
+    linear-gradient(rgba(89, 43, 0, 0.5), rgba(89, 43, 0, 0.5)),/* semi-transparent overlay */
     url('/assets/images/webpage-images/backgrounds/frameright.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;

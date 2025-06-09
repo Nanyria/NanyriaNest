@@ -1,19 +1,29 @@
-.header-container {
+.shelf-container{
   position: relative;
-  z-index: 10;
-  height: 150px;    
-  min-height: 120px;      
+  z-index: 10;    
   width: 100%;
-  padding: 12px 32px;
+  height: 100%;
+  padding: 0 20px;
+    display: flex;
+      justify-content: center;
+  align-items: center;
+}
+.header-container {
+  height: 150px;    
+  width: calc(var(--width) - 2 * 180px);
+  padding: 0;
+  
 }
 .header-background {
   width: 100%;
-  margin: 0 auto;         /* Center on large screens */
-  padding: 12px 0;        /* Add horizontal padding */
+  height: 100%;
   box-sizing: border-box; /* Ensure padding is included in width */
   display: flex;
   justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: row;
+    align-items: flex-end; 
 }
 .header-sign {
   z-index: 11;
@@ -22,50 +32,86 @@
   left: 0;         /* Use vw for responsiveness */
   width: 100vw;       /* Let it scale with viewport */        /* Maintains 5:3 aspect ratio */
   height: auto;
-  max-width: 500px;  /* Prevent it from getting too large */
+  max-width: 330px;  /* Prevent it from getting too large */
   min-width: 220px;  /* Prevent it from getting too small */
   pointer-events: none; /* Optional: let clicks pass through */
   display: flex;
   justify-content: center;
 }
-
-.user-nav-sign {
+.row.nav-row{
+  flex: 1 1 0;
+  display: flex;
   width: 100%;
+  height: 100%;
+}
+.user-nav-sign {
+  position: relative;
+  width: 155px;
   z-index: 15;
   display: flex;
-  flex-direction: column;
   overflow: visible;
-  align-items: flex-end;    /* Center vertically */
-  justify-content: center;/* Center horizontally */
+  height: 820px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* transform: translateZ(-42px); 
+  box-shadow: 0 8px 32px rgba(60,40,20,0.18), inset 0 0 18px 4px rgba(0,0,0,0.28);
+  background: #2d2212;
+  border-radius: 12px;
+  border: 2px solid #1a1207; */
 }
 
 .nav-right {
   width: 100%;
+  height: 100%;
   display: flex;
-  align-items: flex-end;
-  padding: 0 16px; /* Add horizontal padding */
   z-index: 15;
 }
 
-.nav-container {
+.bookshelf-container {
   position: absolute;
   width: 100%;
-  height: 100%;;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   pointer-events: auto; /* Set to none if you want clicks to pass through */
-
-  padding: 22px 42px;
+ /* Add padding to the right */
+ padding: 0 20px;
 }
 
-
+.nav-container {
+  flex: 1 1 0;
+  width: 100%;
+  max-width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px ; /* Adjust padding as needed */
+}
+.sign-container{
+  width:100%;
+  height: 820px;
+ position: relative;
+  display: flex;
+  align-items: center;    /* Center horizontally if needed */
+  justify-content: center; /* Start at the top */
+  padding: 10px;
+    perspective: 400px; /* Add perspective for 3D effect */
+  perspective-origin: left center;
+}
 app-bookshelf {
   width: 100%;
   height: 100%;
   display: block;
 }
-
+app-user-sign {
+  width: 100%;
+  height: 100%;
+padding: 10px 0;
+  display: block;
+}
 /* === MEDIA QUERIES === */
 
 /* Tablets and below (<= 1024px) */
@@ -99,12 +145,9 @@ app-bookshelf {
   height: 290px;
     padding: 0px 8px; /* Reduce padding for smaller screens */
   }
-  .user-nav-sign {
-    padding: 255px 0;
-    align-items: center; /* Center items for smaller screens */
-  }
+
   .header-sign {
-    left: -20px;
+    left: 0;
     top: -50px;
     transform: scale(0.9);
     transform-origin: top center;

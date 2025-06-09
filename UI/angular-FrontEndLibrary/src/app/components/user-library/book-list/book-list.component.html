@@ -1,35 +1,45 @@
-<table class="table-custom">
-  <thead class="thead">
-    <tr>
-      <th class="th-2">Omslag</th>
-      <th class="th-2">Titel</th>
-      <th class="th-2">Författare</th>
-      <th class="th-2">Genre</th>
-      <th class="th-2">Boktyp</th>
-      <th class="th-2">Beskrivning</th>
-      <th class="th-2">Status</th>
-      <th class="th-2">Recenssioner</th>
-      <th class="th-3">Rating</th>
-    </tr>
-  </thead>
-  <tbody class="tbody">
-  <tr *ngFor="let book of books" class="book-row" (click)="onBookRowClick(book, $event)">
-      <td class="td">
-        <img 
-          [src]="book.coverImagePath ? book.coverImagePath : 'assets/images/book-covers/BrownBook.svg'" 
-          alt="Omslag" 
-          width="40" 
-          height="60"
-        />
-      </td>
-    <td class="td">{{ book.title }}</td>
-    <td class="td">{{ book.author }}</td>
-    <td class="td">{{ genreOptions.displayNames[book.genre] || book.genre }}</td>
-    <td class="td">{{ bookTypeOptions.displayNames[book.bookType] }}</td>
-    <td class="td">{{ book.bookDescription }}</td>
-    <td class="td">{{ bookStatusOptions.displayNames[book.bookStatus] }}</td>
-    <td class="td-reviews"></td>
-    <td class="td">{{ book.reviews?.length }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-container">
+  <div class="table-header-wrapper">
+    <div class="row table-header-row">
+      <div class="col-1 col-1-lg-1 col-1-md-1 col-1-sm-1 col-1-xs-1 table-header-s">
+        <p>Omslag</p>
+      </div>
+      <div class="col-2 col-2-lg-2 col-2-md-2 col-2-sm-2 col-2-xs-2 table-header">
+        <p>Titel</p>
+      </div>
+      <div class="col-2 col-2-lg-2 col-2-md-2 col-2-sm-2 col-2-xs-2 table-header">
+        <p>Författare</p>
+      </div>
+      <div class="col-2 col-2-lg-2 col-2-md-2 col-2-sm-2 col-2-xs-2 table-header">
+        <p>Genre</p>
+      </div>
+      <div class="col-2 col-2-lg-2 col-2-md-2 col-2-sm-2 col-2-xs-2 table-header">
+        <p>Boktyp</p>
+      </div>
+      <div class="col-2 col-2-lg-2 col-2-md-2 col-2-sm-2 col-2-xs-2 table-header">
+        <p>Status</p>
+      </div>
+      <div class="col-1 col-1-lg-1 col-1-md-1 col-1-sm-1 col-1-xs-1 table-header-s">
+        <p>Betyg</p>
+      </div>
+    </div>
+  </div>
+    <div class="table-scrollable-body"></div>
+      <div *ngFor="let book of books" class="row book-row" (click)="onBookRowClick(book, $event)">
+        <div class="col-1 col-1-lg-1 col-1-md-1 col-1-sm-1 col-1-xs-1 table-cell-s">
+          <img 
+            [src]="book.coverImagePath ? book.coverImagePath : 'assets/images/book-covers/BrownBook.svg'" 
+            alt="Omslag" 
+            width="40" 
+            height="60"
+          />
+        </div>
+        <div class="col-2 table-cell">{{ book.title }}</div>
+        <div class="col-2 table-cell">{{ book.author }}</div>
+        <div class="col-2 table-cell">{{ genreOptions.displayNames[book.genre] || book.genre }}</div>
+        <div class="col-2 table-cell">{{ bookTypeOptions.displayNames[book.bookType] }}</div>
+        <div class="col-2 table-cell">{{ bookStatusOptions.displayNames[book.bookStatus] }}</div>
+        <div class="col-1 table-cell-s ">{{ book.reviews?.length }}</div>
+    </div>
+</div>
+

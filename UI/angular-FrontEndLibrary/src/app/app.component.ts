@@ -7,6 +7,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
 import { FormsModule } from '@angular/forms'; // <-- Import this
 import { AuthService } from './Services/auth.service';
+import { BookshelfLeftComponent } from './components/bookshelf-left/bookshelf-left.component';
+import { BookshelfRightComponent } from './components/bookshelf-right/bookshelf-right.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -17,6 +19,8 @@ import { AuthService } from './Services/auth.service';
     RouterModule, // Import RouterModule without forRoot
     HeaderComponent,
     FormsModule, // <-- Add this
+    BookshelfLeftComponent,
+    BookshelfRightComponent
   ]
 })
 export class AppComponent {

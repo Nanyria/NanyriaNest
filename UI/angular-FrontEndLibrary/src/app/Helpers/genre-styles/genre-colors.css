@@ -1,0 +1,85 @@
+:root {
+  /* None */
+  --genre-none-gradient1: #dfdfdf;
+  --genre-none-gradient2: ##a6a6a6;
+  --genre-none-text: #ffffff;
+  --genre-none-font: 'Arial', sans-serif;
+
+  /* Fantasy */
+  --genre-fantasy-gradient1: #762f88;
+  --genre-fantasy-gradient2: #180037;
+  --genre-fantasy-text: #8f2a8b;
+  --genre-fantasy-font: 'Cinzel', serif;
+
+  /* Children */
+  --genre-children-gradient1: #ffe49e;
+  --genre-children-gradient2: #ffd9f4;
+  --genre-children-text: #545454;
+  --genre-children-font: 'Comic Sans MS', cursive, sans-serif;
+
+  /* Romance */
+  --genre-romance-gradient1: #d398c6;
+  --genre-romance-gradient2: #b76e79;
+  --genre-romance-text: #ffffff;
+  --genre-romance-font: 'Dancing Script', cursive;
+
+  /* Horror */
+  --genre-horror-gradient1: #540000;
+  --genre-horror-gradient2: #000000;
+  --genre-horror-text: #b71c1c;
+  --genre-horror-font: 'Creepster', cursive;
+
+  /* Thriller */
+  --genre-thriller-gradient1: #720c0c;
+  --genre-thriller-gradient2: #b71c1c;
+  --genre-thriller-text: #0b0c10;
+  --genre-thriller-font: 'Oswald', sans-serif;
+
+  /* Mystery */
+  --genre-mystery-gradient1: #285a94;
+  --genre-mystery-gradient2: #262527;
+  --genre-mystery-text: #d9d9d9;
+  --genre-mystery-font: 'Roboto Slab', serif;
+
+  /* ScienceFiction */
+  --genre-sciencefiction-gradient1: #000022;
+  --genre-sciencefiction-gradient2: #6a4d69;
+  --genre-sciencefiction-text: #00b0ff;
+  --genre-sciencefiction-font: 'Orbitron', sans-serif;
+
+  /* NonFiction */
+  --genre-nonfiction-gradient1: #ffffff;
+  --genre-nonfiction-gradient2: #899abb;
+  --genre-nonfiction-text: #333;
+  --genre-nonfiction-font: 'Lato', sans-serif;
+
+  /* Fiction */
+  --genre-fiction-gradient1: #b6c6a3;
+  --genre-fiction-gradient2: #356953;
+  --genre-fiction-text: #333;
+  --genre-fiction-font: 'Merriweather', serif;
+
+  /* Biography */
+  --genre-biography-gradient1: #fff0e8;
+  --genre-biography-gradient2: #a68985;
+  --genre-biography-text: #573939;
+  --genre-biography-font: 'Georgia', serif;
+
+  /* FeelGood */
+  --genre-feelgood-gradient1: #ffefbe;
+  --genre-feelgood-gradient2: #ffc56e;
+  --genre-feelgood-text: #605949;
+  --genre-feelgood-font: 'Pacifico', cursive;
+
+  /* Poetry */
+  --genre-poetry-gradient1: #84b7c4;
+  --genre-poetry-gradient2: #2a5b52;
+  --genre-poetry-text: #333;
+  --genre-poetry-font: 'Poiret One', cursive;
+
+  /* SelfHelp */
+  --genre-selfhelp-gradient1: #a3d9f6;
+  --genre-selfhelp-gradient2: #424b6b;
+  --genre-selfhelp-text: #1a1e2b;
+  --genre-selfhelp-font: 'Montserrat', sans-serif;
+}

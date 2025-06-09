@@ -17,7 +17,12 @@
   --disabled-gray: rgba(107, 114, 128, 1);
   --navy-book-color: rgba(16, 38, 69, 1);
   --red-dragon-color: rgba(143, 1, 24, 1);
-  --dark-brown: rgba(32, 17, 10, 1);  
+  --dark-brown: rgba(32, 17, 10, 1);
+  --emerald-green: rgba(16, 69, 52, 1); /* Define the emerald green color */
+  --royal-purple: rgba(58, 16, 69, 1);
+  --rich-brown: rgba(86, 50, 12, 1);
+  --dark-maroon: rgba(69, 16, 16, 1);
+  --leaf-green: #053702;
   --golden-gradient: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
                      radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
   --shelf-height: 120px;
@@ -26,52 +31,140 @@
   --depth: 25px;
   --frame-thickness: 10px;
   --sign-height: 100%;
+  --sideH: 820px;
+  --sideW: 180px;
+  --innerH: calc(var(--sideH) - 2 * var(--frame-thickness));
+  --innerW: calc(var(--sideW) - 2 * var(--frame-thickness));
+  --shelf-thickness: 12px;
+  --side-depth: 40px;
 
-
+  --shelf-left: calc(var(--width) - 130px);
+  --shelf-right: calc(var(--width) - 130px);
+  --shelf-h: 0%;
 }
 
 
 header{
-  background-color: rgba(17, 24, 39, 1);
+  background-color: transparent;
   font-family: 'Eagle Lake', cursive;
-  margin: 0; /* Ensure no default margin */
-  padding: 0; /* Ensure no default padding */
   box-sizing: border-box; /* Ensure padding is included in the width */
 }
 body {
   display: flex;
-  flex-direction: column; /* Ensure children are stacked vertically */
+  flex-direction: column;
   background-color: rgba(17, 24, 39, 1);
-  margin: 0; /* Ensure no default margin */
-  padding: 16px;
-  box-sizing: border-box; /* Ensure padding is included in the width */
-  width: 100%;
-  height: calc(100vh - 64px); /* Subtract padding from height */
-}
-body, html {
-  font-family: 'Texturina', serif; /* Set the default font for the body */
-}
-*, *::before, *::after {
-  box-sizing: inherit; /* Inherit box-sizing from body */
+  /* background-image: url('assets/images/webpage-images/backgrounds/webpagebg.svg');
+  background-size: 100%, 10%;        
+  background-repeat: no-repeat;  
+  background-position: bottom;     */
+  margin: 0;
+  padding: 20px;
+
 }
 
-/* General container styles */
-.container {
-  border-radius: 8px;
-  background-color: rgba(31, 41, 55, 1);
-  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
-  margin-top: 24px;
-  padding: 24px;
+.app-body {
+  position: relative;
+  z-index: 2;
   width: 100%;
+  height: 100%;
+  background: transparent;
+  padding: 0;
 }
 
-.table-body {
+.body-row {
   display: flex;
   width: 100%;
-  flex-direction: column;
-  padding: 0 32px;
-  box-sizing: border-box;
+  height: 100%;
+  padding: 0 20px;
 }
+
+.left-bookshelf, .right-bookshelf,
+.left-bookshelf-container, .right-bookshelf-container {
+  flex: 0 0 180px;
+  max-width: 180px;
+  min-width: 180px;
+  min-height: 820px;
+
+}
+.left-bookshelf-container {
+  position: absolute;
+  left: 40px;
+  top: 20px;
+  width: 180px;
+  height: 100%;
+  pointer-events: none; /* bookshelf is under app-body, so not clickable unless you want it to be */
+}
+.right-bookshelf-container {
+  position: absolute;
+  right: 40px;
+  top: 20px;
+  width: 180px;
+  height: 100%;
+  pointer-events: none; /* bookshelf is under app-body, so not clickable unless you want it to be */
+}
+
+.left-bar, .right-bar {
+  width: 180px; /* Adjust as needed */
+  height: 100%;
+  padding: 0;
+}
+.row.page-row{
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+.page-container{
+  flex: 1 1 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.main {
+  position: relative;
+  width: 100%; /* 10/12 columns, adjust as needed */
+}
+body, html {
+    height: 100%;
+  min-height: 100%;
+  font-family: 'Texturina', serif; /* Set the default font for the body */
+}
+
+
+.row{
+  margin: 0;
+}
+/* General container styles */
+.info-container {
+  border-radius: 8px;
+  background-color: var(--background-beige);
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.left col{
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  width: 100%;
+}
+.right col{
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  width: 100%;
+}
+
 
 .sub-header {
   display: flex;
@@ -87,11 +180,7 @@ body, html {
   justify-self: center;
 }
 
-@media (max-width: 991px) {
-  .container {
-    max-width: 100%;
-  }
-}
+
 
 /* General form group styles */
 .form-group label {
@@ -161,15 +250,81 @@ body, html {
   cursor: not-allowed;
 }
 
+
+.row.table-header-row, .row.book-row {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 80px;
+}
+.row.table-header-row {
+  background-color: rgba(55, 65, 81, 1); /* match your header bg */
+  color: rgba(156, 163, 175, 1);
+  font-weight: bold;
+}
+
+.row.book-row {
+  background-color: rgba(31, 41, 55, 1);
+  color: rgba(229, 231, 235, 1);
+  font-weight: normal;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.row.book-row:hover {
+  background: rgba(254, 235, 207, 1); /* or any highlight color you prefer */
+}
+.table-container{
+  padding: 12px;
+}
+.table-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(55, 65, 81, 1); /* match your header bg */
+}
+
+.table-header, .table-header-s, .table-cell, .table-cell-s {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 2px 24px;
+}
+.table-header, .table-cell {
+  min-width: 130px;
+  max-width: 200px;
+}
+.table-header-s, .table-cell-s {
+  min-width: 100px;
+  max-width: 130px;
+}
+
+.table-scrollable-body {
+  max-height: 100%; /* or your preferred height */
+  overflow-y: auto;
+  width: 100%;
+}
+
 .table-custom {
   border-radius: 8px !important;
   background-color: rgba(31, 41, 55, 1) !important;
   box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
-  margin-top: 24px !important;
-  width: 100% !important;
+  margin-top: 24px;
+  width: 100%;
+  max-width: 100%;
   padding-bottom: 17px !important;
   overflow: hidden;
-  border-collapse: collapse !important; /* Ensure table layout */
+  border-collapse: separate !important;
+}
+
+.table-custom thead,
+.table-custom tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+.table-custom .tr {
+  border-bottom: 1px solid rgba(55, 65, 81, 1);
 }
 
 .table-custom .thead {
@@ -177,6 +332,12 @@ body, html {
   text-transform: uppercase;
   background-color: rgba(55, 65, 81, 1);
   font: 600 12px/1 'Eagle Lake', cursive;;
+}
+.table-custom thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: rgba(55, 65, 81, 1); /* Match your header bg */
 }
 
 .table-custom .th-1, .table-custom .th-2, .table-custom .th-3 {
@@ -186,21 +347,30 @@ body, html {
   text-align: left;
 }
 .table-custom .th-1 {
+  width: 130px;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: left;
 }
 .table-custom .th-3 , .table-custom .th-4{
   text-align: center;
 }
 .table-custom .th-4 {
-  padding: 20px 12px;
+  width: 130px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: left;
 }
 .table-custom .tbody {
   color: rgba(255, 255, 255, 1);
   font: 400 16px 'Texturina', serif;
-}
-
-.table-custom .tr {
-  border-bottom: 1px solid rgba(55, 65, 81, 1);
+  display: block;
+    width: 100%;
+  /* Add this for scrolling: */
+  max-height: 350px; /* or your preferred height */
+  overflow-y: auto;
 }
 
 .table-custom .td {
@@ -215,6 +385,18 @@ body, html {
   text-align: left;
   padding: 1px 5px; /* Ensure padding is applied */
 }
+.table-custom .td-1 {
+  width: 130px;
+  padding: 1px 40px; 
+  text-align: left;
+}
+
+.table-custom .td-2 {
+  width: 130px;
+  padding: 1px 5px; 
+  text-align: center;
+}
+
 .action-borrow img,
 .action-return img {
   width: 2.2em;
@@ -287,4 +469,17 @@ button:focus .action-label {
 }
 button {
   position: relative; /* Needed for absolute label positioning */
+}
+
+@media (max-width: 991px) {
+  .body {
+    max-width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+  }
+}
+@media (max-width: 991px) {
+  .container {
+    max-width: 100%;
+  }
 }

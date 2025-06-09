@@ -1,13 +1,4 @@
-<div class="user-sign-container" [style.height]="navOpen ? '520px' : '100px'">
- <div class="user-sign">
-    <div class="sign-container">
-      <!-- 3D Frame Bars -->
-      <div class="frame-bar frame-bar--top"></div>
-      <div class="frame-bar frame-bar--bottom"></div>
-      <div class="frame-bar frame-bar--left"></div>
-      <div class="frame-bar frame-bar--right"></div>
-    </div>
-  </div>
+
 
 <app-user-nav
   class="user-nav-absolute"
@@ -15,4 +6,4 @@
   [user]="currentUser"
   (navOpenChange)="onNavOpenChange($event)"
 ></app-user-nav>
-</div>
+

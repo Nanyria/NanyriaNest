@@ -34,7 +34,8 @@
       "send",
       "serve-static",
       "wrap-ansi"
-    ]
+    ],
+    "resolveJsonModule": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,7 +1,11 @@
 <div class="genre-list">
-  <app-genre-card
-    *ngFor="let genre of genres"
-    [genre]="GenreEnums[genre]"
-    [displayName]="getGenreDisplayName(genre)">
-  </app-genre-card>
+  <div class="genre-list-header">
+    <p>Sortera efter genre</p>
+  </div>
+  <div *ngFor="let genre of genres" (click)="selectGenre(genre)" class="genre-item">
+    <app-genre-card
+      [genre]="GenreEnums[genre]"
+      [displayName]="getGenreDisplayName(genre)">
+    </app-genre-card>
+  </div>
 </div>

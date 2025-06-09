@@ -1,13 +1,51 @@
 .card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px 0;
+  border-radius: 3px;
+  padding: 0;
   background: #fff;
-  width: 200px;
-  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .card-header {
-  font-weight: bold;
-  margin-bottom: 8px;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.depth {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+}
+
+.depth-before,
+.depth-after,
+.depth-main {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+  text-align: center;
+}
+
+.depth-before {
+  
+  left: 0.8px;
+  top: 0.8px;
+  z-index: 1;
+}
+
+.depth-after {
+
+  left: -0.8px;
+  top: -0.8px;
+  z-index: 3;
+}
+
+.depth-main {
+  color: inherit; /* uses palette.text */
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
 }

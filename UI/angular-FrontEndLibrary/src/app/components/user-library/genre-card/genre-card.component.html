@@ -1,11 +1,17 @@
 <div
   class="card"
   [style.background]="
-    'linear-gradient(135deg, ' + palette.gradient1 + ', ' + palette.gradient2 + ')'
+    'linear-gradient(180deg, ' + palette.gradient2 + ', ' + palette.gradient1 + ', ' + palette.gradient2 + ')'
   "
+  [style.font-size]="palette.fontSize"
   [style.color]="palette.text"
   [style.font-family]="palette.font"
+  [style.width]="genreStyle.width"
+  [style.height]="genreStyle.height"
 >
-  <div class="card-header">{{ displayName }}</div>
+<div class="card-header depth">
+<span class="depth-before" [style.color]="palette.highlight">{{ displayName }}</span>
+<span class="depth-after" [style.color]="palette.shadow">{{ displayName }}</span>
+<span class="depth-main">{{ displayName }}</span>
   <!-- ... -->
 </div>
