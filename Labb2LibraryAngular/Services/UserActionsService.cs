@@ -79,7 +79,7 @@ namespace FinalProjectLibrary.Services
                 response.ErrorMessages.AddRange(result.Errors.Select(e => e.Description));
                 return response;
             }
-
+            await _userManager.AddToRoleAsync(user, Roles.User);
             await _emailService.SendRegistrationEmailAsync(
                 createUserDTO.Email,
                 createUserDTO.FirstName,

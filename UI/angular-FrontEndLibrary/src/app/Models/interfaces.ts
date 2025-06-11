@@ -1,4 +1,4 @@
-import e from 'express';
+
 import {
   GenreEnums,
   BookStatusEnum,
@@ -36,23 +36,24 @@ export interface SlimBookDto {
 }
 
 // User interfaces
-// export interface User {
-//     id?: string;
-//     userId: string;
-//     userName: string;
-//     firstName: string;
-//     lastName: string;
-//     email: string;
-//     password: string;
-//     bio: string;
-//     profilePictureUrl?: string;
-//     checkedOutBooks: CheckedOutItem[];
-//     reservedBooks: ReservationItem[];
-//     userHistory: StatusHistoryItem[];
-//     readList: FavoriteItem[];
-//     adminRole?: boolean;
-//     isSuperAdmin: boolean;
-// }
+export interface UserDto {
+    id?: string;
+    userId: string;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    bio: string;
+    role: string; // 'User', 'Admin', 'SuperAdmin'
+    profilePictureUrl?: string;
+    checkedOutBooks: CheckedOutItem[];
+    reservedBooks: ReservationItem[];
+    userHistory: StatusHistoryItem[];
+    readList: FavoriteItem[];
+    adminRole?: boolean;
+    isSuperAdmin: boolean;
+}
 export interface CreateUserDto {
   userName: string;
   firstName: string;
@@ -71,7 +72,7 @@ export interface ILoggedInUser {
 
   profilePictureUrl?: string;
   bio: string;
-
+  role: string; // 'User', 'Admin', 'SuperAdmin'
   readList: FavoriteItem[];
   reviews: ReviewItemDto[];
   checkedOutBooks: CheckedOutItem[];
@@ -140,9 +141,9 @@ export interface CheckedOutItem {
 }
 
 export interface FavoriteItem {
-  id: number;
   userId: string;
   bookId: number;
+  book: SlimBookDto;
   createdAt: string; // ISO string (DateTime in C#)
 }
 export interface ReviewItemDto {

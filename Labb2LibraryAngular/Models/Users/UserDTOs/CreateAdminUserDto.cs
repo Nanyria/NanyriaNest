@@ -26,6 +26,6 @@ namespace FinalProjectLibrary.Models.Users.UserDTOs
 
         [Required]
         [MaxLength(50)]
-        public required string AdminRole { get; set; }
+        public required string Role { get; set; }
     }
 }

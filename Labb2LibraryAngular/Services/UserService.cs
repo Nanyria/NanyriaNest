@@ -93,7 +93,7 @@ namespace FinalProjectLibrary.Services
                 IsSuccess = false,
                 StatusCode = HttpStatusCode.BadRequest
             };
-            if (!AdminRoles.AllRoles.Contains(createAdminUserDto.AdminRole))
+            if (!Roles.AllRoles.Contains(createAdminUserDto.Role))
             {
                 response.ErrorMessages.Add("Invalid AdminRole.");
                 return response;
@@ -111,7 +111,7 @@ namespace FinalProjectLibrary.Services
             }
 
             // Assign admin role
-            var roleResult = await _userManager.AddToRoleAsync(user, createAdminUserDto.AdminRole);
+            var roleResult = await _userManager.AddToRoleAsync(user, createAdminUserDto.Role);
             if (!roleResult.Succeeded)
             {
                 response.ErrorMessages.AddRange(roleResult.Errors.Select(e => e.Description));
@@ -240,7 +240,29 @@ namespace FinalProjectLibrary.Services
                         return response;
                     }
                 }
-
+                if (!string.IsNullOrWhiteSpace(userToUpdate.Role))
+                {
+                    var currentRoles = await _userManager.GetRolesAsync(user);
+                    // Remove all current roles
+                    if (currentRoles.Any())
+                    {
+                        var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                        if (!removeResult.Succeeded)
+                        {
+                            response.ErrorMessages.AddRange(removeResult.Errors.Select(e => e.Description));
+                            return response;
+                        }
+                    }
+                    // Add new role
+                    var addResult = await _userManager.AddToRoleAsync(user, userToUpdate.Role);
+                    if (!addResult.Succeeded)
+                    {
+                        response.ErrorMessages.AddRange(addResult.Errors.Select(e => e.Description));
+                        return response;
+                    }
+                    // Update the User.Role property
+                    user.Role = userToUpdate.Role;
+                }
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (!updateResult.Succeeded)
                 {

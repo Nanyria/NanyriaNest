@@ -1259,11 +1259,11 @@
       },
       "CreateAdminUserDto": {
         "required": [
-          "adminRole",
           "email",
           "firstName",
           "lastName",
           "password",
+          "role",
           "userName"
         ],
         "type": "object",
@@ -1293,7 +1293,7 @@
             "minLength": 1,
             "type": "string"
           },
-          "adminRole": {
+          "role": {
             "maxLength": 50,
             "minLength": 1,
             "type": "string"
@@ -1352,6 +1352,7 @@
           "firstName",
           "lastName",
           "password",
+          "role",
           "userName"
         ],
         "type": "object",
@@ -1373,6 +1374,10 @@
             "nullable": true
           },
           "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
             "type": "string",
             "nullable": true
           }
@@ -1847,7 +1852,8 @@
       "User": {
         "required": [
           "firstName",
-          "lastName"
+          "lastName",
+          "role"
         ],
         "type": "object",
         "properties": {
@@ -1926,6 +1932,11 @@
             "maxLength": 500,
             "type": "string",
             "nullable": true
+          },
+          "role": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
           },
           "readList": {
             "type": "array",

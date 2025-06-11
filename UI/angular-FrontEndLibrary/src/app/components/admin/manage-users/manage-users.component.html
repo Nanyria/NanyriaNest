@@ -1,0 +1,77 @@
+<div class="admin-table-container">
+  <div class="table-header-wrapper">
+        <div class="row table-header-row">
+    <div class="table-header-s">Id</div>
+    <div class="table-header-s">Användarnamn</div>
+    <div class="table-header-s">E-post</div>
+    <div class="table-header-s">Roll</div>
+    <div class="table-header-s">Hantera</div>
+  </div>
+  </div>
+      <div class="table-scrollable-body">
+  <div *ngFor="let user of users" class="row user-row">
+    <div class="table-cell-s">
+        <span *ngIf="!editUser || editUser.userId !== user.userId">{{ user.userId }}</span>
+      </div>
+      <div class="col-2 table-cell-s">
+        <input *ngIf="editUser && editUser.userId === user.userId" [(ngModel)]="editUser.userName" />
+      <span *ngIf="!editUser || editUser.userId !== user.userId">{{ user.userName }}</span>
+    </div>
+    <div class="col-2 table-cell-s">
+      <input *ngIf="editUser && editUser.userId === user.userId" [(ngModel)]="editUser.email" />
+      <span *ngIf="!editUser || editUser.userId !== user.userId">{{ user.email }}</span>
+    </div>
+<div class="col-2 table-cell-s">
+  <select *ngIf="editUser && editUser.userId === user.userId"
+          [(ngModel)]="editUser.role"
+          name="role-{{user.userId}}">
+    <option *ngFor="let role of roleOptions" [value]="role.value">
+      {{ role.label }}
+    </option>
+  </select>
+  <span *ngIf="!editUser || editUser.userId !== user.userId">
+    {{ roleOptions.find(r => r.value === user.role)?.label || user.role }}
+  </span>
+</div>
+    <!-- <div class="table-cell-s">
+      {{ BookTypeDisplayNames[book.bookType] }}
+    </div>
+    <div class="table-cell-s">
+      <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.publicationYear" />
+      <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.publicationYear }}</span>
+    </div>
+    <div class="table-cell-s">
+      <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.bookDescription" />
+      <span *ngIf="!editBook || editBook.bookId !== book.bookId">{{ book.bookDescription }}</span>
+    </div>
+    <div class="table-cell-s">
+      <select *ngIf="editBook && editBook.bookId === book.bookId"
+              [(ngModel)]="editBook.bookStatus"
+              name="status-{{book.bookId}}">
+        <option *ngFor="let status of bookStatuses" [value]="status">
+          {{ BookStatusDisplayNames[status] }}
+        </option>
+      </select>
+      <span *ngIf="!editBook || editBook.bookId !== book.bookId">
+        {{ BookStatusDisplayNames[book.bookStatus] }}
+      </span>
+    </div>
+    <div class="table-cell-s">
+      <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-delete" (click)="deleteBook(book.bookId)">
+        <i class="bi bi-trash"></i>
+      </button>
+      <button *ngIf="editBook && editBook.bookId === book.bookId" class="btn-save" (click)="saveBook(editBook)">
+        <i class="bi bi-floppy"></i>
+      </button>
+      <button *ngIf="editBook && editBook.bookId === book.bookId" class="btn-cancel" (click)="cancelEdit()">
+        <i class="bi bi-x-circle"></i>
+      </button>
+      <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-edit" (click)="editBookDetails(book)">
+        <i class="bi bi-pen"></i>
+      </button>
+      <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-delete" (click)="deleteBook(book.bookId)">
+        <i class="bi bi-trash"></i>
+      </button> -->
+    </div>
+  </div>
+</div>

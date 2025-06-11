@@ -100,7 +100,8 @@ namespace FinalProjectLibrary
                 db.Database.Migrate(); // Ensures DB is created and up-to-date
 
                 var services = scope.ServiceProvider;
-                Helper.IdentityDataInitializer.SeedRolesAndAdminAsync(services).GetAwaiter().GetResult();
+                Helper.SeedRolesAndAdminAsync(services).GetAwaiter().GetResult();
+                Helper.AssignUserRoleToUsersWithoutRoleAsync(services).GetAwaiter().GetResult();
             }
 
             // Configure the HTTP request pipeline.

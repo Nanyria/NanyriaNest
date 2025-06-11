@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ILoggedInUser, CreateUserDto } from '../Models/interfaces';
+import { ILoggedInUser, CreateUserDto, UserDto } from '../Models/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +12,13 @@ private apiUrl = 'api/User'; // Base URL for the User API
   constructor(private http: HttpClient) {}
 
   // Get all users
-  getAllUsers(): Observable<{ isSuccess: boolean; result: ILoggedInUser[] }> {
-    return this.http.get<{ isSuccess: boolean; result: ILoggedInUser[] }>(this.apiUrl);
+  getAllUsers(): Observable<{ isSuccess: boolean; result: UserDto[] }> {
+    return this.http.get<{ isSuccess: boolean; result: UserDto[] }>(this.apiUrl);
   }
 
   // Get user by ID
-  getUserById(userId: string): Observable<{ isSuccess: boolean; result: ILoggedInUser }> {
-    return this.http.get<{ isSuccess: boolean; result: ILoggedInUser }>(`${this.apiUrl}/${userId}`);
+  getUserById(userId: string): Observable<{ isSuccess: boolean; result: UserDto }> {
+    return this.http.get<{ isSuccess: boolean; result: UserDto }>(`${this.apiUrl}/${userId}`);
   }
 
 

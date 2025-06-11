@@ -41,6 +41,14 @@
   --shelf-left: calc(var(--width) - 130px);
   --shelf-right: calc(var(--width) - 130px);
   --shelf-h: 0%;
+    --wood4: linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), url('/assets/images/webpage-images/backgrounds/wood4.png');
+  --wood3: linear-gradient(rgba(26, 17, 7, 0.7), rgba(26, 17, 7, 0.7)), url('/assets/images/webpage-images/backgrounds/wood3.png');
+  --frame: linear-gradient(rgba(169, 116, 79, 0.5), rgba(43, 30, 21, 0.5)), url('/assets/images/webpage-images/backgrounds/frame.png');
+  --frame-top: linear-gradient(rgba(89, 43, 0, 0.5), rgba(89, 43, 0, 0.5)), url('/assets/images/webpage-images/backgrounds/frame.png');
+  --frame-bot: linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), url('/assets/images/webpage-images/backgrounds/framebot.png');
+  --frame-left: linear-gradient(rgba(169, 116, 79, 0.5), rgba(169, 116, 79, 0.5)), url('/assets/images/webpage-images/backgrounds/frameleft.png');
+  --frame-right: linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), url('/assets/images/webpage-images/backgrounds/frameright.png');
+
 }
 
 

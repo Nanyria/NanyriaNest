@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-    <div class="table-scrollable-body"></div>
+    <div class="table-scrollable-body">
       <div *ngFor="let book of books" class="row book-row" (click)="onBookRowClick(book, $event)">
         <div class="col-1 col-1-lg-1 col-1-md-1 col-1-sm-1 col-1-xs-1 table-cell-s">
           <img 
@@ -40,6 +40,7 @@
         <div class="col-2 table-cell">{{ bookTypeOptions.displayNames[book.bookType] }}</div>
         <div class="col-2 table-cell">{{ bookStatusOptions.displayNames[book.bookStatus] }}</div>
         <div class="col-1 table-cell-s ">{{ book.reviews?.length }}</div>
+    </div>
     </div>
 </div>
 

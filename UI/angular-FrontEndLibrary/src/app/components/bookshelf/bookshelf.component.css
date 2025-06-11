@@ -1,11 +1,6 @@
-
-
-
-
 .bookshelf {
   width: var(--width);
   height: var(--height);
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +13,7 @@
   box-shadow: 0 8px 32px rgba(60,40,20,0.15);
       background:
     linear-gradient(rgba(109, 72, 37, 0.5), rgba(109, 72, 37, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/wood3.png');
+    var(--wood3);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -41,8 +36,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Arial, sans-serif;
-  font-size: 2rem;
   background: rgb(90, 61, 27);
 }
 
@@ -52,17 +45,16 @@
   border: 2px solid black;
   overflow: hidden;
 }
-
-.cuboid__face--back {
+.cuboid__face--back,
+.cuboid__face--left,
+.cuboid__face--right {
   opacity: 1;
-    border-right: 2px solid black;
+  background: var(--wood3) center/cover no-repeat;
+}
+.cuboid__face--back {
+  border-right: 2px solid black;
   border-left: 2px solid black;
-  background:
-    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
-    url('/assets/images/webpage-images/backgrounds/wood3.png');
-  background-size: cover;
   background-repeat: repeat;
-  background-position: center;
   transform: translateZ(calc(var(--side-depth) * -0.6)) rotateY(180deg);
     box-shadow:
      inset 16px 0 24px 10px rgba(0,0,0,0.5),
@@ -80,17 +72,31 @@
 
 .cuboid__face--bottom {
   border: 2px solid black;
-  background:
-    linear-gradient(rgba(26, 17, 7, 0.7), rgba(26, 17, 7, 0.7)),
-    url('/assets/images/webpage-images/backgrounds/wood3.png');
+  background: var(--wood3);
+  box-shadow: inset 0 -25px 35px 0 rgba(0,0,0,0.5);
   height: var(--side-depth);
   opacity: 1;
   transform-origin: top center;
-  transform:
-    translateY(calc(150px - 2 * var(--frame-thickness)))
-    rotateX(-90deg);
+  transform: translateY(calc(150px - 2 * var(--frame-thickness))) rotateX(-90deg);
+}
+.cuboid__face--left,
+.cuboid__face--right {
+  width: var(--side-depth);
+  height: 100%;
+  box-shadow: inset -35px 0 16px 0 rgba(0,0,0,0.5);
+  transform-origin: left;
 }
 
+.cuboid__face--left {
+  background-position: top left;
+  transform: rotateY(90deg) translateZ(0px);
+}
+
+.cuboid__face--right {
+  right: 0;
+  background-position: top right;
+  transform: translateX(calc(var(--width))) rotateY(90deg);
+}
 .shelf {
   position: absolute;
   width: var(--shelf-thickness);
@@ -118,9 +124,7 @@ justify-content: center;
   position: absolute;
   width: calc(var(--side-depth) * 0.6);  /* depth into shelf */
   height: 100%;
-  background:
-    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
-    url('/assets/images/webpage-images/backgrounds/wood4.png');
+  background: var(--wood4);
   background-size: 300%;
   background-repeat: no-repeat;
   background-position: top left;
@@ -133,9 +137,7 @@ justify-content: center;
   position: absolute;
   width: calc(var(--side-depth) * 0.6);  /* depth into shelf */
   height: 100%;
-  background:
-    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
-    url('/assets/images/webpage-images/backgrounds/wood4.png');
+  background: var(--wood4);
   background-size: 300%;
   background-repeat: no-repeat;
   background-position: top right;

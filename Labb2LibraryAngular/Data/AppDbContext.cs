@@ -144,68 +144,68 @@ namespace FinalProjectLibrary.Data
                 .UseIdentityColumn(seed: 1001, increment: 1);
 
 
-            modelBuilder.Entity<Book>().HasData(
-                new Book
-                {
-                    BookId = 1001,
-                    Title = "The Great Gatsby",
-                    Author = "F. Scott Fitzgerald",
-                    Genre = GenreEnums.Fiction,
-                    PublicationYear = 1925,
-                    BookDescription = "Lorem Ipsum",
-                    BookType = BookTypeEnums.Hardcover,
-                    BookStatus = BookStatusEnum.Available,
-                },
-                new Book
-                {
-                    BookId = 1002,
-                    Title = "To Kill a Mockingbird",
-                    Author = "Harper Lee",
-                    Genre = GenreEnums.Fiction,
-                    PublicationYear = 1960,
-                    BookDescription = "Lorem Ipsum",
-                    BookType = BookTypeEnums.Hardcover,
-                    BookStatus = BookStatusEnum.Available,
-                },
-                new Book
-                {
-                    BookId = 1003,
-                    Title = "1984",
-                    Author = "George Orwell",
-                    Genre = GenreEnums.Fiction,
-                    PublicationYear = 1949,
-                    BookDescription = "Lorem Ipsum",
-                    BookType = BookTypeEnums.Paperback,
-                    BookStatus = BookStatusEnum.Available,
-                }
-            );
+            //modelBuilder.Entity<Book>().HasData(
+            //    new Book
+            //    {
+            //        BookId = 1001,
+            //        Title = "The Great Gatsby",
+            //        Author = "F. Scott Fitzgerald",
+            //        Genre = GenreEnums.Fiction,
+            //        PublicationYear = 1925,
+            //        BookDescription = "Lorem Ipsum",
+            //        BookType = BookTypeEnums.Hardcover,
+            //        BookStatus = BookStatusEnum.Available,
+            //    },
+            //    new Book
+            //    {
+            //        BookId = 1002,
+            //        Title = "To Kill a Mockingbird",
+            //        Author = "Harper Lee",
+            //        Genre = GenreEnums.Fiction,
+            //        PublicationYear = 1960,
+            //        BookDescription = "Lorem Ipsum",
+            //        BookType = BookTypeEnums.Hardcover,
+            //        BookStatus = BookStatusEnum.Available,
+            //    },
+            //    new Book
+            //    {
+            //        BookId = 1003,
+            //        Title = "1984",
+            //        Author = "George Orwell",
+            //        Genre = GenreEnums.Fiction,
+            //        PublicationYear = 1949,
+            //        BookDescription = "Lorem Ipsum",
+            //        BookType = BookTypeEnums.Paperback,
+            //        BookStatus = BookStatusEnum.Available,
+            //    }
+            //);
 
-            modelBuilder.Entity<StatusHistoryItem>().HasData(
-                new StatusHistoryItem
-                {
-                    StatusHistoryItemId = 1001,
-                    BookId = 1001,
-                    BookStatus = BookStatusEnum.Available,  // Use an example status from BookStatusEnum
-                    Timestamp = DateTime.UtcNow.AddDays(-1),
-                    Notes = "Initial status"
-                },
-                new StatusHistoryItem
-                {
-                    StatusHistoryItemId = 1002,
-                    BookId = 1002,
-                    BookStatus = BookStatusEnum.CheckedOut,  // Example status
-                    Timestamp = DateTime.UtcNow.AddDays(-2),
-                    Notes = "Initial status"
-                },
-                new StatusHistoryItem
-                {
-                    StatusHistoryItemId = 1003,
-                    BookId = 1003,
-                    BookStatus = BookStatusEnum.Reserved,  // Example status
-                    Timestamp = DateTime.UtcNow.AddDays(-3),
-                    Notes = "Initial status"
-                }
-            );
+            //modelBuilder.Entity<StatusHistoryItem>().HasData(
+            //    new StatusHistoryItem
+            //    {
+            //        StatusHistoryItemId = 1001,
+            //        BookId = 1001,
+            //        BookStatus = BookStatusEnum.Available,  // Use an example status from BookStatusEnum
+            //        Timestamp = DateTime.UtcNow.AddDays(-1),
+            //        Notes = "Initial status"
+            //    },
+            //    new StatusHistoryItem
+            //    {
+            //        StatusHistoryItemId = 1002,
+            //        BookId = 1002,
+            //        BookStatus = BookStatusEnum.CheckedOut,  // Example status
+            //        Timestamp = DateTime.UtcNow.AddDays(-2),
+            //        Notes = "Initial status"
+            //    },
+            //    new StatusHistoryItem
+            //    {
+            //        StatusHistoryItemId = 1003,
+            //        BookId = 1003,
+            //        BookStatus = BookStatusEnum.Reserved,  // Example status
+            //        Timestamp = DateTime.UtcNow.AddDays(-3),
+            //        Notes = "Initial status"
+            //    }
+            //);
         }
     }
 }

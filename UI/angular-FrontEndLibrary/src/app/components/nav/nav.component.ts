@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { UserNavComponent } from '../Users/user-nav/user-nav.component';
-import { AdminNavComponent } from '../admin/admin-nav/admin-nav.component';
 import { AuthService } from '../../Services/auth.service';
 import { ILoggedInUser } from '../../Models/interfaces';
 import { WebIconsComponent } from '../../../assets/images/webpage-images/web-icons.component';

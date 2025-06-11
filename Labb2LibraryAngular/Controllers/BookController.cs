@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-[Authorize(Roles = AdminRoles.SuperAdmin + "," + AdminRoles.Librarian)]
+[Authorize(Roles = Roles.SuperAdmin + "," + Roles.Admin)]
 [Route("api/[controller]")]
 [ApiController]
 public class BookController : ControllerBase

@@ -1,4 +1,3 @@
-
 .bookshelf {
   width: var(--sideW);
   height: var(--sideH);
@@ -6,15 +5,14 @@
   align-items: center;
   justify-content: center;
 }
+
 .bookshelf-container {
   width: calc(var(--sideW) - 2 * var(--frame-thickness));
   height: calc(var(--sideH) - 2 * var(--frame-thickness));
   perspective: 500px;
   perspective-origin: 300% 1%;
   box-shadow: 0 8px 32px rgba(60,40,20,0.15);
-      background:
-    linear-gradient(rgba(109, 72, 37, 0.5), rgba(109, 72, 37, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/wood4.png');
+  background: linear-gradient(rgba(109, 72, 37, 0.5), rgba(109, 72, 37, 0.5)), var(--wood4);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -38,159 +36,127 @@
   font-family: Arial, sans-serif;
   font-size: 2rem;
   background: rgb(90, 61, 27);
+  opacity: 0;
 }
 
 .cuboid__face--front {
   background: #574538;
-  opacity: 0;
   border: 2px solid black;
   overflow: hidden;
 }
 
-.cuboid__face--back {
+.cuboid__face--back,
+.cuboid__face--left,
+.cuboid__face--right {
   opacity: 1;
+  background: var(--wood4) center/cover no-repeat;
+}
+
+.cuboid__face--back {
   border-right: 2px solid black;
   border-left: 2px solid black;
-  background:
-    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
-    url('/assets/images/webpage-images/backgrounds/wood4.png');
-  background-size: cover;
   background-repeat: repeat;
-  background-position: center;
-  transform: translateZ(calc(var(--side-depth) * -1))
-rotateY(180deg);
-    box-shadow:
-     inset 16px 0 24px 10px rgba(0,0,0,0.5),
-     inset -16px 0 24px 10px rgba(0,0,0,0.5);
+  transform: translateZ(calc(var(--side-depth) * -1)) rotateY(180deg);
+  box-shadow:
+    inset 16px 0 24px 10px rgba(0,0,0,0.5),
+    inset -16px 0 24px 10px rgba(0,0,0,0.5);
 }
 
 .cuboid__face--top {
-  transform: translateZ(calc(var(--side-depth) * -0.5)) 
-  translateY(calc(var(--side-depth) * -0.5)) rotateX(90deg);
+  transform: translateZ(calc(var(--side-depth) * -0.5)) translateY(calc(var(--side-depth) * -0.5)) rotateX(90deg);
   height: var(--side-depth);
   background-color: rgba(26, 17, 7, 1);
-  opacity:1;
-
+  opacity: 1;
 }
 
 .cuboid__face--bottom {
-  background:
-    linear-gradient(rgba(26, 17, 7, 0.7), rgba(26, 17, 7, 0.7)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/wood3.png');
+  background: var(--wood3);
   box-shadow: inset 0 -25px 35px 0 rgba(0,0,0,0.5);
-  height: calc(var(--side-depth));
+  height: var(--side-depth);
   opacity: 1;
   transform-origin: top center;
-  transform:
-    translateY(var(--innerH))
-    rotateX(-90deg);
+  transform: translateY(var(--innerH)) rotateX(-90deg);
 }
 
-
+.cuboid__face--left,
+.cuboid__face--right {
+  width: var(--side-depth);
+  height: 100%;
+  box-shadow: inset -35px 0 16px 0 rgba(0,0,0,0.5);
+  transform-origin: left;
+}
 
 .cuboid__face--left {
-  position: absolute;
-  width: var(--side-depth);  /* depth into shelf */
-  height: 100%;
-  background:
-    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
-    url('/assets/images/webpage-images/backgrounds/wood4.png');
-  background-size: 300%;
-  background-repeat: no-repeat;
   background-position: top left;
-  box-shadow: inset -35px -0 16px 0 rgba(0,0,0,0.5);
   transform: rotateY(90deg) translateZ(0px);
-  transform-origin: left;
-  opacity: 1;
 }
+
 .cuboid__face--right {
-  position: absolute;
-  width: var(--side-depth);  /* depth into shelf */
   right: 0;
-  height: 100%;
-  background:
-    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
-    url('/assets/images/webpage-images/backgrounds/wood4.png');
-  background-size: 300%;
-  background-repeat: no-repeat;
   background-position: top right;
-  box-shadow: inset -35px -0 16px 0 rgba(0,0,0,0.5);
-  transform: translateX(calc(var(--width)) ) rotateY(90deg);
-  transform-origin: left;
-  opacity: 1;
+  transform: translateX(calc(var(--width))) rotateY(90deg);
 }
-
-
 
 .shelf {
   position: relative;
   width: var(--innerW);
   height: var(--shelf-thickness);
   transform-style: preserve-3d;
-    transform:
+  transform:
     translateY(calc(var(--innerH) * var(--shelf-y) / 100))
     translateZ(calc(var(--side-depth) * -0.01))
     rotateX(0deg);
+  z-index: 120;
 }
+
 .shelf-face {
   position: absolute;
   width: var(--innerW);
   height: var(--shelf-thickness);
   pointer-events: none;
   z-index: 12;
-    display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.shelf-face--top {
-  transform: translateZ(calc(var(--side-depth) * -0.5)) 
-  translateY(calc(var(--side-depth) * -0.5)) rotateX(90deg);
-  height: var(--side-depth);
-  background:
-    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
-    url('/assets/images/webpage-images/backgrounds/wood3.png');
+.shelf-face--top,
+.shelf-face--bottom {
+  background: var(--wood3);
   background-size: cover;
   background-repeat: no-repeat;
+  opacity: 1;
+  height: var(--side-depth);
+}
 
-  box-shadow: inset -0 25px 25px 0 rgba(0,0,0,0.5);
-  opacity:1;
+.shelf-face--top {
+  transform: translateZ(calc(var(--side-depth) * -0.5)) translateY(calc(var(--side-depth) * -0.5)) rotateX(90deg);
+  box-shadow: inset 0 25px 25px 0 rgba(0,0,0,0.5);
 }
 
 .shelf-face--bottom {
-  background:
-    linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), /* fallback overlay for color */
-    url('/assets/images/webpage-images/backgrounds/wood3.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  box-shadow: inset -0 -25px 50px 0 rgba(0,0,0,0.7);
-  opacity: 1;
-  height: var(--side-depth);
+  box-shadow: inset 0 -25px 50px 0 rgba(0,0,0,0.7);
   transform-origin: top center;
-  transform:
-  translateY(var(--shelf-thickness))
-  rotateX(-90deg);
-  opacity: 1;
+  transform: translateY(var(--shelf-thickness)) rotateX(-90deg);
 }
 
 .shelf-face--front {
   width: var(--innerW);
   height: var(--shelf-thickness);
-    background:
- linear-gradient(rgba(169, 116, 79, 0.5), rgba(43, 30, 21, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/frame.png');
+  background: var(--frame);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: bottom;
-    box-shadow: inset -2px -0 16px 0 rgba(0,0,0,0.5);
+  box-shadow: inset -2px 0 16px 0 rgba(0,0,0,0.5);
   opacity: 1;
 }
 
 .frame-bar {
   position: relative;
   box-shadow: none;
-  
+  z-index: 120;
 }
+
 .frame-bar--top,
 .frame-bar--bottom {
   width: var(--sideW);
@@ -202,13 +168,10 @@ rotateY(180deg);
 
 .frame-bar--top {
   top: calc(-1 * var(--frame-thickness));
-    background:
-    linear-gradient(rgba(89, 43, 0, 0.5), rgba(89, 43, 0, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/frame.png');
+  background: var(--frame-top);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: bottom;
-
   clip-path: polygon(
     1 0, var(--frame-thickness) 100%, 
     calc(100% - var(--frame-thickness)) 100%, 100% 0
@@ -219,13 +182,10 @@ rotateY(180deg);
 
 .frame-bar--bottom {
   top: 100%;
-  background:
-    linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/framebot.png');
+  background: var(--frame-bot);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: top;
-
   clip-path: polygon(
     1 100%, var(--frame-thickness) 0, 
     calc(100% - var(--frame-thickness)) 0, 100% 100%
@@ -243,29 +203,22 @@ rotateY(180deg);
 
 .frame-bar--left {
   left: calc(-1 * var(--frame-thickness));
-        background:
-    linear-gradient(rgba(169, 116, 79, 0.5), rgba(169, 116, 79, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/frameleft.png');
+  background: var(--frame-right);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: left;
-
   clip-path: polygon(
     0 0, 100% var(--frame-thickness), 
     100% calc(100% - var(--frame-thickness)), 0 100%
   );
-  
 }
 
 .frame-bar--right {
   left: 100%;
-        background:
-    linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), /* semi-transparent overlay */
-    url('/assets/images/webpage-images/backgrounds/frameright.png');
+  background: var(--frame-left);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: right;
-
   clip-path: polygon(
     100% 0, 0 var(--frame-thickness), 
     0 calc(100% - var(--frame-thickness)), 100% 100%

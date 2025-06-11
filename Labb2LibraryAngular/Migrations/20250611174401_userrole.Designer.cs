@@ -4,6 +4,7 @@ using FinalProjectLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProjectLibrary.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250611174401_userrole")]
+    partial class userrole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,6 +67,44 @@ namespace FinalProjectLibrary.Migrations
                     b.HasKey("BookId");
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            BookId = 1001,
+                            Author = "F. Scott Fitzgerald",
+                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BookDescription = "Lorem Ipsum",
+                            BookStatus = 0,
+                            BookType = 2,
+                            Genre = 9,
+                            PublicationYear = 1925,
+                            Title = "The Great Gatsby"
+                        },
+                        new
+                        {
+                            BookId = 1002,
+                            Author = "Harper Lee",
+                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BookDescription = "Lorem Ipsum",
+                            BookStatus = 0,
+                            BookType = 2,
+                            Genre = 9,
+                            PublicationYear = 1960,
+                            Title = "To Kill a Mockingbird"
+                        },
+                        new
+                        {
+                            BookId = 1003,
+                            Author = "George Orwell",
+                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BookDescription = "Lorem Ipsum",
+                            BookStatus = 0,
+                            BookType = 1,
+                            Genre = 9,
+                            PublicationYear = 1949,
+                            Title = "1984"
+                        });
                 });
 
             modelBuilder.Entity("FinalProjectLibrary.Models.FavoriteItem", b =>
@@ -190,6 +231,32 @@ namespace FinalProjectLibrary.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("StatusHistoryItems");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusHistoryItemId = 1001,
+                            BookId = 1001,
+                            BookStatus = 0,
+                            Notes = "Initial status",
+                            Timestamp = new DateTime(2025, 6, 10, 17, 44, 0, 751, DateTimeKind.Utc).AddTicks(7400)
+                        },
+                        new
+                        {
+                            StatusHistoryItemId = 1002,
+                            BookId = 1002,
+                            BookStatus = 2,
+                            Notes = "Initial status",
+                            Timestamp = new DateTime(2025, 6, 9, 17, 44, 0, 751, DateTimeKind.Utc).AddTicks(7404)
+                        },
+                        new
+                        {
+                            StatusHistoryItemId = 1003,
+                            BookId = 1003,
+                            BookStatus = 1,
+                            Notes = "Initial status",
+                            Timestamp = new DateTime(2025, 6, 8, 17, 44, 0, 751, DateTimeKind.Utc).AddTicks(7406)
+                        });
                 });
 
             modelBuilder.Entity("FinalProjectLibrary.Models.NotificationItem", b =>

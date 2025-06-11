@@ -1,4 +1,4 @@
-<h1>Reservationer</h1>
+<h1>Lånade böcker</h1>
 <div *ngIf="checkedOutBooks?.length; else noReservations">
   <table class="table table-striped">
     <thead>
@@ -6,7 +6,7 @@
         <th>Boktitel</th>
         <th>Författare</th>
         <th>Lånad datum</th>
-        <th>Tillgänglig från</th>
+        <th>Återlämningsdatum</th>
       </tr>
     </thead>
     <tbody>

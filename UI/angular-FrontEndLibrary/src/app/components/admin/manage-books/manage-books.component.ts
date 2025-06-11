@@ -3,22 +3,25 @@ import { CommonModule } from '@angular/common';
 import { Book, SlimBookDto } from '../../../Models/interfaces';
 import { LibraryService } from '../../../Services/library.services';
 import { BookService } from '../../../Services/book.services';
-import { BookStatusEnum } from '../../../Helpers/Enums/enum';
+import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
 import { AdminSearchComponent } from '../admin-search/admin-search.component';
 import { AdminBookListComponent } from '../admin-book-list/admin-book-list.component';
 import { Router } from '@angular/router';
-
+import { GenreListComponent } from '../../user-library/genre-list/genre-list.component';
+import { BookTypeOptions, BookStatusOptions, GenreOptions } from '../../../Helpers/Helper';
 @Component({
   selector: 'app-manage-books',
   templateUrl: './manage-books.component.html',
   styleUrls: ['./manage-books.component.css'],
   standalone: true,
-  imports: [CommonModule, AdminSearchComponent, AdminBookListComponent]
+  imports: [CommonModule, AdminSearchComponent, AdminBookListComponent, GenreListComponent]
 })
 export class ManageBooksComponent {
   books: Book[] = [];
   editBook: Book | null = null;
-
+  bookTypeOptions = BookTypeOptions;
+  bookStatusOptions = BookStatusOptions;
+  genreOptions = GenreOptions;
   constructor(private libraryService: LibraryService, private bookService: BookService, private router: Router) {}
 
   addNewBook() {
@@ -100,4 +103,15 @@ export class ManageBooksComponent {
       });
     }
   }
+    onGenreSelected(genre: GenreEnums) {
+      if (genre === GenreEnums.All) {
+        this.getAllBooks(); // Fetch all books
+      } else {
+        this.libraryService
+          .getBooksByGenre(genre, 'Title', true)
+          .subscribe((response) => {
+            this.books = response.isSuccess ? response.result : [];
+          });
+      }
+    }
 }

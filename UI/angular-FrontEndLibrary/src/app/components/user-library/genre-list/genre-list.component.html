@@ -1,11 +1,34 @@
 <div class="genre-list">
-  <div class="genre-list-header">
-    <p>Sortera efter genre</p>
+  <div class="genre-column1">
+    <div *ngFor="let genre of genres.slice(0, 3)" (click)="selectGenre(genre)" class="genre-item">
+      <app-genre-card
+        [genre]="GenreEnums[genre]"
+        [displayName]="getGenreDisplayName(genre)">
+      </app-genre-card>
+    </div>
   </div>
-  <div *ngFor="let genre of genres" (click)="selectGenre(genre)" class="genre-item">
-    <app-genre-card
-      [genre]="GenreEnums[genre]"
-      [displayName]="getGenreDisplayName(genre)">
-    </app-genre-card>
+  <div class="genre-column2">
+    <div *ngFor="let genre of genres.slice(3, 8)" (click)="selectGenre(genre)" class="genre-item">
+      <app-genre-card
+        [genre]="GenreEnums[genre]"
+        [displayName]="getGenreDisplayName(genre)">
+      </app-genre-card>
+    </div>
+  </div>
+  <div class="genre-column3">
+    <div *ngFor="let genre of genres.slice(8, 12)" (click)="selectGenre(genre)" class="genre-item">
+      <app-genre-card
+        [genre]="GenreEnums[genre]"
+        [displayName]="getGenreDisplayName(genre)">
+      </app-genre-card>
+    </div>
+  </div>
+  <div class="genre-column4">
+    <div *ngFor="let genre of genres.slice(12, 16)" (click)="selectGenre(genre)" class="genre-item">
+      <app-genre-card
+        [genre]="GenreEnums[genre]"
+        [displayName]="getGenreDisplayName(genre)">
+      </app-genre-card>
+    </div>
   </div>
 </div>

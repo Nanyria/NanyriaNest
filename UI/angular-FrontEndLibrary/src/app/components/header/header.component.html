@@ -22,6 +22,7 @@
               <app-user-sign
                 (navOpenChange)="userNavOpen = $event"
               ></app-user-sign>
+               <app-admin-nav *ngIf="isAdmin" [currentUrl]="currentUrl"></app-admin-nav>
             </div>
             </div>
 

@@ -2,25 +2,43 @@
   display: flex;
   flex-direction: column;
   width: 100%;              /* Adjust width as needed */
-  height: 100%;          /* Adjust height as needed */
+  height: 660px;          /* Adjust height as needed */
   overflow-y: auto;
   border-right: 1px solid #e0e0e0;
-  padding: 1px 0;
-  gap: 0px;
+  padding: 120px 1px 1px;
+  gap: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end ;
+
+    perspective: 600px;
+  perspective-origin: 50% 20%;
+   box-shadow: 0 8px 32px rgba(60,40,20,0.18), 0 1.5px 0 #bfa16b inset;
+
 }
-
-.genre-list-header {
-
-  padding: 8px;
-  font-size: 1.1em;
-  font-weight: bold;
-  color: rgba(178, 178, 178, 1);
+.genre-column1, .genre-column2, .genre-column3, .genre-column4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;         
+  overflow-y: auto;
+  padding: 0px;
+  gap: 0px;
+  
 }
+.genre-column1, .genre-column3{
+  height: 120px;
+}
+.genre-column2 {
 
+  height: 160px;          /* Adjust height as needed */
+
+}
+.genre-column4 {
+  height: 100px;          /* Adjust height as needed */;
+}
 app-genre-card {
   width: 100%;
   margin: 0;

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProjectLibrary.Controllers
 {
-    [Authorize(Roles = AdminRoles.SuperAdmin + "," + AdminRoles.Librarian)]
+    [Authorize(Roles = Roles.SuperAdmin + "," + Roles.Admin)]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -31,7 +31,7 @@ namespace FinalProjectLibrary.Controllers
         //    var response = await _userService.AddUserAsync(createUserDto);
         //    return StatusCode((int)response.StatusCode, response);
         //}
-        [Authorize(Roles = AdminRoles.SuperAdmin)]
+        [Authorize(Roles = Roles.SuperAdmin)]
         [HttpPost("create-admin")]
         public async Task<IActionResult> CreateAdminUser([FromBody] CreateAdminUserDto adminUserDto)
         {
