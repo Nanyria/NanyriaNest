@@ -28,7 +28,7 @@ export const GENRE_COLORS: Record<string, GenreColors> = {
     shadow: 'rgba(53, 29, 11, 0.3)'
   },
   fantasy: {
-    gradient1: 'rgba(118,47,136,0.5)',
+    gradient1: 'rgb(67, 26, 78)',
     gradient2: 'rgba(24,0,55,1)',
     text: 'rgba(143, 42, 139, 1)',
     font: "'Cinzel', serif",
@@ -82,8 +82,8 @@ export const GENRE_COLORS: Record<string, GenreColors> = {
     shadow: 'rgba(6, 39, 78, 0.3)'
   },
   sciencefiction: {
-    gradient1: 'rgba(0,0,34,1)',
-    gradient2: 'rgba(106,77,105,1)',
+    gradient2: 'rgba(0,0,34,1)',
+    gradient1: 'rgb(63, 46, 63)',
     text: 'rgba(0, 176, 255, 1)',
     font: "'Orbitron', sans-serif",
     fontSize: '1.1rem',

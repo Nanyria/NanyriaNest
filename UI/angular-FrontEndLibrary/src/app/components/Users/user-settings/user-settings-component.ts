@@ -73,16 +73,18 @@ export class UserSettingsComponent  {
     const updatePayload = {
       userId: this.user.userId,
       firstName: this.user.firstName,
-      lastName: this.user.lastName
+      lastName: this.user.lastName,
+      profilePictureUrl: this.user.profilePictureUrl,
+      bio: this.user.bio
     };
 
     this.userActionsService.updateUser(this.user.userId, updatePayload).subscribe({
       next: () => {
-        alert('Namn har uppdaterats!');
+        alert('Info har uppdaterats!');
         this.editMode = false;
       },
       error: () => {
-        alert('Kunde inte uppdatera namn.');
+        alert('Kunde inte uppdatera info.');
       }
     });
   }

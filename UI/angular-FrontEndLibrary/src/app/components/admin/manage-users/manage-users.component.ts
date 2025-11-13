@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Book, ILoggedInUser, UserDto,  } from '../../../Models/interfaces';
-import { BookStatusEnum, BookStatusDisplayNames ,GenreEnums, GenreDisplayNames, BookTypeEnums, BookTypeDisplayNames } from '../../../Helpers/Enums/enum';
+import {  ILoggedInUser, UserDto,  } from '../../../Models/interfaces';
 import { UserService } from '../../../Services/user.service';
 @Component({
   selector: 'app-manage-users',
@@ -16,30 +15,13 @@ export class ManageUsersComponent implements OnInit {
   editMode = false;
 
   users: UserDto[] = [];
-  @Input() currentUserId!: string; 
-  @Input() user!: ILoggedInUser; 
   editUser: UserDto | null = null;
   roleOptions = [
     { value: 'Användare', label: 'Användare' },
     { value: 'Administratör', label: 'Administratör' },
     { value: 'SuperAdmin', label: 'Super Admin' }
   ];
-  @Output() onEdit = new EventEmitter<UserDto>();
-  @Output() onDelete = new EventEmitter<string>();
-  @Output() onUpdateStatus = new EventEmitter<{
-    bookId: string;
-    userId: string;
-    bookStatus: BookStatusEnum;
-  }>();
-  @Output() onSave = new EventEmitter<Book>();
-  @Output() onCancel = new EventEmitter<void>();
 
-  BookTypeDisplayNames = BookTypeDisplayNames;
-  bookTypes = Object.values(BookTypeEnums).filter(v => typeof v === 'number') as BookTypeEnums[];
-  BookStatusDisplayNames = BookStatusDisplayNames;
-  bookStatuses = Object.values(BookStatusEnum).filter(v => typeof v === 'number') as BookStatusEnum[];; 
-  GenreDisplayNames = GenreDisplayNames;
-  genreOptions = Object.values(GenreEnums).filter(v => typeof v === 'number') as GenreEnums[];
   isSuperAdmin: boolean = false;
 
     constructor( private userService: UserService, 
@@ -66,10 +48,13 @@ export class ManageUsersComponent implements OnInit {
       }
     );
   }
-
+  getRoleLabel(roleValue: string): string {
+    const found = this.roleOptions.find(r => r.value === roleValue);
+    return found ? found.label : roleValue;
+  }
   handleFormSubmit(user: UserDto) {
     if (this.editUser) {
-      this.userService.updateUserAsAdmin(this.editUser.userId, user).subscribe(() => {
+      this.userService.updateUserAsAdmin(this.editUser.id, user).subscribe(() => {
         this.getAllUsers();
         this.resetForm();
       });
@@ -84,17 +69,20 @@ export class ManageUsersComponent implements OnInit {
   populateForm(user: UserDto) {
     this.editUser = { ...user };
   }
-  deleteUser(userId: string) {
-    this.userService.deleteUser(userId).subscribe(() => {
+  deleteUser(id: string) {
+    this.userService.deleteUser(id).subscribe(() => {
       this.getAllUsers();
     });
   }
   resetForm(){
     this.editUser = null;
   }
+  cancelEdit() {
+    this.resetForm();
+  }
   saveUser(user: UserDto) {
     if (this.editUser) {
-      this.userService.updateUserAsAdmin(this.editUser.userId, user).subscribe(() => {
+      this.userService.updateUserAsAdmin(this.editUser.id, user).subscribe(() => {
         this.getAllUsers();
         this.resetForm();
       });

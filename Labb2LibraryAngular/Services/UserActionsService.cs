@@ -18,6 +18,7 @@ namespace FinalProjectLibrary.Services
     {
         // Register methods
         Task<APIResponse<CreateUserDto>> AddUserAsync(CreateUserDto createUserDTO);
+        Task<APIResponse<UpdateUserDto>> UpdateUserAsync(string userId, UpdateUserDto userToUpdate);
         // Reservation methods
         Task<APIResponse<List<ReservationItemDto>>> GetReservedBooksAsync(string userId);
         Task<APIResponse<UserDto>> ReserveBookAsync(string userId, int bookId);
@@ -91,6 +92,51 @@ namespace FinalProjectLibrary.Services
             response.IsSuccess = true;
             response.StatusCode = HttpStatusCode.Created;
             response.Result = createdUserDto;
+            return response;
+        }
+
+        public async Task<APIResponse<UpdateUserDto>> UpdateUserAsync(string userId, UpdateUserDto userToUpdate)
+        {
+            var response = new APIResponse<UpdateUserDto>
+            {
+                IsSuccess = false,
+                StatusCode = HttpStatusCode.BadRequest
+            };
+            var user = await _userRepo.GetByIdAsync<User>(userId);
+            if (user != null)
+            {
+
+                // Map UpdateUserDto to User
+                _mapper.Map(userToUpdate, user);
+
+                if (!string.IsNullOrWhiteSpace(userToUpdate.Password))
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var passwordResult = await _userManager.ResetPasswordAsync(user, token, userToUpdate.Password);
+                    if (!passwordResult.Succeeded)
+                    {
+                        response.ErrorMessages.AddRange(passwordResult.Errors.Select(e => e.Description));
+                        return response;
+                    }
+                }
+
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    response.ErrorMessages.AddRange(updateResult.Errors.Select(e => e.Description));
+                    return response;
+                }
+
+                var updatedUserDto = _mapper.Map<UpdateUserDto>(user);
+                response.IsSuccess = true;
+                response.StatusCode = HttpStatusCode.OK;
+                response.Result = updatedUserDto;
+            }
+            else
+            {
+                response.ErrorMessages.Add("User not found.");
+                response.StatusCode = HttpStatusCode.NotFound;
+            }
             return response;
         }
         private void CheckIfExists(string email, string userName)

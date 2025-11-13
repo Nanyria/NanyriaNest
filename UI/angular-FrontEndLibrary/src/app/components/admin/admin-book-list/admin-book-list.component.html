@@ -61,9 +61,6 @@
       </span>
     </div>
     <div class="table-cell-s">
-      <button *ngIf="!editBook || editBook.bookId !== book.bookId" class="btn-delete" (click)="deleteBook(book.bookId)">
-        <i class="bi bi-trash"></i>
-      </button>
       <button *ngIf="editBook && editBook.bookId === book.bookId" class="btn-save" (click)="saveBook(editBook)">
         <i class="bi bi-floppy"></i>
       </button>

@@ -1,0 +1,52 @@
+<div class="admin-table-container">
+  <div class="table-header-wrapper">
+    <div class="row table-header-row">
+      <div class="table-header-s">Användarnamn</div>
+      <div class="table-header">E-post</div>
+      <div class="table-header-s">Roll</div>
+      <div class="table-header-s">Hantera</div>
+    </div>
+  </div>
+  <div class="table-scrollable-body">
+    <div *ngFor="let user of users" class="row user-row">
+      <!-- Username -->
+      <div class="col-2 table-cell-s">
+        <input *ngIf="editUser && editUser.userId === user.userId" [(ngModel)]="editUser.userName" />
+        <span *ngIf="!editUser || editUser.userId !== user.userId">{{ user.userName }}</span>
+      </div>
+      <!-- Email -->
+      <div class="col-2 table-cell">
+        <input *ngIf="editUser && editUser.userId === user.userId" [(ngModel)]="editUser.email" />
+        <span *ngIf="!editUser || editUser.userId !== user.userId">{{ user.email }}</span>
+      </div>
+      <!-- Role -->
+      <div class="col-2 table-cell-s">
+        <select *ngIf="editUser && editUser.userId === user.userId"
+                [(ngModel)]="editUser.role"
+                name="role-{{user.userId}}">
+          <option *ngFor="let role of roleOptions" [value]="role.value">
+            {{ role.label }}
+          </option>
+        </select>
+        <span *ngIf="!editUser || editUser.userId !== user.userId">
+          {{ getRoleLabel(user.role) }}
+        </span>
+      </div>
+      <!-- Actions -->
+      <div class="table-cell-s">
+        <button *ngIf="!editUser || editUser.userId !== user.userId" class="btn-edit" (click)="editUserDetails(user)">
+          <i class="bi bi-pen"></i>
+        </button>
+        <button *ngIf="editUser && editUser.userId === user.userId" class="btn-save" (click)="saveUser(editUser)">
+          <i class="bi bi-floppy"></i>
+        </button>
+        <button *ngIf="editUser && editUser.userId === user.userId" class="btn-cancel" (click)="cancelEdit()">
+          <i class="bi bi-x-circle"></i>
+        </button>
+        <button class="btn-delete" (click)="deleteUser(user.userId)">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { AuthService } from '../../../Services/auth.service';
 import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
 import { SearchComponent } from '../search/search.component';
 import { BookListComponent } from '../book-list/book-list.component';
+import { BookCoverListComponent} from '../book-cover-list/book-cover-list.component'; 
 import { Router } from '@angular/router';
 import { GenreListComponent } from '../genre-list/genre-list.component';
 import {
@@ -30,6 +31,7 @@ import {
     CommonModule,
     SearchComponent,
     BookListComponent,
+    BookCoverListComponent,
     GenreListComponent,
     InfoCardComponent,
   ],

@@ -37,7 +37,7 @@ export interface SlimBookDto {
 
 // User interfaces
 export interface UserDto {
-    id?: string;
+    id: string;
     userId: string;
     userName: string;
     firstName: string;
@@ -53,6 +53,14 @@ export interface UserDto {
     readList: FavoriteItem[];
     adminRole?: boolean;
     isSuperAdmin: boolean;
+}
+export interface UpdateUserDto{
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  profilePictureUrl?: string;
+  bio?: string;
 }
 export interface CreateUserDto {
   userName: string;

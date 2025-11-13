@@ -1,0 +1,188 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Texturina:ital,opsz,wght@0,12..72,100..900;1,12..72,100..900&display=swap'); */
+
+ /* :root {
+  --t: 40px;
+  --bookHeight: 300px;
+  --bookWidth: 200px;
+  --splitT: calc(var(--t) *0.5);
+  --royal-purple: rgba(58, 16, 69, 1);
+  --navy-book-color: rgba(16, 38, 69, 1);
+  --red-dragon-color: rgba(143, 1, 24, 1);
+  --dark-brown: rgba(32, 17, 10, 1);
+  --emerald-green: rgba(16, 69, 52, 1); 
+} 
+
+ body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  font-family: 'Texturina', serif;
+  font-size: 1.7rem;
+}
+.p{
+  padding: 0;
+  margin: 0;
+}  */
+
+.scene {
+  position: relative;
+  perspective: 500px;
+  display: flex;
+    align-items: flex-end;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  bottom: 5px;
+}
+
+.book-space{
+  height: 40px;
+  width: 150px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.book {
+  position: relative;
+  width: var(--bookWidth); /* cover width */
+  height: var(--bookHeight); /* cover height */
+  transform-style: preserve-3d;
+  transform: rotateX(80deg) translateY(250%) rotateY(0deg) rotateZ(var(--bookRotateZ)) translateX(-15px);
+  transition: transform .3s;
+  background: var(--bookcolor, purple);
+  color: var(--bookTextColor, #fff);
+}
+/*  */
+/* shared face styles */
+.face {
+  position: absolute;
+  box-sizing: border-box;
+  background: #fff;
+
+}
+
+/* thickness of the “block” (pages+spine) */
+
+
+/* front cover */
+.front {
+  width: var(--bookWidth);
+  height: var(--bookHeight);
+  right: -0.5px;
+  top:0;
+  background: var(--bookcolor);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transform: translateZ(calc(var(--bookThickness)));
+}
+
+/* back cover */
+.back {
+  width: var(--bookWidth);
+  height: var(--bookHeight);
+  right: -0.5px;
+  background: var(--bookcolor);
+  transform: rotateY(180deg) ;
+}
+
+
+
+/* right edge (opposite spine) */
+.spine {
+  width: calc(var(--bookThickness) + 1px);
+  height: var(--bookHeight);
+  background: linear-gradient(
+    to right,
+    var(--bookcolor) 0%,
+    var(--bookcolor2) 50%,
+    var(--bookcolor) 100%
+);
+  transform: rotateY(90deg) translateX(calc(var(--bookThickness) * -0.5)) translateZ(calc((var(--bookWidth) *1) - var(--splitT))) ;
+  writing-mode: sideways-lr;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left {
+  width: var(--bookThickness);
+  height: calc(var(--bookHeight) -  var(--splitT) );
+  right: 0;
+  top:  calc(var(--splitT) * 0.5);
+  background: #f2edd6;
+  transform: rotateY(-90deg) translateX(calc(var(--bookThickness) * 0.5)) translateZ(calc((var(--bookWidth) *1) -  1.5 * var(--splitT)));
+
+}
+
+/* top pages (the top edge of the book block) */
+.top, .bottom{
+  width: calc(var(--bookWidth)  - 0.5 * var(--splitT));
+  right:0.2px;
+  height: var(--bookThickness);
+  background: #f2edd6;
+
+}
+.top {
+  top:0;
+  transform: rotateX(-90deg) translateY(calc(var(--bookThickness) * -0.5)) translateZ(calc(var(--bookHeight) - 1.5 * var(--splitT)));
+}
+
+/* bottom pages */
+.bottom {
+  bottom: 0;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  transform: rotateX(90deg) translateY(calc(var(--bookThickness) * 0.5)) translateZ(calc(var(--bookHeight) - 1.5 * var(--splitT)));
+}
+
+/* .book2  {  
+ position: relative;
+  width: var(--bookWidth);     
+  height: var(--bookHeight);    
+  transform-style: preserve-3d;
+
+  transform: rotateX(80deg) rotateY(0deg) rotateZ(100deg) translateX(-15px);
+  transition: transform .3s;
+  z-index: 2;
+  --bookcolor: var(--emerald-green)
+}
+.book3 {
+  --bookWidth: 120px;
+  --bookHeight: 150px;
+  position: relative;
+  box-sizing: content-box;
+  width: var(--bookWidth);     
+  height: var(--bookHeight);    
+  transform-style: preserve-3d;
+
+  transform: rotateX(80deg) rotateY(0deg) rotateZ(93deg ) translateX(-15px);
+  transition: transform .3s;
+  z-index: 3;
+  --bookcolor: var(--royal-purple);
+}
+.book4  {  
+ position: relative;
+  width: var(--bookWidth);     
+  height: var(--bookHeight);    
+  transform-style: preserve-3d;
+
+  transform: rotateX(80deg) rotateY(0deg) rotateZ(100deg) translateX(-15px);
+  transition: transform .3s;
+  z-index: 4;
+  --bookcolor: var(--emerald-green)
+}
+.book5 {
+  position: relative;
+  box-sizing: content-box;
+  width: var(--bookWidth); 
+  height: var(--bookHeight); 
+  transform-style: preserve-3d;
+
+  transform: rotateX(80deg) rotateY(0deg) rotateZ(120deg) translateX(-15px);
+  transition: transform .3s;
+  z-index: 5;
+  --bookcolor: var(--royal-purple);
+} */

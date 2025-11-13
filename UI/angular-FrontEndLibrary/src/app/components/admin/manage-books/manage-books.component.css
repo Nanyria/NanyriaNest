@@ -16,7 +16,9 @@
 .table-body {
   flex: 1;
   overflow-x: auto;
-  padding: 0 24px;
+  width: 100%;
+  height: 100%;
+  padding: 2px;
 }
 .library-search-container {
   display: flex;

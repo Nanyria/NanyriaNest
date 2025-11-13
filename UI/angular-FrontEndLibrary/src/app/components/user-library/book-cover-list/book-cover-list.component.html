@@ -1,0 +1,24 @@
+<div class="diagonal-list" role="list">
+  <div
+    *ngFor="let book of books; let i = index"
+    class="diagonal-item"
+    [style.--idx]="i"
+    role="listitem"
+    tabindex="0"
+    (click)="onBookRowClick(book, $event)"
+    (keydown.enter)="onBookRowClick(book, $event)"
+  >
+    <img
+      class="cover"
+      [src]="book.coverImagePath ? book.coverImagePath : 'assets/images/book-covers/BrownBook.svg'"
+      [alt]="book.title ? (book.title + ' omslag') : 'Omslag'"
+      width="120"
+      height="180"
+    />
+    <div class="meta">
+      <div class="title" title="{{ book.title }}">{{ book.title }}</div>
+      <div class="author" title="{{ book.author }}">{{ book.author }}</div>
+    </div>
+  </div>
+</div>
+

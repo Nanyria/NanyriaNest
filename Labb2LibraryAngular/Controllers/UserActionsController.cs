@@ -32,7 +32,7 @@ namespace FinalProjectLibrary.Controllers
         [HttpPut("update/{userId}")]
         public async Task<IActionResult> UpdateUser([FromRoute] string userId, [FromBody] UpdateUserDto updateUserDto)
         {
-            var response = await _userService.UpdateUserAsync(userId, updateUserDto);
+            var response = await _userActionsService.UpdateUserAsync(userId, updateUserDto);
             return StatusCode((int)response.StatusCode, response);
         }
 

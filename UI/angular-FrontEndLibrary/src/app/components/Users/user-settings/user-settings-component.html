@@ -22,10 +22,16 @@
       </div>
     </div>
   </div>
-    <div class="bio-box">
-      <div class="bio-label"><strong>Bio:</strong></div>
-      <div class="bio-content">{{ user.bio || 'Ingen bio tillagd.' }}</div>
-    </div>
+<div class="bio-box">
+  <label>Bio</label>
+  <textarea
+    class="form-control"
+    [readonly]="!editMode"
+    [(ngModel)]="user.bio"
+    name="bio"
+    rows="4"
+  ></textarea>
+</div>
   </div>
   <!-- Right column: rest of the form (unchanged) -->
   <div class="settings-right-col">
@@ -34,10 +40,13 @@
         {{ editMode ? 'Avbryt' : 'Ändra inställningar' }}
       </button>
     </div>
+
     <div class="form-group">
       <label>Användarnamn</label>
       <input class="form-control readonly-field" [value]="user.userName" readonly tabindex="-1">
     </div>
+
+        <div class="form-row">
     <div class="form-group">
       <label>Förnamn</label>
       <input class="form-control"
@@ -52,6 +61,8 @@
              [(ngModel)]="user.lastName"
              name="lastName">
     </div>
+    </div>
+    
     <div class="form-group">
       <label>Email</label>
       <input class="form-control readonly-field" [value]="user.email" readonly tabindex="-1">

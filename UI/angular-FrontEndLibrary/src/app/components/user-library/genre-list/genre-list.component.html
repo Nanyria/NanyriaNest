@@ -23,12 +23,23 @@
       </app-genre-card>
     </div>
   </div>
-  <div class="genre-column4">
-    <div *ngFor="let genre of genres.slice(12, 16)" (click)="selectGenre(genre)" class="genre-item">
-      <app-genre-card
-        [genre]="GenreEnums[genre]"
-        [displayName]="getGenreDisplayName(genre)">
-      </app-genre-card>
-    </div>
+<div class="genre-column4">
+  <div class="genre-item" (click)="selectGenre(GenreEnums.Fantasy)">
+    <app-book
+      [style.z-index]="3"
+      [bookColor]="getPalette(GenreEnums.Fantasy).gradient2"
+      [bookColor2]="getPalette(GenreEnums.Fantasy).gradient1" 
+      [title]="getGenreDisplayName(GenreEnums.Fantasy)"
+    ></app-book>
   </div>
+  <div class="genre-item" (click)="selectGenre(GenreEnums.ScienceFiction)">
+    <app-book
+      [style.z-index]="1"
+      [rotateZ]="'120deg'"
+      [bookColor]="getPalette(GenreEnums.ScienceFiction).gradient2"
+      [bookColor2]="getPalette(GenreEnums.ScienceFiction).gradient1"
+      [title]="getGenreDisplayName(GenreEnums.ScienceFiction)"
+    ></app-book>
+  </div>
+  <!-- Add more genres as needed -->
 </div>

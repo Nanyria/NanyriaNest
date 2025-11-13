@@ -6,7 +6,9 @@
   width: 100%;           /* fill the viewport width */
   margin: 0 auto;
   max-width: 70%;}
-.nav-row,
+.nav-row {
+  height: 100px;
+}
 .admin-body {
   width: 100%;
   flex: 1;
