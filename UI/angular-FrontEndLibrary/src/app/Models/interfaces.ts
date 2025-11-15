@@ -3,6 +3,7 @@ import {
   GenreEnums,
   BookStatusEnum,
   BookTypeEnums,
+  LanguageEnums
 } from '../Helpers/Enums/enum';
 
 // Book interfaces
@@ -11,6 +12,7 @@ export interface Book {
   title: string;
   author: string;
   genre: GenreEnums;
+  language: LanguageEnums;  
   publicationYear: string;
   bookDescription?: string;
   coverImagePath?: string;
@@ -23,6 +25,18 @@ export interface Book {
   reservations: ReservationItem[];
   checkedOutBy?: CheckedOutItem;
 }
+export interface UpdateBookDto {
+  bookId: string;
+  title: string;
+  author: string;
+  genre: GenreEnums;
+  language: LanguageEnums;  
+  publicationYear: string;
+  bookDescription?: string;
+  coverImagePath?: string;
+  bookStatus: BookStatusEnum;
+  bookType: BookTypeEnums;
+}
 export interface SlimBookDto {
   title: string;
   author: string;
@@ -30,8 +44,9 @@ export interface SlimBookDto {
   publicationYear: string;
   bookDescription?: string;
   bookType?: BookTypeEnums;
+  language: LanguageEnums;
   coverImagePath?: string;
-  availabilityDate?: Date;
+  // availabilityDate?: Date;
 
 }
 

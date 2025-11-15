@@ -41,7 +41,7 @@ public class BookController : ControllerBase
     }
 
     [HttpPut("{bookId:int}")]
-    public async Task<IActionResult> UpdateBookInfo(int bookId, [FromBody] BookDto bookInfo)
+    public async Task<IActionResult> UpdateBookInfo(int bookId, [FromBody] SlimBookDto bookInfo)
     {
         var response = await _bookService.UpdateBookInfoAsync(bookId, bookInfo);
         return StatusCode((int)response.StatusCode, response);

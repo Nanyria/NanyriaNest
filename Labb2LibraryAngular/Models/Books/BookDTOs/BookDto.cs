@@ -36,6 +36,7 @@ namespace FinalProjectLibrary.Models.Books.BookDTOs
         public int PublicationYear { get; set; }
         public string? BookDescription { get; set; }
         public BookTypeEnums BookType { get; set; }
+        public LanguageEnums Language { get; set; }
         public string? CoverImagePath { get; set; }
     }
     public class BookDto
@@ -52,6 +53,7 @@ namespace FinalProjectLibrary.Models.Books.BookDTOs
         public int PublicationYear { get; set; }
         public string? BookDescription { get; set; }
         public BookTypeEnums BookType { get; set; }
+        public LanguageEnums Language { get; set; }
         public DateTime AvailabilityDate { get; set; }
         public string? CoverImagePath { get; set; }
         public List<ReviewItemDto> Reviews { get; set; } = new();

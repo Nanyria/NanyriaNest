@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../../Services/book.services';
 import { SlimBookDto } from '../../../Models/interfaces';
-import { GenreEnums, GenreDisplayNames } from '../../../Helpers/Enums/enum'; // Adjust path if needed
+import { GenreEnums, GenreDisplayNames, LanguageEnums, LanguageDisplayNames } from '../../../Helpers/Enums/enum'; // Adjust path if needed
 
 @Component({
   selector: 'app-add-book',
@@ -22,6 +22,9 @@ export class AddBookComponent implements OnInit {
   GenreEnums = GenreEnums;
   GenreDisplayNames = GenreDisplayNames;
   genreOptions = Object.values(GenreEnums).filter(v => typeof v === 'number') as GenreEnums[];
+  LanguageEnums = LanguageEnums;
+  LanguageDisplayNames = LanguageDisplayNames;
+  languageOptions = Object.values(LanguageEnums).filter(v => typeof v === 'number') as LanguageEnums[];
 
 
   
@@ -36,6 +39,7 @@ export class AddBookComponent implements OnInit {
       title: ['', Validators.required],
       author: ['', Validators.required],
       genre: ['', Validators.required],
+      language: ['', Validators.required],
       publicationYear: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
       bookDescription: [''],
       coverImagePath: ['']
@@ -49,6 +53,7 @@ export class AddBookComponent implements OnInit {
         title: this.addBookForm.get('title')!.value,
         author: this.addBookForm.get('author')!.value,
         genre: Number(this.addBookForm.get('genre')!.value) as unknown as GenreEnums,
+        language: Number(this.addBookForm.get('language')!.value) as unknown as LanguageEnums,
         publicationYear: this.addBookForm.get('publicationYear')!.value,
         bookDescription: this.addBookForm.get('bookDescription')!.value,
         coverImagePath: this.addBookForm.get('coverImagePath')!.value

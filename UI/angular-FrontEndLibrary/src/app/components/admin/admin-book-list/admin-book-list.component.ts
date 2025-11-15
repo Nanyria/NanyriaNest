@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Book, ILoggedInUser } from '../../../Models/interfaces';
-import { BookStatusEnum, BookStatusDisplayNames ,GenreEnums, GenreDisplayNames, BookTypeEnums, BookTypeDisplayNames } from '../../../Helpers/Enums/enum';
+import { Book, ILoggedInUser, SlimBookDto  } from '../../../Models/interfaces';
+import { BookStatusEnum, BookStatusDisplayNames ,GenreEnums, GenreDisplayNames, BookTypeEnums, BookTypeDisplayNames, LanguageEnums, LanguageDisplayNames } from '../../../Helpers/Enums/enum';
 
 @Component({
   selector: 'app-admin-book-list',
@@ -32,10 +32,10 @@ export class AdminBookListComponent {
   bookStatuses = Object.values(BookStatusEnum).filter(v => typeof v === 'number') as BookStatusEnum[];; 
   GenreDisplayNames = GenreDisplayNames;
   genreOptions = Object.values(GenreEnums).filter(v => typeof v === 'number') as GenreEnums[];
+  LanguageDisplayNames = LanguageDisplayNames;
+  languageOptions = Object.values(LanguageEnums).filter(v => typeof v === 'number') as LanguageEnums[];
   isSuperAdmin: boolean = false;
   ngOnInit() {
-    console.log('BookListComponent initialized');
-    console.log('Books received:', this.books);
     if (this.user?.isSuperAdmin) {
       this.isSuperAdmin = true;
     }

@@ -4,6 +4,7 @@ namespace FinalProjectLibrary.Helpers.Enums
 {
     public enum BookStatusEnum
     {
+
         [Description("Available")]
         Available,
         [Description("Reserved")]
@@ -13,6 +14,12 @@ namespace FinalProjectLibrary.Helpers.Enums
         [Description("Returned")]
         Returned,
         [Description("Overdue")]
-        Overdue
+        Overdue,
+        [Description("Added")]
+        Added,
+        [Description("Lost")]
+        Lost,
+        [Description("Removed")]
+        Removed
     }
 }

@@ -9,6 +9,8 @@ using FinalProjectLibrary.Models.History.HistoryDTOs;
 using FinalProjectLibrary.Models.Users;
 using FinalProjectLibrary.Models.Users.UserDTOs;
 using FinalProjectLibrary.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using static FinalProjectLibrary.Models.Books.BookDTOs.BookDto;
 
@@ -21,9 +23,10 @@ namespace FinalProjectLibrary.Services
         Task<APIResponse<Book>> GetBookByIdAsync(int id);
         Task<APIResponse<List<Book>>> GetBooksByTitleAsync(string title);
         Task<APIResponse<List<Book>>> GetBooksByAuthorAsync(string author);
-        Task<APIResponse<Book>> AddBookAsync(SlimBookDto book);
+        // Accept optional userId of the actor who adds the book
+        Task<APIResponse<Book>> AddBookAsync(SlimBookDto book, string? userId = null);
         Task<APIResponse<Book>> DeleteBookAsync(int id);
-        Task<APIResponse<Book>> UpdateBookInfoAsync(int id, BookDto bookDto);
+        Task<APIResponse<Book>> UpdateBookInfoAsync(int id, SlimBookDto bookDto);
         Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string userId, BookStatusEnum bookStatus, string? n);
         Task<APIResponse<List<StatusHistoryItem>>> GetBookHistoryAsync(int bookId);
         Task<APIResponse<List<ReservationItem>>> GetBookReservationsAsync(int bookId);
@@ -163,7 +166,7 @@ namespace FinalProjectLibrary.Services
             return response;
         }
 
-        public async Task<APIResponse<Book>> AddBookAsync(SlimBookDto bookDto)
+        public async Task<APIResponse<Book>> AddBookAsync(SlimBookDto bookDto, string? userId = null)
         {
             var response = new APIResponse<Book>
             {
@@ -190,11 +193,51 @@ namespace FinalProjectLibrary.Services
                     CoverImagePath = bookDto.CoverImagePath,
                     BookStatus = BookStatusEnum.Available,
                     AvailabilityDate = DateTime.UtcNow
-                    
-    };
+                };
 
+                // Save the book first so it gets an ID
                 await _bookRepo.CreateBookAsync(book);
                 await _bookRepo.SaveAsync();
+
+                // Add status history item for the action "Added"
+                User? user = null;
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    try
+                    {
+                        user = await _userRepo.GetByIdAsync<User>(userId);
+                    }
+                    catch
+                    {
+                        // If lookup fails, continue with null user
+                        user = null;
+                    }
+                }
+
+                if (user != null)
+                {
+                    // Use existing helper which also updates user.UserHistory and book.StatusHistory
+                    AddStatusHistoryItem(user, book, BookStatusEnum.Available, "Added");
+                    // Persist the status history
+                    await _bookRepo.SaveAsync();
+                }
+                else
+                {
+                    // Create a status history item without a user
+                    var statusHistoryItem = new StatusHistoryItem
+                    {
+                        UserId = null,
+                        BookId = book.BookId,
+                        Book = book,
+                        BookStatus = BookStatusEnum.Available,
+                        Timestamp = DateTime.UtcNow,
+                        Notes = "Added"
+                    };
+
+                    _dbContext.StatusHistoryItems.Add(statusHistoryItem);
+                    book.StatusHistory.Add(statusHistoryItem);
+                    await _bookRepo.SaveAsync();
+                }
 
                 response.Result = book;
                 response.IsSuccess = true;
@@ -241,7 +284,7 @@ namespace FinalProjectLibrary.Services
             return response;
         }
 
-        public async Task<APIResponse<Book>> UpdateBookInfoAsync(int id, BookDto updatedBook)
+        public async Task<APIResponse<Book>> UpdateBookInfoAsync(int id, SlimBookDto updatedBook)
         {
             var response = new APIResponse<Book>
             {
@@ -257,10 +300,12 @@ namespace FinalProjectLibrary.Services
                     existingBook.Title = updatedBook.Title ?? existingBook.Title;
                     existingBook.Author = updatedBook.Author ?? existingBook.Author;
                     existingBook.Genre = updatedBook.Genre != default ? updatedBook.Genre : existingBook.Genre;
+                    existingBook.Language = updatedBook.Language != default ? updatedBook.Language : existingBook.Language;
                     existingBook.PublicationYear = updatedBook.PublicationYear != default ? updatedBook.PublicationYear : existingBook.PublicationYear;
                     existingBook.BookDescription = updatedBook.BookDescription ?? existingBook.BookDescription;
                     existingBook.BookType = updatedBook.BookType != default ? updatedBook.BookType : existingBook.BookType;
                     existingBook.CoverImagePath = updatedBook.CoverImagePath ?? existingBook.CoverImagePath;
+
                     await _bookRepo.SaveAsync();
 
                     response.Result = existingBook;

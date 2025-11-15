@@ -31,6 +31,8 @@ export enum GenreEnums {
     All,
 }
 
+
+
 export const GenreDisplayNames: Record<GenreEnums, string> = {
     [GenreEnums.All]: 'Alla böcker',
     [GenreEnums.None]: 'Ej satt',
@@ -63,3 +65,13 @@ export const BookTypeDisplayNames: { [key in BookTypeEnums]: string } = {
     [BookTypeEnums.EBook]: 'E-bok',
     [BookTypeEnums.Audiobook]: 'Ljudbok',
 }
+export enum LanguageEnums {
+    Undefined,
+    Swedish,
+    English
+}
+export const LanguageDisplayNames: { [key in LanguageEnums]: string } = {
+    [LanguageEnums.Undefined]: 'Ospecificerad',
+    [LanguageEnums.Swedish]: 'Svenska',
+    [LanguageEnums.English]: 'Engelska'
+}   

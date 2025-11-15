@@ -19,6 +19,7 @@ import { BookTypeOptions, BookStatusOptions, GenreOptions } from '../../../Helpe
 export class ManageBooksComponent {
   books: Book[] = [];
   editBook: Book | null = null;
+  updatedBook: SlimBookDto | null = null;
   bookTypeOptions = BookTypeOptions;
   bookStatusOptions = BookStatusOptions;
   genreOptions = GenreOptions;
@@ -33,13 +34,13 @@ export class ManageBooksComponent {
   }
 
   getAllBooks() {
-    console.log('Fetching all books...');
+    // console.log('Fetching all books...');
     this.libraryService.getAllBooks().subscribe(
       (response: { isSuccess: boolean; result: Book[] }) => {
         console.log('Books fetched:', response);
         if (response.isSuccess && Array.isArray(response.result)) {
           this.books = response.result;
-          console.log('Books array:', this.books);
+          // console.log('Books array:', this.books);
         } else {
           this.books = [];
         }
@@ -51,19 +52,34 @@ export class ManageBooksComponent {
     );
   }
 
-  handleFormSubmit(book: Book) {
-    if (this.editBook) {
-      this.bookService.updateBook(this.editBook.bookId, book).subscribe(() => {
-        this.getAllBooks();
-        this.resetForm();
-      });
-    } else {
-      this.bookService.addBook(book).subscribe(() => {
-        this.getAllBooks();
-        this.resetForm();
-      });
-    }
-  }
+  // handleFormSubmit(book: Book, updatedBook: SlimBookDto) {
+  //   console.log('handleFormSubmit called', { editBook: this.editBook, book, updatedBook });
+  //   if (this.editBook) {
+  //     console.log('Updating book id=', this.editBook.bookId, 'payload=', updatedBook);
+  //     this.bookService.updateBook(this.editBook.bookId, updatedBook).subscribe(
+  //       (res) => {
+  //         console.log('Update book response', res);
+  //         this.getAllBooks();
+  //         this.resetForm();
+  //       },
+  //       (err) => {
+  //         console.error('Error updating book', err);
+  //       }
+  //     );
+  //   } else {
+  //     console.log('Adding new book payload=', book);
+  //     this.bookService.addBook(book).subscribe(
+  //       (res) => {
+  //         console.log('Add book response', res);
+  //         this.getAllBooks();
+  //         this.resetForm();
+  //       },
+  //       (err) => {
+  //         console.error('Error adding book', err);
+  //       }
+  //     );
+  //   }
+  // }
 
   deleteBook(bookID: string) {
     this.bookService.deleteBook(bookID).subscribe(() => {
@@ -95,14 +111,73 @@ export class ManageBooksComponent {
     this.books = results;
   }
 
-  saveBook(book: Book) {
-    if (this.editBook) {
-      this.bookService.updateBook(this.editBook.bookId, book).subscribe(() => {
+  saveBook(bookInput: SlimBookDto) {
+    console.log('saveBook called', { editBook: this.editBook, bookInput });
+
+    if (!this.editBook) {
+      console.warn('saveBook: no editBook set, aborting');
+      return;
+    }
+
+    // Build payload with proper types (cast enums/years to numbers if API expects numbers)
+    const payload: any = {
+      title: (bookInput.title ?? this.editBook.title) as string,
+      author: (bookInput.author ?? this.editBook.author) as string,
+      genre: Number(bookInput.genre ?? this.editBook.genre),
+      publicationYear: Number(bookInput.publicationYear ?? this.editBook.publicationYear),
+      bookDescription: bookInput.bookDescription ?? this.editBook.bookDescription ?? null,
+      bookType: Number(bookInput.bookType ?? this.editBook.bookType),
+      language: Number(bookInput.language ?? this.editBook.language),
+      coverImagePath: bookInput.coverImagePath ?? this.editBook.coverImagePath ?? null
+    };
+
+    console.log('saveBook -> sending payload:', payload);
+
+    this.bookService.updateBook(this.editBook.bookId, payload).subscribe(
+      (res) => {
+        console.log('saveBook update response', res);
         this.getAllBooks();
         this.resetForm();
-      });
+      },
+      (err) => {
+        // show HTTP status and backend error body for diagnosis
+        console.error('saveBook update error status=', err?.status, 'errorBody=', err?.error);
+      }
+    );
+  }
+
+  // If you also use handleFormSubmit to update, apply the same mapping there
+  handleFormSubmit(bookInput: any) {
+    console.log('handleFormSubmit called', { editBook: this.editBook, bookInput });
+
+    if (this.editBook) {
+      const payload: SlimBookDto = {
+        title: bookInput.title ?? this.editBook.title,
+        author: bookInput.author ?? this.editBook.author,
+        genre: (bookInput.genre ?? this.editBook.genre) as any,
+        publicationYear: String(bookInput.publicationYear ?? this.editBook.publicationYear),
+        bookDescription: bookInput.bookDescription ?? this.editBook.bookDescription,
+        bookType: (bookInput.bookType ?? this.editBook.bookType) as any,
+        language: (bookInput.language ?? this.editBook.language) as any,
+        coverImagePath: bookInput.coverImagePath ?? this.editBook.coverImagePath
+      };
+
+      console.log('handleFormSubmit -> updating with payload:', payload);
+      this.bookService.updateBook(this.editBook.bookId, payload).subscribe(
+        (res) => {
+          console.log('handleFormSubmit update response', res);
+          this.getAllBooks();
+          this.resetForm();
+        },
+        (err) => {
+          console.error('handleFormSubmit update error', err);
+        }
+      );
+    } else {
+      // For creating new books, construct SlimBookDto similarly
     }
   }
+
     onGenreSelected(genre: GenreEnums) {
       if (genre === GenreEnums.All) {
         this.getAllBooks(); // Fetch all books

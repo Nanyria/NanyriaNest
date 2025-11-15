@@ -23,6 +23,7 @@ namespace FinalProjectLibrary.Models.Books
         public required BookStatusEnum BookStatus { get; set; }
         public DateTime AvailabilityDate { get; set; }
         public BookTypeEnums BookType { get; set; }
+        public LanguageEnums Language { get; set; }
 
         // Lists
         public List<ReviewItem> Reviews { get; set; } = new();

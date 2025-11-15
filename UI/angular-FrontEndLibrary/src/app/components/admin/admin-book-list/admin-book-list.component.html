@@ -5,6 +5,7 @@
     <div class="table-header-s">Titel</div>
     <div class="table-header-s">Författare</div>
     <div class="table-header-s">Genre</div>
+    <div class="table-header-s">Språk</div> 
     <div class="table-header-s">Boktyp</div>
     <div class="table-header-s">Publiceringsår</div>
     <div class="table-header-s">Beskrivning</div>
@@ -35,6 +36,18 @@
       </select>
       <span *ngIf="!editBook || editBook.bookId !== book.bookId">
         {{ GenreDisplayNames[book.genre] || book.genre }}
+      </span>
+    </div>
+    <div class="col-2 table-cell-s">
+      <select *ngIf="editBook && editBook.bookId === book.bookId"
+              [(ngModel)]="editBook.language"
+              name="language-{{book.bookId}}">
+        <option *ngFor="let language of languageOptions" [value]="language">
+          {{ LanguageDisplayNames[language] }}
+        </option>
+      </select>
+      <span *ngIf="!editBook || editBook.bookId !== book.bookId">
+        {{ LanguageDisplayNames[book.language] || book.language }}
       </span>
     </div>
     <div class="table-cell-s">

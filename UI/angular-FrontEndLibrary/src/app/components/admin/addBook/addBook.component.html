@@ -4,7 +4,7 @@ Add New Book
 
 <div class="table-body">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
       <form [formGroup]="addBookForm" (ngSubmit)="onSubmit()">
         <div *ngIf="addBookForm.invalid && (addBookForm.dirty || addBookForm.touched)" class="text-danger">
           Please correct the errors in the form.
@@ -16,6 +16,7 @@ Add New Book
               <th class="th">Titel</th>
               <th class="th-2">Författare</th>
               <th class="th">Genre</th>
+              <th class="th">Språk</th>  
               <th class="th">Publiceringsår</th>
               <th class="th">Bokbeskrivning</th>
             </tr>
@@ -41,6 +42,15 @@ Add New Book
                 </select>
                 <div *ngIf="addBookForm.get('genre')!.invalid && (addBookForm.get('genre')!.dirty || addBookForm.get('genre')!.touched)" class="text-danger">
                   Genre måste anges.
+                </div>
+              </td>
+              <td class="td">
+                <select id="language" formControlName="language" class="form-control">
+                  <option value="" disabled>Select language</option>
+                  <option *ngFor="let language of languageOptions" [value]="language">{{ LanguageDisplayNames[language] }}</option>
+                </select>
+                <div *ngIf="addBookForm.get('language')!.invalid && (addBookForm.get('language')!.dirty || addBookForm.get('language')!.touched)" class="text-danger">
+                  Språk måste anges.
                 </div>
               </td>
               <td class="td">

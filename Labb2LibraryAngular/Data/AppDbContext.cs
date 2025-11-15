@@ -113,6 +113,11 @@ namespace FinalProjectLibrary.Data
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn(seed: 1001, increment: 1);
 
+            // Set a default value for Language (so existing rows/DB will get Undefined (0) if none provided)
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Language)
+                .HasDefaultValue(LanguageEnums.Undefined);
+
             modelBuilder.Entity<CheckedOutItem>()
                 .Property(c => c.Id)
                 .ValueGeneratedOnAdd()
@@ -155,6 +160,7 @@ namespace FinalProjectLibrary.Data
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Hardcover,
                     BookStatus = BookStatusEnum.Available,
+                    Language = LanguageEnums.Undefined
                 },
                 new Book
                 {
@@ -166,6 +172,7 @@ namespace FinalProjectLibrary.Data
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Hardcover,
                     BookStatus = BookStatusEnum.Available,
+                    Language = LanguageEnums.Undefined
                 },
                 new Book
                 {
@@ -177,6 +184,7 @@ namespace FinalProjectLibrary.Data
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Paperback,
                     BookStatus = BookStatusEnum.Available,
+                    Language = LanguageEnums.Undefined
                 }
             );
 

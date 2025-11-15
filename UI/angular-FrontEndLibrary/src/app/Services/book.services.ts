@@ -22,7 +22,7 @@ export class BookService {
     return this.http.post<any>(this.apiUrl, book);
   }
 
-  updateBook(bookID: string, updatedBook: Book): Observable<any> {
+  updateBook(bookID: string, updatedBook: SlimBookDto): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${bookID}`, updatedBook);
   }
 
