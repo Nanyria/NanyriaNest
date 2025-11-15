@@ -191,15 +191,16 @@ namespace FinalProjectLibrary.Services
                     PublicationYear = bookDto.PublicationYear,
                     BookType = bookDto.BookType,
                     CoverImagePath = bookDto.CoverImagePath,
+                    // current live status for the book (what clients should see)
                     BookStatus = BookStatusEnum.Available,
                     AvailabilityDate = DateTime.UtcNow
                 };
 
-                // Save the book first so it gets an ID
+                // persist book so we have a BookId for history items
                 await _bookRepo.CreateBookAsync(book);
                 await _bookRepo.SaveAsync();
 
-                // Add status history item for the action "Added"
+                // lookup user if provided
                 User? user = null;
                 if (!string.IsNullOrEmpty(userId))
                 {
@@ -209,33 +210,71 @@ namespace FinalProjectLibrary.Services
                     }
                     catch
                     {
-                        // If lookup fails, continue with null user
                         user = null;
                     }
                 }
 
+                // record lifecycle: Added -> Available. Keep the book.BookStatus as Available (current).
+                var now = DateTime.UtcNow;
+                var later = now.AddTicks(1);
+
                 if (user != null)
                 {
-                    // Use existing helper which also updates user.UserHistory and book.StatusHistory
-                    AddStatusHistoryItem(user, book, BookStatusEnum.Available, "Added");
-                    // Persist the status history
+                    // first: Added (actor)
+                    var addedItem = new StatusHistoryItem
+                    {
+                        UserId = user.Id,
+                        BookId = book.BookId,
+                        BookStatus = BookStatusEnum.Added,
+                        Timestamp = now,
+                        Notes = "Added"
+                    };
+                    // second: Available (current)
+                    var availableItem = new StatusHistoryItem
+                    {
+                        UserId = user.Id,
+                        BookId = book.BookId,
+                        BookStatus = BookStatusEnum.Available,
+                        Timestamp = later,
+                        Notes = "Set to Available"
+                    };
+
+                    _dbContext.StatusHistoryItems.AddRange(addedItem, availableItem);
+                    user.UserHistory.Add(addedItem);
+                    user.UserHistory.Add(availableItem);
+                    book.StatusHistory.Add(addedItem);
+                    book.StatusHistory.Add(availableItem);
+
+                    // persist history
                     await _bookRepo.SaveAsync();
+                    await _userRepo.UpdateAsync(user);
                 }
                 else
                 {
-                    // Create a status history item without a user
-                    var statusHistoryItem = new StatusHistoryItem
+                    // no user -> history items with null UserId
+                    var addedItem = new StatusHistoryItem
+                    {
+                        UserId = null,
+                        BookId = book.BookId,
+                        Book = book,
+                        BookStatus = BookStatusEnum.Added,
+                        Timestamp = now,
+                        Notes = "Added"
+                    };
+                    var availableItem = new StatusHistoryItem
                     {
                         UserId = null,
                         BookId = book.BookId,
                         Book = book,
                         BookStatus = BookStatusEnum.Available,
-                        Timestamp = DateTime.UtcNow,
-                        Notes = "Added"
+                        Timestamp = later,
+                        Notes = "Set to Available"
                     };
 
-                    _dbContext.StatusHistoryItems.Add(statusHistoryItem);
-                    book.StatusHistory.Add(statusHistoryItem);
+                    _dbContext.StatusHistoryItems.AddRange(addedItem, availableItem);
+                    book.StatusHistory.Add(addedItem);
+                    book.StatusHistory.Add(availableItem);
+
                     await _bookRepo.SaveAsync();
                 }
 

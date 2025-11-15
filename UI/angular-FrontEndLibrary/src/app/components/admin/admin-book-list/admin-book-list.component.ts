@@ -28,6 +28,7 @@ export class AdminBookListComponent {
 
   BookTypeDisplayNames = BookTypeDisplayNames;
   bookTypes = Object.values(BookTypeEnums).filter(v => typeof v === 'number') as BookTypeEnums[];
+  bookTypeOptions = Object.values(BookTypeEnums).filter(v => typeof v === 'number') as BookTypeEnums[];
   BookStatusDisplayNames = BookStatusDisplayNames;
   bookStatuses = Object.values(BookStatusEnum).filter(v => typeof v === 'number') as BookStatusEnum[];; 
   GenreDisplayNames = GenreDisplayNames;

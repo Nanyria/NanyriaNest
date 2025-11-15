@@ -51,7 +51,16 @@
       </span>
     </div>
     <div class="table-cell-s">
-      {{ BookTypeDisplayNames[book.bookType] }}
+      <select *ngIf="editBook && editBook.bookId === book.bookId"
+              [(ngModel)]="editBook.bookType"
+              name="bookType-{{book.bookId}}">
+        <option *ngFor="let bookType of bookTypeOptions" [value]="bookType">
+          {{ BookTypeDisplayNames[bookType] }}
+        </option>
+      </select>
+      <span *ngIf="!editBook || editBook.bookId !== book.bookId">
+        {{ BookTypeDisplayNames[book.bookType] || book.bookType }}
+      </span>
     </div>
     <div class="table-cell-s">
       <input *ngIf="editBook && editBook.bookId === book.bookId" [(ngModel)]="editBook.publicationYear" />

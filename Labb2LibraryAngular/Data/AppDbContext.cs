@@ -154,13 +154,13 @@ namespace FinalProjectLibrary.Data
                 {
                     BookId = 1001,
                     Title = "The Great Gatsby",
-                    Author = "F. Scott Fitzgerald",
+                    Author = "F. Scott Fitzgerald", 
                     Genre = GenreEnums.Fiction,
                     PublicationYear = 1925,
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Hardcover,
                     BookStatus = BookStatusEnum.Available,
-                    Language = LanguageEnums.Undefined
+                    Language = LanguageEnums.English
                 },
                 new Book
                 {
@@ -172,7 +172,7 @@ namespace FinalProjectLibrary.Data
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Hardcover,
                     BookStatus = BookStatusEnum.Available,
-                    Language = LanguageEnums.Undefined
+                    Language = LanguageEnums.English
                 },
                 new Book
                 {
@@ -184,7 +184,7 @@ namespace FinalProjectLibrary.Data
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Paperback,
                     BookStatus = BookStatusEnum.Available,
-                    Language = LanguageEnums.Undefined
+                    Language = LanguageEnums.English
                 }
             );
 
@@ -193,25 +193,25 @@ namespace FinalProjectLibrary.Data
                 {
                     StatusHistoryItemId = 1001,
                     BookId = 1001,
-                    BookStatus = BookStatusEnum.Available,  // Use an example status from BookStatusEnum
+                    BookStatus = BookStatusEnum.Added,
                     Timestamp = DateTime.UtcNow.AddDays(-1),
-                    Notes = "Initial status"
+                    Notes = "Initial added status"
                 },
                 new StatusHistoryItem
                 {
                     StatusHistoryItemId = 1002,
                     BookId = 1002,
-                    BookStatus = BookStatusEnum.CheckedOut,  // Example status
+                    BookStatus = BookStatusEnum.Added,
                     Timestamp = DateTime.UtcNow.AddDays(-2),
-                    Notes = "Initial status"
+                    Notes = "Initial added status"
                 },
                 new StatusHistoryItem
                 {
                     StatusHistoryItemId = 1003,
                     BookId = 1003,
-                    BookStatus = BookStatusEnum.Reserved,  // Example status
+                    BookStatus = BookStatusEnum.Added,
                     Timestamp = DateTime.UtcNow.AddDays(-3),
-                    Notes = "Initial status"
+                    Notes = "Initial added status"
                 }
             );
         }

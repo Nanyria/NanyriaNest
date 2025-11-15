@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../../Services/book.services';
 import { SlimBookDto } from '../../../Models/interfaces';
-import { GenreEnums, GenreDisplayNames, LanguageEnums, LanguageDisplayNames } from '../../../Helpers/Enums/enum'; // Adjust path if needed
+import { GenreEnums, GenreDisplayNames, LanguageEnums, LanguageDisplayNames, BookTypeEnums, BookTypeDisplayNames } from '../../../Helpers/Enums/enum'; // Adjust path if needed
 
 @Component({
   selector: 'app-add-book',
@@ -25,7 +25,9 @@ export class AddBookComponent implements OnInit {
   LanguageEnums = LanguageEnums;
   LanguageDisplayNames = LanguageDisplayNames;
   languageOptions = Object.values(LanguageEnums).filter(v => typeof v === 'number') as LanguageEnums[];
-
+  BookTypeEnums = BookTypeEnums;
+  BookTypeDisplayNames = BookTypeDisplayNames;
+  bookTypeOptions = Object.values(BookTypeEnums).filter(v => typeof v === 'number') as BookTypeEnums[];
 
   
   constructor(
@@ -39,6 +41,7 @@ export class AddBookComponent implements OnInit {
       title: ['', Validators.required],
       author: ['', Validators.required],
       genre: ['', Validators.required],
+      bookType: ['', Validators.required],
       language: ['', Validators.required],
       publicationYear: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
       bookDescription: [''],
@@ -53,6 +56,7 @@ export class AddBookComponent implements OnInit {
         title: this.addBookForm.get('title')!.value,
         author: this.addBookForm.get('author')!.value,
         genre: Number(this.addBookForm.get('genre')!.value) as unknown as GenreEnums,
+        bookType: Number(this.addBookForm.get('bookType')!.value) as unknown as BookTypeEnums,
         language: Number(this.addBookForm.get('language')!.value) as unknown as LanguageEnums,
         publicationYear: this.addBookForm.get('publicationYear')!.value,
         bookDescription: this.addBookForm.get('bookDescription')!.value,
