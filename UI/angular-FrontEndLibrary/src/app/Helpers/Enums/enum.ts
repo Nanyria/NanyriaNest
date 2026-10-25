@@ -7,11 +7,11 @@ export enum BookStatusEnum {
 }
 
 export const BookStatusDisplayNames: { [key in BookStatusEnum]: string } = {
-    [BookStatusEnum.Available]: 'Tillgänglig',
-    [BookStatusEnum.Reserved]: 'Reserverad',
-    [BookStatusEnum.CheckedOut]: 'Utlånad',
-    [BookStatusEnum.Returned]: 'Återlämnad',
-    [BookStatusEnum.Overdue]: 'Försenad',
+    [BookStatusEnum.Available]: 'Available',
+    [BookStatusEnum.Reserved]: 'Reserved',
+    [BookStatusEnum.CheckedOut]: 'Checked out',
+    [BookStatusEnum.Returned]: 'Returned',
+    [BookStatusEnum.Overdue]: 'Overdue',
 };
 export enum GenreEnums {
     None,
@@ -34,21 +34,21 @@ export enum GenreEnums {
 
 
 export const GenreDisplayNames: Record<GenreEnums, string> = {
-    [GenreEnums.All]: 'Alla böcker',
-    [GenreEnums.None]: 'Ej satt',
+    [GenreEnums.All]: 'All books',
+    [GenreEnums.None]: 'Not set',
     [GenreEnums.Fantasy]: 'Fantasy',
-    [GenreEnums.Children]: 'Barn & Ungdom',
-    [GenreEnums.Romance]: 'Romantik',
-    [GenreEnums.Horror]: 'Skräck',
+    [GenreEnums.Children]: 'Children & Young Adult',
+    [GenreEnums.Romance]: 'Romance',
+    [GenreEnums.Horror]: 'Horror',
     [GenreEnums.Thriller]: 'Thriller',
-    [GenreEnums.Mystery]: 'Deckare',
+    [GenreEnums.Mystery]: 'Mystery',
     [GenreEnums.ScienceFiction]: 'Science Fiction',
-    [GenreEnums.NonFiction]: 'Facklitteratur',
-    [GenreEnums.Fiction]: 'Romaner',
-    [GenreEnums.Biography]: 'Biografi',
+    [GenreEnums.NonFiction]: 'Non-fiction',
+    [GenreEnums.Fiction]: 'Fiction',
+    [GenreEnums.Biography]: 'Biography',
     [GenreEnums.FeelGood]: 'Feelgood',
-    [GenreEnums.Poetry]: 'Poesi',
-    [GenreEnums.SelfHelp]: 'Självhjälp',
+    [GenreEnums.Poetry]: 'Poetry',
+    [GenreEnums.SelfHelp]: 'Self-help',
 };
 export enum BookTypeEnums {
     Undefined,
@@ -59,11 +59,11 @@ export enum BookTypeEnums {
 }
 
 export const BookTypeDisplayNames: { [key in BookTypeEnums]: string } = {
-    [BookTypeEnums.Undefined]: 'Ospecificerad',
-    [BookTypeEnums.Paperback]: 'Pocket',
-    [BookTypeEnums.Hardcover]: 'Inbunden',
-    [BookTypeEnums.EBook]: 'E-bok',
-    [BookTypeEnums.Audiobook]: 'Ljudbok',
+    [BookTypeEnums.Undefined]: 'Unspecified',
+    [BookTypeEnums.Paperback]: 'Paperback',
+    [BookTypeEnums.Hardcover]: 'Hardcover',
+    [BookTypeEnums.EBook]: 'E-book',
+    [BookTypeEnums.Audiobook]: 'Audiobook',
 }
 export enum LanguageEnums {
     Undefined,
@@ -71,7 +71,7 @@ export enum LanguageEnums {
     English
 }
 export const LanguageDisplayNames: { [key in LanguageEnums]: string } = {
-    [LanguageEnums.Undefined]: 'Ospecificerad',
-    [LanguageEnums.Swedish]: 'Svenska',
-    [LanguageEnums.English]: 'Engelska'
+    [LanguageEnums.Undefined]: 'Unspecified',
+    [LanguageEnums.Swedish]: 'Swedish',
+    [LanguageEnums.English]: 'English'
 }   

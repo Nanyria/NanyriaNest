@@ -1,28 +1,51 @@
-<div class="diagonal-list" role="list">
-  @for (book of books; track book; let i = $index) {
-    <div
-      class="diagonal-item"
-      [style.--idx]="i"
-      role="listitem"
+<ul class="books" [class.books--list]="viewMode === 'list'">
+  @for (book of books; track book.bookId) {
+    <li
+      class="book"
       tabindex="0"
-      (click)="onBookRowClick(book, $event)"
-      (keydown.enter)="onBookRowClick(book, $event)"
+      [attr.aria-label]="book.title + ' by ' + book.author"
+      (click)="openBook(book, $event)"
+      (keydown.enter)="openBook(book, $event)"
     >
-      <img
-        class="cover"
-        [src]="
-          book.coverImagePath
-            ? book.coverImagePath
-            : 'assets/images/book-covers/BrownBook.svg'
-        "
-        [alt]="book.title ? book.title + ' omslag' : 'Omslag'"
-        width="120"
-        height="180"
-      />
-      <div class="meta">
-        <div class="title" title="{{ book.title }}">{{ book.title }}</div>
-        <div class="author" title="{{ book.author }}">{{ book.author }}</div>
+      <div class="book__cover-wrap">
+        <img
+          class="nn-cover book__cover"
+          [src]="book.coverImagePath || fallbackCover"
+          [alt]="''"
+          loading="lazy"
+        />
+        <button
+          type="button"
+          class="book__ribbon"
+          [class.is-saved]="isInReadList(book)"
+          [attr.aria-pressed]="isInReadList(book)"
+          [attr.aria-label]="(isInReadList(book) ? 'Remove from' : 'Add to') + ' reading list'"
+          [title]="isInReadList(book) ? 'In your reading list' : 'Add to reading list'"
+          (click)="toggleReadList(book, $event)"
+          (keydown.enter)="$event.stopPropagation()"
+        >
+          <i class="bi" [class.bi-bookmark-fill]="isInReadList(book)" [class.bi-bookmark]="!isInReadList(book)"></i>
+        </button>
       </div>
-    </div>
+
+      <div class="book__meta">
+        <h3 class="book__title" [title]="book.title">{{ book.title }}</h3>
+        <p class="book__author">{{ book.author }}</p>
+        <div class="book__tags">
+          <span class="nn-tag">{{ genreOptions.displayNames[book.genre] }}</span>
+          @if (statusBadge(book); as status) {
+            <span class="nn-tag book__status">{{ status }}</span>
+          }
+        </div>
+        <p class="book__reviews">
+          @if (reviewCount(book) > 0) {
+            <i class="bi bi-chat-left-text"></i>
+            {{ reviewCount(book) }} {{ reviewCount(book) === 1 ? 'review' : 'reviews' }}
+          } @else {
+            No reviews yet
+          }
+        </p>
+      </div>
+    </li>
   }
-</div>
+</ul>

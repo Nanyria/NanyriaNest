@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 18" fill="none">
+  <!-- Horizontal edge ornament: fading lines with a framed diamond in the middle -->
+  <defs>
+    <linearGradient id="fadeL" x1="0" x2="1"><stop offset="0" stop-color="#b38a52" stop-opacity="0"/><stop offset="1" stop-color="#b38a52"/></linearGradient>
+    <linearGradient id="fadeR" x1="1" x2="0"><stop offset="0" stop-color="#b38a52" stop-opacity="0"/><stop offset="1" stop-color="#b38a52"/></linearGradient>
+  </defs>
+  <line x1="0" y1="9" x2="112" y2="9" stroke="url(#fadeL)" stroke-width="0.9"/>
+  <line x1="168" y1="9" x2="280" y2="9" stroke="url(#fadeR)" stroke-width="0.9"/>
+  <path d="M116 9 l4 -4 l4 4 l-4 4 z" fill="#b38a52"/>
+  <path d="M156 9 l4 -4 l4 4 l-4 4 z" fill="#b38a52"/>
+  <path d="M140 1 L148 9 L140 17 L132 9 Z" stroke="#b38a52" stroke-width="1"/>
+  <path d="M140 5 L144 9 L140 13 L136 9 Z" fill="#b38a52"/>
+</svg>

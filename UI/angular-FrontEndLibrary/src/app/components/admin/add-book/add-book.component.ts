@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { GenreEnums, GenreDisplayNames, LanguageEnums, LanguageDisplayNames, Boo
 
 @Component({
   selector: 'app-add-book',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
   templateUrl: './add-book.component.html',
   styleUrls: ['./add-book.component.css'],

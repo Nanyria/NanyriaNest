@@ -1,7 +1,8 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
   selector: "app-counter",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
   template: `
     <div class="counter">

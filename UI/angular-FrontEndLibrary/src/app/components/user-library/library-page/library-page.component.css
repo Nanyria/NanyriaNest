@@ -1,86 +1,121 @@
-.header {
+.library {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.library__header {
   display: flex;
   align-items: center;
+  gap: var(--nn-space-4);
 }
 
-.library-layout {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
-  height: 100%; /* or adjust as needed */
-  width: 100%;
+.library__compass {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  color: var(--nn-gold);
 }
-.row {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
+
+.library__ornament {
+  margin: var(--nn-space-4) auto var(--nn-space-5);
 }
-/* .table-body {
-  flex: 1;
-  overflow-x: auto;
-} */
-.library-search-container {
+
+.library__panel {
   display: flex;
-  justify-content: center; 
+  flex-direction: column;
+  gap: var(--nn-space-4);
+}
+
+.library__toolbar {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
-  font-size: 16px;
-  color: rgba(178, 178, 178, 1);
-  font-weight: 400;
-  flex-direction: row;
-  height: 80px; 
-}
-app-search {
-  display: flex; /* Set display to flex to allow flex properties to take effect */
-  flex-grow: 1; /* Allow app-search to take up more space */
+  gap: var(--nn-space-3);
 }
 
-.table-popup-container {
-  position: relative;
-  width: 100%;
+.library__search {
+  flex: 1 1 280px;
 }
 
+.library__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nn-space-2);
+}
+
+/* Thin line filling the space between the pills and the book count */
+.library__rule {
+  flex: 1 1 40px;
+  height: 1px;
+  margin: 0 var(--nn-space-3);
+  background-color: var(--nn-gold-soft);
+}
+
+.library__count {
+  color: var(--nn-ink-muted);
+  white-space: nowrap;
+}
+
+.library__message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nn-space-3);
+  padding: var(--nn-space-6) 0;
+  color: var(--nn-ink-muted);
+  text-align: center;
+}
+
+/* Book detail popup (info-card gets its own redesign later) */
 .info-card-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.2);
+  background: rgba(42, 22, 14, 0.4);
   z-index: 1000;
 }
 
 .info-card-popup {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  background: var(--nn-surface);
+  border: 1px solid var(--nn-gold);
+  border-radius: var(--nn-radius-lg);
+  box-shadow: var(--nn-shadow-raised);
   max-width: 90%;
   max-height: 90%;
   overflow: auto;
-  padding: 24px;
+  padding: var(--nn-space-5);
 }
 
-/* Ensure the page row is a non-wrapping flex container and children can shrink */
-.row.page-row {
-  display: flex;
-  flex-wrap: nowrap;    /* keep columns on one line */
-  align-items: flex-start;
-  box-sizing: border-box;
-}
+@media (max-width: 600px) {
+  .library__compass {
+    width: 44px;
+    height: 44px;
+  }
 
-/* Reserve fixed space for sidebars (adjust px value if needed) */
-.row.page-row > .col-2 {
-  flex: 0 0 180px;      /* fixed sidebar width */
-  max-width: 180px;
-  box-sizing: border-box;
-}
+  /* Search on its own row, then genre and sort sharing a row, then the toggle */
+  .library__search {
+    flex-basis: 100%;
+  }
 
-/* Center column fills remaining space and is allowed to shrink when children overflow */
-.row.page-row > .col-8,
-.row.page-row > .page-container {
-  flex: 1 1 auto;
-  min-width: 0;         /* critical: allows flex item to shrink instead of forcing wrap */
-  box-sizing: border-box;
-}
+  .library__toolbar .nn-select-field {
+    flex: 1 1 140px;
+  }
 
+  .library__toolbar .nn-select {
+    width: 100%;
+    padding-left: 36px;
+    padding-right: 28px;
+    background-position: right 8px center;
+  }
+
+  .library__rule {
+    display: none;
+  }
+
+  .library__count {
+    width: 100%;
+  }
+}

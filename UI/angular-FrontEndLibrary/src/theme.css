@@ -1,0 +1,588 @@
+/* theme.css — Nyria Nest parchment design system.
+   New UI builds on these tokens and nn-* classes. The old variables in
+   styles.css stay until every page has been migrated. */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  /* Surfaces */
+  --nn-page: #f3e7d0;
+  --nn-surface: #faf3e5;
+  --nn-surface-sunken: #efe2c9;
+  --nn-surface-hover: #f6ebd6;
+
+  /* Text */
+  --nn-ink: #3b2619;
+  --nn-ink-strong: #2a160e;
+  --nn-ink-muted: #7b6552;
+  --nn-ink-faint: #a8937c;
+
+  /* Brand */
+  --nn-primary: #2f4a37;
+  --nn-primary-hover: #233929;
+  --nn-on-primary: #f7eedb;
+  --nn-accent: #8e1f1c;
+  --nn-accent-hover: #741816;
+  --nn-gold: #b38a52;
+  --nn-gold-soft: #d8c097;
+  --nn-gold-ink: #8a6634; /* gold dark enough for text on parchment */
+  --nn-star: #b0611c;
+
+  /* Lines */
+  --nn-border: #e0cca8;
+  --nn-border-strong: #c9ad7f;
+  --nn-focus: 0 0 0 3px rgba(179, 138, 82, 0.45);
+
+  /* Shape and depth */
+  --nn-radius-sm: 6px;
+  --nn-radius: 10px;
+  --nn-radius-lg: 14px;
+  --nn-radius-pill: 999px;
+  --nn-shadow: 0 1px 2px rgba(59, 38, 25, 0.08), 0 4px 14px rgba(59, 38, 25, 0.06);
+  --nn-shadow-raised: 0 2px 4px rgba(59, 38, 25, 0.10), 0 10px 24px rgba(59, 38, 25, 0.10);
+
+  /* Type */
+  --nn-font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --nn-font-body: 'EB Garamond', Georgia, serif;
+
+  /* Spacing */
+  --nn-space-1: 4px;
+  --nn-space-2: 8px;
+  --nn-space-3: 12px;
+  --nn-space-4: 16px;
+  --nn-space-5: 24px;
+  --nn-space-6: 32px;
+}
+
+/* ---------- Scope ----------
+   Wrap migrated layouts in .nn-theme so the new base type and colors
+   don't leak into pages that still use the old dark styles. */
+.nn-theme {
+  background-color: var(--nn-page);
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+/* The old styles.css pads the body and paints it dark; undo that while a
+   migrated page is on screen */
+body:has(.nn-theme) {
+  padding: 0;
+  background-color: var(--nn-page);
+}
+
+/* body is a flex column in styles.css; let app-root shrink to the viewport */
+body:has(.nn-theme) > app-root {
+  min-width: 0;
+}
+
+/* styles.css sets Eagle Lake on every <header>; migrated pages use the theme fonts */
+.nn-theme header {
+  font-family: inherit;
+}
+
+.nn-theme h1,
+.nn-theme h2,
+.nn-theme h3,
+.nn-theme h4 {
+  font-family: var(--nn-font-display);
+  color: var(--nn-ink-strong);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.nn-theme a {
+  color: var(--nn-primary);
+}
+
+.nn-theme :focus-visible {
+  outline: none;
+  box-shadow: var(--nn-focus);
+}
+
+/* ---------- Page title ---------- */
+.nn-page-title {
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  font-weight: 700;
+}
+
+.nn-page-subtitle {
+  color: var(--nn-ink);
+  font-size: 1.15rem;
+  margin-top: var(--nn-space-2);
+}
+
+.nn-eyebrow {
+  color: var(--nn-accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---------- Panel ---------- */
+.nn-panel {
+  background-color: var(--nn-surface);
+  border: 1px solid var(--nn-border);
+  border-radius: var(--nn-radius-lg);
+  box-shadow: var(--nn-shadow);
+  padding: var(--nn-space-5);
+}
+
+/* Thin inner gold line, used on hero panels and the login card */
+.nn-panel--ornate {
+  box-shadow: inset 0 0 0 4px var(--nn-surface), inset 0 0 0 5px var(--nn-gold-soft), var(--nn-shadow);
+}
+
+.nn-panel--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ---------- Section header (icon, title, subtitle, action link) ---------- */
+.nn-section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nn-space-3);
+  margin-bottom: var(--nn-space-4);
+}
+
+.nn-section-header__icon {
+  color: var(--nn-gold);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.nn-section-header__title {
+  font-size: 1.5rem;
+}
+
+.nn-section-header__subtitle {
+  color: var(--nn-ink-muted);
+  margin-top: 2px;
+}
+
+.nn-section-header__action {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ---------- Links ---------- */
+.nn-link {
+  color: var(--nn-ink);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nn-space-1);
+}
+
+.nn-link:hover {
+  color: var(--nn-primary);
+  text-decoration: underline;
+}
+
+/* A <button> that looks like an inline link */
+.nn-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--nn-primary);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.nn-link-button:hover {
+  color: var(--nn-primary-hover);
+}
+
+/* ---------- Buttons ---------- */
+.nn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nn-space-2);
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-radius: var(--nn-radius-sm);
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.nn-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.nn-btn--primary {
+  background-color: var(--nn-primary);
+  border-color: var(--nn-primary-hover);
+  color: var(--nn-on-primary);
+}
+
+.nn-btn--primary:hover:not(:disabled) {
+  background-color: var(--nn-primary-hover);
+}
+
+.nn-btn--outline {
+  background-color: transparent;
+  border-color: var(--nn-gold);
+  color: var(--nn-ink);
+}
+
+.nn-btn--outline:hover:not(:disabled) {
+  background-color: var(--nn-surface-hover);
+  border-color: var(--nn-border-strong);
+}
+
+.nn-btn--ghost {
+  background-color: transparent;
+  color: var(--nn-ink);
+}
+
+.nn-btn--ghost:hover:not(:disabled) {
+  background-color: var(--nn-surface-sunken);
+}
+
+/* Main call to action: inner gold line plus small diamonds on the short ends */
+.nn-btn--ornate {
+  position: relative;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-color: #1c2e21;
+  box-shadow: inset 0 0 0 3px var(--nn-primary), inset 0 0 0 4px var(--nn-gold), var(--nn-shadow);
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.nn-btn--ornate:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 3px var(--nn-primary-hover), inset 0 0 0 4px var(--nn-gold), var(--nn-shadow);
+}
+
+.nn-btn--ornate::before,
+.nn-btn--ornate::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: var(--nn-gold);
+  border: 1px solid #1c2e21;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.nn-btn--ornate::before {
+  left: -5px;
+}
+
+.nn-btn--ornate::after {
+  right: -5px;
+}
+
+.nn-btn--block {
+  width: 100%;
+}
+
+.nn-btn--icon {
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+}
+
+/* Segmented control, e.g. grid/list toggle */
+.nn-segmented {
+  display: inline-flex;
+  border: 1px solid var(--nn-border-strong);
+  border-radius: var(--nn-radius-sm);
+  overflow: hidden;
+}
+
+.nn-segmented > button {
+  background: var(--nn-surface);
+  border: none;
+  color: var(--nn-ink);
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.nn-segmented > button.is-active {
+  background: var(--nn-primary);
+  color: var(--nn-on-primary);
+}
+
+/* ---------- Chips (filter pills) and tags ---------- */
+.nn-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 18px;
+  border: 1px solid var(--nn-border-strong);
+  border-radius: var(--nn-radius-pill);
+  background-color: var(--nn-surface);
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.nn-chip:hover {
+  background-color: var(--nn-surface-hover);
+}
+
+.nn-chip.is-active {
+  background-color: var(--nn-primary);
+  border-color: var(--nn-primary);
+  color: var(--nn-on-primary);
+}
+
+.nn-tag {
+  display: inline-block;
+  padding: 2px 12px;
+  border: 1px solid var(--nn-border);
+  border-radius: var(--nn-radius-pill);
+  background-color: var(--nn-surface-sunken);
+  color: var(--nn-ink-muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Form fields ---------- */
+.nn-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--nn-border-strong);
+  border-radius: var(--nn-radius-sm);
+  background-color: var(--nn-surface);
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+}
+
+.nn-input::placeholder {
+  color: var(--nn-ink-faint);
+}
+
+/* Keep Chrome's autofill from painting fields light blue */
+.nn-input:-webkit-autofill {
+  -webkit-text-fill-color: var(--nn-ink);
+  box-shadow: 0 0 0 100px var(--nn-surface) inset;
+  caret-color: var(--nn-ink);
+}
+
+.nn-input:-webkit-autofill:focus {
+  box-shadow: 0 0 0 100px var(--nn-surface) inset, var(--nn-focus);
+}
+
+.nn-input:focus {
+  outline: none;
+  border-color: var(--nn-gold);
+  box-shadow: var(--nn-focus);
+}
+
+/* Input with a leading (and optional trailing) icon */
+.nn-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nn-field > .bi:first-child {
+  position: absolute;
+  left: 14px;
+  color: var(--nn-ink-muted);
+  pointer-events: none;
+}
+
+.nn-field > .nn-input {
+  padding-left: 42px;
+}
+
+.nn-field:has(.nn-field__trailing) > .nn-input {
+  padding-right: 44px;
+}
+
+.nn-field__trailing {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--nn-ink-muted);
+  padding: 4px 6px;
+  cursor: pointer;
+}
+
+/* Native <select> styled like the outline buttons, with a leading icon:
+   <label class="nn-select-field"><i class="bi …"></i><select class="nn-select">… */
+.nn-select-field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+
+.nn-select-field > .bi {
+  position: absolute;
+  left: 14px;
+  color: var(--nn-ink);
+  pointer-events: none;
+}
+
+.nn-select {
+  appearance: none;
+  padding: 10px 38px 10px 40px;
+  border: 1px solid var(--nn-border-strong);
+  border-radius: var(--nn-radius-sm);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%237b6552'%3E%3Cpath d='M3.2 5.7a.6.6 0 0 1 .85 0L8 9.65l3.95-3.95a.6.6 0 1 1 .85.85L8.42 10.9a.6.6 0 0 1-.84 0L3.2 6.55a.6.6 0 0 1 0-.85z'/%3E%3C/svg%3E")
+      no-repeat right 12px center / 14px,
+    var(--nn-surface);
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.nn-select:hover {
+  border-color: var(--nn-gold);
+}
+
+.nn-select:focus {
+  outline: none;
+  border-color: var(--nn-gold);
+  box-shadow: var(--nn-focus);
+}
+
+/* ---------- Stars ---------- */
+.nn-stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--nn-star);
+  font-size: 0.95rem;
+}
+
+/* ---------- Progress bar (placeholder until reading progress exists) ---------- */
+.nn-progress {
+  height: 8px;
+  border-radius: var(--nn-radius-pill);
+  background-color: var(--nn-surface-sunken);
+  border: 1px solid var(--nn-border);
+  overflow: hidden;
+}
+
+.nn-progress__bar {
+  height: 100%;
+  background-color: var(--nn-primary);
+}
+
+/* ---------- Ornamental divider: line with a gold diamond in the middle ---------- */
+.nn-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  color: var(--nn-gold);
+  margin: var(--nn-space-4) 0;
+}
+
+.nn-divider::before,
+.nn-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--nn-gold-soft);
+}
+
+/* Filled diamond inside an outlined one */
+.nn-divider__mark {
+  width: 6px;
+  height: 6px;
+  margin: 0 4px;
+  background-color: var(--nn-gold);
+  box-shadow: 0 0 0 2px var(--nn-surface), 0 0 0 3px var(--nn-gold);
+  transform: rotate(45deg);
+}
+
+/* ---------- Book cover ---------- */
+.nn-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: 2px 3px 8px rgba(42, 22, 14, 0.25);
+  background-color: var(--nn-surface-sunken);
+}
+
+/* ---------- Ornate frame: gold flourishes in the four corners ----------
+   Add <span class="nn-corner nn-corner--tl"></span> (tl/tr/bl/br) inside a
+   positioned container. */
+.nn-corner {
+  position: absolute;
+  width: 58px;
+  height: 66px;
+  background: url('/assets/images/login-page/corner-ornament-left.png') no-repeat center / contain;
+  pointer-events: none;
+}
+
+.nn-corner--tl { top: 10px; left: 10px; }
+.nn-corner--tr {
+  top: 10px;
+  right: 10px;
+  background-image: url('/assets/images/login-page/corner-ornament-right.png');
+}
+.nn-corner--bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+.nn-corner--br {
+  bottom: 10px;
+  right: 10px;
+  background-image: url('/assets/images/login-page/corner-ornament-right.png');
+  transform: scaleY(-1);
+}
+
+/* Edge ornament: fading line with a framed diamond, for top/bottom edges */
+.nn-edge-ornament {
+  display: block;
+  width: min(280px, 70%);
+  height: 18px;
+  margin: 0 auto;
+  background: url('/assets/images/ornaments/edge.svg') no-repeat center / contain;
+}
+
+/* Parchment page background: paper texture washed out under a vignette */
+.nn-parchment {
+  background:
+    radial-gradient(ellipse at center, transparent 50%, rgba(122, 88, 48, 0.22) 100%),
+    linear-gradient(rgba(243, 231, 208, 0.82), rgba(243, 231, 208, 0.82)),
+    url('/assets/images/webpage-images/backgrounds/paper%20background.png') center / cover,
+    var(--nn-page);
+}
+
+/* ---------- Placeholder marker ----------
+   Features without backend support (challenges, reading progress, pages read,
+   notifications) are rendered static. Tag their root with .nn-placeholder so
+   they're easy to find later. */
+.nn-placeholder {
+  position: relative;
+}
+
+/* ---------- Utilities ---------- */
+.nn-muted {
+  color: var(--nn-ink-muted);
+}
+
+.nn-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nn-space-4);
+}
+
+.nn-row {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  flex-wrap: wrap;
+}

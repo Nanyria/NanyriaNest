@@ -1,0 +1,70 @@
+<header class="topbar">
+  <button
+    class="nn-btn nn-btn--ghost nn-btn--icon topbar__menu"
+    aria-label="Open menu"
+    (click)="menuToggle.emit()"
+  >
+    <i class="bi bi-list"></i>
+  </button>
+
+  <a class="topbar__brand" routerLink="/home">
+    <img src="assets/images/webpage-images/NyriaNestCircle.svg" alt="" class="topbar__logo" />
+    <span>
+      <span class="topbar__name">Nyria Nest</span>
+      <span class="topbar__tagline">Find your next adventure</span>
+    </span>
+  </a>
+
+  <form class="nn-field topbar__search" role="search" (submit)="search($event, searchInput.value)">
+    <i class="bi bi-search"></i>
+    <input
+      #searchInput
+      class="nn-input"
+      type="search"
+      placeholder="Search for books, authors or genres …"
+      aria-label="Search the library"
+    />
+  </form>
+
+  <div class="topbar__actions">
+    <span
+      class="topbar__bell"
+      [class.has-unread]="hasNewNotification"
+      [attr.aria-label]="hasNewNotification ? 'You have unread notifications' : 'No new notifications'"
+      role="img"
+    >
+      <i class="bi bi-bell-fill"></i>
+    </span>
+
+    <div class="topbar__user">
+      <button
+        class="topbar__user-toggle"
+        [attr.aria-expanded]="userMenuOpen"
+        aria-haspopup="menu"
+        (click)="toggleUserMenu()"
+      >
+        <img
+          [src]="currentUser?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
+          alt=""
+          class="topbar__avatar"
+        />
+        <span class="topbar__username">{{ currentUser?.userName }}</span>
+        <i class="bi bi-caret-down-fill topbar__caret"></i>
+      </button>
+
+      @if (userMenuOpen) {
+        <div class="topbar__menu-panel nn-panel" role="menu">
+          <a role="menuitem" routerLink="/user-page/settings" (click)="userMenuOpen = false">
+            <i class="bi bi-gear"></i>Settings
+          </a>
+          <a role="menuitem" routerLink="/user-page/readlist" (click)="userMenuOpen = false">
+            <i class="bi bi-heart"></i>Reading list
+          </a>
+          <button role="menuitem" (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i>Log out
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</header>
