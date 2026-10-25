@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Labb2LibraryAngular.props" />
-</Project>

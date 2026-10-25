@@ -29,8 +29,6 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    SearchComponent,
-    BookListComponent,
     BookCoverListComponent,
     GenreListComponent,
     InfoCardComponent,
