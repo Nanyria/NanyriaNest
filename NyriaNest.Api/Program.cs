@@ -1,13 +1,13 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using NyriaNest.Api.Data;
 using NyriaNest.Api.Helpers;
 using NyriaNest.Api.Models.Users;
 using NyriaNest.Api.Repositories;
 using NyriaNest.Api.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace NyriaNest.Api
@@ -38,19 +38,10 @@ namespace NyriaNest.Api
                     In = ParameterLocation.Header,
                     Description = "Enter 'Bearer' [space] and then your valid JWT token."
                 });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+                options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
                 {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[] {}
-                    }
+                    [new OpenApiSecuritySchemeReference("Bearer", document)] = []
                 });
             });
             builder.Services.AddScoped<IBookService, BookService>();

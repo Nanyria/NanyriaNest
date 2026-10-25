@@ -16,7 +16,6 @@ namespace NyriaNest.Api.Data
         }
 
         public DbSet<Book> Books { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<ReviewItem> ReviewItems { get; set; }
         public DbSet<RatingItem> RatingItems { get; set; }
         public DbSet<FavoriteItem> FavoriteItems { get; set; }
@@ -194,7 +193,7 @@ namespace NyriaNest.Api.Data
                     StatusHistoryItemId = 1001,
                     BookId = 1001,
                     BookStatus = BookStatusEnum.Added,
-                    Timestamp = DateTime.UtcNow.AddDays(-1),
+                    Timestamp = new DateTime(2025, 5, 14, 0, 0, 0, DateTimeKind.Utc),   // was DateTime.UtcNow.AddDays(-1)
                     Notes = "Initial added status"
                 },
                 new StatusHistoryItem
@@ -202,7 +201,7 @@ namespace NyriaNest.Api.Data
                     StatusHistoryItemId = 1002,
                     BookId = 1002,
                     BookStatus = BookStatusEnum.Added,
-                    Timestamp = DateTime.UtcNow.AddDays(-2),
+                    Timestamp = new DateTime(2025, 5, 13, 0, 0, 0, DateTimeKind.Utc),   // was DateTime.UtcNow.AddDays(-2)
                     Notes = "Initial added status"
                 },
                 new StatusHistoryItem
@@ -210,7 +209,7 @@ namespace NyriaNest.Api.Data
                     StatusHistoryItemId = 1003,
                     BookId = 1003,
                     BookStatus = BookStatusEnum.Added,
-                    Timestamp = DateTime.UtcNow.AddDays(-3),
+                    Timestamp = new DateTime(2025, 5, 12, 0, 0, 0, DateTimeKind.Utc),   // was DateTime.UtcNow.AddDays(-3)
                     Notes = "Initial added status"
                 }
             );
