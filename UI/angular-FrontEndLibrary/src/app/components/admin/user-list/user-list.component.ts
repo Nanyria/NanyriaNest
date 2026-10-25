@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, input } from '@angular/core';
+import { Component, Input, Output, EventEmitter, input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {  ILoggedInUser, UserDto,  } from '../../../Models/interfaces';
@@ -7,6 +7,7 @@ import { BookStatusEnum, BookStatusDisplayNames ,GenreEnums, GenreDisplayNames, 
 
 @Component({
   selector: 'app-user-list',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css'],
   standalone: true,

@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../Services/auth.service';
@@ -15,6 +20,7 @@ interface NavItem {
   standalone: true,
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterModule, NgTemplateOutlet],
 })
 export class SidebarComponent {
@@ -31,12 +37,24 @@ export class SidebarComponent {
   ];
 
   collectionItems: NavItem[] = [
-    { label: 'Borrowed books', icon: 'bi-book-half', route: '/user-page/checkouts' },
-    { label: 'Reservations', icon: 'bi-bookmark', route: '/user-page/reservations' },
+    {
+      label: 'Borrowed books',
+      icon: 'bi-book-half',
+      route: '/user-page/checkouts',
+    },
+    {
+      label: 'Reservations',
+      icon: 'bi-bookmark',
+      route: '/user-page/reservations',
+    },
   ];
 
   adminItems: NavItem[] = [
-    { label: 'Manage books', icon: 'bi-journal-plus', route: '/admin/manage-books' },
+    {
+      label: 'Manage books',
+      icon: 'bi-journal-plus',
+      route: '/admin/manage-books',
+    },
     { label: 'Manage users', icon: 'bi-people', route: '/admin/manage-users' },
   ];
 

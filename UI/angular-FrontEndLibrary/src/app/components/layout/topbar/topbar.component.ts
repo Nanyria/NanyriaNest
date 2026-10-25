@@ -1,4 +1,11 @@
-import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../Services/auth.service';
 import { ILoggedInUser } from '../../../Models/interfaces';
@@ -8,6 +15,7 @@ import { ILoggedInUser } from '../../../Models/interfaces';
   standalone: true,
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterModule],
 })
 export class TopbarComponent {
