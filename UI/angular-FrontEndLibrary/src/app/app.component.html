@@ -1,21 +1,18 @@
 <!--app.component.html-->
 
 @if (isAuthenticated()) {
-  <header>
-    <app-header></app-header>
-    <div class="left-bookshelf-container">
-      <app-bookshelf-left></app-bookshelf-left>
-    </div>
-    <div class="right-bookshelf-container">
-      <app-bookshelf-right></app-bookshelf-right>
-    </div>
-  </header>
-}
-<div class="body-row">
-  <div class="main">
-    <main class="app-body">
+  <div class="nn-theme nn-shell" [class.sidebar-open]="sidebarOpen">
+    <app-topbar class="nn-shell__topbar" (menuToggle)="sidebarOpen = !sidebarOpen"></app-topbar>
+    <app-sidebar class="nn-shell__sidebar" (navigate)="sidebarOpen = false"></app-sidebar>
+    @if (sidebarOpen) {
+      <div class="nn-shell__backdrop" (click)="sidebarOpen = false"></div>
+    }
+    <main class="nn-shell__main">
       <router-outlet></router-outlet>
     </main>
-    <footer></footer>
   </div>
-</div>
+} @else {
+  <main class="app-body">
+    <router-outlet></router-outlet>
+  </main>
+}

@@ -14,7 +14,7 @@ import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
 import { SearchComponent } from '../search/search.component';
 import { BookListComponent } from '../book-list/book-list.component';
 import { BookCoverListComponent } from '../book-cover-list/book-cover-list.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GenreListComponent } from '../genre-list/genre-list.component';
 import {
   InfoCardColumn2,
@@ -55,6 +55,7 @@ export class LibraryComponent {
     private userActionsService: UserActionsService,
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {}
   @ViewChild(InfoCardComponent) infoCardComponent?: InfoCardComponent;
   addNewBook() {
@@ -70,7 +71,11 @@ export class LibraryComponent {
         this.updateInfoCardActions(this.selectedBook);
       }
     });
-    this.getAllBooks();
+    // Genre filtering via /library?genre=<GenreEnums key>
+    this.route.queryParamMap.subscribe((params) => {
+      const genre = GenreEnums[params.get('genre') as keyof typeof GenreEnums];
+      this.onGenreSelected(genre ?? GenreEnums.All);
+    });
     console.log('User:', this.user);
   }
 

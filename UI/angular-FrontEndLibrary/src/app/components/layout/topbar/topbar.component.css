@@ -1,0 +1,182 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-5);
+  height: 100%;
+  padding: 0 var(--nn-space-5);
+  font-family: var(--nn-font-body); /* styles.css sets Eagle Lake on every <header> */
+}
+
+.topbar__menu {
+  display: none;
+  font-size: 1.5rem;
+}
+
+.topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.topbar__logo {
+  width: 56px;
+  height: 56px;
+}
+
+.topbar__name {
+  display: block;
+  font-family: var(--nn-font-display);
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--nn-ink-strong);
+}
+
+.topbar__tagline {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nn-ink-muted);
+}
+
+.topbar__search {
+  flex: 1;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-5);
+  flex-shrink: 0;
+}
+
+.topbar__bell {
+  position: relative;
+  font-size: 1.35rem;
+  color: var(--nn-gold);
+}
+
+.topbar__bell.has-unread::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: -2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--nn-accent);
+  box-shadow: 0 0 0 2px var(--nn-page);
+}
+
+.topbar__user {
+  position: relative;
+}
+
+.topbar__user-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  background: none;
+  border: none;
+  padding: 4px;
+  border-radius: var(--nn-radius-pill);
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.topbar__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--nn-gold);
+  background-color: var(--nn-surface);
+  object-fit: cover;
+}
+
+.topbar__caret {
+  font-size: 0.75rem;
+  color: var(--nn-ink-muted);
+}
+
+.topbar__menu-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 200px;
+  padding: var(--nn-space-2);
+  display: flex;
+  flex-direction: column;
+  z-index: 30;
+  box-shadow: var(--nn-shadow-raised);
+}
+
+.topbar__menu-panel a,
+.topbar__menu-panel button {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--nn-radius-sm);
+  background: none;
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.topbar__menu-panel a:hover,
+.topbar__menu-panel button:hover {
+  background-color: var(--nn-surface-sunken);
+}
+
+@media (max-width: 991px) {
+  .topbar {
+    gap: var(--nn-space-3);
+    padding: 0 var(--nn-space-4);
+  }
+
+  .topbar__menu {
+    display: inline-flex;
+  }
+
+  .topbar__search,
+  .topbar__tagline,
+  .topbar__username,
+  .topbar__caret {
+    display: none;
+  }
+
+  .topbar__brand {
+    min-width: 0;
+  }
+
+  .topbar__actions {
+    margin-left: auto;
+    gap: var(--nn-space-3);
+  }
+
+  .topbar__avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .topbar__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .topbar__name {
+    font-size: 1.5rem;
+  }
+}

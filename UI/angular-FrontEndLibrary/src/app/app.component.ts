@@ -1,30 +1,23 @@
 //app.component.ts
 
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from './components/header/header.component';
-import { NavComponent } from './components/nav/nav.component';
-import { FormsModule } from '@angular/forms'; // <-- Import this
+import { FormsModule } from '@angular/forms';
 import { AuthService } from './Services/auth.service';
-import { BookshelfLeftComponent } from './components/bookshelf-left/bookshelf-left.component';
-import { BookshelfRightComponent } from './components/bookshelf-right/bookshelf-right.component';
+import { TopbarComponent } from './components/layout/topbar/topbar.component';
+import { SidebarComponent } from './components/layout/sidebar/sidebar.component';
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html', // Split into a separate HTML file
   styleUrls: ['./app.component.css'], // Split into a separate CSS file
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [
-    RouterModule,
-    HeaderComponent,
-    FormsModule,
-    BookshelfLeftComponent,
-    BookshelfRightComponent,
-  ],
+  imports: [RouterModule, FormsModule, TopbarComponent, SidebarComponent],
 })
 export class AppComponent {
   title = 'angular-FrontEndLibrary';
+  sidebarOpen = false;
 
   constructor(private authService: AuthService) {}
 

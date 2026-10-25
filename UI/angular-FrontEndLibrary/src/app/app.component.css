@@ -1,17 +1,82 @@
+/* App shell: topbar across the top, sidebar on the left, page content on the right */
+.nn-shell {
+  --topbar-height: 92px;
+  --sidebar-width: 260px;
 
-
-.body {
-  background-color: rgba(17, 24, 39, 1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-rows: var(--topbar-height) 1fr;
+  grid-template-areas:
+    'topbar topbar'
+    'sidebar main';
+  min-height: 100vh;
 }
 
+.nn-shell__topbar {
+  grid-area: topbar;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: var(--nn-page);
+  border-bottom: 1px solid var(--nn-border-strong);
+}
+
+.nn-shell__sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  top: var(--topbar-height);
+  height: calc(100vh - var(--topbar-height));
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--nn-border-strong) transparent;
+  background-color: var(--nn-page);
+  border-right: 1px solid var(--nn-border-strong);
+}
+
+.nn-shell__main {
+  grid-area: main;
+  min-width: 0;
+  padding: var(--nn-space-5) var(--nn-space-6) var(--nn-space-6);
+}
+
+.nn-shell__backdrop {
+  display: none;
+}
+
+/* Below lg the sidebar becomes an off-canvas drawer opened from the topbar */
 @media (max-width: 991px) {
-  .body {
-    max-width: 100%;
+  .nn-shell {
+    --topbar-height: 68px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'topbar'
+      'main';
   }
-} 
 
+  .nn-shell__sidebar {
+    position: fixed;
+    left: 0;
+    top: var(--topbar-height);
+    width: min(280px, 85vw);
+    z-index: 19;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
 
+  .sidebar-open .nn-shell__sidebar {
+    transform: translateX(0);
+    box-shadow: var(--nn-shadow-raised);
+  }
 
+  .nn-shell__backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--topbar-height) 0 0 0;
+    z-index: 18;
+    background-color: rgba(42, 22, 14, 0.35);
+  }
+
+  .nn-shell__main {
+    padding: var(--nn-space-4);
+  }
+}

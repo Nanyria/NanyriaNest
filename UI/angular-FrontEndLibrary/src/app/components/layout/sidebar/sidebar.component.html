@@ -1,0 +1,36 @@
+<nav class="sidebar" aria-label="Main navigation">
+  <ng-template #navList let-items>
+    <ul class="sidebar__list">
+      @for (item of items; track item.label) {
+        <li>
+          @if (item.route) {
+            <a
+              class="sidebar__item"
+              [routerLink]="item.route"
+              routerLinkActive="is-active"
+              (click)="navigate.emit()"
+            >
+              <i class="bi {{ item.icon }}"></i>{{ item.label }}
+            </a>
+          } @else {
+            <span class="sidebar__item is-placeholder nn-placeholder" title="Coming soon">
+              <i class="bi {{ item.icon }}"></i>{{ item.label }}
+            </span>
+          }
+        </li>
+      }
+    </ul>
+  </ng-template>
+
+  <ng-container *ngTemplateOutlet="navList; context: { $implicit: mainItems }"></ng-container>
+
+  <div class="nn-divider"><span class="nn-divider__mark"></span></div>
+  <h2 class="sidebar__heading">My collection</h2>
+  <ng-container *ngTemplateOutlet="navList; context: { $implicit: collectionItems }"></ng-container>
+
+  @if (isAdmin) {
+    <div class="nn-divider"><span class="nn-divider__mark"></span></div>
+    <h2 class="sidebar__heading">Admin</h2>
+    <ng-container *ngTemplateOutlet="navList; context: { $implicit: adminItems }"></ng-container>
+  }
+</nav>

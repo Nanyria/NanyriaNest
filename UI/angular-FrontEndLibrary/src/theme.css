@@ -64,6 +64,18 @@
   line-height: 1.5;
 }
 
+/* The old styles.css pads the body and paints it dark; undo that while the
+   new app shell is on screen */
+body:has(.nn-shell) {
+  padding: 0;
+  background-color: var(--nn-page);
+}
+
+/* body is a flex column in styles.css; let app-root shrink to the viewport */
+body:has(.nn-shell) > app-root {
+  min-width: 0;
+}
+
 .nn-theme h1,
 .nn-theme h2,
 .nn-theme h3,
