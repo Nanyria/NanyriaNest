@@ -1,36 +1,36 @@
 <!-- <div class="library-layout">
-  <div class="row page-row"> -->
-    <!-- <div class="col-2 left-bar">
-      <app-genre-list
-        (genreSelected)="onGenreSelected($event)"
-      ></app-genre-list>
-    </div> -->
-    <!-- <div class="col-8 page-container">
-        <div class="table-body">
-          <div class="library-search-container"> -->
-            <!-- <app-admin-search
-              (searchResults)="handleSearchResults($event)"
-            ></app-admin-search> -->
-            <!-- <button class="add-new-book-button" (click)="addNewBook()">
-              <i class="bi bi-plus"></i> <i class="bi bi-book-fill"></i>
-            </button> -->
-          <!-- </div>
+<div class="row page-row"> -->
+<!-- <div class="col-2 left-bar">
+  <app-genre-list
+    (genreSelected)="onGenreSelected($event)"
+  ></app-genre-list>
+</div> -->
+<!-- <div class="col-8 page-container">
+<div class="table-body">
+  <div class="library-search-container"> -->
+<!-- <app-admin-search
+    (searchResults)="handleSearchResults($event)"
+  ></app-admin-search> -->
+<!-- <button class="add-new-book-button" (click)="addNewBook()">
+  <i class="bi bi-plus"></i> <i class="bi bi-book-fill"></i>
+</button> -->
+<!-- </div>
 
-          <div *ngIf="users.length === 0" class="loading">Loading users...</div>
-          <app-user-list
-            *ngIf="users.length > 0"
-            [users]="users"
-            [editUser]="editUser"
-            (onEdit)="populateForm($event)"
-            (onDelete)="deleteUser($event)"
-            (onSave)="saveUser($event)"
-            (onCancel)="cancelEdit()"
-          ></app-user-list>
-          <footer></footer>
-        </div>
-      </div>
-    </div>
-  </div> -->
+<div *ngIf="users.length === 0" class="loading">Loading users...</div>
+<app-user-list
+  *ngIf="users.length > 0"
+  [users]="users"
+  [editUser]="editUser"
+  (onEdit)="populateForm($event)"
+  (onDelete)="deleteUser($event)"
+  (onSave)="saveUser($event)"
+  (onCancel)="cancelEdit()"
+></app-user-list>
+<footer></footer>
+</div>
+</div>
+</div>
+</div> -->
 
 <div class="admin-table-container">
   <div class="table-header-wrapper">
@@ -44,52 +44,77 @@
     </div>
   </div>
   <div class="table-scrollable-body">
-    <div *ngFor="let user of users" class="row user-row">
-
-      <div class="col-2 table-cell-s">
-        <input *ngIf="editUser && editUser.id === user.id" [(ngModel)]="editUser.userName" />
-        <span *ngIf="!editUser || editUser.id !== user.id">{{ user.userName }}</span>
+    @for (user of users; track user) {
+      <div class="row user-row">
+        <div class="col-2 table-cell-s">
+          @if (editUser && editUser.id === user.id) {
+            <input [(ngModel)]="editUser.userName" />
+          }
+          @if (!editUser || editUser.id !== user.id) {
+            <span>{{ user.userName }}</span>
+          }
+        </div>
+        <div class="col-2 table-cell-s">
+          @if (editUser && editUser.id === user.id) {
+            <input [(ngModel)]="editUser.firstName" />
+          }
+          @if (!editUser || editUser.id !== user.id) {
+            <span>{{ user.firstName }}</span>
+          }
+        </div>
+        <div class="col-2 table-cell-s">
+          @if (editUser && editUser.id === user.id) {
+            <input [(ngModel)]="editUser.lastName" />
+          }
+          @if (!editUser || editUser.id !== user.id) {
+            <span>{{ user.lastName }}</span>
+          }
+        </div>
+        <div class="col-2 table-cell">
+          @if (editUser && editUser.id === user.id) {
+            <input [(ngModel)]="editUser.email" />
+          }
+          @if (!editUser || editUser.id !== user.id) {
+            <span>{{ user.email }}</span>
+          }
+        </div>
+        <div class="col-2 table-cell">
+          @if (editUser && editUser.id === user.id) {
+            <select [(ngModel)]="editUser.role" name="role-{{ user.id }}">
+              @for (role of roleOptions; track role) {
+                <option [value]="role.value">
+                  {{ role.label }}
+                </option>
+              }
+            </select>
+          }
+          @if (!editUser || editUser.id !== user.id) {
+            <span>
+              {{ getRoleLabel(user.role) }}
+            </span>
+          }
+        </div>
+        <div class="table-cell-s">
+          @if (!editUser || editUser.id !== user.id) {
+            <button class="btn-edit" (click)="populateForm(user)">
+              <i class="bi bi-pen"></i>
+            </button>
+          }
+          @if (editUser && editUser.id === user.id) {
+            <button class="btn-save" (click)="saveUser(editUser)">
+              <i class="bi bi-floppy"></i>
+            </button>
+          }
+          @if (editUser && editUser.id === user.id) {
+            <button class="btn-cancel" (click)="cancelEdit()">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          }
+          <button class="btn-delete" (click)="deleteUser(user.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
       </div>
-      <div class="col-2 table-cell-s">
-        <input *ngIf="editUser && editUser.id === user.id" [(ngModel)]="editUser.firstName" />
-        <span *ngIf="!editUser || editUser.id !== user.id">{{ user.firstName }}</span>
-      </div>
-      <div class="col-2 table-cell-s">
-        <input *ngIf="editUser && editUser.id === user.id" [(ngModel)]="editUser.lastName" />
-        <span *ngIf="!editUser || editUser.id !== user.id">{{ user.lastName }}</span>
-      </div>
-      <div class="col-2 table-cell">
-        <input *ngIf="editUser && editUser.id === user.id" [(ngModel)]="editUser.email" />
-        <span *ngIf="!editUser || editUser.id !== user.id">{{ user.email }}</span>
-      </div>
-
-      <div class="col-2 table-cell">
-        <select *ngIf="editUser && editUser.id === user.id"
-                [(ngModel)]="editUser.role"
-                name="role-{{user.id}}">
-          <option *ngFor="let role of roleOptions" [value]="role.value">
-            {{ role.label }}
-          </option>
-        </select>
-        <span *ngIf="!editUser || editUser.id !== user.id">
-          {{ getRoleLabel(user.role) }}
-        </span>
-      </div>
-
-      <div class="table-cell-s">
-        <button *ngIf="!editUser || editUser.id !== user.id" class="btn-edit" (click)="populateForm(user)">
-          <i class="bi bi-pen"></i>
-        </button>
-        <button *ngIf="editUser && editUser.id === user.id" class="btn-save" (click)="saveUser(editUser)">
-          <i class="bi bi-floppy"></i>
-        </button>
-        <button *ngIf="editUser && editUser.id === user.id" class="btn-cancel" (click)="cancelEdit()">
-          <i class="bi bi-x-circle"></i>
-        </button>
-        <button class="btn-delete" (click)="deleteUser(user.id)">
-          <i class="bi bi-trash"></i>
-        </button>
-      </div>
-    </div>
+    }
   </div>
-</div> 
+</div>

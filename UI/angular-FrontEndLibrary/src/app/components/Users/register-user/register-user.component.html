@@ -1,48 +1,94 @@
-
 <div class="register-user-container">
   <div class="register-header">
-  <h1>Registrera dig</h1>
-  <p>Fyll i formuläret nedan för att skapa ett nytt konto.</p>
+    <h1>Registrera dig</h1>
+    <p>Fyll i formuläret nedan för att skapa ett nytt konto.</p>
   </div>
-  
 
-<form #registerForm="ngForm" (ngSubmit)="registerUser()" autocomplete="off">
-  <div class="label-input-container">
-    <label for="userName">Användarnamn:</label>
-    <input id="userName" name="userName" [(ngModel)]="user.userName" required autocomplete="new-username" />
-  </div>
-  <div class="label-input-container">
-    <label for="firstName">Förnamn:</label>
-    <input id="firstName" name="firstName" [(ngModel)]="user.firstName" required />
-  </div>
-  <div class="label-input-container">
-    <label for="lastName">Efternamn:</label>
-    <input id="lastName" name="lastName" [(ngModel)]="user.lastName" required />
-  </div>
-  <div class="label-input-container">
-    <label for="email">E-post:</label>
-    <input id="email" name="email" type="email" [(ngModel)]="user.email" required />
-  </div>
-  <div class="label-input-container">
-    <label for="password">Lösenord:</label>
-    <input id="password" name="password" type="password" [(ngModel)]="user.password" autocomplete="new-password" />
-</div>
-<div class="label-input-container">
-  <label for="confirmPassword">Bekräfta lösenord:</label>
-  <input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" required />
-</div>
-<div *ngIf="user.password && confirmPassword && user.password !== confirmPassword" style="color:red;">
-  Lösenorden matchar inte.
-</div>
-<div *ngIf="user.password && !passwordValid()" style="color:red;">
-  Lösenordet måste vara minst 8 tecken, innehålla en stor bokstav och en siffra.
-</div>
-<button type="submit"
-        [disabled]="registerForm.invalid || user.password !== confirmPassword || !passwordValid()">
-  Registrera
-</button>
-</form> 
-<div *ngIf="registrationSuccess" style="color:green; font-weight:bold; margin-top:1em;">
-  Grattis, du är nu registrerad! Dina inloggningsuppgifter har skickats till din mail. Nu är det bara för dig att logga in!
-</div>
+  <form #registerForm="ngForm" (ngSubmit)="registerUser()" autocomplete="off">
+    <div class="label-input-container">
+      <label for="userName">Användarnamn:</label>
+      <input
+        id="userName"
+        name="userName"
+        [(ngModel)]="user.userName"
+        required
+        autocomplete="new-username"
+      />
+    </div>
+    <div class="label-input-container">
+      <label for="firstName">Förnamn:</label>
+      <input
+        id="firstName"
+        name="firstName"
+        [(ngModel)]="user.firstName"
+        required
+      />
+    </div>
+    <div class="label-input-container">
+      <label for="lastName">Efternamn:</label>
+      <input
+        id="lastName"
+        name="lastName"
+        [(ngModel)]="user.lastName"
+        required
+      />
+    </div>
+    <div class="label-input-container">
+      <label for="email">E-post:</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        [(ngModel)]="user.email"
+        required
+      />
+    </div>
+    <div class="label-input-container">
+      <label for="password">Lösenord:</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        [(ngModel)]="user.password"
+        autocomplete="new-password"
+      />
+    </div>
+    <div class="label-input-container">
+      <label for="confirmPassword">Bekräfta lösenord:</label>
+      <input
+        id="confirmPassword"
+        name="confirmPassword"
+        type="password"
+        [(ngModel)]="confirmPassword"
+        required
+      />
+    </div>
+    @if (
+      user.password && confirmPassword && user.password !== confirmPassword
+    ) {
+      <div style="color: red">Lösenorden matchar inte.</div>
+    }
+    @if (user.password && !passwordValid()) {
+      <div style="color: red">
+        Lösenordet måste vara minst 8 tecken, innehålla en stor bokstav och en
+        siffra.
+      </div>
+    }
+    <button
+      type="submit"
+      [disabled]="
+        registerForm.invalid ||
+        user.password !== confirmPassword ||
+        !passwordValid()
+      "
+    >
+      Registrera
+    </button>
+  </form>
+  @if (registrationSuccess) {
+    <div style="color: green; font-weight: bold; margin-top: 1em">
+      Grattis, du är nu registrerad! Dina inloggningsuppgifter har skickats till
+      din mail. Nu är det bara för dig att logga in!
+    </div>
+  }
 </div>

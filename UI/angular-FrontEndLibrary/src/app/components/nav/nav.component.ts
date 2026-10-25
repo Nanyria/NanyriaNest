@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../Services/auth.service';
@@ -12,26 +12,33 @@ import { StackedBooksComponent } from '../stacked-books/stacked-books.component'
   standalone: true,
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
-  imports: [CommonModule, RouterModule, StackedBooksComponent],
+  imports: [RouterModule, StackedBooksComponent],
 })
 export class NavComponent {
   currentUrl = '';
   currentUser: ILoggedInUser | null = null;
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+  ) {
     this.router.events
-      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
-      .subscribe(event => {
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd,
+        ),
+      )
+      .subscribe((event) => {
         this.currentUrl = event.urlAfterRedirects;
       });
 
-    this.authService.getCurrentUser().subscribe(user => {
+    this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
     });
   }
-get hasNewNotification(): boolean {
-  return !!this.currentUser?.notifications?.some(n => !n.isRead);
-}
+  get hasNewNotification(): boolean {
+    return !!this.currentUser?.notifications?.some((n) => !n.isRead);
+  }
   get isAdmin(): boolean {
     return !!this.currentUser?.adminRole || !!this.currentUser?.isSuperAdmin;
   }

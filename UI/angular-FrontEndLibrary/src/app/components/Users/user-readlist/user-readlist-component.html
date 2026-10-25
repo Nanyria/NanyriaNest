@@ -1,5 +1,6 @@
 <h1>Reservationer</h1>
-<div *ngIf="readList?.length; else noReservations">
+@if (readList?.length) {
+<div>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -9,17 +10,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let readList of readList">
+      @for (readList of readList; track readList) {
+      <tr>
         <td>{{ readList.book?.title }}</td>
         <td>{{ readList.book?.author }}</td>
         <td>{{ readList.createdAt | date:'yyyy-MM-dd' }}</td>
-        <td>
-        
-        </td>
+        <td></td>
       </tr>
+      }
     </tbody>
   </table>
 </div>
-<ng-template #noReservations>
-  <div>Inga reservationer.</div>
-</ng-template>
+} @else {
+<div>Inga reservationer.</div>
+}

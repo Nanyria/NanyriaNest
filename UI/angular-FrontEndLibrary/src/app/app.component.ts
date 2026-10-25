@@ -1,7 +1,7 @@
 //app.component.ts
 
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
@@ -13,15 +13,14 @@ import { BookshelfRightComponent } from './components/bookshelf-right/bookshelf-
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html', // Split into a separate HTML file
-  styleUrls: ['./app.component.css'],  // Split into a separate CSS file
+  styleUrls: ['./app.component.css'], // Split into a separate CSS file
   imports: [
-    CommonModule,
-    RouterModule, // Import RouterModule without forRoot
+    RouterModule,
     HeaderComponent,
-    FormsModule, // <-- Add this
+    FormsModule,
     BookshelfLeftComponent,
-    BookshelfRightComponent
-  ]
+    BookshelfRightComponent,
+  ],
 })
 export class AppComponent {
   title = 'angular-FrontEndLibrary';

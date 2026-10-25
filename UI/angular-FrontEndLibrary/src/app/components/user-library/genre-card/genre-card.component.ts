@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GENRE_COLORS } from '../../../Helpers/genre-styles/genre-colors';
 import { GENRE_BOOK_SORT_STYLES } from '../../../Helpers/genre-styles/genre-book-sort-styles';
 @Component({
@@ -7,7 +7,7 @@ import { GENRE_BOOK_SORT_STYLES } from '../../../Helpers/genre-styles/genre-book
   standalone: true,
   templateUrl: './genre-card.component.html',
   styleUrls: ['./genre-card.component.css'],
-  imports: [CommonModule]
+  imports: [],
 })
 export class GenreCardComponent {
   @Input() genre: string = '';
@@ -16,6 +16,9 @@ export class GenreCardComponent {
     return GENRE_COLORS[this.genre?.toLowerCase()] || GENRE_COLORS['none'];
   }
   get genreStyle() {
-  return GENRE_BOOK_SORT_STYLES[this.genre?.toLowerCase()] || GENRE_BOOK_SORT_STYLES['none'];
-}
+    return (
+      GENRE_BOOK_SORT_STYLES[this.genre?.toLowerCase()] ||
+      GENRE_BOOK_SORT_STYLES['none']
+    );
+  }
 }
