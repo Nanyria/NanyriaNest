@@ -10,6 +10,8 @@ namespace NyriaNest.Api.Helpers
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+            var config = serviceProvider.GetRequiredService<IConfiguration>();
+            var logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("Seeding");
 
             string[] roles = { "SuperAdmin", "Administratör", "Användare" };
             foreach (var role in roles)
@@ -18,7 +20,15 @@ namespace NyriaNest.Api.Helpers
                     await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            var superAdminEmail = "nathaleewi@hotmail.com";
+            var superAdminEmail = config["SeedAdmin:Email"];
+            var superAdminPassword = config["SeedAdmin:Password"];
+
+            if (string.IsNullOrWhiteSpace(superAdminEmail) || string.IsNullOrWhiteSpace(superAdminPassword))
+            {
+                logger.LogWarning("SeedAdmin:Email or SeedAdmin:Password is not configured. Skipping SuperAdmin seeding.");
+                return;
+            }
+
             var superAdminUser = await userManager.FindByEmailAsync(superAdminEmail);
             if (superAdminUser == null)
             {
@@ -31,16 +41,14 @@ namespace NyriaNest.Api.Helpers
                     EmailConfirmed = true,
                     Role = "SuperAdmin"
                 };
-                var createResult = await userManager.CreateAsync(superAdminUser, "SuperSecurePassword123!!");
+                var createResult = await userManager.CreateAsync(superAdminUser, superAdminPassword);
                 if (!createResult.Succeeded)
                 {
-                    // Log or throw the errors for debugging
                     var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
                     throw new Exception($"Failed to create SuperAdmin user: {errors}");
                 }
                 await userManager.AddToRoleAsync(superAdminUser, "SuperAdmin");
             }
-
         }
         public static async Task AssignUserRoleToUsersWithoutRoleAsync(IServiceProvider serviceProvider)
         {
