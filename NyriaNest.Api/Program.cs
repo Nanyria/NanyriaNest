@@ -1,13 +1,13 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
 using NyriaNest.Api.Data;
 using NyriaNest.Api.Helpers;
 using NyriaNest.Api.Models.Users;
 using NyriaNest.Api.Repositories;
 using NyriaNest.Api.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Text;
 
 namespace NyriaNest.Api
@@ -16,16 +16,14 @@ namespace NyriaNest.Api
     {
         public static void Main(string[] args)
         {
-
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {
-                    //options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-                    options.JsonSerializerOptions.WriteIndented = true; 
+                    options.JsonSerializerOptions.WriteIndented = true;
                 });
-          
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
@@ -44,22 +42,23 @@ namespace NyriaNest.Api
                     [new OpenApiSecuritySchemeReference("Bearer", document)] = []
                 });
             });
+
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserActionsService, UserActionsService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IBookRepo, BookRepo>();
+
             builder.Services.AddAutoMapper(cfg =>
             {
                 cfg.LicenseKey = builder.Configuration["AutoMapper:LicenseKey"];
             }, typeof(MappingConfig));
 
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionToDB")));
 
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionToDB")));
-
-
-            builder.Services.AddCors((setup) => setup.AddPolicy("default", (options) =>
+            builder.Services.AddCors(setup => setup.AddPolicy("default", options =>
             {
                 options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
             }));
@@ -67,6 +66,10 @@ namespace NyriaNest.Api
             builder.Services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
+            var jwtKey = builder.Configuration["Jwt:Key"];
+            if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey.Length < 32)
+                throw new InvalidOperationException("Jwt:Key is missing or shorter than 32 characters. Set it in User Secrets or app settings.");
 
             builder.Services.AddAuthentication(options =>
             {
@@ -83,10 +86,12 @@ namespace NyriaNest.Api
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
                 };
             });
+
             var app = builder.Build();
+
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -97,21 +102,21 @@ namespace NyriaNest.Api
                 Helper.AssignUserRoleToUsersWithoutRoleAsync(services).GetAwaiter().GetResult();
             }
 
-            // Configure the HTTP request pipeline.
-
-                app.UseSwagger();
-                app.UseSwaggerUI();
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseCors("default");
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.MapControllers();
+            app.MapFallback("/api/{**rest}", () => Results.NotFound());
+            app.MapFallbackToFile("index.html");
 
             app.Run();
         }
