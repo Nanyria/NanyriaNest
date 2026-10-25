@@ -1,34 +1,56 @@
-<div class="start-page-container">
-  <div class="start-page-left">
-    <img
-      src="assets/images/webpage-images/NyriaNestCircle.svg"
-      alt="Logo"
-      class="img"
-    />
-    <div class="start-page-left-text">
-      <h1>Välkommen till Nyria Nest</h1>
-      <p>Din portal till fantastiska äventyr och litterära upptäckter.</p>
-      <p>Utforska, recensera och dela dina favoritböcker med andra.</p>
-      <h2>Vad är Nyria Nest?</h2>
-      <p>Nyria Nest är en plattform för bokälskare där du kan:</p>
-      <ul>
-        <li>Upptäcka nya böcker</li>
-        <li>Dela dina recensioner</li>
-        <li>Följ andra läsare och deras äventyr</li>
-      </ul>
-      <p>Registrera dig idag och börja ditt litterära äventyr!</p>
-    </div>
-  </div>
-  <div class="start-page-right">
-    <div class="start-page-right-text">
+<div class="nn-theme nn-parchment start-page">
+  <div class="start-card">
+    <aside class="start-hero">
+      <div class="start-hero__text">
+        <p class="start-hero__eyebrow">Your magical bookshelf</p>
+        <h1>Welcome to Nyria Nest</h1>
+        <p>Your portal to fantastic adventures and literary discoveries.</p>
+        <ul class="start-hero__list">
+          <li><i class="bi bi-compass"></i>Discover new books</li>
+          <li><i class="bi bi-chat-left-text"></i>Share your reviews</li>
+          <li><i class="bi bi-people"></i>Follow other readers and their adventures</li>
+        </ul>
+      </div>
+      <img
+        src="assets/images/webpage-images/sleeping%20dragon.svg"
+        alt=""
+        class="start-hero__dragon"
+      />
+    </aside>
+
+    <section class="start-auth" [class.start-auth--compact]="showRegister">
+      <span class="nn-corner nn-corner--tl"></span>
+      <span class="nn-corner nn-corner--tr"></span>
+      <span class="nn-corner nn-corner--bl"></span>
+      <span class="nn-corner nn-corner--br"></span>
+      <span class="nn-edge-ornament start-auth__edge start-auth__edge--top"></span>
+
+      <div class="start-brand">
+        <img
+          src="assets/images/webpage-images/NyriaNestCircle.svg"
+          alt=""
+          class="start-brand__logo"
+        />
+        <div class="start-brand__name">Nyria Nest</div>
+        <div class="start-brand__tagline">Find your next adventure</div>
+      </div>
+      <div class="nn-divider"><span class="nn-divider__mark"></span></div>
+
       @if (!showRegister) {
         <app-login></app-login>
-        <p>Inte medlem än? Klicka här för att registrera dig!</p>
-        <button (click)="showRegister = true">Registrera</button>
+        <div class="nn-divider"><span class="nn-muted">or</span></div>
+        <button class="nn-btn nn-btn--outline nn-btn--block" (click)="showRegister = true">
+          Sign up
+        </button>
       } @else {
-        <button (click)="showRegister = false">Tillbaka till login</button>
         <app-register-user></app-register-user>
+        <p class="start-auth__switch">
+          Already have an account?
+          <button type="button" class="nn-link-button" (click)="showRegister = false">Log in</button>
+        </p>
       }
-    </div>
+
+      <span class="nn-edge-ornament start-auth__edge start-auth__edge--bottom"></span>
+    </section>
   </div>
 </div>

@@ -25,6 +25,7 @@
   --nn-accent-hover: #741816;
   --nn-gold: #b38a52;
   --nn-gold-soft: #d8c097;
+  --nn-gold-ink: #8a6634; /* gold dark enough for text on parchment */
   --nn-star: #b0611c;
 
   /* Lines */
@@ -64,15 +65,15 @@
   line-height: 1.5;
 }
 
-/* The old styles.css pads the body and paints it dark; undo that while the
-   new app shell is on screen */
-body:has(.nn-shell) {
+/* The old styles.css pads the body and paints it dark; undo that while a
+   migrated page is on screen */
+body:has(.nn-theme) {
   padding: 0;
   background-color: var(--nn-page);
 }
 
 /* body is a flex column in styles.css; let app-root shrink to the viewport */
-body:has(.nn-shell) > app-root {
+body:has(.nn-theme) > app-root {
   min-width: 0;
 }
 
@@ -176,6 +177,23 @@ body:has(.nn-shell) > app-root {
   text-decoration: underline;
 }
 
+/* A <button> that looks like an inline link */
+.nn-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--nn-primary);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.nn-link-button:hover {
+  color: var(--nn-primary-hover);
+}
+
 /* ---------- Buttons ---------- */
 .nn-btn {
   display: inline-flex;
@@ -226,6 +244,41 @@ body:has(.nn-shell) > app-root {
 
 .nn-btn--ghost:hover:not(:disabled) {
   background-color: var(--nn-surface-sunken);
+}
+
+/* Main call to action: inner gold line plus small diamonds on the short ends */
+.nn-btn--ornate {
+  position: relative;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-color: #1c2e21;
+  box-shadow: inset 0 0 0 3px var(--nn-primary), inset 0 0 0 4px var(--nn-gold), var(--nn-shadow);
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.nn-btn--ornate:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 3px var(--nn-primary-hover), inset 0 0 0 4px var(--nn-gold), var(--nn-shadow);
+}
+
+.nn-btn--ornate::before,
+.nn-btn--ornate::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: var(--nn-gold);
+  border: 1px solid #1c2e21;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.nn-btn--ornate::before {
+  left: -5px;
+}
+
+.nn-btn--ornate::after {
+  right: -5px;
 }
 
 .nn-btn--block {
@@ -310,6 +363,17 @@ body:has(.nn-shell) > app-root {
   color: var(--nn-ink-faint);
 }
 
+/* Keep Chrome's autofill from painting fields light blue */
+.nn-input:-webkit-autofill {
+  -webkit-text-fill-color: var(--nn-ink);
+  box-shadow: 0 0 0 100px var(--nn-surface) inset;
+  caret-color: var(--nn-ink);
+}
+
+.nn-input:-webkit-autofill:focus {
+  box-shadow: 0 0 0 100px var(--nn-surface) inset, var(--nn-focus);
+}
+
 .nn-input:focus {
   outline: none;
   border-color: var(--nn-gold);
@@ -332,6 +396,10 @@ body:has(.nn-shell) > app-root {
 
 .nn-field > .nn-input {
   padding-left: 42px;
+}
+
+.nn-field:has(.nn-field__trailing) > .nn-input {
+  padding-right: 44px;
 }
 
 .nn-field__trailing {
@@ -383,10 +451,13 @@ body:has(.nn-shell) > app-root {
   background-color: var(--nn-gold-soft);
 }
 
+/* Filled diamond inside an outlined one */
 .nn-divider__mark {
-  width: 7px;
-  height: 7px;
-  border: 1px solid var(--nn-gold);
+  width: 6px;
+  height: 6px;
+  margin: 0 4px;
+  background-color: var(--nn-gold);
+  box-shadow: 0 0 0 2px var(--nn-surface), 0 0 0 3px var(--nn-gold);
   transform: rotate(45deg);
 }
 
@@ -399,6 +470,40 @@ body:has(.nn-shell) > app-root {
   border-radius: 3px;
   box-shadow: 2px 3px 8px rgba(42, 22, 14, 0.25);
   background-color: var(--nn-surface-sunken);
+}
+
+/* ---------- Ornate frame: gold flourishes in the four corners ----------
+   Add <span class="nn-corner nn-corner--tl"></span> (tl/tr/bl/br) inside a
+   positioned container. */
+.nn-corner {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  background: url('/assets/images/ornaments/corner.svg') no-repeat center / contain;
+  pointer-events: none;
+}
+
+.nn-corner--tl { top: 10px; left: 10px; }
+.nn-corner--tr { top: 10px; right: 10px; transform: scaleX(-1); }
+.nn-corner--bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+.nn-corner--br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
+
+/* Edge ornament: fading line with a framed diamond, for top/bottom edges */
+.nn-edge-ornament {
+  display: block;
+  width: min(280px, 70%);
+  height: 18px;
+  margin: 0 auto;
+  background: url('/assets/images/ornaments/edge.svg') no-repeat center / contain;
+}
+
+/* Parchment page background: paper texture washed out under a vignette */
+.nn-parchment {
+  background:
+    radial-gradient(ellipse at center, transparent 50%, rgba(122, 88, 48, 0.22) 100%),
+    linear-gradient(rgba(243, 231, 208, 0.82), rgba(243, 231, 208, 0.82)),
+    url('/assets/images/webpage-images/backgrounds/paper%20background.png') center / cover,
+    var(--nn-page);
 }
 
 /* ---------- Placeholder marker ----------

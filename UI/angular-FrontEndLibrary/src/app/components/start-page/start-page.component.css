@@ -1,43 +1,231 @@
+.start-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nn-space-5);
+}
 
-.img {
-  aspect-ratio: 1;
+/* The card fills the window height (up to a max) so it never gets cut off */
+.start-card {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  width: 100%;
+  max-width: 1100px;
+  height: min(760px, calc(100dvh - 2 * var(--nn-space-5)));
+  min-height: 520px;
+  border: 1px solid var(--nn-gold);
+  border-radius: var(--nn-radius-lg);
+  background-color: var(--nn-surface);
+  box-shadow: var(--nn-shadow-raised);
+  overflow: hidden;
+}
+
+/* Left: candle-lit panel with the sleeping dragon */
+.start-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: var(--nn-space-6) var(--nn-space-6) 0;
+  background: radial-gradient(ellipse at 70% 25%, #6b4526 0%, #3a2414 55%, #24160c 100%);
+  color: #f3e3c3;
+  border-right: 1px solid var(--nn-gold);
+}
+
+.start-hero__eyebrow {
+  color: var(--nn-gold-soft);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: var(--nn-space-2);
+}
+
+.start-hero h1 {
+  color: #fbefd6;
+  font-size: 2.1rem;
+  margin-bottom: var(--nn-space-3);
+}
+
+.start-hero__list {
+  list-style: none;
+  padding: 0;
+  margin: var(--nn-space-5) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nn-space-2);
+}
+
+.start-hero__list .bi {
+  color: var(--nn-gold-soft);
+  margin-right: var(--nn-space-3);
+}
+
+/* Takes whatever height is left under the text and scales down to fit it */
+.start-hero__dragon {
+  display: block;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
   object-fit: contain;
-  object-position: center;
-  width: 400px;
-  height: 400x;
-  align-self: center;
+  object-position: center bottom;
+  margin-top: var(--nn-space-4);
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
 }
-.start-page-container {
-  top: auto;
-  display: flex;
-  flex-direction: row;
-  align-items: top;
-  justify-content: space-evenly;
-  gap: 16px;
-  padding: 16px;
-  height: 100vh;
-    color: rgba(156, 163, 175, 1);
-  font-size: 16px;
-  font-weight: 400;
-  text-align: left;
-}
-.start-page-left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
-.start-page.right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
-.start-page-left-text {
-  color: rgba(156, 163, 175, 1);
-  font-size: 16px;
-  font-weight: 400;
 
+/* Right: brand + login/register form */
+.start-auth {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* only kicks in on very short windows */
+  scrollbar-width: thin;
+  scrollbar-color: var(--nn-border-strong) transparent;
+  padding: var(--nn-space-6) clamp(24px, 6vw, 72px);
+  box-shadow: inset 0 0 0 6px var(--nn-surface), inset 0 0 0 7px var(--nn-gold-soft);
+}
+
+/* The edge ornaments sit at the very top and bottom; auto margins on the
+   brand and the last control centre everything in between. Unlike
+   justify-content, auto margins don't clip the top when the panel scrolls. */
+.start-auth__edge {
+  flex-shrink: 0;
+}
+
+.start-auth__edge--top {
+  margin-bottom: var(--nn-space-4);
+}
+
+.start-brand {
+  text-align: center;
+  margin-top: auto;
+}
+
+.start-brand__logo {
+  width: 128px;
+  height: 128px;
+}
+
+.start-brand__name {
+  font-family: var(--nn-font-display);
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--nn-ink-strong);
+  margin-top: var(--nn-space-2);
+}
+
+.start-brand__tagline {
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nn-gold-ink);
+  margin-top: var(--nn-space-1);
+}
+
+.start-auth__switch {
+  margin-top: var(--nn-space-4);
+  text-align: center;
+}
+
+/* Register form: the full brand block plus six fields doesn't fit, so the
+   brand shrinks to a small logo and name and the edge ornaments step aside */
+.start-auth--compact .start-brand__logo {
+  width: 64px;
+  height: 64px;
+}
+
+.start-auth--compact .start-brand__name {
+  font-size: 1.7rem;
+  margin-top: var(--nn-space-1);
+}
+
+.start-auth--compact .start-brand__tagline,
+.start-auth--compact .start-auth__edge {
+  display: none;
+}
+
+.start-auth--compact .nn-divider {
+  margin: var(--nn-space-3) 0;
+}
+
+.start-auth--compact > :nth-last-child(2) {
+  margin-bottom: auto;
+}
+
+.start-auth__edge--bottom {
+  margin-top: auto;
+  padding-top: var(--nn-space-4);
+}
+
+/* Short windows (e.g. laptops with browser toolbars): tighten the right side */
+@media (max-height: 880px) {
+  .start-auth {
+    padding-top: var(--nn-space-5);
+    padding-bottom: var(--nn-space-5);
+  }
+
+  .start-brand__logo {
+    width: 104px;
+    height: 104px;
+  }
+
+  .start-brand__name {
+    font-size: 2rem;
+  }
+
+  .start-auth .nn-divider {
+    margin: var(--nn-space-3) 0;
+  }
+}
+
+@media (max-height: 720px) {
+  .start-brand__logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Not enough height for the edge ornaments; the corners stay */
+  .start-auth__edge {
+    display: none;
+  }
+
+  .start-brand {
+    margin-top: auto;
+  }
+
+  .start-auth > :nth-last-child(2) {
+    margin-bottom: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .start-page {
+    padding: var(--nn-space-4);
+    align-items: flex-start;
+  }
+
+  .start-card {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+  }
+
+  .start-hero {
+    display: none;
+  }
+
+  .start-auth {
+    padding: var(--nn-space-5) var(--nn-space-6) var(--nn-space-6);
+  }
+
+  .start-auth .nn-corner {
+    width: 36px;
+    height: 36px;
+  }
+
+  .start-brand__logo {
+    width: 88px;
+    height: 88px;
+  }
 }
