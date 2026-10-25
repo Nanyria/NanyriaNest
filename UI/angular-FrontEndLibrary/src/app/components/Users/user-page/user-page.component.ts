@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { UserActionsService } from '../../../Services/user-actions.service';
@@ -21,6 +26,7 @@ import { UserPageNavComponent } from '../user-page-nav/user-page-nav.component';
   standalone: true,
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, RouterModule, UserPageNavComponent],
 })
 export class UserPageComponent implements OnInit {

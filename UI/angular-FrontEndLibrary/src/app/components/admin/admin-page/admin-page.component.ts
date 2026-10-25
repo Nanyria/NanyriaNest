@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { UserActionsService } from '../../../Services/user-actions.service';
@@ -18,6 +23,7 @@ import { ManageUsersComponent } from '../manage-users/manage-users.component';
   standalone: true,
   templateUrl: './admin-page.component.html',
   styleUrls: ['./admin-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, RouterModule],
 })
 export class AdminPageComponent implements OnInit {

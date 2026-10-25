@@ -1,4 +1,9 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { GenreEnums, GenreDisplayNames } from '../../../Helpers/Enums/enum';
 import { GenreCardComponent } from '../genre-card/genre-card.component';
 
@@ -9,6 +14,7 @@ import { GENRE_COLORS } from '../../../Helpers/genre-styles/genre-colors';
   standalone: true,
   templateUrl: './genre-list.component.html',
   styleUrls: ['./genre-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [GenreCardComponent, BookComponent],
 })
 export class GenreListComponent {

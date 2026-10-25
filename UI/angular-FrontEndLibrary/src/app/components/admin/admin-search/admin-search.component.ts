@@ -1,4 +1,9 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { LibraryService } from '../../../Services/library.services';
@@ -9,6 +14,7 @@ import { Book } from '../../../Models/interfaces';
   templateUrl: './admin-search.component.html',
   styleUrls: ['./admin-search.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class AdminSearchComponent {

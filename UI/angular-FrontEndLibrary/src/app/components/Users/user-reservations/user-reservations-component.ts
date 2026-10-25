@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../Services/auth.service';
@@ -8,7 +8,8 @@ import { AuthService } from '../../../Services/auth.service';
   standalone: true,
   templateUrl: './user-reservations-component.html',
   styleUrls: ['./user-reservations-component.css'],
-  imports: [CommonModule, FormsModule]
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [CommonModule, FormsModule],
 })
 export class UserReservationsComponent implements OnInit {
   reservedBooks: any[] = [];
@@ -16,7 +17,7 @@ export class UserReservationsComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe(user => {
+    this.authService.getCurrentUser().subscribe((user) => {
       this.reservedBooks = user?.reservedBooks || [];
     });
   }

@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-bookshelf-left',
   standalone: true,
   imports: [],
   templateUrl: './bookshelf-left.component.html',
-  styleUrls: ['./bookshelf-left.component.css']
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrls: ['./bookshelf-left.component.css'],
 })
-export class BookshelfLeftComponent {
-
-}
+export class BookshelfLeftComponent {}

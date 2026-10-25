@@ -93,10 +93,10 @@
         <div class="info-card-title">{{ row.title }}:</div>
         <div class="info-card-value">
           <!-- Show count or summary if value is a list -->
-          @if (row.value?.length !== undefined) {
+          @if ($safeNavigationMigration(row.value?.length) !== undefined) {
             {{ row.value.length }} objekt
           }
-          @if (row.value?.length === undefined) {
+          @if ($safeNavigationMigration(row.value?.length) === undefined) {
             {{ row.value }}
           }
         </div>

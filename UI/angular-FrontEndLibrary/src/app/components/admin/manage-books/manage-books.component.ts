@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Book, SlimBookDto } from '../../../Models/interfaces';
 import { LibraryService } from '../../../Services/library.services';
@@ -19,6 +19,7 @@ import { AdminBookCardComponent } from '../../card-components/admin-book-card/ad
   templateUrl: './manage-books.component.html',
   styleUrls: ['./manage-books.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     AdminSearchComponent,
     AdminBookListComponent,

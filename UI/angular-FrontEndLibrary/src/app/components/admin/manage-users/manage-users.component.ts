@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { ILoggedInUser, UserDto } from '../../../Models/interfaces';
@@ -8,6 +15,7 @@ import { UserService } from '../../../Services/user.service';
   standalone: true,
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class ManageUsersComponent implements OnInit {

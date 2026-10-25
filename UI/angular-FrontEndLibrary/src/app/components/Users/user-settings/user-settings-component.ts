@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { ILoggedInUser } from '../../../Models/interfaces';
@@ -10,6 +10,7 @@ import { UserActionsService } from '../../../Services/user-actions.service';
   standalone: true,
   templateUrl: './user-settings-component.html',
   styleUrls: ['./user-settings-component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class UserSettingsComponent {

@@ -1,6 +1,15 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InfoCardColumn2, InfoCardColumn3 } from '../../../Models/interfaces/site-interfaces';
+import {
+  InfoCardColumn2,
+  InfoCardColumn3,
+} from '../../../Models/interfaces/site-interfaces';
 import { ACTION_ICON_MAP } from '../../../Helpers/action-icons/action-icon-map';
 
 @Component({
@@ -8,12 +17,17 @@ import { ACTION_ICON_MAP } from '../../../Helpers/action-icons/action-icon-map';
   standalone: true,
   templateUrl: './info-card.component.html',
   styleUrls: ['./info-card.component.css'],
-  imports: [CommonModule]
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [CommonModule],
 })
 export class InfoCardComponent {
   @Input() id: string = '';
   @Input() imageUrl: string = '';
-  @Input() actions: { label: string, action: () => void, disabled?: boolean }[] = [];
+  @Input() actions: {
+    label: string;
+    action: () => void;
+    disabled?: boolean;
+  }[] = [];
   @Input() col2: InfoCardColumn2 = {};
   @Input() col3: InfoCardColumn3 = {};
   @Input() col2longText: string = '';

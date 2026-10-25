@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-header-sign',
   standalone: true,
   imports: [],
   templateUrl: './header-sign.component.html',
-  styleUrl: './header-sign.component.css'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './header-sign.component.css',
 })
-export class HeaderSignComponent {
-
-}
+export class HeaderSignComponent {}

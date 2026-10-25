@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { BuilderPage } from '../components/builder-page.component';
 
@@ -7,6 +7,7 @@ import { BuilderPage } from '../components/builder-page.component';
   standalone: true,
   imports: [BuilderPage],
   templateUrl: './landing-page.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./landing-page.component.css'],
 })
 export class LandingPageComponent {}

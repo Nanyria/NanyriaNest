@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, input } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Book, ILoggedInUser, SlimBookDto } from '../../../Models/interfaces';
@@ -18,6 +25,7 @@ import {
   templateUrl: './admin-book-list.component.html',
   styleUrls: ['./admin-book-list.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class AdminBookListComponent {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { fetchOneEntry, type BuilderContent } from '@builder.io/sdk-angular';
 import { Content } from '@builder.io/sdk-angular';
 
@@ -9,6 +9,7 @@ import { CUSTOM_COMPONENTS } from '../builder-registry';
   selector: 'app-builder-page',
   standalone: true,
   imports: [Content],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     @if (content) {
       <builder-content
