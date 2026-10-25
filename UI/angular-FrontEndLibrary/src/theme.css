@@ -523,16 +523,25 @@ body:has(.nn-theme) > app-root {
    positioned container. */
 .nn-corner {
   position: absolute;
-  width: 56px;
-  height: 56px;
-  background: url('/assets/images/ornaments/corner.svg') no-repeat center / contain;
+  width: 58px;
+  height: 66px;
+  background: url('/assets/images/login-page/corner-ornament-left.png') no-repeat center / contain;
   pointer-events: none;
 }
 
 .nn-corner--tl { top: 10px; left: 10px; }
-.nn-corner--tr { top: 10px; right: 10px; transform: scaleX(-1); }
+.nn-corner--tr {
+  top: 10px;
+  right: 10px;
+  background-image: url('/assets/images/login-page/corner-ornament-right.png');
+}
 .nn-corner--bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
-.nn-corner--br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
+.nn-corner--br {
+  bottom: 10px;
+  right: 10px;
+  background-image: url('/assets/images/login-page/corner-ornament-right.png');
+  transform: scaleY(-1);
+}
 
 /* Edge ornament: fading line with a framed diamond, for top/bottom edges */
 .nn-edge-ornament {

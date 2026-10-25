@@ -21,56 +21,35 @@
   overflow: hidden;
 }
 
-/* Left: candle-lit panel with the sleeping dragon */
+/* Left: the painted library scene (transparent cutout) on a dark, candle-lit
+   backdrop that shows around the window arch and the ivy */
 .start-hero {
   position: relative;
-  display: flex;
-  flex-direction: column;
   min-height: 0;
-  padding: var(--nn-space-6) var(--nn-space-6) 0;
-  background: radial-gradient(ellipse at 70% 25%, #6b4526 0%, #3a2414 55%, #24160c 100%);
-  color: #f3e3c3;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 60% 40%, #7a4f2a 0%, #4a2e18 45%, #2a1a0e 80%, #1c1109 100%);
   border-right: 1px solid var(--nn-gold);
 }
 
-.start-hero__eyebrow {
-  color: var(--nn-gold-soft);
-  font-size: 0.8rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  margin-bottom: var(--nn-space-2);
+/* Soft inner shadow so the scene sinks into the frame */
+.start-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 50px rgba(15, 8, 3, 0.6);
+  pointer-events: none;
 }
 
-.start-hero h1 {
-  color: #fbefd6;
-  font-size: 2.1rem;
-  margin-bottom: var(--nn-space-3);
-}
-
-.start-hero__list {
-  list-style: none;
-  padding: 0;
-  margin: var(--nn-space-5) 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--nn-space-2);
-}
-
-.start-hero__list .bi {
-  color: var(--nn-gold-soft);
-  margin-right: var(--nn-space-3);
-}
-
-/* Takes whatever height is left under the text and scales down to fit it */
-.start-hero__dragon {
+/* Fill the panel and zoom in a little so the dragon and books dominate */
+.start-hero__art {
   display: block;
-  flex: 1 1 0;
-  min-height: 0;
   width: 100%;
-  object-fit: contain;
-  object-position: center bottom;
-  margin-top: var(--nn-space-4);
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+  transform: scale(1.12);
+  transform-origin: center 55%;
 }
 
 /* Right: brand + login/register form */
@@ -83,6 +62,37 @@
   scrollbar-color: var(--nn-border-strong) transparent;
   padding: var(--nn-space-6) clamp(24px, 6vw, 72px);
   box-shadow: inset 0 0 0 6px var(--nn-surface), inset 0 0 0 7px var(--nn-gold-soft);
+}
+
+/* Faint castle sketches in the bottom corners, behind the form */
+.start-auth__sketch {
+  position: absolute;
+  bottom: 14px;
+  width: 130px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Outline buttons are transparent by default; keep the sketches from showing through */
+.start-auth .nn-btn--outline {
+  background-color: var(--nn-surface);
+}
+
+.start-auth__sketch--left {
+  left: 18px;
+  transform: scaleX(-1);
+}
+
+.start-auth__sketch--right {
+  right: 18px;
+}
+
+.start-auth > :not(.start-auth__sketch) {
+  position: relative; /* keep content above the sketches */
+}
+
+.start-auth > .nn-corner {
+  position: absolute;
 }
 
 /* The edge ornaments sit at the very top and bottom; auto margins on the
@@ -221,7 +231,11 @@
 
   .start-auth .nn-corner {
     width: 36px;
-    height: 36px;
+    height: 40px;
+  }
+
+  .start-auth__sketch {
+    width: 100px;
   }
 
   .start-brand__logo {
