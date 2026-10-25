@@ -7,7 +7,7 @@ import { SlimBookDto } from '../../../Models/interfaces';
 import { GenreEnums, GenreDisplayNames, LanguageEnums, LanguageDisplayNames, BookTypeEnums, BookTypeDisplayNames } from '../../../Helpers/Enums/enum'; // Adjust path if needed
 
 @Component({
-  selector: 'app-add-book',
+  selector: 'app-addbook',
   standalone: true,
   templateUrl: './addbook.component.html',
   styleUrls: ['./addbook.component.css'],

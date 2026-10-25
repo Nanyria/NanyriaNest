@@ -52,11 +52,11 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[14.0.0, )"
+              "version": "[16.2.0, )"
             },
             "Azure.Communication.Email": {
               "target": "Package",
-              "version": "[1.0.1, )"
+              "version": "[1.1.0, )"
             },
             "Microsoft.AspNet.Cors": {
               "target": "Package",
@@ -96,7 +96,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[8.1.1, )"
+              "version": "[10.3.1, )"
             }
           },
           "imports": [
@@ -118,7 +118,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.319/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
