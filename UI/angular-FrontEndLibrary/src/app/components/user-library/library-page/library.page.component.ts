@@ -1,4 +1,9 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { Book, ILoggedInUser } from '../../../Models/interfaces';
 import { LibraryService } from '../../../Services/library.services';
@@ -27,6 +32,7 @@ import {
   templateUrl: './library-page.component.html',
   styleUrls: ['./library-page.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [BookCoverListComponent, GenreListComponent, InfoCardComponent],
 })
 export class LibraryComponent {

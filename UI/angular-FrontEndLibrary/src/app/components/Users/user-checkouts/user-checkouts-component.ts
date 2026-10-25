@@ -1,4 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../Services/auth.service';
@@ -7,17 +12,16 @@ import { AuthService } from '../../../Services/auth.service';
   standalone: true,
   templateUrl: './user-checkouts-component.html',
   styleUrls: ['./user-checkouts-component.css'],
-  imports: [CommonModule, FormsModule]
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [CommonModule, FormsModule],
 })
 export class UserCheckoutsComponent implements OnInit {
   checkedOutBooks: any[] = [];
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe(user => {
+    this.authService.getCurrentUser().subscribe((user) => {
       this.checkedOutBooks = user?.checkedOutBooks || [];
     });
   }
 }
-
-

@@ -1,4 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { ILoggedInUser } from '../../../Models/interfaces';
@@ -8,6 +13,7 @@ import { RouterModule, Router } from '@angular/router';
   standalone: true,
   templateUrl: './user-page-nav.component.html',
   styleUrls: ['./user-page-nav.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, RouterModule],
 })
 export class UserPageNavComponent implements OnInit {

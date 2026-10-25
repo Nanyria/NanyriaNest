@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { GENRE_COLORS } from '../../../Helpers/genre-styles/genre-colors';
 import { GENRE_BOOK_SORT_STYLES } from '../../../Helpers/genre-styles/genre-book-sort-styles';
@@ -7,6 +7,7 @@ import { GENRE_BOOK_SORT_STYLES } from '../../../Helpers/genre-styles/genre-book
   standalone: true,
   templateUrl: './genre-card.component.html',
   styleUrls: ['./genre-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class GenreCardComponent {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 @Component({
@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   templateUrl: './admin-nav.component.html',
   styleUrls: ['./admin-nav.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterModule],
 })
 export class AdminNavComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { UserActionsService } from '../../../Services/user-actions.service';
@@ -8,6 +8,7 @@ import { CreateUserDto } from '../../../Models/interfaces';
   templateUrl: './register-user.component.html',
   standalone: true,
   styleUrls: ['./register-user.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class RegisterUserComponent {

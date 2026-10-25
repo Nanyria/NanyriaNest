@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { StackedBooksComponent } from '../stacked-books/stacked-books.component'
   standalone: true,
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterModule, StackedBooksComponent],
 })
 export class NavComponent {

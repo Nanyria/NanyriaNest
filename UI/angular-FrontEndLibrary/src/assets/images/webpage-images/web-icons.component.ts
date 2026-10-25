@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-web-icon',
@@ -734,6 +734,7 @@ import { Component, Input } from '@angular/core';
       }
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./web-icons.component.css'],
 })
 export class WebIconsComponent {

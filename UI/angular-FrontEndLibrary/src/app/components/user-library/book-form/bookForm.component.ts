@@ -1,6 +1,12 @@
 //bookform.component.ts
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { SlimBookDto } from '../../../Models/interfaces';
@@ -15,6 +21,7 @@ import {
   standalone: true,
   templateUrl: './bookForm.component.html',
   styleUrls: ['./bookForm.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class BookFormComponent {

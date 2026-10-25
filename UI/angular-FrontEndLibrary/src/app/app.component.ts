@@ -1,6 +1,6 @@
 //app.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
@@ -14,6 +14,7 @@ import { BookshelfRightComponent } from './components/bookshelf-right/bookshelf-
   standalone: true,
   templateUrl: './app.component.html', // Split into a separate HTML file
   styleUrls: ['./app.component.css'], // Split into a separate CSS file
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterModule,
     HeaderComponent,

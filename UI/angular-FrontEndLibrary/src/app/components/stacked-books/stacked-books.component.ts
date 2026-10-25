@@ -4,6 +4,7 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import * as THREE from 'three';
@@ -14,6 +15,7 @@ import booksTemplate from '../../books.json';
   standalone: true,
   imports: [],
   templateUrl: './stacked-books.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./stacked-books.component.css'],
 })
 export class StackedBooksComponent implements OnInit, OnDestroy {
@@ -46,7 +48,6 @@ export class StackedBooksComponent implements OnInit, OnDestroy {
   }
 
   private onResize = () => {
-
     // Optionally update renderer/camera size here too if needed
   };
 
@@ -188,9 +189,11 @@ export class StackedBooksComponent implements OnInit, OnDestroy {
         } else if (spineSVGs.spinedark.includes(i)) {
           svgPath = 'assets/images/webpage-images/books/sVectors/spinedark.svg';
         } else if (spineSVGs.spineclean.includes(i)) {
-          svgPath = 'assets/images/webpage-images/books/sVectors/spineclean.svg';
+          svgPath =
+            'assets/images/webpage-images/books/sVectors/spineclean.svg';
         } else if (spineSVGs.spinelight.includes(i)) {
-          svgPath = 'assets/images/webpage-images/books/sVectors/spinelight.svg';
+          svgPath =
+            'assets/images/webpage-images/books/sVectors/spinelight.svg';
         }
 
         if (svgPath) {
@@ -330,5 +333,4 @@ export class StackedBooksComponent implements OnInit, OnDestroy {
 
     this.renderer.render(this.scene, this.camera);
   };
-
 }

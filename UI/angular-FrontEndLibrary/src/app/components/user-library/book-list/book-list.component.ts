@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ViewChild,
   input,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -21,6 +22,7 @@ import {
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class BookListComponent {

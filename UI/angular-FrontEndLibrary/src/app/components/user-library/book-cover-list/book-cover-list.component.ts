@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -20,6 +21,7 @@ import {
   templateUrl: './book-cover-list.component.html',
   styleUrls: ['./book-cover-list.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class BookCoverListComponent {

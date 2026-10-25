@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CardComponent } from '../../card-components/card/card.component';
 
 @Component({
@@ -6,6 +6,7 @@ import { CardComponent } from '../../card-components/card/card.component';
   standalone: true,
   imports: [CardComponent],
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css']
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrls: ['./home-page.component.css'],
 })
-export class HomePageComponent { }
+export class HomePageComponent {}
