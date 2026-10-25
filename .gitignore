@@ -207,3 +207,9 @@ Thumbs.db
 bin/
 obj/
 *.user
+
+# Certificates and private keys
+*.pem
+*.key
+*.crt
+*.pfx
