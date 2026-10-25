@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Book, ILoggedInUser } from '../../../Models/interfaces';
 import { LibraryService } from '../../../Services/library.services';
 import { BookService } from '../../../Services/book.services';
@@ -8,7 +8,7 @@ import { AuthService } from '../../../Services/auth.service';
 import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
 import { SearchComponent } from '../search/search.component';
 import { BookListComponent } from '../book-list/book-list.component';
-import { BookCoverListComponent} from '../book-cover-list/book-cover-list.component'; 
+import { BookCoverListComponent } from '../book-cover-list/book-cover-list.component';
 import { Router } from '@angular/router';
 import { GenreListComponent } from '../genre-list/genre-list.component';
 import {
@@ -27,12 +27,7 @@ import {
   templateUrl: './library-page.component.html',
   styleUrls: ['./library-page.component.css'],
   standalone: true,
-  imports: [
-    CommonModule,
-    BookCoverListComponent,
-    GenreListComponent,
-    InfoCardComponent,
-  ],
+  imports: [BookCoverListComponent, GenreListComponent, InfoCardComponent],
 })
 export class LibraryComponent {
   user: ILoggedInUser | null = null;

@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { LibraryService } from '../../../Services/library.services';
 import { Book } from '../../../Models/interfaces';
@@ -9,7 +9,7 @@ import { Book } from '../../../Models/interfaces';
   templateUrl: './admin-search.component.html',
   styleUrls: ['./admin-search.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [FormsModule],
 })
 export class AdminSearchComponent {
   title: string = '';

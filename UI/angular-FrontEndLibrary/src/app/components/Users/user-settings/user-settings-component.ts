@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { ILoggedInUser } from '../../../Models/interfaces';
 import { AuthService } from '../../../Services/auth.service';
@@ -10,9 +10,9 @@ import { UserActionsService } from '../../../Services/user-actions.service';
   standalone: true,
   templateUrl: './user-settings-component.html',
   styleUrls: ['./user-settings-component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [FormsModule],
 })
-export class UserSettingsComponent  {
+export class UserSettingsComponent {
   editMode = false;
   changePasswordMode = false;
   oldPassword = '';
@@ -22,11 +22,11 @@ export class UserSettingsComponent  {
 
   constructor(
     private authService: AuthService,
-    private userActionsService: UserActionsService
+    private userActionsService: UserActionsService,
   ) {}
 
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe(user => {
+    this.authService.getCurrentUser().subscribe((user) => {
       this.user = user;
     });
   }
@@ -49,18 +49,20 @@ export class UserSettingsComponent  {
       ldPassword: this.oldPassword,
     };
 
-    this.userActionsService.updateUser(this.user!.userId, updatePayload).subscribe({
-      next: () => {
-        alert('Lösenordet har ändrats!');
-        this.changePasswordMode = false;
-        this.oldPassword = '';
-        this.newPassword = '';
-        this.confirmPassword = '';
-      },
-      error: () => {
-        alert('Kunde inte ändra lösenordet.');
-      }
-    });
+    this.userActionsService
+      .updateUser(this.user!.userId, updatePayload)
+      .subscribe({
+        next: () => {
+          alert('Lösenordet har ändrats!');
+          this.changePasswordMode = false;
+          this.oldPassword = '';
+          this.newPassword = '';
+          this.confirmPassword = '';
+        },
+        error: () => {
+          alert('Kunde inte ändra lösenordet.');
+        },
+      });
   }
 
   submitNameChange() {
@@ -75,28 +77,30 @@ export class UserSettingsComponent  {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       profilePictureUrl: this.user.profilePictureUrl,
-      bio: this.user.bio
+      bio: this.user.bio,
     };
 
-    this.userActionsService.updateUser(this.user.userId, updatePayload).subscribe({
-      next: () => {
-        alert('Info har uppdaterats!');
-        this.editMode = false;
-      },
-      error: () => {
-        alert('Kunde inte uppdatera info.');
-      }
-    });
+    this.userActionsService
+      .updateUser(this.user.userId, updatePayload)
+      .subscribe({
+        next: () => {
+          alert('Info har uppdaterats!');
+          this.editMode = false;
+        },
+        error: () => {
+          alert('Kunde inte uppdatera info.');
+        },
+      });
   }
   profilePictures: string[] = [
-  'assets/images/profile-pictures/BlueKidDragon.svg',
-  'assets/images/profile-pictures/PinkKidDragon.svg',
-  'assets/images/profile-pictures/RedDragon.svg'
-];
+    'assets/images/profile-pictures/BlueKidDragon.svg',
+    'assets/images/profile-pictures/PinkKidDragon.svg',
+    'assets/images/profile-pictures/RedDragon.svg',
+  ];
 
-selectProfilePicture(pic: string) {
-  if (this.user) {
-    this.user.profilePictureUrl = pic;
+  selectProfilePicture(pic: string) {
+    if (this.user) {
+      this.user.profilePictureUrl = pic;
+    }
   }
-}
 }

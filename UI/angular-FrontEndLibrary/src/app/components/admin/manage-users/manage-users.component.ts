@@ -1,17 +1,16 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
-import {  ILoggedInUser, UserDto,  } from '../../../Models/interfaces';
+import { ILoggedInUser, UserDto } from '../../../Models/interfaces';
 import { UserService } from '../../../Services/user.service';
 @Component({
   selector: 'app-manage-users',
   standalone: true,
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [FormsModule],
 })
 export class ManageUsersComponent implements OnInit {
-
   editMode = false;
 
   users: UserDto[] = [];
@@ -19,45 +18,46 @@ export class ManageUsersComponent implements OnInit {
   roleOptions = [
     { value: 'Användare', label: 'Användare' },
     { value: 'Administratör', label: 'Administratör' },
-    { value: 'SuperAdmin', label: 'Super Admin' }
+    { value: 'SuperAdmin', label: 'Super Admin' },
   ];
 
   isSuperAdmin: boolean = false;
 
-    constructor( private userService: UserService, 
-  ) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.getAllUsers();
   }
 
   getAllUsers() {
-      this.userService.getAllUsers().subscribe(
-        (response: { isSuccess: boolean; result: UserDto[] }) => {
-          console.log('Users fetched:', response);
-          if (response.isSuccess && Array.isArray(response.result)) {
-            this.users = response.result;
-            console.log('Users array:', this.users);
-          } else {
-            this.users = [];
-          }
-        },
-        (error) => {
-          console.error("Error fetching users", error);
-        this.users  = [];
-      }
+    this.userService.getAllUsers().subscribe(
+      (response: { isSuccess: boolean; result: UserDto[] }) => {
+        console.log('Users fetched:', response);
+        if (response.isSuccess && Array.isArray(response.result)) {
+          this.users = response.result;
+          console.log('Users array:', this.users);
+        } else {
+          this.users = [];
+        }
+      },
+      (error) => {
+        console.error('Error fetching users', error);
+        this.users = [];
+      },
     );
   }
   getRoleLabel(roleValue: string): string {
-    const found = this.roleOptions.find(r => r.value === roleValue);
+    const found = this.roleOptions.find((r) => r.value === roleValue);
     return found ? found.label : roleValue;
   }
   handleFormSubmit(user: UserDto) {
     if (this.editUser) {
-      this.userService.updateUserAsAdmin(this.editUser.id, user).subscribe(() => {
-        this.getAllUsers();
-        this.resetForm();
-      });
+      this.userService
+        .updateUserAsAdmin(this.editUser.id, user)
+        .subscribe(() => {
+          this.getAllUsers();
+          this.resetForm();
+        });
     } else {
       this.userService.createAdminUser(user).subscribe(() => {
         this.getAllUsers();
@@ -74,7 +74,7 @@ export class ManageUsersComponent implements OnInit {
       this.getAllUsers();
     });
   }
-  resetForm(){
+  resetForm() {
     this.editUser = null;
   }
   cancelEdit() {
@@ -82,10 +82,12 @@ export class ManageUsersComponent implements OnInit {
   }
   saveUser(user: UserDto) {
     if (this.editUser) {
-      this.userService.updateUserAsAdmin(this.editUser.id, user).subscribe(() => {
-        this.getAllUsers();
-        this.resetForm();
-      });
+      this.userService
+        .updateUserAsAdmin(this.editUser.id, user)
+        .subscribe(() => {
+          this.getAllUsers();
+          this.resetForm();
+        });
     } else {
       this.userService.createAdminUser(user).subscribe(() => {
         this.getAllUsers();

@@ -1,20 +1,29 @@
 import { Component, Input, Output, EventEmitter, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
-import { Book, ILoggedInUser, SlimBookDto  } from '../../../Models/interfaces';
-import { BookStatusEnum, BookStatusDisplayNames ,GenreEnums, GenreDisplayNames, BookTypeEnums, BookTypeDisplayNames, LanguageEnums, LanguageDisplayNames } from '../../../Helpers/Enums/enum';
+import { Book, ILoggedInUser, SlimBookDto } from '../../../Models/interfaces';
+import {
+  BookStatusEnum,
+  BookStatusDisplayNames,
+  GenreEnums,
+  GenreDisplayNames,
+  BookTypeEnums,
+  BookTypeDisplayNames,
+  LanguageEnums,
+  LanguageDisplayNames,
+} from '../../../Helpers/Enums/enum';
 
 @Component({
   selector: 'app-admin-book-list',
   templateUrl: './admin-book-list.component.html',
   styleUrls: ['./admin-book-list.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [FormsModule],
 })
 export class AdminBookListComponent {
   @Input() books: Book[] = [];
-  @Input() currentUserId!: string; 
-  @Input() user!: ILoggedInUser; 
+  @Input() currentUserId!: string;
+  @Input() user!: ILoggedInUser;
   @Input() editBook: Book | null = null;
   @Output() onEdit = new EventEmitter<Book>();
   @Output() onDelete = new EventEmitter<string>();
@@ -27,14 +36,24 @@ export class AdminBookListComponent {
   @Output() onCancel = new EventEmitter<void>();
 
   BookTypeDisplayNames = BookTypeDisplayNames;
-  bookTypes = Object.values(BookTypeEnums).filter(v => typeof v === 'number') as BookTypeEnums[];
-  bookTypeOptions = Object.values(BookTypeEnums).filter(v => typeof v === 'number') as BookTypeEnums[];
+  bookTypes = Object.values(BookTypeEnums).filter(
+    (v) => typeof v === 'number',
+  ) as BookTypeEnums[];
+  bookTypeOptions = Object.values(BookTypeEnums).filter(
+    (v) => typeof v === 'number',
+  ) as BookTypeEnums[];
   BookStatusDisplayNames = BookStatusDisplayNames;
-  bookStatuses = Object.values(BookStatusEnum).filter(v => typeof v === 'number') as BookStatusEnum[];; 
+  bookStatuses = Object.values(BookStatusEnum).filter(
+    (v) => typeof v === 'number',
+  ) as BookStatusEnum[];
   GenreDisplayNames = GenreDisplayNames;
-  genreOptions = Object.values(GenreEnums).filter(v => typeof v === 'number') as GenreEnums[];
+  genreOptions = Object.values(GenreEnums).filter(
+    (v) => typeof v === 'number',
+  ) as GenreEnums[];
   LanguageDisplayNames = LanguageDisplayNames;
-  languageOptions = Object.values(LanguageEnums).filter(v => typeof v === 'number') as LanguageEnums[];
+  languageOptions = Object.values(LanguageEnums).filter(
+    (v) => typeof v === 'number',
+  ) as LanguageEnums[];
   isSuperAdmin: boolean = false;
   ngOnInit() {
     if (this.user?.isSuperAdmin) {
@@ -52,7 +71,11 @@ export class AdminBookListComponent {
   updateBookStatus(book: Book, userId: string, bookStatus: string) {
     const statusEnumValue = Number(bookStatus) as BookStatusEnum;
     const targetUserId = this.isSuperAdmin ? userId : this.currentUserId;
-    this.onUpdateStatus.emit({ bookId: book.bookId, userId: targetUserId, bookStatus: statusEnumValue });
+    this.onUpdateStatus.emit({
+      bookId: book.bookId,
+      userId: targetUserId,
+      bookStatus: statusEnumValue,
+    });
   }
 
   saveBook(book: Book) {

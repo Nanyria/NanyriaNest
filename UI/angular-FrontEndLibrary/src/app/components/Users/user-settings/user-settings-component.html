@@ -1,37 +1,41 @@
-<div *ngIf="user" class="settings-flex-row">
+@if (user) {
+<div class="settings-flex-row">
   <!-- Left column: two custom boxes stacked vertically -->
   <div class="settings-left-col">
-  <div class="profile-picture-box">
-    <img
-      [src]="user.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
-      alt="Profilbild"
-      class="profile-picture-img"
-    />
-    <!-- Profile picture selection, only in edit mode -->
-    <div *ngIf="editMode" class="profile-picture-selection">
-      <label>Välj profilbild:</label>
-      <div class="profile-picture-options">
-        <img
-          *ngFor="let pic of profilePictures"
-          [src]="pic"
-          [class.selected]="user.profilePictureUrl === pic"
-          (click)="selectProfilePicture(pic)"
-          class="profile-picture-option"
-          alt="Profilbild val"
-        />
+    <div class="profile-picture-box">
+      <img
+        [src]="user.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
+        alt="Profilbild"
+        class="profile-picture-img"
+      />
+      <!-- Profile picture selection, only in edit mode -->
+      @if (editMode) {
+      <div class="profile-picture-selection">
+        <label>Välj profilbild:</label>
+        <div class="profile-picture-options">
+          @for (pic of profilePictures; track pic) {
+          <img
+            [src]="pic"
+            [class.selected]="user.profilePictureUrl === pic"
+            (click)="selectProfilePicture(pic)"
+            class="profile-picture-option"
+            alt="Profilbild val"
+          />
+          }
+        </div>
       </div>
+      }
     </div>
-  </div>
-<div class="bio-box">
-  <label>Bio</label>
-  <textarea
-    class="form-control"
-    [readonly]="!editMode"
-    [(ngModel)]="user.bio"
-    name="bio"
-    rows="4"
-  ></textarea>
-</div>
+    <div class="bio-box">
+      <label>Bio</label>
+      <textarea
+        class="form-control"
+        [readonly]="!editMode"
+        [(ngModel)]="user.bio"
+        name="bio"
+        rows="4"
+      ></textarea>
+    </div>
   </div>
   <!-- Right column: rest of the form (unchanged) -->
   <div class="settings-right-col">
@@ -40,56 +44,86 @@
         {{ editMode ? 'Avbryt' : 'Ändra inställningar' }}
       </button>
     </div>
-
     <div class="form-group">
       <label>Användarnamn</label>
-      <input class="form-control readonly-field" [value]="user.userName" readonly tabindex="-1">
+      <input
+        class="form-control readonly-field"
+        [value]="user.userName"
+        readonly
+        tabindex="-1"
+      />
     </div>
-
-        <div class="form-row">
-    <div class="form-group">
-      <label>Förnamn</label>
-      <input class="form-control"
-             [readonly]="!editMode"
-             [(ngModel)]="user.firstName"
-             name="firstName">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Förnamn</label>
+        <input
+          class="form-control"
+          [readonly]="!editMode"
+          [(ngModel)]="user.firstName"
+          name="firstName"
+        />
+      </div>
+      <div class="form-group">
+        <label>Efternamn</label>
+        <input
+          class="form-control"
+          [readonly]="!editMode"
+          [(ngModel)]="user.lastName"
+          name="lastName"
+        />
+      </div>
     </div>
-    <div class="form-group">
-      <label>Efternamn</label>
-      <input class="form-control"
-             [readonly]="!editMode"
-             [(ngModel)]="user.lastName"
-             name="lastName">
-    </div>
-    </div>
-    
     <div class="form-group">
       <label>Email</label>
-      <input class="form-control readonly-field" [value]="user.email" readonly tabindex="-1">
+      <input
+        class="form-control readonly-field"
+        [value]="user.email"
+        readonly
+        tabindex="-1"
+      />
     </div>
-    <div class="form-group" *ngIf="!changePasswordMode">
+    @if (!changePasswordMode) {
+    <div class="form-group">
       <label>Lösenord</label>
-      <input class="form-control" type="password" value="********" disabled>
-      <button *ngIf="editMode" class="btn btn-link" (click)="changePasswordMode = true">Byt lösenord</button>
+      <input class="form-control" type="password" value="********" disabled />
+      @if (editMode) {
+      <button class="btn btn-link" (click)="changePasswordMode = true">
+        Byt lösenord
+      </button>
+      }
     </div>
-    <div *ngIf="changePasswordMode">
+    } @if (changePasswordMode) {
+    <div>
       <div class="form-group">
         <label>Nuvarande lösenord</label>
-        <input class="form-control" type="password" [(ngModel)]="oldPassword">
+        <input class="form-control" type="password" [(ngModel)]="oldPassword" />
       </div>
       <div class="form-group">
         <label>Nytt lösenord</label>
-        <input class="form-control" type="password" [(ngModel)]="newPassword">
+        <input class="form-control" type="password" [(ngModel)]="newPassword" />
       </div>
       <div class="form-group">
         <label>Bekräfta nytt lösenord</label>
-        <input class="form-control" type="password" [(ngModel)]="confirmPassword">
+        <input
+          class="form-control"
+          type="password"
+          [(ngModel)]="confirmPassword"
+        />
       </div>
-      <button class="btn btn-success" (click)="submitPasswordChange()">Spara nytt lösenord</button>
-      <button class="btn btn-link" (click)="changePasswordMode = false">Avbryt</button>
+      <button class="btn btn-success" (click)="submitPasswordChange()">
+        Spara nytt lösenord
+      </button>
+      <button class="btn btn-link" (click)="changePasswordMode = false">
+        Avbryt
+      </button>
     </div>
-    <div *ngIf="editMode" class="settings-actions">
-      <button class="btn btn-success" (click)="submitNameChange()">Spara namnändringar</button>
+    } @if (editMode) {
+    <div class="settings-actions">
+      <button class="btn btn-success" (click)="submitNameChange()">
+        Spara namnändringar
+      </button>
     </div>
+    }
   </div>
 </div>
+}

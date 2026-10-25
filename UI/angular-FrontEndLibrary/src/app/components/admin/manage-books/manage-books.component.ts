@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Book, SlimBookDto } from '../../../Models/interfaces';
 import { LibraryService } from '../../../Services/library.services';
 import { BookService } from '../../../Services/book.services';
@@ -8,18 +8,22 @@ import { AdminSearchComponent } from '../admin-search/admin-search.component';
 import { AdminBookListComponent } from '../admin-book-list/admin-book-list.component';
 import { Router } from '@angular/router';
 import { GenreListComponent } from '../../user-library/genre-list/genre-list.component';
-import { BookTypeOptions, BookStatusOptions, GenreOptions } from '../../../Helpers/Helper';
+import {
+  BookTypeOptions,
+  BookStatusOptions,
+  GenreOptions,
+} from '../../../Helpers/Helper';
 import { AdminBookCardComponent } from '../../card-components/admin-book-card/admin-book-card.component';
 @Component({
   selector: 'app-manage-books',
   templateUrl: './manage-books.component.html',
   styleUrls: ['./manage-books.component.css'],
   standalone: true,
-  imports: [CommonModule, 
-    AdminSearchComponent, 
-    AdminBookListComponent, 
+  imports: [
+    AdminSearchComponent,
+    AdminBookListComponent,
     GenreListComponent,
-    AdminBookCardComponent
+    AdminBookCardComponent,
   ],
 })
 export class ManageBooksComponent {
@@ -28,11 +32,15 @@ export class ManageBooksComponent {
   updatedBook: SlimBookDto | null = null;
   showInfoCard = false;
   infoCardActions: { label: string; action: () => void; disabled?: boolean }[] =
-  [];
+    [];
   bookTypeOptions = BookTypeOptions;
   bookStatusOptions = BookStatusOptions;
   genreOptions = GenreOptions;
-  constructor(private libraryService: LibraryService, private bookService: BookService, private router: Router) {}
+  constructor(
+    private libraryService: LibraryService,
+    private bookService: BookService,
+    private router: Router,
+  ) {}
 
   addNewBook() {
     this.router.navigate(['/add-book']);
@@ -55,13 +63,11 @@ export class ManageBooksComponent {
         }
       },
       (error) => {
-        console.error("Error fetching books", error);
+        console.error('Error fetching books', error);
         this.books = [];
-      }
+      },
     );
   }
-
-
 
   deleteBook(bookID: string) {
     this.bookService.deleteBook(bookID).subscribe(() => {
@@ -69,12 +75,23 @@ export class ManageBooksComponent {
     });
   }
 
-  updateStatus(event: { bookId: string; userId: string; bookStatus: BookStatusEnum }) {
+  updateStatus(event: {
+    bookId: string;
+    userId: string;
+    bookStatus: BookStatusEnum;
+  }) {
     const { bookId, userId, bookStatus } = event;
 
-    this.bookService.updateBookStatus(bookId, userId, bookStatus, 'Status updated via dropdown').subscribe(() => {
-      this.getAllBooks(); // Refresh the book list after updating the status
-    });
+    this.bookService
+      .updateBookStatus(
+        bookId,
+        userId,
+        bookStatus,
+        'Status updated via dropdown',
+      )
+      .subscribe(() => {
+        this.getAllBooks(); // Refresh the book list after updating the status
+      });
   }
 
   populateForm(book: Book) {
@@ -106,11 +123,15 @@ export class ManageBooksComponent {
       title: (bookInput.title ?? this.editBook.title) as string,
       author: (bookInput.author ?? this.editBook.author) as string,
       genre: Number(bookInput.genre ?? this.editBook.genre),
-      publicationYear: Number(bookInput.publicationYear ?? this.editBook.publicationYear),
-      bookDescription: bookInput.bookDescription ?? this.editBook.bookDescription ?? null,
+      publicationYear: Number(
+        bookInput.publicationYear ?? this.editBook.publicationYear,
+      ),
+      bookDescription:
+        bookInput.bookDescription ?? this.editBook.bookDescription ?? null,
       bookType: Number(bookInput.bookType ?? this.editBook.bookType),
       language: Number(bookInput.language ?? this.editBook.language),
-      coverImagePath: bookInput.coverImagePath ?? this.editBook.coverImagePath ?? null
+      coverImagePath:
+        bookInput.coverImagePath ?? this.editBook.coverImagePath ?? null,
     };
 
     console.log('saveBook -> sending payload:', payload);
@@ -123,25 +144,37 @@ export class ManageBooksComponent {
       },
       (err) => {
         // show HTTP status and backend error body for diagnosis
-        console.error('saveBook update error status=', err?.status, 'errorBody=', err?.error);
-      }
+        console.error(
+          'saveBook update error status=',
+          err?.status,
+          'errorBody=',
+          err?.error,
+        );
+      },
     );
   }
 
   // If you also use handleFormSubmit to update, apply the same mapping there
   handleFormSubmit(bookInput: any) {
-    console.log('handleFormSubmit called', { editBook: this.editBook, bookInput });
+    console.log('handleFormSubmit called', {
+      editBook: this.editBook,
+      bookInput,
+    });
 
     if (this.editBook) {
       const payload: SlimBookDto = {
         title: bookInput.title ?? this.editBook.title,
         author: bookInput.author ?? this.editBook.author,
         genre: (bookInput.genre ?? this.editBook.genre) as any,
-        publicationYear: String(bookInput.publicationYear ?? this.editBook.publicationYear),
-        bookDescription: bookInput.bookDescription ?? this.editBook.bookDescription,
+        publicationYear: String(
+          bookInput.publicationYear ?? this.editBook.publicationYear,
+        ),
+        bookDescription:
+          bookInput.bookDescription ?? this.editBook.bookDescription,
         bookType: (bookInput.bookType ?? this.editBook.bookType) as any,
         language: (bookInput.language ?? this.editBook.language) as any,
-        coverImagePath: bookInput.coverImagePath ?? this.editBook.coverImagePath
+        coverImagePath:
+          bookInput.coverImagePath ?? this.editBook.coverImagePath,
       };
 
       console.log('handleFormSubmit -> updating with payload:', payload);
@@ -153,7 +186,7 @@ export class ManageBooksComponent {
         },
         (err) => {
           console.error('handleFormSubmit update error', err);
-        }
+        },
       );
     } else {
       // For creating new books, construct SlimBookDto similarly
@@ -369,15 +402,15 @@ export class ManageBooksComponent {
   //   };
   // }
 
-    onGenreSelected(genre: GenreEnums) {
-      if (genre === GenreEnums.All) {
-        this.getAllBooks(); // Fetch all books
-      } else {
-        this.libraryService
-          .getBooksByGenre(genre, 'Title', true)
-          .subscribe((response) => {
-            this.books = response.isSuccess ? response.result : [];
-          });
-      }
+  onGenreSelected(genre: GenreEnums) {
+    if (genre === GenreEnums.All) {
+      this.getAllBooks(); // Fetch all books
+    } else {
+      this.libraryService
+        .getBooksByGenre(genre, 'Title', true)
+        .subscribe((response) => {
+          this.books = response.isSuccess ? response.result : [];
+        });
     }
+  }
 }

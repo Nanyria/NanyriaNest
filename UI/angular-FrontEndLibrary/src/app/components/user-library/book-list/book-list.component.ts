@@ -1,20 +1,31 @@
-import { Component, Input, Output, EventEmitter, ViewChild, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  input,
+} from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { Book, ILoggedInUser } from '../../../Models/interfaces';
 import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
 import { InfoCardComponent } from '../../card-components/info-card/info-card.component';
-import { BookTypeOptions, BookStatusOptions, GenreOptions } from '../../../Helpers/Helper';
+import {
+  BookTypeOptions,
+  BookStatusOptions,
+  GenreOptions,
+} from '../../../Helpers/Helper';
 @Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [FormsModule],
 })
 export class BookListComponent {
   @Input() books: Book[] = [];
-  @Input() currentUserId!: string; 
+  @Input() currentUserId!: string;
   @Input() user: ILoggedInUser | null = null;
   @Output() onEdit = new EventEmitter<Book>();
   @Output() onDelete = new EventEmitter<string>();
@@ -35,7 +46,6 @@ export class BookListComponent {
   selectedBookReviews: any[] = [];
   showInfoCard = false;
 
-
   constructor() {}
   @ViewChild(InfoCardComponent) infoCardComponent?: InfoCardComponent;
 
@@ -48,7 +58,11 @@ export class BookListComponent {
   updateBookStatus(book: Book, userId: string, bookStatus: string) {
     const statusEnumValue = Number(bookStatus) as BookStatusEnum;
     const targetUserId = this.isSuperAdmin ? userId : this.currentUserId;
-    this.onUpdateStatus.emit({ bookId: book.bookId, userId: targetUserId, bookStatus: statusEnumValue });
+    this.onUpdateStatus.emit({
+      bookId: book.bookId,
+      userId: targetUserId,
+      bookStatus: statusEnumValue,
+    });
   }
 
   saveBook(book: Book) {
@@ -63,6 +77,4 @@ export class BookListComponent {
   onBookRowClick(book: Book, event: MouseEvent) {
     this.bookRowClicked.emit(book);
   }
-
 }
-

@@ -14,43 +14,45 @@
             discover new titles.
           </p>
           <div class="table-body">
-                      <h1 class="library-title">Latest added</h1>
+            <h1 class="library-title">Latest added</h1>
             <!-- <div class="library-search-container">
             <app-search
               (searchResults)="handleSearchResults($event)"
             ></app-search>
           </div> -->
 
-            <div *ngIf="books.length === 0" class="loading">
-              Loading books...
-            </div>
-            <app-book-cover-list
-              *ngIf="books.length > 0"
-              [books]="books"
-              [currentUserId]="currentUserId"
-              [user]="user"
-              (onUpdateStatus)="updateStatus($event)"
-              (onSave)="saveBook($event)"
-              (bookRowClicked)="onBookRowClicked($event)"
+            @if (books.length === 0) {
+              <div class="loading">Loading books...</div>
+            }
+            @if (books.length > 0) {
+              <app-book-cover-list
+                [books]="books"
+                [currentUserId]="currentUserId"
+                [user]="user"
+                (onUpdateStatus)="updateStatus($event)"
+                (onSave)="saveBook($event)"
+                (bookRowClicked)="onBookRowClicked($event)"
+              ></app-book-cover-list>
+            }
 
-            ></app-book-cover-list>
-
-            <div *ngIf="showInfoCard" class="info-card-overlay">
-              <div class="info-card-popup">
-                <app-info-card
-                  [id]="selectedBook?.bookId ?? ''"
-                  [imageUrl]="
-                    selectedBook?.coverImagePath ||
-                    'assets/images/book-covers/BrownBook.svg'
-                  "
-                  [col2]="infoCardCol2"
-                  [col3]="infoCardCol3"
-                  [actions]="infoCardActions"
-                  (close)="closeInfoCard()"
-                >
-                </app-info-card>
+            @if (showInfoCard) {
+              <div class="info-card-overlay">
+                <div class="info-card-popup">
+                  <app-info-card
+                    [id]="selectedBook?.bookId ?? ''"
+                    [imageUrl]="
+                      selectedBook?.coverImagePath ||
+                      'assets/images/book-covers/BrownBook.svg'
+                    "
+                    [col2]="infoCardCol2"
+                    [col3]="infoCardCol3"
+                    [actions]="infoCardActions"
+                    (close)="closeInfoCard()"
+                  >
+                  </app-info-card>
+                </div>
               </div>
-            </div>
+            }
           </div>
         </div>
       </div>

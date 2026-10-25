@@ -1,6 +1,10 @@
 <div class="start-page-container">
   <div class="start-page-left">
-      <img src="assets/images/webpage-images/NyriaNestCircle.svg" alt="Logo" class="img">
+    <img
+      src="assets/images/webpage-images/NyriaNestCircle.svg"
+      alt="Logo"
+      class="img"
+    />
     <div class="start-page-left-text">
       <h1>Välkommen till Nyria Nest</h1>
       <p>Din portal till fantastiska äventyr och litterära upptäckter.</p>
@@ -17,15 +21,14 @@
   </div>
   <div class="start-page-right">
     <div class="start-page-right-text">
-      <ng-container *ngIf="!showRegister; else registerForm">
+      @if (!showRegister) {
         <app-login></app-login>
         <p>Inte medlem än? Klicka här för att registrera dig!</p>
         <button (click)="showRegister = true">Registrera</button>
-      </ng-container>
-      <ng-template #registerForm>
+      } @else {
         <button (click)="showRegister = false">Tillbaka till login</button>
         <app-register-user></app-register-user>
-      </ng-template>
+      }
     </div>
   </div>
 </div>

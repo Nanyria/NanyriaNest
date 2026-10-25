@@ -1,34 +1,32 @@
-import { Component, Input } from "@angular/core";
-import { fetchOneEntry, type BuilderContent } from "@builder.io/sdk-angular";
-import { Content } from "@builder.io/sdk-angular";
-import { CommonModule } from "@angular/common";
-import { environment } from "../../environments/environment";
-import { CUSTOM_COMPONENTS } from "../builder-registry";
+import { Component, Input } from '@angular/core';
+import { fetchOneEntry, type BuilderContent } from '@builder.io/sdk-angular';
+import { Content } from '@builder.io/sdk-angular';
+
+import { environment } from '../../environments/environment';
+import { CUSTOM_COMPONENTS } from '../builder-registry';
 
 @Component({
-  selector: "app-builder-page",
+  selector: 'app-builder-page',
   standalone: true,
-  imports: [Content, CommonModule],
+  imports: [Content],
   template: `
-    <ng-container *ngIf="content; else notFound">
+    @if (content) {
       <builder-content
         [model]="model"
         [content]="content"
         [apiKey]="apiKey"
         [customComponents]="customComponents"
       ></builder-content>
-    </ng-container>
-
-    <ng-template #notFound>
+    } @else {
       <div>404 - Content not found</div>
-    </ng-template>
+    }
   `,
 })
 export class BuilderPage {
-  title = "builder page";
+  title = 'builder page';
 
-  @Input() model: string = "page"; // Default model is 'page'
-  @Input() urlPath: string = "/"; // Default URL path
+  @Input() model: string = 'page'; // Default model is 'page'
+  @Input() urlPath: string = '/'; // Default URL path
 
   apiKey = environment.builderApiKey;
 

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule, Router } from '@angular/router';
 import { ILoggedInUser } from '../../../Models/interfaces';
 import { WebIconsComponent } from '../../../../assets/images/webpage-images/web-icons.component';
@@ -8,7 +8,7 @@ import { WebIconsComponent } from '../../../../assets/images/webpage-images/web-
   standalone: true,
   templateUrl: './user-nav.component.html',
   styleUrls: ['./user-nav.component.css'],
-  imports: [CommonModule, RouterModule, WebIconsComponent]
+  imports: [RouterModule, WebIconsComponent],
 })
 export class UserNavComponent {
   @Output() navOpenChange = new EventEmitter<boolean>();
