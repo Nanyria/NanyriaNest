@@ -39,7 +39,7 @@
 
   <Target Name="CopyUIOnPublish" AfterTargets="Publish">
     <ItemGroup>
-      <DistFiles Include="..\UI\angular-FrontEndLibrary\dist\angular-FrontEndLibrary\**\*" />
+      <DistFiles Include="..\UI\angular-FrontEndLibrary\dist\angular-FrontEndLibrary\browser\**\*" />
     </ItemGroup>
     <Copy SourceFiles="@(DistFiles)" DestinationFolder="$(PublishDir)wwwroot\%(RecursiveDir)" SkipUnchangedFiles="true" />
   </Target>

@@ -22,19 +22,6 @@
       "ES2022",
       "dom"
     ],
-    "typeRoots": ["node_modules/@types"],
-    "types": [
-      "bonjour",
-      "estree",
-      "jasmine",
-      "json-schema",
-      "mute-stream",
-      "node",
-      "range-parser",
-      "send",
-      "serve-static",
-      "wrap-ansi"
-    ],
     "resolveJsonModule": true
   },
   "angularCompilerOptions": {
