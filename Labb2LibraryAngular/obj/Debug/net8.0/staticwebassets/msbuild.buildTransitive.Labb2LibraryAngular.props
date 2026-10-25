@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Labb2LibraryAngular.props" />
-</Project>
