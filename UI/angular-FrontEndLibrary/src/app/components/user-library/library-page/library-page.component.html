@@ -17,6 +17,74 @@
 
   <span class="nn-edge-ornament library__ornament"></span>
 
+  <!-- Illustrated genre cards; the row scrolls sideways -->
+  <section class="genres" aria-labelledby="genres-title">
+    <div class="genres__header">
+      <h2 id="genres-title" class="genres__title">Explore genres</h2>
+      @if (selectedGenre !== allGenres) {
+        <button type="button" class="nn-link genres__all" (click)="onGenreSelected(allGenres)">
+          All genres <i class="bi bi-arrow-right"></i>
+        </button>
+      }
+    </div>
+
+    <div
+      class="genre-strip"
+      [class.can-scroll-left]="canScrollLeft"
+      [class.can-scroll-right]="canScrollRight"
+    >
+      <button
+        type="button"
+        class="genre-strip__arrow"
+        aria-label="Scroll genres left"
+        [disabled]="!canScrollLeft"
+        (click)="scrollGenres(-1)"
+      >
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <div
+        #genreScroller
+        class="genre-strip__scroller"
+        role="group"
+        aria-label="Filter by genre"
+        (scroll)="updateGenreArrows()"
+      >
+        @for (genre of genreCards; track genre.value) {
+          <button
+            type="button"
+            class="genre-card"
+            [class.is-active]="selectedGenre === genre.value"
+            [attr.aria-pressed]="selectedGenre === genre.value"
+            [attr.data-genre]="genre.value"
+            [style.--genre-tint]="genre.tint"
+            [style.--genre-ink]="genre.ink"
+            (click)="onGenreSelected(selectedGenre === genre.value ? allGenres : genre.value)"
+          >
+            <span class="genre-card__art" aria-hidden="true">
+              @if (genre.image) {
+                <img [src]="genre.image" alt="" />
+              } @else {
+                <i class="bi {{ genre.icon }}"></i>
+              }
+            </span>
+            <span class="genre-card__label">{{ genre.label }}</span>
+          </button>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="genre-strip__arrow"
+        aria-label="Scroll genres right"
+        [disabled]="!canScrollRight"
+        (click)="scrollGenres(1)"
+      >
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </section>
+
   <section class="nn-panel library__panel">
     <div class="library__toolbar">
       <div class="nn-field library__search">
@@ -30,20 +98,6 @@
           (ngModelChange)="updateQueryParams()"
         />
       </div>
-
-      <label class="nn-select-field">
-        <i class="bi bi-funnel-fill"></i>
-        <span class="visually-hidden">Genre</span>
-        <select
-          class="nn-select"
-          [(ngModel)]="selectedGenre"
-          (ngModelChange)="onGenreSelected($event)"
-        >
-          @for (genre of genreChoices; track genre.value) {
-            <option [ngValue]="genre.value">{{ genre.label }}</option>
-          }
-        </select>
-      </label>
 
       <label class="nn-select-field">
         <i class="bi bi-arrow-down-up"></i>

@@ -1,5 +1,8 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
+  HostListener,
   Input,
   ViewChild,
   ChangeDetectionStrategy,
@@ -27,6 +30,10 @@ import {
   BookStatusOptions,
   GenreOptions,
 } from '../../../Helpers/Helper';
+import {
+  GENRE_CARD_STYLES,
+  GenreCardStyle,
+} from '../../../Helpers/genre-styles/genre-cards';
 
 type StatusFilter = 'all' | 'available' | 'reserved' | 'checkedOut';
 type SortOption = 'title' | 'author' | 'newest';
@@ -39,7 +46,7 @@ type SortOption = 'title' | 'author' | 'newest';
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [BookCoverListComponent, InfoCardComponent, FormsModule],
 })
-export class LibraryComponent {
+export class LibraryComponent implements AfterViewInit {
   user: ILoggedInUser | null = null;
   currentUserId: string = '';
   books: Book[] = []; // Every book; the template shows visibleBooks
@@ -64,10 +71,22 @@ export class LibraryComponent {
     { value: 'author', label: 'Author (A–Z)' },
     { value: 'newest', label: 'Newest published' },
   ];
-  genreChoices = Object.values(GenreEnums)
+  // One illustrated card per genre ("All" is the header link, not a card)
+  genreCards = Object.values(GenreEnums)
     .filter((g): g is GenreEnums => typeof g === 'number')
-    .filter((g) => g !== GenreEnums.None)
-    .map((g) => ({ value: g, label: GenreOptions.displayNames[g] }));
+    .filter((g) => g !== GenreEnums.None && g !== GenreEnums.All)
+    .map((g) => ({
+      value: g,
+      label: GenreOptions.displayNames[g],
+      ...(GENRE_CARD_STYLES[g] ??
+        ({ tint: '#ecdcc4', ink: '#6b4a2a', icon: 'bi-bookmark' } as GenreCardStyle)),
+    }));
+  readonly allGenres = GenreEnums.All;
+
+  // Genre strip scroll state, drives the arrow buttons and edge fades
+  @ViewChild('genreScroller') genreScroller?: ElementRef<HTMLElement>;
+  canScrollLeft = false;
+  canScrollRight = false;
   editBook: Book | null = null;
   showInfoCard = false;
   selectedBook: Book | null = null;
@@ -473,5 +492,35 @@ export class LibraryComponent {
   onGenreSelected(genre: GenreEnums) {
     this.selectedGenre = genre;
     this.updateQueryParams();
+  }
+
+  ngAfterViewInit() {
+    // Deferred so the arrow state isn't changed mid change detection
+    setTimeout(() => {
+      this.scrollSelectedGenreIntoView();
+      this.updateGenreArrows();
+    });
+  }
+
+  @HostListener('window:resize')
+  updateGenreArrows() {
+    const el = this.genreScroller?.nativeElement;
+    if (!el) return;
+    this.canScrollLeft = el.scrollLeft > 1;
+    this.canScrollRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
+  }
+
+  scrollGenres(direction: 1 | -1) {
+    const el = this.genreScroller?.nativeElement;
+    el?.scrollBy({ left: direction * el.clientWidth * 0.8, behavior: 'smooth' });
+  }
+
+  // When arriving with ?genre=…, centre that genre in the strip. Sets
+  // scrollLeft directly rather than scrollIntoView, which would also scroll the page.
+  private scrollSelectedGenreIntoView() {
+    const el = this.genreScroller?.nativeElement;
+    const button = el?.querySelector<HTMLElement>(`[data-genre="${this.selectedGenre}"]`);
+    if (!el || !button || this.selectedGenre === GenreEnums.All) return;
+    el.scrollLeft = button.offsetLeft - (el.clientWidth - button.offsetWidth) / 2;
   }
 }

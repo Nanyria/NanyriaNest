@@ -37,6 +37,161 @@
   flex: 1 1 280px;
 }
 
+/* ---------- Explore genres ---------- */
+.genres {
+  margin-bottom: var(--nn-space-5);
+}
+
+.genres__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--nn-space-3);
+  margin-bottom: var(--nn-space-3);
+}
+
+.genres__title {
+  font-size: 1.9rem;
+}
+
+.genres__all {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.genre-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  --fade-left: 0px;
+  --fade-right: 0px;
+}
+
+.genre-strip.can-scroll-left {
+  --fade-left: 32px;
+}
+
+.genre-strip.can-scroll-right {
+  --fade-right: 32px;
+}
+
+.genre-strip__scroller {
+  position: relative; /* offsetLeft of the buttons is measured from here */
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: var(--nn-space-3);
+  padding: 4px 2px 8px; /* room for the hover lift, focus ring and shadows */
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Fade the edges that have more genres beyond them */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--fade-left),
+    #000 calc(100% - var(--fade-right)),
+    transparent 100%
+  );
+}
+
+.genre-strip__scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Round gold arrows, as in the mockup */
+.genre-strip__arrow {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--nn-gold);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f6e3b5, #e2c48a);
+  box-shadow: var(--nn-shadow);
+  color: var(--nn-ink-strong);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.genre-strip__arrow:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+/* Genre card: tinted tile with an illustration and the name underneath */
+.genre-card {
+  flex: 0 0 auto;
+  width: 132px;
+  height: 164px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--nn-space-4) var(--nn-space-2) var(--nn-space-3);
+  border: 1px solid color-mix(in srgb, var(--genre-ink) 25%, var(--nn-gold-soft));
+  border-radius: var(--nn-radius);
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, 0.55), transparent 70%),
+    var(--genre-tint);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35), var(--nn-shadow);
+  color: var(--nn-ink-strong);
+  font-family: var(--nn-font-body);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.genre-card:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35), var(--nn-shadow-raised);
+}
+
+.genre-card.is-active {
+  border-color: var(--nn-primary);
+  box-shadow: inset 0 0 0 2px var(--nn-primary), var(--nn-shadow-raised);
+}
+
+.genre-card__art {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--genre-ink);
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+.genre-card__art img {
+  max-width: 96px;
+  max-height: 96px;
+  object-fit: contain;
+}
+
+.genre-card__label {
+  font-size: 1.05rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.genre-card.is-active .genre-card__label {
+  font-weight: 600;
+}
+
+.genre-strip__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Everything fits: no arrows needed */
+.genre-strip:not(.can-scroll-left):not(.can-scroll-right) .genre-strip__arrow {
+  display: none;
+}
+
 .library__filters {
   display: flex;
   flex-wrap: wrap;
@@ -95,7 +250,25 @@
     height: 44px;
   }
 
-  /* Search on its own row, then genre and sort sharing a row, then the toggle */
+  /* Swiping replaces the arrows on phones */
+  .genre-strip__arrow {
+    display: none;
+  }
+
+  .genre-card {
+    width: 112px;
+    height: 140px;
+  }
+
+  .genre-card__art {
+    font-size: 2.8rem;
+  }
+
+  .genres__title {
+    font-size: 1.5rem;
+  }
+
+  /* Search on its own row, then sort and the view toggle sharing a row */
   .library__search {
     flex-basis: 100%;
   }
