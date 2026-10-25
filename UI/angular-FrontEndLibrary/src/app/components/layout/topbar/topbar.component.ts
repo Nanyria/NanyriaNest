@@ -29,6 +29,14 @@ export class TopbarComponent {
     return !!this.currentUser?.notifications?.some((n) => !n.isRead);
   }
 
+  // Searching from anywhere opens the library filtered by the term
+  search(event: Event, term: string) {
+    event.preventDefault();
+    this.router.navigate(['/library'], {
+      queryParams: { q: term.trim() || null },
+    });
+  }
+
   toggleUserMenu() {
     this.userMenuOpen = !this.userMenuOpen;
   }

@@ -77,6 +77,11 @@ body:has(.nn-theme) > app-root {
   min-width: 0;
 }
 
+/* styles.css sets Eagle Lake on every <header>; migrated pages use the theme fonts */
+.nn-theme header {
+  font-family: inherit;
+}
+
 .nn-theme h1,
 .nn-theme h2,
 .nn-theme h3,
@@ -410,6 +415,47 @@ body:has(.nn-theme) > app-root {
   color: var(--nn-ink-muted);
   padding: 4px 6px;
   cursor: pointer;
+}
+
+/* Native <select> styled like the outline buttons, with a leading icon:
+   <label class="nn-select-field"><i class="bi …"></i><select class="nn-select">… */
+.nn-select-field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+
+.nn-select-field > .bi {
+  position: absolute;
+  left: 14px;
+  color: var(--nn-ink);
+  pointer-events: none;
+}
+
+.nn-select {
+  appearance: none;
+  padding: 10px 38px 10px 40px;
+  border: 1px solid var(--nn-border-strong);
+  border-radius: var(--nn-radius-sm);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%237b6552'%3E%3Cpath d='M3.2 5.7a.6.6 0 0 1 .85 0L8 9.65l3.95-3.95a.6.6 0 1 1 .85.85L8.42 10.9a.6.6 0 0 1-.84 0L3.2 6.55a.6.6 0 0 1 0-.85z'/%3E%3C/svg%3E")
+      no-repeat right 12px center / 14px,
+    var(--nn-surface);
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.nn-select:hover {
+  border-color: var(--nn-gold);
+}
+
+.nn-select:focus {
+  outline: none;
+  border-color: var(--nn-gold);
+  box-shadow: var(--nn-focus);
 }
 
 /* ---------- Stars ---------- */

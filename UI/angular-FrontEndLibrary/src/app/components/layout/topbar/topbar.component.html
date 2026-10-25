@@ -15,16 +15,16 @@
     </span>
   </a>
 
-  <!-- TODO: wire up to library search when the library page is redesigned -->
-  <div class="nn-field topbar__search nn-placeholder">
+  <form class="nn-field topbar__search" role="search" (submit)="search($event, searchInput.value)">
     <i class="bi bi-search"></i>
     <input
+      #searchInput
       class="nn-input"
       type="search"
       placeholder="Search for books, authors or genres …"
-      aria-label="Search"
+      aria-label="Search the library"
     />
-  </div>
+  </form>
 
   <div class="topbar__actions">
     <span

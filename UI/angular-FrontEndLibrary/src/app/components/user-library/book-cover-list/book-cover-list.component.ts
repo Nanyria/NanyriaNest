@@ -3,83 +3,60 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { FormsModule } from '@angular/forms';
 import { Book, ILoggedInUser } from '../../../Models/interfaces';
-import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
-import { InfoCardComponent } from '../../card-components/info-card/info-card.component';
-import {
-  BookTypeOptions,
-  BookStatusOptions,
-  GenreOptions,
-} from '../../../Helpers/Helper';
+import { BookStatusEnum } from '../../../Helpers/Enums/enum';
+import { BookStatusOptions, GenreOptions } from '../../../Helpers/Helper';
+
 @Component({
   selector: 'app-book-cover-list',
   templateUrl: './book-cover-list.component.html',
   styleUrls: ['./book-cover-list.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule],
 })
 export class BookCoverListComponent {
   @Input() books: Book[] = [];
   @Input() currentUserId!: string;
   @Input() user: ILoggedInUser | null = null;
-  @Output() onEdit = new EventEmitter<Book>();
-  @Output() onDelete = new EventEmitter<string>();
-  @Output() onUpdateStatus = new EventEmitter<{
-    bookId: string;
-    userId: string;
-    bookStatus: BookStatusEnum;
-  }>();
-  @Output() onSave = new EventEmitter<Book>();
-  @Output() onCancel = new EventEmitter<void>();
+  @Input() viewMode: 'grid' | 'list' = 'grid';
   @Output() bookRowClicked = new EventEmitter<Book>();
+  @Output() readListToggled = new EventEmitter<Book>();
 
-  bookTypeOptions = BookTypeOptions;
-  bookStatusOptions = BookStatusOptions;
   genreOptions = GenreOptions;
-  isSuperAdmin: boolean = false;
-  selectedBook: Book | null = null;
-  selectedBookReviews: any[] = [];
-  showInfoCard = false;
+  readonly fallbackCover = 'assets/images/book-covers/BrownBook.svg';
 
-  constructor() {}
-  @ViewChild(InfoCardComponent) infoCardComponent?: InfoCardComponent;
+  isInReadList(book: Book): boolean {
+    return this.user?.readList?.some((item) => +item.bookId === +book.bookId) ?? false;
+  }
 
-  ngOnInit() {
-    if (this.user?.isSuperAdmin) {
-      this.isSuperAdmin = true;
+  // Only flag books that can't be borrowed right now; "Available" is the norm
+  statusBadge(book: Book): string | null {
+    switch (book.bookStatus) {
+      case BookStatusEnum.Reserved:
+      case BookStatusEnum.CheckedOut:
+      case BookStatusEnum.Overdue:
+        return BookStatusOptions.displayNames[book.bookStatus];
+      default:
+        return null;
     }
   }
 
-  updateBookStatus(book: Book, userId: string, bookStatus: string) {
-    const statusEnumValue = Number(bookStatus) as BookStatusEnum;
-    const targetUserId = this.isSuperAdmin ? userId : this.currentUserId;
-    this.onUpdateStatus.emit({
-      bookId: book.bookId,
-      userId: targetUserId,
-      bookStatus: statusEnumValue,
-    });
+  reviewCount(book: Book): number {
+    return book.reviews?.length ?? 0;
   }
 
-  saveBook(book: Book) {
-    book.genre = Number(book.genre) as GenreEnums;
-    this.onSave.emit(book);
-  }
-
-  cancelEdit() {
-    this.onCancel.emit();
-  }
-
-  onBookRowClick(book: Book, event?: MouseEvent | KeyboardEvent | Event) {
-    // optional: prevent default for keyboard activation
+  openBook(book: Book, event?: Event) {
     if (event instanceof KeyboardEvent) {
       event.preventDefault();
     }
     this.bookRowClicked.emit(book);
+  }
+
+  toggleReadList(book: Book, event: Event) {
+    event.stopPropagation(); // don't also open the book
+    this.readListToggled.emit(book);
   }
 }

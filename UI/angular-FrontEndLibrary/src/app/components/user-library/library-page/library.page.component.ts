@@ -15,7 +15,7 @@ import { SearchComponent } from '../search/search.component';
 import { BookListComponent } from '../book-list/book-list.component';
 import { BookCoverListComponent } from '../book-cover-list/book-cover-list.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GenreListComponent } from '../genre-list/genre-list.component';
+import { FormsModule } from '@angular/forms';
 import {
   InfoCardColumn2,
   InfoCardColumn3,
@@ -27,18 +27,47 @@ import {
   BookStatusOptions,
   GenreOptions,
 } from '../../../Helpers/Helper';
+
+type StatusFilter = 'all' | 'available' | 'reserved' | 'checkedOut';
+type SortOption = 'title' | 'author' | 'newest';
+
 @Component({
   selector: 'app-library',
   templateUrl: './library-page.component.html',
   styleUrls: ['./library-page.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [BookCoverListComponent, GenreListComponent, InfoCardComponent],
+  imports: [BookCoverListComponent, InfoCardComponent, FormsModule],
 })
 export class LibraryComponent {
   user: ILoggedInUser | null = null;
   currentUserId: string = '';
-  books: Book[] = [];
+  books: Book[] = []; // Every book; the template shows visibleBooks
+  loading = true;
+  loadError = false;
+
+  // Filtering and sorting happen client-side over the loaded books
+  searchTerm = '';
+  selectedGenre: GenreEnums = GenreEnums.All;
+  selectedStatus: StatusFilter = 'all';
+  sortBy: SortOption = 'title';
+  viewMode: 'grid' | 'list' = 'grid';
+
+  statusFilters: { value: StatusFilter; label: string }[] = [
+    { value: 'all', label: 'All' },
+    { value: 'available', label: 'Available' },
+    { value: 'reserved', label: 'Reserved' },
+    { value: 'checkedOut', label: 'Checked out' },
+  ];
+  sortOptions: { value: SortOption; label: string }[] = [
+    { value: 'title', label: 'Title (A–Z)' },
+    { value: 'author', label: 'Author (A–Z)' },
+    { value: 'newest', label: 'Newest published' },
+  ];
+  genreChoices = Object.values(GenreEnums)
+    .filter((g): g is GenreEnums => typeof g === 'number')
+    .filter((g) => g !== GenreEnums.None)
+    .map((g) => ({ value: g, label: GenreOptions.displayNames[g] }));
   editBook: Book | null = null;
   showInfoCard = false;
   selectedBook: Book | null = null;
@@ -71,27 +100,99 @@ export class LibraryComponent {
         this.updateInfoCardActions(this.selectedBook);
       }
     });
-    // Genre filtering via /library?genre=<GenreEnums key>
+    // Genre and search live in the URL (/library?genre=Fantasy&q=dune) so the
+    // topbar search and links can point straight at a filtered view
     this.route.queryParamMap.subscribe((params) => {
       const genre = GenreEnums[params.get('genre') as keyof typeof GenreEnums];
-      this.onGenreSelected(genre ?? GenreEnums.All);
+      this.selectedGenre = genre ?? GenreEnums.All;
+      this.searchTerm = params.get('q') ?? '';
     });
-    console.log('User:', this.user);
+    this.getAllBooks();
   }
 
   getAllBooks() {
     this.libraryService.getAllBooks().subscribe(
       (response: { isSuccess: boolean; result: Book[] }) => {
-        if (response.isSuccess && Array.isArray(response.result)) {
-          this.books = response.result;
-        } else {
-          this.books = [];
-        }
+        this.books =
+          response.isSuccess && Array.isArray(response.result)
+            ? response.result
+            : [];
+        this.loading = false;
+        this.loadError = false;
       },
       (error) => {
         this.books = [];
+        this.loading = false;
+        this.loadError = true;
       },
     );
+  }
+
+  get visibleBooks(): Book[] {
+    const term = this.searchTerm.trim().toLowerCase();
+    const filtered = this.books.filter(
+      (book) =>
+        (this.selectedGenre === GenreEnums.All ||
+          book.genre === this.selectedGenre) &&
+        this.matchesStatus(book) &&
+        (!term ||
+          book.title?.toLowerCase().includes(term) ||
+          book.author?.toLowerCase().includes(term) ||
+          GenreOptions.displayNames[book.genre]?.toLowerCase().includes(term)),
+    );
+    return filtered.sort((a, b) => {
+      switch (this.sortBy) {
+        case 'author':
+          return (a.author ?? '').localeCompare(b.author ?? '');
+        case 'newest':
+          return (
+            (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0)
+          );
+        default:
+          return (a.title ?? '').localeCompare(b.title ?? '');
+      }
+    });
+  }
+
+  private matchesStatus(book: Book): boolean {
+    switch (this.selectedStatus) {
+      case 'available':
+        return (
+          book.bookStatus === BookStatusEnum.Available ||
+          book.bookStatus === BookStatusEnum.Returned
+        );
+      case 'reserved':
+        return book.bookStatus === BookStatusEnum.Reserved;
+      case 'checkedOut':
+        return (
+          book.bookStatus === BookStatusEnum.CheckedOut ||
+          book.bookStatus === BookStatusEnum.Overdue
+        );
+      default:
+        return true;
+    }
+  }
+
+  // Keep genre and search in the URL without adding history entries per keystroke
+  updateQueryParams() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        genre:
+          this.selectedGenre === GenreEnums.All
+            ? null
+            : GenreEnums[this.selectedGenre],
+        q: this.searchTerm.trim() || null,
+      },
+      replaceUrl: true,
+    });
+  }
+
+  clearFilters() {
+    this.searchTerm = '';
+    this.selectedGenre = GenreEnums.All;
+    this.selectedStatus = 'all';
+    this.updateQueryParams();
   }
 
   updateStatus(event: {
@@ -171,7 +272,7 @@ export class LibraryComponent {
               (review: any): InfoCardDisplayRow[] => [
                 { label: '', value: review.userName },
                 { label: '', value: review.createdAt },
-                { label: '', value: `Betyg: ${review.ratingItem?.rating}` },
+                { label: '', value: `Rating: ${review.ratingItem?.rating}` },
                 { isBreak: true, value: '' },
                 { label: '', value: review.reviewHeader },
                 { label: '', value: review.reviewText },
@@ -201,16 +302,16 @@ export class LibraryComponent {
 
     this.infoCardActions = [
       {
-        label: isCheckedOutByUser ? 'Återlämna' : 'Låna',
+        label: isCheckedOutByUser ? 'Return' : 'Borrow',
         action: () => this.toggleBorrow(book),
         disabled: this.isBorrowDisabled(book),
       },
       {
-        label: isReservedByUser ? 'Ta bort reservation' : 'Reservera',
+        label: isReservedByUser ? 'Cancel reservation' : 'Reserve',
         action: () => this.toggleReservation(book),
       },
       {
-        label: isInReadList ? 'Ta bort från läslista' : 'Lägg till i läslista',
+        label: isInReadList ? 'Remove from reading list' : 'Add to reading list',
         action: () => this.toggleReadList(book),
       },
     ];
@@ -320,8 +421,8 @@ export class LibraryComponent {
     const statusObj = this.getBookStatusDisplay(this.selectedBook);
     return {
       rows: [
-        { title: 'Titel', value: this.selectedBook.title ?? '' },
-        { title: 'Författare', value: this.selectedBook.author ?? '' },
+        { title: 'Title', value: this.selectedBook.title ?? '' },
+        { title: 'Author', value: this.selectedBook.author ?? '' },
       ],
       rowPairs: [
         {
@@ -335,7 +436,7 @@ export class LibraryComponent {
               '',
           },
           second: {
-            title: 'Boktyp',
+            title: 'Book type',
             value:
               this.bookTypeOptions.displayNames[
                 this.selectedBook.bookType
@@ -344,14 +445,14 @@ export class LibraryComponent {
         },
         {
           first: {
-            title: 'Publicerad',
+            title: 'Published',
             value: this.selectedBook.publicationYear?.toString() || '',
           },
           second: { title: statusObj.status, value: statusObj.availability },
         },
       ],
       longText: {
-        title: 'Bokbeskrivning',
+        title: 'Description',
         value: this.selectedBook.bookDescription ?? '',
       },
     };
@@ -362,7 +463,7 @@ export class LibraryComponent {
     return {
       rows: [
         {
-          title: 'Recensioner',
+          title: 'Reviews',
           value: this.selectedBookReviews, // This is InfoCardDisplayRow[][]
         },
       ],
@@ -370,14 +471,7 @@ export class LibraryComponent {
   }
 
   onGenreSelected(genre: GenreEnums) {
-    if (genre === GenreEnums.All) {
-      this.getAllBooks(); // Fetch all books
-    } else {
-      this.libraryService
-        .getBooksByGenre(genre, 'Title', true)
-        .subscribe((response) => {
-          this.books = response.isSuccess ? response.result : [];
-        });
-    }
+    this.selectedGenre = genre;
+    this.updateQueryParams();
   }
 }
