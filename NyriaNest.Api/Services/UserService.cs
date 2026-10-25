@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
 using NyriaNest.Api.Data;
 using NyriaNest.Api.Helpers.Enums;
 using NyriaNest.Api.Models;
