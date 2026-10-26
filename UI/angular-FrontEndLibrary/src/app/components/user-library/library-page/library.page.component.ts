@@ -18,8 +18,6 @@ import { UserActionsService } from '../../../Services/user-actions.service';
 import { AuthService } from '../../../Services/auth.service';
 import { LibraryUiService } from '../../../Services/library-ui.service';
 import { BookStatusEnum, BookTypeEnums, GenreEnums } from '../../../Helpers/Enums/enum';
-import { SearchComponent } from '../search/search.component';
-import { BookListComponent } from '../book-list/book-list.component';
 import { BookCoverListComponent } from '../book-cover-list/book-cover-list.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
