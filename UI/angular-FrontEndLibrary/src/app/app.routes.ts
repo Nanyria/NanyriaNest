@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LibraryComponent } from './components/user-library/library-page/library.page.component';
 import { AddBookComponent } from './components/admin/addBook/addBook.component';
-import { LoginComponent } from './components/Users/login-page/login.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserPageComponent } from './components/Users/user-page/user-page.component';
 import { UserSettingsComponent } from './components/Users/user-settings/user-settings-component';
@@ -12,7 +11,6 @@ import { UserCheckoutsComponent } from './components/Users/user-checkouts/user-c
 import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
 import { ManageBooksComponent } from './components/admin/manage-books/manage-books.component';
 import { ManageUsersComponent } from './components/admin/manage-users/manage-users.component';
-import { InfoCardComponent } from './components/card-components/info-card/info-card.component';
 import { AuthGuard } from './Services/auth.guard';
 import { StartPageComponent } from './components/start-page/start-page.component';
 export const routes: Routes = [
@@ -22,7 +20,6 @@ export const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: 'home', component: HomePageComponent },
-      { path: 'info-card', component: InfoCardComponent },
       { path: 'library', component: LibraryComponent },
       { path: 'add-book', component: AddBookComponent },
       {

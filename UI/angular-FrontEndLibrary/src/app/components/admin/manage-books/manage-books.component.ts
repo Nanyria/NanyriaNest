@@ -12,7 +12,6 @@ import {
   BookStatusOptions,
   GenreOptions,
 } from '../../../Helpers/Helper';
-import { AdminBookCardComponent } from '../../card-components/admin-book-card/admin-book-card.component';
 @Component({
   selector: 'app-manage-books',
   templateUrl: './manage-books.component.html',
@@ -22,7 +21,6 @@ import { AdminBookCardComponent } from '../../card-components/admin-book-card/ad
   imports: [
     AdminSearchComponent,
     AdminBookListComponent,
-    AdminBookCardComponent,
   ],
 })
 export class ManageBooksComponent {
