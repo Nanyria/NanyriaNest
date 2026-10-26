@@ -1,0 +1,92 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.strip {
+  position: relative;
+  --fade-left: 0px;
+  --fade-right: 0px;
+}
+
+.strip.can-scroll-left {
+  --fade-left: 32px;
+}
+
+.strip.can-scroll-right {
+  --fade-right: 32px;
+}
+
+.strip__viewport {
+  position: relative; /* offsetLeft of the items is measured from here */
+  display: flex;
+  gap: var(--nn-space-3);
+  padding: 4px 2px 10px; /* room for the hover lift, focus ring and shadows */
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Fade the edges that have more content beyond them */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--fade-left),
+    #000 calc(100% - var(--fade-right)),
+    transparent 100%
+  );
+}
+
+.strip__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Round gold arrows over the strip's ends. A container can push them outwards
+   with --strip-arrow-offset, e.g. to sit on a panel's border as in the mockup. */
+.strip__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--nn-gold);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f6e3b5, #e2c48a);
+  box-shadow: var(--nn-shadow);
+  color: var(--nn-ink-strong);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.strip__arrow:first-child {
+  left: var(--strip-arrow-offset, 0px);
+  transform: translateY(-50%);
+}
+
+.strip__arrow:last-child {
+  right: var(--strip-arrow-offset, 0px);
+  transform: translateY(-50%);
+}
+
+.strip__arrow:hover:not(:disabled) {
+  transform: translateY(-50%) scale(1.06);
+}
+
+/* At an end there's nothing more to scroll to */
+.strip__arrow:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Everything fits: no arrows needed */
+.strip:not(.can-scroll-left):not(.can-scroll-right) .strip__arrow {
+  display: none;
+}
+
+/* Swiping replaces the arrows on phones */
+@media (max-width: 600px) {
+  .strip__arrow {
+    display: none;
+  }
+}

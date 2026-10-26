@@ -1,182 +1,356 @@
 <div class="library">
-  <!-- <header class="nn-page-header library__header">
-    <svg class="library__compass" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-linejoin="round">
-      <circle cx="32" cy="32" r="18" stroke-width="1" />
-      <circle cx="32" cy="32" r="13" stroke-width="0.6" opacity="0.6" />
-      <path d="M32 2 L36 28 L62 32 L36 36 L32 62 L28 36 L2 32 L28 28 Z" stroke-width="1.2" />
-      <path d="M32 14 L34 30 L50 32 L34 34 L32 50 L30 34 L14 32 L30 30 Z" fill="currentColor" stroke="none" opacity="0.35" />
-      <circle cx="32" cy="32" r="2.5" fill="currentColor" stroke="none" />
-    </svg>
-    <div>
-      <h1 class="nn-page-title">Library<span class="nn-title-flourish" aria-hidden="true"></span></h1>
-      <p class="nn-page-subtitle">
-        Explore the collection, manage your loans and discover new titles.
-      </p>
+  <!-- Search and filters for small screens; on desktop they live in the topbar -->
+  <div class="library__mobile-tools">
+    <div class="nn-field">
+      <i class="bi bi-search"></i>
+      <input
+        class="nn-input"
+        type="search"
+        placeholder="Search the library …"
+        aria-label="Search the library"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="updateQueryParams()"
+      />
     </div>
-    <span class="nn-page-header__art" aria-hidden="true"></span>
-  </header> -->
-
-  <!-- Illustrated genre cards; the row scrolls sideways -->
-  <section class="genres" aria-labelledby="genres-title">
-    <div class="genres__header">
-      <h2 id="genres-title" class="genres__title">Explore genres</h2>
-      @if (selectedGenre !== allGenres) {
-        <button type="button" class="nn-link genres__all" (click)="onGenreSelected(allGenres)">
-          All genres <i class="bi bi-arrow-right"></i>
-        </button>
-      }
-    </div>
-
-    <div
-      class="genre-strip"
-      [class.can-scroll-left]="canScrollLeft"
-      [class.can-scroll-right]="canScrollRight"
+    <button
+      type="button"
+      class="nn-btn nn-btn--outline"
+      aria-controls="library-filters"
+      (click)="filtersOpen ? closeFilters() : openFilters()"
     >
+      <i class="bi bi-sliders"></i>Filters
+    </button>
+  </div>
+
+  <ng-template #genreCard let-genre>
+    <button
+      type="button"
+      class="genre-card"
+      [class.is-active]="selectedGenre === genre.value"
+      [attr.aria-pressed]="selectedGenre === genre.value"
+      [attr.data-genre]="genre.value"
+      [style.--genre-tint]="genre.tint"
+      [style.--genre-ink]="genre.ink"
+      (click)="onGenreSelected(selectedGenre === genre.value ? allGenres : genre.value)"
+    >
+      <span class="genre-card__art" aria-hidden="true">
+        @if (genre.image) {
+          <img [src]="genre.image" alt="" loading="lazy" />
+        } @else {
+          <i class="bi {{ genre.icon }}"></i>
+        }
+      </span>
+      <span class="genre-card__label">{{ genre.label }}</span>
+    </button>
+  </ng-template>
+
+  <!-- Illustrated genre cards; the row scrolls sideways or expands to a grid -->
+  <section class="nn-panel nn-panel--ornate library__section" aria-labelledby="genres-title">
+    <header class="nn-section-header">
+      <svg class="library__section-icon" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-linejoin="round">
+        <circle cx="32" cy="32" r="18" stroke-width="1" />
+        <circle cx="32" cy="32" r="13" stroke-width="0.6" opacity="0.6" />
+        <path d="M32 2 L36 28 L62 32 L36 36 L32 62 L28 36 L2 32 L28 28 Z" stroke-width="1.2" />
+        <path d="M32 14 L34 30 L50 32 L34 34 L32 50 L30 34 L14 32 L30 30 Z" fill="currentColor" stroke="none" opacity="0.35" />
+        <circle cx="32" cy="32" r="2.5" fill="currentColor" stroke="none" />
+      </svg>
+      <div>
+        <h2 id="genres-title" class="nn-section-header__title">Explore genres</h2>
+        <p class="nn-section-header__subtitle">Find your next adventure by genre.</p>
+      </div>
       <button
         type="button"
-        class="genre-strip__arrow"
-        aria-label="Scroll genres left"
-        [disabled]="!canScrollLeft"
-        (click)="scrollGenres(-1)"
+        class="nn-link library__action"
+        [attr.aria-expanded]="genresExpanded"
+        (click)="genresExpanded = !genresExpanded"
       >
-        <i class="bi bi-chevron-left"></i>
+        {{ genresExpanded ? 'Show less' : 'View all' }}
+        <i class="bi" [class.bi-arrow-right]="!genresExpanded" [class.bi-arrow-up]="genresExpanded"></i>
       </button>
+    </header>
 
-      <div
-        #genreScroller
-        class="genre-strip__scroller"
-        role="group"
-        aria-label="Filter by genre"
-        (scroll)="updateGenreArrows()"
-      >
+    @if (genresExpanded) {
+      <div class="genre-grid" role="group" aria-label="Filter by genre">
         @for (genre of genreCards; track genre.value) {
-          <button
-            type="button"
-            class="genre-card"
-            [class.is-active]="selectedGenre === genre.value"
-            [attr.aria-pressed]="selectedGenre === genre.value"
-            [attr.data-genre]="genre.value"
-            [style.--genre-tint]="genre.tint"
-            [style.--genre-ink]="genre.ink"
-            (click)="onGenreSelected(selectedGenre === genre.value ? allGenres : genre.value)"
-          >
-            <span class="genre-card__art" aria-hidden="true">
-              @if (genre.image) {
-                <img [src]="genre.image" alt="" loading="lazy" />
-              } @else {
-                <i class="bi {{ genre.icon }}"></i>
-              }
-            </span>
-            <span class="genre-card__label">{{ genre.label }}</span>
-          </button>
+          <ng-container *ngTemplateOutlet="genreCard; context: { $implicit: genre }"></ng-container>
         }
       </div>
-
-      <button
-        type="button"
-        class="genre-strip__arrow"
-        aria-label="Scroll genres right"
-        [disabled]="!canScrollRight"
-        (click)="scrollGenres(1)"
-      >
-        <i class="bi bi-chevron-right"></i>
-      </button>
-    </div>
-  </section>
-
-  <span class="nn-ornate-divider" aria-hidden="true"></span>
-
-  <section class="nn-panel library__panel">
-    <div class="library__toolbar">
-      <div class="nn-field library__search">
-        <i class="bi bi-search"></i>
-        <input
-          class="nn-input"
-          type="search"
-          placeholder="Search the library …"
-          aria-label="Search the library"
-          [(ngModel)]="searchTerm"
-          (ngModelChange)="updateQueryParams()"
-        />
-      </div>
-
-      <label class="nn-select-field">
-        <i class="bi bi-arrow-down-up"></i>
-        <span class="visually-hidden">Sort by</span>
-        <select class="nn-select" [(ngModel)]="sortBy">
-          @for (option of sortOptions; track option.value) {
-            <option [ngValue]="option.value">{{ option.label }}</option>
-          }
-        </select>
-      </label>
-
-      <div class="nn-segmented" role="group" aria-label="View">
-        <button
-          type="button"
-          [class.is-active]="viewMode === 'grid'"
-          [attr.aria-pressed]="viewMode === 'grid'"
-          aria-label="Grid view"
-          (click)="viewMode = 'grid'"
-        >
-          <i class="bi bi-grid-fill"></i>
-        </button>
-        <button
-          type="button"
-          [class.is-active]="viewMode === 'list'"
-          [attr.aria-pressed]="viewMode === 'list'"
-          aria-label="List view"
-          (click)="viewMode = 'list'"
-        >
-          <i class="bi bi-list-ul"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="library__filters">
-      @for (filter of statusFilters; track filter.value) {
-        <button
-          type="button"
-          class="nn-chip"
-          [class.is-active]="selectedStatus === filter.value"
-          [attr.aria-pressed]="selectedStatus === filter.value"
-          (click)="selectedStatus = filter.value"
-        >
-          {{ filter.label }}
-        </button>
-      }
-      <span class="library__rule" aria-hidden="true"></span>
-      @if (!loading) {
-        <span class="library__count">
-          {{ visibleBooks.length }} {{ visibleBooks.length === 1 ? 'book' : 'books' }}
-        </span>
-      }
-    </div>
-
-    @if (loading) {
-      <p class="library__message">Loading books …</p>
-    } @else if (loadError) {
-      <p class="library__message">
-        <i class="bi bi-exclamation-circle"></i>
-        The library couldn't be loaded. Please try again later.
-      </p>
-    } @else if (visibleBooks.length === 0) {
-      <div class="library__message">
-        <p>No books match your filters.</p>
-        <button type="button" class="nn-btn nn-btn--outline" (click)="clearFilters()">
-          Clear filters
-        </button>
-      </div>
     } @else {
-      <app-book-cover-list
-        [books]="visibleBooks"
-        [user]="user"
-        [currentUserId]="currentUserId"
-        [viewMode]="viewMode"
-        (bookRowClicked)="onBookRowClicked($event)"
-        (readListToggled)="toggleReadList($event)"
-      ></app-book-cover-list>
+      <app-scroll-strip #genreStrip label="Filter by genre">
+        @for (genre of genreCards; track genre.value) {
+          <ng-container *ngTemplateOutlet="genreCard; context: { $implicit: genre }"></ng-container>
+        }
+      </app-scroll-strip>
     }
   </section>
+
+  <span class="library__joint" aria-hidden="true"></span>
+
+  @if (isResultsMode) {
+    <!-- Results: every book matching the search and filters -->
+    <section class="nn-panel nn-panel--ornate library__section" aria-labelledby="results-title">
+      <header class="nn-section-header">
+        <i class="bi bi-search nn-section-header__icon library__section-icon"></i>
+        <div>
+          <h2 id="results-title" class="nn-section-header__title">{{ resultsTitle }}</h2>
+          @if (!loading && !ratingsLoading) {
+            <p class="nn-section-header__subtitle">
+              {{ visibleBooks.length }} {{ visibleBooks.length === 1 ? 'book' : 'books' }}
+            </p>
+          }
+        </div>
+        <button type="button" class="nn-link library__action" (click)="clearFilters()">
+          <i class="bi bi-arrow-left"></i>
+          {{ activeFilters.length ? 'Clear filters' : 'Back to browse' }}
+        </button>
+      </header>
+
+      <div class="library__toolbar">
+        <div class="library__active-filters">
+          @for (filter of activeFilters; track filter.label) {
+            <button
+              type="button"
+              class="nn-chip is-active library__filter-chip"
+              [attr.aria-label]="'Remove filter ' + filter.label"
+              (click)="filter.clear()"
+            >
+              {{ filter.label }} <i class="bi bi-x"></i>
+            </button>
+          }
+        </div>
+
+        <label class="nn-select-field">
+          <i class="bi bi-arrow-down-up"></i>
+          <span class="visually-hidden">Sort by</span>
+          <select class="nn-select" [(ngModel)]="sortBy">
+            @for (option of sortOptions; track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </label>
+
+        <div class="nn-segmented" role="group" aria-label="View">
+          <button
+            type="button"
+            [class.is-active]="viewMode === 'grid'"
+            [attr.aria-pressed]="viewMode === 'grid'"
+            aria-label="Grid view"
+            (click)="viewMode = 'grid'"
+          >
+            <i class="bi bi-grid-fill"></i>
+          </button>
+          <button
+            type="button"
+            [class.is-active]="viewMode === 'list'"
+            [attr.aria-pressed]="viewMode === 'list'"
+            aria-label="List view"
+            (click)="viewMode = 'list'"
+          >
+            <i class="bi bi-list-ul"></i>
+          </button>
+        </div>
+      </div>
+
+      @if (loading || ratingsLoading) {
+        <p class="library__message">Loading books …</p>
+      } @else if (loadError) {
+        <p class="library__message">
+          <i class="bi bi-exclamation-circle"></i>
+          The library couldn't be loaded. Please try again later.
+        </p>
+      } @else if (visibleBooks.length === 0) {
+        <div class="library__message">
+          <p>No books match your filters.</p>
+          <button type="button" class="nn-btn nn-btn--outline" (click)="clearFilters()">
+            Clear filters
+          </button>
+        </div>
+      } @else {
+        <app-book-cover-list
+          [books]="visibleBooks"
+          [user]="user"
+          [currentUserId]="currentUserId"
+          [viewMode]="viewMode"
+          (bookRowClicked)="onBookRowClicked($event)"
+          (readListToggled)="toggleReadList($event)"
+        ></app-book-cover-list>
+      }
+    </section>
+  } @else if (loading || loadError || books.length === 0) {
+    <section class="nn-panel nn-panel--ornate library__section">
+      <p class="library__message">
+        @if (loading) {
+          Loading books …
+        } @else if (loadError) {
+          <i class="bi bi-exclamation-circle"></i>
+          The library couldn't be loaded. Please try again later.
+        } @else {
+          The library has no books yet.
+        }
+      </p>
+    </section>
+  } @else {
+    <!-- Browse: shelves that scroll sideways -->
+    <section class="nn-panel nn-panel--ornate library__section" aria-labelledby="recent-title">
+      <header class="nn-section-header">
+        <i class="bi bi-book-half nn-section-header__icon library__section-icon"></i>
+        <div>
+          <h2 id="recent-title" class="nn-section-header__title">Recently published</h2>
+          <p class="nn-section-header__subtitle">The newest titles in the collection.</p>
+        </div>
+        <button type="button" class="nn-link library__action" (click)="seeAll('newest')">
+          See all <i class="bi bi-arrow-right"></i>
+        </button>
+      </header>
+      <app-scroll-strip label="Recently published books">
+        <app-book-cover-list
+          [books]="recentlyPublishedBooks"
+          [user]="user"
+          [currentUserId]="currentUserId"
+          [shelf]="true"
+          (bookRowClicked)="onBookRowClicked($event)"
+          (readListToggled)="toggleReadList($event)"
+        ></app-book-cover-list>
+      </app-scroll-strip>
+    </section>
+
+    <span class="library__joint" aria-hidden="true"></span>
+
+    <section class="nn-panel nn-panel--ornate library__section" aria-labelledby="popular-title">
+      <header class="nn-section-header">
+        <i class="bi bi-stars nn-section-header__icon library__section-icon"></i>
+        <div>
+          <h2 id="popular-title" class="nn-section-header__title">Reader favorites</h2>
+          <p class="nn-section-header__subtitle">Titles with the most reviews from readers.</p>
+        </div>
+        <button type="button" class="nn-link library__action" (click)="seeAll('popular')">
+          See all <i class="bi bi-arrow-right"></i>
+        </button>
+      </header>
+      <app-scroll-strip label="Reader favorites">
+        <app-book-cover-list
+          [books]="popularBooks"
+          [user]="user"
+          [currentUserId]="currentUserId"
+          [shelf]="true"
+          (bookRowClicked)="onBookRowClicked($event)"
+          (readListToggled)="toggleReadList($event)"
+        ></app-book-cover-list>
+      </app-scroll-strip>
+    </section>
+  }
+
+  <!-- "Refine your search": edits a draft that applies on "Apply filters" -->
+  @if (filtersOpen) {
+    <div class="filter-backdrop" (click)="closeFilters()">
+      <aside
+        id="library-filters"
+        class="filter-panel"
+        role="dialog"
+        aria-labelledby="filter-title"
+        (click)="$event.stopPropagation()"
+      >
+        <span class="nn-corner nn-corner--tl" aria-hidden="true"></span>
+        <span class="nn-corner nn-corner--tr" aria-hidden="true"></span>
+
+        <header class="filter-panel__heading">
+          <h2 id="filter-title">Refine your search</h2>
+          <button type="button" class="nn-link filter-panel__reset" (click)="resetDraftFilters()">
+            Reset
+          </button>
+          <button
+            type="button"
+            class="filter-panel__close"
+            aria-label="Close filters"
+            (click)="closeFilters()"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </header>
+
+        <div class="nn-divider"><span class="nn-divider__mark"></span></div>
+
+        <fieldset>
+          <legend>Genre</legend>
+          <div class="filter-panel__chips">
+            @for (genre of filterGenreChips; track genre.value) {
+              <button
+                type="button"
+                class="nn-chip"
+                [class.is-active]="draft.genre === genre.value"
+                [attr.aria-pressed]="draft.genre === genre.value"
+                (click)="draft.genre = draft.genre === genre.value ? allGenres : genre.value"
+              >
+                {{ genre.label }}
+              </button>
+            }
+            @if (!allFilterGenresShown && hiddenFilterGenreCount > 0) {
+              <button
+                type="button"
+                class="nn-chip filter-panel__more"
+                (click)="allFilterGenresShown = true"
+              >
+                <i class="bi bi-plus"></i>More
+              </button>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Format</legend>
+          <div class="filter-panel__chips">
+            @for (format of formatFilters; track format.value) {
+              <button
+                type="button"
+                class="nn-chip"
+                [class.is-active]="draft.format === format.value"
+                [attr.aria-pressed]="draft.format === format.value"
+                (click)="draft.format = draft.format === format.value ? 'all' : format.value"
+              >
+                {{ format.label }}
+              </button>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Minimum rating</legend>
+          <div class="filter-panel__choices">
+            @for (rating of ratingFilters; track rating) {
+              <label>
+                <input type="radio" name="minimumRating" [value]="rating" [(ngModel)]="draft.minimumRating" />
+                <span>
+                  {{ rating === 0 ? 'Any rating' : rating === 5 ? '5 stars' : rating + '+ stars' }}
+                </span>
+              </label>
+            }
+          </div>
+        </fieldset>
+
+        <div class="nn-divider"><span class="nn-divider__mark"></span></div>
+
+        <fieldset>
+          <legend>Availability</legend>
+          <div class="filter-panel__choices">
+            @for (filter of statusFilters; track filter.value) {
+              <label>
+                <input type="radio" name="availability" [value]="filter.value" [(ngModel)]="draft.status" />
+                <span>{{ filter.value === 'all' ? 'Any availability' : filter.label }}</span>
+              </label>
+            }
+          </div>
+        </fieldset>
+
+        <div class="nn-divider"><span class="nn-divider__mark"></span></div>
+
+        <button type="button" class="nn-btn nn-btn--primary nn-btn--block filter-panel__apply" (click)="applyFilters()">
+          <i class="bi bi-search"></i>Apply filters
+        </button>
+
+        <span class="filter-panel__art" aria-hidden="true"></span>
+      </aside>
+    </div>
+  }
 
   @if (showInfoCard) {
     <div class="info-card-overlay">

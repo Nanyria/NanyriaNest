@@ -10,6 +10,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from '../../../Services/auth.service';
+import { LibraryUiService } from '../../../Services/library-ui.service';
 import { ILoggedInUser } from '../../../Models/interfaces';
 import {
   ADMIN_NAV,
@@ -35,6 +36,7 @@ export class TopbarComponent {
   @Output() menuToggle = new EventEmitter<void>();
   currentUser: ILoggedInUser | null = null;
   openMenu: string | null = null; // id of the open dropdown, 'user' for the user menu
+  searchQuery = '';
 
   readonly entries: TopbarEntry[] = MAIN_NAV.map((entry) =>
     isNavGroup(entry)
@@ -45,16 +47,21 @@ export class TopbarComponent {
 
   constructor(
     private authService: AuthService,
+    private libraryUi: LibraryUiService,
     private router: Router,
     private elementRef: ElementRef,
   ) {
+    this.searchQuery = String(this.router.parseUrl(this.router.url).queryParams['q'] ?? '');
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
     });
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => (this.openMenu = null));
+      .subscribe(() => {
+        this.openMenu = null;
+        this.searchQuery = String(this.router.parseUrl(this.router.url).queryParams['q'] ?? '');
+      });
   }
 
   get hasNewNotification(): boolean {
@@ -78,6 +85,15 @@ export class TopbarComponent {
     this.router.navigate(['/library'], {
       queryParams: { q: term.trim() || null },
     });
+  }
+
+  // The Filters button only makes sense on the library page
+  get isLibraryPage(): boolean {
+    return this.router.url.startsWith('/library');
+  }
+
+  toggleFilters(): void {
+    this.libraryUi.toggleFilters();
   }
 
   toggleMenu(id: string) {

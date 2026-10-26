@@ -134,6 +134,8 @@ button.topbar__link:hover {
   margin-left: auto;
 }
 
+.topbar__filter { flex-shrink: 0; white-space: nowrap; }
+
 .topbar__actions {
   display: flex;
   align-items: center;
@@ -355,6 +357,7 @@ button.topbar__link:hover {
   }
 
   .topbar__search,
+  .topbar__filter,
   .topbar__caret {
     display: none;
   }

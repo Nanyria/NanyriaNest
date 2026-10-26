@@ -71,10 +71,23 @@
       #searchInput
       class="nn-input"
       type="search"
-      placeholder="Search books, authors …"
+      placeholder="Search books …"
       aria-label="Search the library"
+      [value]="searchQuery"
+      (input)="searchQuery = searchInput.value"
     />
   </form>
+
+  @if (isLibraryPage) {
+    <button
+      type="button"
+      class="nn-btn nn-btn--outline topbar__filter"
+      aria-controls="library-filters"
+      (click)="toggleFilters()"
+    >
+      <i class="bi bi-sliders"></i><span>Filters</span><i class="bi bi-chevron-down"></i>
+    </button>
+  }
 
   <div class="topbar__actions">
     <span
