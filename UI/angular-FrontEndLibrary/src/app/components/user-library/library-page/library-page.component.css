@@ -3,21 +3,28 @@
   margin: 0 auto;
 }
 
+/* Kept compact so the books start high on the page */
 .library__header {
   display: flex;
   align-items: center;
-  gap: var(--nn-space-4);
+  gap: var(--nn-space-3);
+  margin-bottom: var(--nn-space-4);
+}
+
+.library__header .nn-page-title {
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+}
+
+.library__header .nn-page-subtitle {
+  margin-top: 0;
+  font-size: 1.05rem;
 }
 
 .library__compass {
   flex-shrink: 0;
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   color: var(--nn-gold);
-}
-
-.library__ornament {
-  margin: var(--nn-space-4) auto var(--nn-space-5);
 }
 
 .library__panel {
@@ -39,7 +46,7 @@
 
 /* ---------- Explore genres ---------- */
 .genres {
-  margin-bottom: var(--nn-space-5);
+  margin-bottom: var(--nn-space-4);
 }
 
 .genres__header {
@@ -47,11 +54,11 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--nn-space-3);
-  margin-bottom: var(--nn-space-3);
+  margin-bottom: var(--nn-space-1);
 }
 
 .genres__title {
-  font-size: 1.9rem;
+  font-size: 1.4rem;
 }
 
 .genres__all {
@@ -127,17 +134,17 @@
 /* Genre card: tinted tile with an illustration and the name underneath */
 .genre-card {
   flex: 0 0 auto;
-  width: 132px;
-  height: 164px;
+  width: 112px;
+  height: 116px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: var(--nn-space-4) var(--nn-space-2) var(--nn-space-3);
-  border: 1px solid color-mix(in srgb, var(--genre-ink) 25%, var(--nn-gold-soft));
+  padding: var(--nn-space-3) var(--nn-space-2) var(--nn-space-2);
+  border: 1px solid color-mix(in srgb, var(--genre-ink) 45%, var(--genre-tint));
   border-radius: var(--nn-radius);
   background:
-    radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, 0.55), transparent 70%),
+    radial-gradient(ellipse at 50% 38%, rgba(255, 255, 255, 0.6), transparent 65%),
     var(--genre-tint);
   box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35), var(--nn-shadow);
   color: var(--nn-ink-strong);
@@ -158,22 +165,26 @@
 
 .genre-card__art {
   flex: 1;
+  min-height: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--genre-ink);
-  font-size: 3.4rem;
+  font-size: 2.3rem;
   line-height: 1;
 }
 
 .genre-card__art img {
-  max-width: 96px;
-  max-height: 96px;
+  width: 100%;
+  height: 100%;
+  max-width: 72px;
   object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgba(42, 22, 14, 0.2));
 }
 
 .genre-card__label {
-  font-size: 1.05rem;
+  font-size: 0.92rem;
   line-height: 1.2;
   text-align: center;
 }
@@ -256,16 +267,16 @@
   }
 
   .genre-card {
-    width: 112px;
-    height: 140px;
+    width: 96px;
+    height: 104px;
   }
 
   .genre-card__art {
-    font-size: 2.8rem;
+    font-size: 2rem;
   }
 
   .genres__title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 
   /* Search on its own row, then sort and the view toggle sharing a row */

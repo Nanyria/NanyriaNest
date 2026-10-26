@@ -15,8 +15,6 @@
     </div>
   </header>
 
-  <span class="nn-edge-ornament library__ornament"></span>
-
   <!-- Illustrated genre cards; the row scrolls sideways -->
   <section class="genres" aria-labelledby="genres-title">
     <div class="genres__header">
@@ -63,7 +61,7 @@
           >
             <span class="genre-card__art" aria-hidden="true">
               @if (genre.image) {
-                <img [src]="genre.image" alt="" />
+                <img [src]="genre.image" alt="" loading="lazy" />
               } @else {
                 <i class="bi {{ genre.icon }}"></i>
               }
