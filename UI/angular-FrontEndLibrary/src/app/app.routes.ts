@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { BuilderPage } from './components/builder-page.component';
 import { LibraryComponent } from './components/user-library/library-page/library.page.component';
 import { AddBookComponent } from './components/admin/addBook/addBook.component';
 import { LoginComponent } from './components/Users/login-page/login.component';
@@ -23,7 +22,6 @@ export const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: 'home', component: HomePageComponent },
-      { path: 'builder-page', component: BuilderPage },
       { path: 'info-card', component: InfoCardComponent },
       { path: 'library', component: LibraryComponent },
       { path: 'add-book', component: AddBookComponent },
