@@ -1,7 +1,8 @@
-﻿using NyriaNest.Api.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using NyriaNest.Api.Data;
 using NyriaNest.Api.Helpers.Enums;
 using NyriaNest.Api.Models.Books;
-using Microsoft.EntityFrameworkCore;
+using NyriaNest.Api.Models.Books.BookDTOs;
 using System.Net;
 
 namespace NyriaNest.Api.Repositories
@@ -60,7 +61,41 @@ namespace NyriaNest.Api.Repositories
                 .Where(b => b.Author.ToLower().Contains(author.ToLower()))
                 .ToListAsync();
         }
+        public async Task<List<LibraryBookDto>> GetLibraryListAsync(string? userId)
+        {
+            return await _db.Books
+                .AsNoTracking()
+                .OrderBy(b => b.Title)
+                .Select(b => new LibraryBookDto
+                {
+                    BookId = b.BookId,
+                    Title = b.Title,
+                    Author = b.Author,
+                    Genre = b.Genre,
+                    Language = b.Language,
+                    PublicationYear = b.PublicationYear,
+                    BookDescription = b.BookDescription,
+                    CoverImagePath = b.CoverImagePath,
+                    BookStatus = b.BookStatus,
+                    BookType = b.BookType,
+                    AvailabilityDate = b.AvailabilityDate,
+                    DateAdded = b.DateAdded,
 
+                    ReviewCount = b.Reviews.Count,
+                    AverageRating = b.Reviews
+                        .Where(r => r.RatingItem != null)
+                        .Average(r => (double?)r.RatingItem!.Rating),
+                    ReservationCount = b.Reservations.Count,
+
+                    IsCheckedOutByMe = userId != null && b.CheckedOutBy != null && b.CheckedOutBy.UserId == userId,
+                    IsReservedByMe = userId != null && b.Reservations.Any(r => r.UserId == userId),
+                    MyReservationAvailableDate = b.Reservations
+                        .Where(r => r.UserId == userId)
+                        .Select(r => r.AvailabilityDate)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+        }
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync(); 

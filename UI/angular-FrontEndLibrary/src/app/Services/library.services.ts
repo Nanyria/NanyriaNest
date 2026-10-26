@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Book} from '../Models/interfaces';
+import { Book, LibraryBook } from '../Models/interfaces';
 import { GenreEnums } from '../Helpers/Enums/enum';
 
 
@@ -14,8 +14,8 @@ export class LibraryService {
 
   constructor(private http: HttpClient) {}
 
-getAllBooks(): Observable<{ isSuccess: boolean; result: Book[] }> {
-  return this.http.get<{ isSuccess: boolean; result: Book[] }>(this.apiUrl);
+getAllBooks(): Observable<{ isSuccess: boolean; result: LibraryBook[] }> {
+  return this.http.get<{ isSuccess: boolean; result: LibraryBook[] }>(this.apiUrl);
 }
 
 

@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { Book, ILoggedInUser } from '../../../Models/interfaces';
+import { LibraryBook, ILoggedInUser } from '../../../Models/interfaces';
 import { BookStatusEnum } from '../../../Helpers/Enums/enum';
 import { BookStatusOptions, GenreOptions } from '../../../Helpers/Helper';
 
@@ -18,23 +18,23 @@ import { BookStatusOptions, GenreOptions } from '../../../Helpers/Helper';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BookCoverListComponent {
-  @Input() books: Book[] = [];
+  @Input() books: LibraryBook[] = [];
   @Input() currentUserId!: string;
   @Input() user: ILoggedInUser | null = null;
   @Input() viewMode: 'grid' | 'list' = 'grid';
   @Input() shelf = false;
-  @Output() bookRowClicked = new EventEmitter<Book>();
-  @Output() readListToggled = new EventEmitter<Book>();
+  @Output() bookRowClicked = new EventEmitter<LibraryBook>();
+  @Output() readListToggled = new EventEmitter<LibraryBook>();
 
   genreOptions = GenreOptions;
   readonly fallbackCover = 'assets/images/book-covers/BrownBook.svg';
 
-  isInReadList(book: Book): boolean {
+  isInReadList(book: LibraryBook): boolean {
     return this.user?.readList?.some((item) => +item.bookId === +book.bookId) ?? false;
   }
 
   // Only flag books that can't be borrowed right now; "Available" is the norm
-  statusBadge(book: Book): string | null {
+  statusBadge(book: LibraryBook): string | null {
     switch (book.bookStatus) {
       case BookStatusEnum.Reserved:
       case BookStatusEnum.CheckedOut:
@@ -45,18 +45,15 @@ export class BookCoverListComponent {
     }
   }
 
-  reviewCount(book: Book): number {
-    return book.reviews?.length ?? 0;
-  }
 
-  openBook(book: Book, event?: Event) {
+  openBook(book: LibraryBook, event?: Event) {
     if (event instanceof KeyboardEvent) {
       event.preventDefault();
     }
     this.bookRowClicked.emit(book);
   }
 
-  toggleReadList(book: Book, event: Event) {
+  toggleReadList(book: LibraryBook, event: Event) {
     event.stopPropagation(); // don't also open the book
     this.readListToggled.emit(book);
   }

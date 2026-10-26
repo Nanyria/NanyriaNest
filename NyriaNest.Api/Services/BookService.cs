@@ -33,6 +33,7 @@ namespace NyriaNest.Api.Services
         Task<APIResponse<List<Book>>> GetBooksByGenreAsync(GenreEnums genre, string sortBy = "Title", bool ascending = true);
         Task<APIResponse<List<BookReviewDto>>> GetBookReviewsAsync (int bookId);
         Task<APIResponse<DateTime>> SetAvailabilityDatesForReservations(Book book);
+        Task<APIResponse<List<LibraryBookDto>>> GetLibraryAsync(string? userId);
     }
     public class BookService : IBookService
     {
@@ -625,6 +626,23 @@ namespace NyriaNest.Api.Services
             {
                 response.ErrorMessages.Add("Book not found.");
                 response.StatusCode = HttpStatusCode.NotFound;
+            }
+            return response;
+        }
+        public async Task<APIResponse<List<LibraryBookDto>>> GetLibraryAsync(string? userId)
+        {
+            var response = new APIResponse<List<LibraryBookDto>>();
+            try
+            {
+                response.Result = await _bookRepo.GetLibraryListAsync(userId);
+                response.IsSuccess = true;
+                response.StatusCode = HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.ErrorMessages.Add(ex.Message);
             }
             return response;
         }
