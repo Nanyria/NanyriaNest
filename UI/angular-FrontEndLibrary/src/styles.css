@@ -8,53 +8,9 @@
   --background-dark: rgba(31, 41, 55, 1);
   --background-light: rgba(55, 65, 81, 1);
   --background-beige: rgba(254, 235, 207 ,1);
-  --input-background: rgba(92, 80, 63, 1);
-  --input-text: rgba(255, 255, 255, 1);
   --text-light: rgba(255, 255, 255, 1);
   --text-dark: rgba(178, 178, 178, 1);
-  --text-muted: rgba(156, 163, 175, 1);
   --error-red: rgba(239, 68, 68, 1);
-  --disabled-gray: rgba(107, 114, 128, 1);
-  --navy-book-color: rgba(16, 38, 69, 1);
-  --red-dragon-color: rgba(143, 1, 24, 1);
-  --dark-brown: rgba(32, 17, 10, 1);
-  --emerald-green: rgba(16, 69, 52, 1); /* Define the emerald green color */
-  --royal-purple: rgba(58, 16, 69, 1);
-  --rich-brown: rgba(86, 50, 12, 1);
-  --dark-maroon: rgba(69, 16, 16, 1);
-  --leaf-green: #053702;
-  --golden-gradient: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
-                     radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
-  --shelf-height: 120px;
-  --width: 100%;
-  --height: 100%;
-  --depth: 25px;
-  --frame-thickness: 10px;
-  --sign-height: 100%;
-  --sideH: 820px;
-  --sideW: 180px;
-  --innerH: calc(var(--sideH) - 2 * var(--frame-thickness));
-  --innerW: calc(var(--sideW) - 2 * var(--frame-thickness));
-  --shelf-thickness: 12px;
-  --side-depth: 40px;
-
-  --shelf-left: calc(var(--width) - 130px);
-  --shelf-right: calc(var(--width) - 130px);
-  --shelf-h: 0%;
-    --wood4: linear-gradient(rgba(46,30,15,0.5), rgba(46,30,15,0.5)), url('/assets/images/webpage-images/backgrounds/wood4.png');
-  --wood3: linear-gradient(rgba(26, 17, 7, 0.7), rgba(26, 17, 7, 0.7)), url('/assets/images/webpage-images/backgrounds/wood3.png');
-  --frame: linear-gradient(rgba(169, 116, 79, 0.5), rgba(43, 30, 21, 0.5)), url('/assets/images/webpage-images/backgrounds/frame.png');
-  --frame-top: linear-gradient(rgba(89, 43, 0, 0.5), rgba(89, 43, 0, 0.5)), url('/assets/images/webpage-images/backgrounds/frame.png');
-  --frame-bot: linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), url('/assets/images/webpage-images/backgrounds/framebot.png');
-  --frame-left: linear-gradient(rgba(169, 116, 79, 0.5), rgba(169, 116, 79, 0.5)), url('/assets/images/webpage-images/backgrounds/frameleft.png');
-  --frame-right: linear-gradient(rgba(102, 57, 14, 0.5), rgba(102, 57, 14, 0.5)), url('/assets/images/webpage-images/backgrounds/frameright.png');
-  --bookThickness: 20px;
-  --bookHeight: 120px;
-  --bookWidth: 80px;
-  --splitT: calc(var(--bookThickness) *0.5);
-  --bookRotateZ: 110deg;
-  --bookZ: 1;
-  --bookTextColor: rgb(104, 29, 29);
 }
 
 p {
@@ -89,38 +45,6 @@ body {
   padding: 0;
 }
 
-.body-row {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 0 20px;
-}
-
-.left-bookshelf, .right-bookshelf,
-.left-bookshelf-container, .right-bookshelf-container {
-  flex: 0 0 180px;
-  max-width: 180px;
-  min-width: 180px;
-  min-height: 820px;
-
-}
-.left-bookshelf-container {
-  position: absolute;
-  left: 40px;
-  top: 20px;
-  width: 180px;
-  height: 100%;
-  pointer-events: none; /* bookshelf is under app-body, so not clickable unless you want it to be */
-}
-.right-bookshelf-container {
-  position: absolute;
-  right: 40px;
-  top: 20px;
-  width: 180px;
-  height: 100%;
-  pointer-events: none; /* bookshelf is under app-body, so not clickable unless you want it to be */
-}
-
 .left-bar, .right-bar {
   width: 180px; /* Adjust as needed */
   height: 100%;
@@ -143,10 +67,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-}
-.main {
-  position: relative;
-  width: 100%; /* 10/12 columns, adjust as needed */
 }
 body, html {
     height: 100%;
@@ -172,20 +92,6 @@ body, html {
   height: 100%;
   overflow: hidden;
 }
-.left col{
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center items vertically */
-  width: 100%;
-}
-.right col{
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center items vertically */
-  width: 100%;
-}
 
 
 .sub-header {
@@ -196,12 +102,6 @@ body, html {
   background-color: rgba(31, 41, 55, 1); /* Optional: Add background color */
   color: rgba(255, 255, 255, 1); /* Optional: Add text color */
 }
-
-.header-text{
-  display: flex;
-  justify-self: center;
-}
-
 
 
 /* General form group styles */
@@ -228,7 +128,10 @@ body, html {
 }
 
 /* General button styles */
-.btn-edit, .btn-delete, .btn-save, .btn-cancel, .btn-stock {
+.btn-edit,
+.btn-delete,
+.btn-save,
+.btn-cancel {
   background-color: transparent;
   border: none;
   padding: 1px 10px;
@@ -295,9 +198,6 @@ body, html {
 .row.book-row:hover {
   background: rgba(254, 235, 207, 1); /* or any highlight color you prefer */
 }
-.table-container{
-  padding: 12px;
-}
 .table-header-wrapper {
   position: sticky;
   top: 0;
@@ -325,98 +225,6 @@ body, html {
   max-height: 100%; /* or your preferred height */
   overflow-y: auto;
   width: 100%;
-}
-
-.table-custom {
-  border-radius: 8px !important;
-  background-color: rgba(31, 41, 55, 1) !important;
-  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
-  margin-top: 24px;
-  width: 100%;
-  max-width: 100%;
-  padding-bottom: 17px !important;
-  overflow: hidden;
-  border-collapse: separate !important;
-}
-
-.table-custom thead,
-.table-custom tr {
-  width: 100%;
-  display: table;
-  table-layout: fixed;
-}
-.table-custom .tr {
-  border-bottom: 1px solid rgba(55, 65, 81, 1);
-}
-
-.table-custom .thead {
-  color: rgba(156, 163, 175, 1);
-  text-transform: uppercase;
-  background-color: rgba(55, 65, 81, 1);
-  font: 600 12px/1 'Eagle Lake', cursive;;
-}
-.table-custom thead th {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background-color: rgba(55, 65, 81, 1); /* Match your header bg */
-}
-
-.table-custom .th-1, .table-custom .th-2, .table-custom .th-3 {
-  padding: 20px 24px;
-}
-.table-custom .th-1 , .table-custom .th-2 {
-  text-align: left;
-}
-.table-custom .th-1 {
-  width: 130px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  text-align: left;
-}
-.table-custom .th-3 , .table-custom .th-4{
-  text-align: center;
-}
-.table-custom .th-4 {
-  width: 130px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  text-align: left;
-}
-.table-custom .tbody {
-  color: rgba(255, 255, 255, 1);
-  font: 400 16px 'Texturina', serif;
-  display: block;
-    width: 100%;
-  /* Add this for scrolling: */
-  max-height: 350px; /* or your preferred height */
-  overflow-y: auto;
-}
-
-.table-custom .td {
-  text-align: left;
-  padding: 1px 24px; /* Ensure padding is applied */
-}
-.table-custom .td-action {
-  text-align: center;
-  padding: 1px 6x; /* Ensure padding is applied */
-}
-.table-custom .td-short {
-  text-align: left;
-  padding: 1px 5px; /* Ensure padding is applied */
-}
-.table-custom .td-1 {
-  width: 130px;
-  padding: 1px 40px; 
-  text-align: left;
-}
-
-.table-custom .td-2 {
-  width: 130px;
-  padding: 1px 5px; 
-  text-align: center;
 }
 
 .action-borrow img,
@@ -493,15 +301,3 @@ button {
   position: relative; /* Needed for absolute label positioning */
 }
 
-@media (max-width: 991px) {
-  .body {
-    max-width: 100%;
-    padding: 0 20px;
-    box-sizing: border-box; /* Ensure padding is included in the width */
-  }
-}
-@media (max-width: 991px) {
-  .container {
-    max-width: 100%;
-  }
-}

@@ -53,11 +53,6 @@
   border-radius: 50%;
   object-fit: cover;
 }
-
-.profile-picture-placeholder {
-  color: #aaa;
-  font-size: 1.1em;
-}
 .profile-picture-options {
   display: flex;
   gap: 1rem;
@@ -80,15 +75,6 @@
   padding: 16px;
   min-height: 400px;
   width: 80%;
-}
-
-.bio-label {
-  margin-bottom: 4px;
-  font-weight: bold;
-}
-
-.bio-content {
-  color: #444;
 }
 
 .form-group {

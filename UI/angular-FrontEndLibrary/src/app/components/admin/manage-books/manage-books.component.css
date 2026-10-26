@@ -2,11 +2,6 @@
   display: contents;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-}
-
 .library-layout {
   display: flex;
   flex-direction: row;

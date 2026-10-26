@@ -7,13 +7,11 @@ import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
 import { AdminSearchComponent } from '../admin-search/admin-search.component';
 import { AdminBookListComponent } from '../admin-book-list/admin-book-list.component';
 import { Router } from '@angular/router';
-import { GenreListComponent } from '../../user-library/genre-list/genre-list.component';
 import {
   BookTypeOptions,
   BookStatusOptions,
   GenreOptions,
 } from '../../../Helpers/Helper';
-import { AdminBookCardComponent } from '../../card-components/admin-book-card/admin-book-card.component';
 @Component({
   selector: 'app-manage-books',
   templateUrl: './manage-books.component.html',
@@ -23,8 +21,6 @@ import { AdminBookCardComponent } from '../../card-components/admin-book-card/ad
   imports: [
     AdminSearchComponent,
     AdminBookListComponent,
-    GenreListComponent,
-    AdminBookCardComponent,
   ],
 })
 export class ManageBooksComponent {
