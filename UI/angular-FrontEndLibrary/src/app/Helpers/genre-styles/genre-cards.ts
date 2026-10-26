@@ -21,7 +21,7 @@ export const GENRE_CARD_STYLES: Partial<Record<GenreEnums, GenreCardStyle>> = {
   [GenreEnums.Mystery]: { tint: '#cdd7df', ink: '#34506b', icon: 'bi-search', image: art('mystery') },
   [GenreEnums.ScienceFiction]: { tint: '#c9d3e6', ink: '#2f4a7a', icon: 'bi-rocket-takeoff-fill', image: art('science-fiction') },
   [GenreEnums.NonFiction]: { tint: '#e3d8c0', ink: '#5a4a30', icon: 'bi-bank2', image: art('non-fiction') },
-  [GenreEnums.Fiction]: { tint: '#ebd2b0', ink: '#6b3e1e', icon: 'bi-book-half' },
+  [GenreEnums.Fiction]: { tint: '#ebd2b0', ink: '#6b3e1e', icon: 'bi-book-half', image: art('fiction') },
   [GenreEnums.Biography]: { tint: '#dccfb6', ink: '#5d4a30', icon: 'bi-person-vcard-fill', image: art('biography') },
   [GenreEnums.FeelGood]: { tint: '#f6d8ae', ink: '#a8601a', icon: 'bi-sun-fill', image: art('feel-good') },
   [GenreEnums.Poetry]: { tint: '#e8cedb', ink: '#7a3a5a', icon: 'bi-feather', image: art('poetry') },
