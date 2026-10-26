@@ -11,9 +11,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgTemplateOutlet } from '@angular/common';
 
-import { Book, ILoggedInUser } from '../../../Models/interfaces';
+import { LibraryBook, ILoggedInUser } from '../../../Models/interfaces';
 import { LibraryService } from '../../../Services/library.services';
-import { BookService } from '../../../Services/book.services';
 import { UserActionsService } from '../../../Services/user-actions.service';
 import { AuthService } from '../../../Services/auth.service';
 import { LibraryUiService } from '../../../Services/library-ui.service';
@@ -37,8 +36,6 @@ import {
   GENRE_CARD_STYLES,
   GenreCardStyle,
 } from '../../../Helpers/genre-styles/genre-cards';
-import { catchError } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
 
 type StatusFilter = 'all' | 'available' | 'reserved' | 'checkedOut';
 type SortOption = 'title' | 'author' | 'added' | 'newest' | 'popular';
@@ -47,12 +44,11 @@ type BookFormatFilter = 'physical' | 'ebook' | 'audiobook' | 'all';
 // Genre chips shown in the filter panel before "+ More" is pressed
 const FILTER_GENRES_SHOWN = 6;
 
-const byRecentlyAdded = (a: Book, b: Book) =>
+const byRecentlyAdded = (a: LibraryBook, b: LibraryBook) =>
   (Date.parse(b.dateAdded) || 0) - (Date.parse(a.dateAdded) || 0);
-const byNewest = (a: Book, b: Book) =>
+const byNewest = (a: LibraryBook, b: LibraryBook) =>
   (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0);
-const byMostReviewed = (a: Book, b: Book) =>
-  (b.reviews?.length ?? 0) - (a.reviews?.length ?? 0);
+const byMostReviewed = (a: LibraryBook, b: LibraryBook) => b.reviewCount - a.reviewCount;
 
 @Component({
   selector: 'app-library',
@@ -72,7 +68,7 @@ export class LibraryComponent implements AfterViewInit {
   private destroyRef = inject(DestroyRef);
   user: ILoggedInUser | null = null;
   currentUserId: string = '';
-  books: Book[] = []; // Every book; the template shows visibleBooks
+  books: LibraryBook[] = []; // Every book; the template shows visibleBooks
   loading = true;
   loadError = false;
 
@@ -82,9 +78,6 @@ export class LibraryComponent implements AfterViewInit {
   selectedStatus: StatusFilter = 'all';
   selectedBookFormat: BookFormatFilter = 'all';
   selectedMinimumRating = 0;
-  averageRatings: Record<string, number> = {};
-  ratingsLoaded = false;
-  ratingsLoading = false;
   sortBy: SortOption = 'title';
   viewMode: 'grid' | 'list' = 'grid';
   showAll = false; // "See all" pressed: list every book even without filters
@@ -132,9 +125,8 @@ export class LibraryComponent implements AfterViewInit {
   readonly allGenres = GenreEnums.All;
 
   @ViewChild('genreStrip') genreStrip?: ScrollStripComponent;
-  editBook: Book | null = null;
   showInfoCard = false;
-  selectedBook: Book | null = null;
+  selectedBook: LibraryBook | null = null;
   selectedBookReviews: any[] = [];
   infoCardActions: { label: string; action: () => void; disabled?: boolean }[] =
     [];
@@ -144,7 +136,6 @@ export class LibraryComponent implements AfterViewInit {
   genreOptions = GenreOptions;
   constructor(
     private libraryService: LibraryService,
-    private bookService: BookService,
     private userActionsService: UserActionsService,
     private authService: AuthService,
     private libraryUi: LibraryUiService,
@@ -152,9 +143,6 @@ export class LibraryComponent implements AfterViewInit {
     private route: ActivatedRoute,
   ) {}
   @ViewChild(InfoCardComponent) infoCardComponent?: InfoCardComponent;
-  addNewBook() {
-    this.router.navigate(['/add-book']);
-  }
 
   ngOnInit(): void {
     this.libraryUi.filtersToggled$
@@ -186,13 +174,21 @@ export class LibraryComponent implements AfterViewInit {
 
   getAllBooks() {
     this.libraryService.getAllBooks().subscribe(
-      (response: { isSuccess: boolean; result: Book[] }) => {
+      (response: { isSuccess: boolean; result: LibraryBook[] }) => {
         this.books =
           response.isSuccess && Array.isArray(response.result)
             ? response.result
             : [];
         this.loading = false;
         this.loadError = false;
+        // The "…ByMe" flags come from the server, so an open popup takes the fresh copy
+        if (this.selectedBook) {
+          const fresh = this.books.find((b) => b.bookId === this.selectedBook!.bookId);
+          if (fresh) {
+            this.selectedBook = fresh;
+            this.updateInfoCardActions(fresh);
+          }
+        }
       },
       (error) => {
         this.books = [];
@@ -202,7 +198,7 @@ export class LibraryComponent implements AfterViewInit {
     );
   }
 
-  get visibleBooks(): Book[] {
+  get visibleBooks(): LibraryBook[] {
     const term = this.searchTerm.trim().toLowerCase();
     const filtered = this.books.filter(
       (book) =>
@@ -232,7 +228,7 @@ export class LibraryComponent implements AfterViewInit {
     });
   }
 
-  private matchesFormat(book: Book): boolean {
+  private matchesFormat(book: LibraryBook): boolean {
     switch (this.selectedBookFormat) {
       case 'physical':
         return (
@@ -248,48 +244,19 @@ export class LibraryComponent implements AfterViewInit {
     }
   }
 
-  private matchesMinimumRating(book: Book): boolean {
+  private matchesMinimumRating(book: LibraryBook): boolean {
     return (
       !this.selectedMinimumRating ||
-      (this.averageRatings[book.bookId] ?? 0) >= this.selectedMinimumRating
+      (book.averageRating ?? 0) >= this.selectedMinimumRating
     );
-  }
-
-  // Books carry no average rating, so it's worked out from each book's reviews.
-  // That's one request per book, made only the first time the rating filter is used.
-  private loadAverageRatings(): void {
-    if (!this.books.length || this.ratingsLoaded || this.ratingsLoading) return;
-    this.ratingsLoading = true;
-    const requests = this.books.map((book) =>
-      this.libraryService
-        .getBookReviews(book.bookId)
-        .pipe(catchError(() => of({ result: [] }))),
-    );
-    forkJoin(requests).subscribe((responses) => {
-      const ratings: Record<string, number> = {};
-      responses.forEach((response: any, index) => {
-        const values: number[] = (response?.result ?? [])
-          .map((review: any) =>
-            Number(review.ratingItem?.rating ?? review.ratingItem?.Rating),
-          )
-          .filter((value: number) => Number.isFinite(value) && value > 0);
-        if (values.length) {
-          ratings[this.books[index].bookId] =
-            values.reduce((sum, value) => sum + value, 0) / values.length;
-        }
-      });
-      this.averageRatings = ratings;
-      this.ratingsLoaded = true;
-      this.ratingsLoading = false;
-    });
   }
 
   // ---------- Browse view: shelves of books ----------
-  get newArrivalBooks(): Book[] {
+  get newArrivalBooks(): LibraryBook[] {
     return [...this.books].sort(byRecentlyAdded).slice(0, 12);
   }
 
-  get popularBooks(): Book[] {
+  get popularBooks(): LibraryBook[] {
     return [...this.books].sort(byMostReviewed).slice(0, 12);
   }
 
@@ -393,9 +360,6 @@ export class LibraryComponent implements AfterViewInit {
     this.selectedStatus = this.draft.status;
     this.selectedBookFormat = this.draft.format;
     this.selectedMinimumRating = this.draft.minimumRating;
-    if (this.selectedMinimumRating) {
-      this.loadAverageRatings();
-    }
     this.updateQueryParams();
     this.closeFilters();
   }
@@ -407,7 +371,7 @@ export class LibraryComponent implements AfterViewInit {
     }
   }
 
-  private matchesStatus(book: Book): boolean {
+  private matchesStatus(book: LibraryBook): boolean {
     switch (this.selectedStatus) {
       case 'available':
         return (
@@ -454,119 +418,44 @@ export class LibraryComponent implements AfterViewInit {
     this.updateQueryParams();
   }
 
-  updateStatus(event: {
-    bookId: string;
-    userId: string;
-    bookStatus: BookStatusEnum;
-  }) {
-    const { bookId, userId, bookStatus } = event;
-
-    this.bookService
-      .updateBookStatus(
-        bookId,
-        userId,
-        bookStatus,
-        'Status updated via dropdown',
-      )
-      .subscribe(() => {
-        this.getAllBooks(); // Refresh the book list after updating the status
-      });
-  }
-
-  handleSearchResults(results: Book[]) {
-    this.books = results;
-  }
-
-  saveBook(book: Book) {
-    if (this.editBook) {
-      this.bookService.updateBook(this.editBook.bookId, book).subscribe(() => {
-        this.getAllBooks();
-      });
-    }
-  }
-
-  addToReservedBooks(book: Book) {
-    this.userActionsService
-      .reserveBook(this.currentUserId, book.bookId)
-      .subscribe(() => {
-        this.getAllBooks(); // Refresh the book list after reserving
-      });
-  }
-
-  removeFromReservedBooks(book: Book) {
-    this.userActionsService
-      .unreserveBook(this.currentUserId, book.bookId)
-      .subscribe(() => {
-        this.getAllBooks(); // Refresh the book list after removing reservation
-      });
-  }
-
-  borrowBook(book: Book) {
-    this.userActionsService
-      .borrowBook(this.currentUserId, book.bookId)
-      .subscribe(() => {
-        this.getAllBooks(); // Refresh the book list after borrowing
-      });
-  }
-  addToReadList(book: Book) {
-    this.userActionsService
-      .addToFavorites(this.currentUserId, book.bookId)
-      .subscribe(() => {});
-  }
-  removeFromReadList(book: Book) {
-    this.userActionsService
-      .removeFromFavorites(this.currentUserId, book.bookId)
-      .subscribe(() => {});
-  }
-
-  onBookRowClicked(book: Book) {
-    this.bookService.getBookById(book.bookId).subscribe((response) => {
-      if (response.isSuccess && response.result) {
-        this.selectedBook = response.result;
-        this.showInfoCard = true;
+  // The list already carries everything the popup shows; only reviews are fetched
+  onBookRowClicked(book: LibraryBook) {
+    this.selectedBook = book;
+    this.showInfoCard = true;
+    this.updateInfoCardActions(book);
+    this.selectedBookReviews = [];
+    this.libraryService.getBookReviews(book.bookId).subscribe({
+      next: (reviewResponse) => {
+        this.selectedBookReviews = (reviewResponse.result || []).map(
+          (review: any): InfoCardDisplayRow[] => [
+            { label: '', value: review.userName },
+            { label: '', value: review.createdAt },
+            { label: '', value: `Rating: ${review.ratingItem?.rating}` },
+            { isBreak: true, value: '' },
+            { label: '', value: review.reviewHeader },
+            { label: '', value: review.reviewText },
+          ],
+        );
+      },
+      error: () => {
         this.selectedBookReviews = [];
-        this.libraryService.getBookReviews(book.bookId).subscribe({
-          next: (reviewResponse) => {
-            this.selectedBookReviews = (reviewResponse.result || []).map(
-              (review: any): InfoCardDisplayRow[] => [
-                { label: '', value: review.userName },
-                { label: '', value: review.createdAt },
-                { label: '', value: `Rating: ${review.ratingItem?.rating}` },
-                { isBreak: true, value: '' },
-                { label: '', value: review.reviewHeader },
-                { label: '', value: review.reviewText },
-              ],
-            );
-          },
-          error: () => {
-            this.selectedBookReviews = [];
-          },
-        });
-        this.updateInfoCardActions(response.result);
-      }
+      },
     });
   }
 
-  updateInfoCardActions(book: Book) {
-    const isReservedByUser =
-      this.user?.reservedBooks?.some((item) => +item.bookId === +book.bookId) ??
-      false;
+  updateInfoCardActions(book: LibraryBook) {
     const isInReadList =
       this.user?.readList?.some((item) => +item.bookId === +book.bookId) ??
       false;
-    const isCheckedOutByUser =
-      this.user?.checkedOutBooks?.some(
-        (item) => +item.bookId === +book.bookId,
-      ) ?? false;
 
     this.infoCardActions = [
       {
-        label: isCheckedOutByUser ? 'Return' : 'Borrow',
+        label: book.isCheckedOutByMe ? 'Return' : 'Borrow',
         action: () => this.toggleBorrow(book),
         disabled: this.isBorrowDisabled(book),
       },
       {
-        label: isReservedByUser ? 'Cancel reservation' : 'Reserve',
+        label: book.isReservedByMe ? 'Cancel reservation' : 'Reserve',
         action: () => this.toggleReservation(book),
       },
       {
@@ -575,21 +464,19 @@ export class LibraryComponent implements AfterViewInit {
       },
     ];
   }
-  isBorrowDisabled(book: Book): boolean {
+  isBorrowDisabled(book: LibraryBook): boolean {
     const isCheckedOutBySomeoneElse =
-      book.bookStatus === BookStatusEnum.CheckedOut &&
-      book.checkedOutBy?.userId !== this.currentUserId;
+      book.bookStatus === BookStatusEnum.CheckedOut && !book.isCheckedOutByMe;
 
     // If the book is not checked out, but there are prior reservations (not by this user)
     const hasPriorReservations =
       book.bookStatus !== BookStatusEnum.CheckedOut &&
-      Array.isArray(book.reservations) &&
-      book.reservations.length > 0 &&
-      !this.user?.reservedBooks?.some((item) => +item.bookId === +book.bookId);
+      book.reservationCount > 0 &&
+      !book.isReservedByMe;
 
     return isCheckedOutBySomeoneElse || hasPriorReservations;
   }
-  getBookStatusDisplay(book: Book): { status: string; availability: string } {
+  getBookStatusDisplay(book: LibraryBook): { status: string; availability: string } {
     const status =
       this.bookStatusOptions.displayNames[book.bookStatus]?.toString() ||
       (typeof book.bookStatus === 'string'
@@ -597,17 +484,8 @@ export class LibraryComponent implements AfterViewInit {
         : book.bookStatus?.toString() || '');
 
     // If user has a reservation, show their reservation's availability date
-    const userReservation = book.reservations?.find(
-      (item: any) => item.userId === this.currentUserId,
-    );
-    let availabilityDate = '';
-    if (userReservation?.availabilityDate) {
-      availabilityDate = new Date(
-        userReservation.availabilityDate,
-      ).toLocaleDateString();
-    } else if (book.availabilityDate) {
-      availabilityDate = new Date(book.availabilityDate).toLocaleDateString();
-    }
+    const date = book.myReservationAvailableDate ?? book.availabilityDate;
+    const availabilityDate = date ? new Date(date).toLocaleDateString() : '';
 
     return {
       status,
@@ -615,47 +493,31 @@ export class LibraryComponent implements AfterViewInit {
     };
   }
 
-  toggleBorrow(book: Book) {
-    const isCheckedOutByUser =
-      this.user?.checkedOutBooks?.some(
-        (item) => +item.bookId === +book.bookId,
-      ) ?? false;
-    // First, perform the user action
-    const obs = isCheckedOutByUser
+  // After borrowing, returning or (un)reserving, reload the list: the server
+  // works out the new "…ByMe" flags and getAllBooks refreshes the open popup
+  toggleBorrow(book: LibraryBook) {
+    const obs = book.isCheckedOutByMe
       ? this.userActionsService.returnBook(this.currentUserId, book.bookId)
       : this.userActionsService.borrowBook(this.currentUserId, book.bookId);
 
     obs.subscribe(() => {
       this.authService.refreshCurrentUser();
-      this.bookService.getBookById(book.bookId).subscribe((response) => {
-        if (response.isSuccess && response.result) {
-          this.selectedBook = response.result;
-          this.updateInfoCardActions(response.result);
-        }
-      });
+      this.getAllBooks();
     });
   }
 
-  toggleReservation(book: Book) {
-    const isReservedByUser =
-      this.user?.reservedBooks?.some((item) => +item.bookId === +book.bookId) ??
-      false;
-    const obs = isReservedByUser
+  toggleReservation(book: LibraryBook) {
+    const obs = book.isReservedByMe
       ? this.userActionsService.unreserveBook(this.currentUserId, book.bookId)
       : this.userActionsService.reserveBook(this.currentUserId, book.bookId);
 
     obs.subscribe(() => {
       this.authService.refreshCurrentUser();
-      this.bookService.getBookById(book.bookId).subscribe((response) => {
-        if (response.isSuccess && response.result) {
-          this.selectedBook = response.result;
-          this.updateInfoCardActions(response.result);
-        }
-      });
+      this.getAllBooks();
     });
   }
 
-  toggleReadList(book: Book) {
+  toggleReadList(book: LibraryBook) {
     const isInReadList =
       this.user?.readList?.some((item) => +item.bookId === +book.bookId) ??
       false;

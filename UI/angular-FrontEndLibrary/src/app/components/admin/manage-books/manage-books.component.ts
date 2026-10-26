@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { Book, SlimBookDto } from '../../../Models/interfaces';
+import { AdminBook, Book, LibraryBook, SlimBookDto } from '../../../Models/interfaces';
 import { LibraryService } from '../../../Services/library.services';
 import { BookService } from '../../../Services/book.services';
 import { BookStatusEnum, GenreEnums } from '../../../Helpers/Enums/enum';
@@ -24,8 +24,8 @@ import {
   ],
 })
 export class ManageBooksComponent {
-  books: Book[] = [];
-  editBook: Book | null = null;
+  books: AdminBook[] = [];
+  editBook: AdminBook | null = null;
   updatedBook: SlimBookDto | null = null;
   showInfoCard = false;
   infoCardActions: { label: string; action: () => void; disabled?: boolean }[] =
@@ -50,7 +50,7 @@ export class ManageBooksComponent {
   getAllBooks() {
     // console.log('Fetching all books...');
     this.libraryService.getAllBooks().subscribe(
-      (response: { isSuccess: boolean; result: Book[] }) => {
+      (response: { isSuccess: boolean; result: LibraryBook[] }) => {
         console.log('Books fetched:', response);
         if (response.isSuccess && Array.isArray(response.result)) {
           this.books = response.result;
@@ -91,7 +91,7 @@ export class ManageBooksComponent {
       });
   }
 
-  populateForm(book: Book) {
+  populateForm(book: AdminBook) {
     this.editBook = { ...book };
   }
 

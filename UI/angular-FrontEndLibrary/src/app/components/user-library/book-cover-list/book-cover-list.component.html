@@ -40,9 +40,9 @@
             }
           </div>
           <p class="book__reviews">
-            @if (reviewCount(book) > 0) {
+            @if (book.reviewCount > 0) {
               <i class="bi bi-chat-left-text"></i>
-              {{ reviewCount(book) }} {{ reviewCount(book) === 1 ? 'review' : 'reviews' }}
+              {{ book.reviewCount }} {{ book.reviewCount === 1 ? 'review' : 'reviews' }}
             } @else {
               No reviews yet
             }

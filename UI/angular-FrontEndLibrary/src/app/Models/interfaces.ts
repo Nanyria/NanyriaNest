@@ -51,6 +51,31 @@ export interface SlimBookDto {
 
 }
 
+
+export interface LibraryBook {
+  bookId: string;
+  title: string;
+  author: string;
+  genre: GenreEnums;
+  language: LanguageEnums;
+  publicationYear: string;
+  bookDescription?: string;
+  coverImagePath?: string;
+  bookStatus: BookStatusEnum;
+  bookType: BookTypeEnums;
+  availabilityDate: string;
+  dateAdded: string;
+
+  reviewCount: number;
+  averageRating: number | null;
+  reservationCount: number;
+
+  isCheckedOutByMe: boolean;
+  isReservedByMe: boolean;
+  myReservationAvailableDate: string | null;
+}
+// The admin book table lists both: the library list (LibraryBook) and search results (Book)
+export type AdminBook = Book | LibraryBook;
 // User interfaces
 export interface UserDto {
     id: string;

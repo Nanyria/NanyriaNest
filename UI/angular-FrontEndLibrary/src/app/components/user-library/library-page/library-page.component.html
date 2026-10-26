@@ -93,7 +93,7 @@
         <i class="bi bi-search nn-section-header__icon library__section-icon"></i>
         <div>
           <h2 id="results-title" class="nn-section-header__title">{{ resultsTitle }}</h2>
-          @if (!loading && !ratingsLoading) {
+          @if (!loading) {
             <p class="nn-section-header__subtitle">
               {{ visibleBooks.length }} {{ visibleBooks.length === 1 ? 'book' : 'books' }}
             </p>
@@ -151,7 +151,7 @@
         </div>
       </div>
 
-      @if (loading || ratingsLoading) {
+      @if (loading) {
         <p class="library__message">Loading books …</p>
       } @else if (loadError) {
         <p class="library__message">

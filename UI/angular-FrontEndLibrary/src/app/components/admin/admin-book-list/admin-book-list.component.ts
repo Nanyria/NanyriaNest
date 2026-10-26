@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { Book, ILoggedInUser, SlimBookDto } from '../../../Models/interfaces';
+import { AdminBook, ILoggedInUser, SlimBookDto } from '../../../Models/interfaces';
 import {
   BookStatusEnum,
   BookStatusDisplayNames,
@@ -29,18 +29,18 @@ import {
   imports: [FormsModule],
 })
 export class AdminBookListComponent {
-  @Input() books: Book[] = [];
+  @Input() books: AdminBook[] = [];
   @Input() currentUserId!: string;
   @Input() user!: ILoggedInUser;
-  @Input() editBook: Book | null = null;
-  @Output() onEdit = new EventEmitter<Book>();
+  @Input() editBook: AdminBook | null = null;
+  @Output() onEdit = new EventEmitter<AdminBook>();
   @Output() onDelete = new EventEmitter<string>();
   @Output() onUpdateStatus = new EventEmitter<{
     bookId: string;
     userId: string;
     bookStatus: BookStatusEnum;
   }>();
-  @Output() onSave = new EventEmitter<Book>();
+  @Output() onSave = new EventEmitter<AdminBook>();
   @Output() onCancel = new EventEmitter<void>();
 
   BookTypeDisplayNames = BookTypeDisplayNames;
@@ -68,7 +68,7 @@ export class AdminBookListComponent {
       this.isSuperAdmin = true;
     }
   }
-  editBookDetails(book: Book) {
+  editBookDetails(book: AdminBook) {
     this.onEdit.emit(book);
   }
 
@@ -76,7 +76,7 @@ export class AdminBookListComponent {
     this.onDelete.emit(bookID);
   }
 
-  updateBookStatus(book: Book, userId: string, bookStatus: string) {
+  updateBookStatus(book: AdminBook, userId: string, bookStatus: string) {
     const statusEnumValue = Number(bookStatus) as BookStatusEnum;
     const targetUserId = this.isSuperAdmin ? userId : this.currentUserId;
     this.onUpdateStatus.emit({
@@ -86,7 +86,7 @@ export class AdminBookListComponent {
     });
   }
 
-  saveBook(book: Book) {
+  saveBook(book: AdminBook) {
     book.genre = Number(book.genre) as GenreEnums;
     this.onSave.emit(book);
   }

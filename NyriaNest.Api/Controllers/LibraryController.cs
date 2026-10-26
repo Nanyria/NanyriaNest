@@ -1,11 +1,13 @@
-﻿using NyriaNest.Api.Helpers.Enums;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using NyriaNest.Api.Helpers.Enums;
 using NyriaNest.Api.Models.Books;
 using NyriaNest.Api.Models.Books.BookDTOs;
 using NyriaNest.Api.Models.Users;
 using NyriaNest.Api.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using static NyriaNest.Api.Models.Books.BookDTOs.BookDto;
+
 
 [Route("api/[controller]")]
 [ApiController]
@@ -22,8 +24,8 @@ public class LibraryController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllBooks()
     {
-        var response = await _bookService.GetAllBooksAsync();
-
+        var userId = User.FindFirstValue("userId"); // null when not logged in
+        var response = await _bookService.GetLibraryAsync(userId);
         return StatusCode((int)response.StatusCode, response);
     }
 
