@@ -45,10 +45,6 @@
 }
 
 /* ---------- Explore genres ---------- */
-.genres {
-  margin-bottom: var(--nn-space-4);
-}
-
 .genres__header {
   display: flex;
   align-items: baseline;

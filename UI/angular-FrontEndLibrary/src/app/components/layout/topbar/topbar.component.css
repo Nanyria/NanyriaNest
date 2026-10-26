@@ -20,38 +20,124 @@
 }
 
 .topbar__logo {
-  width: 56px;
-  height: 56px;
+  width: 44px;
+  height: 44px;
 }
 
 .topbar__name {
-  display: block;
   font-family: var(--nn-font-display);
-  font-size: 1.9rem;
+  font-size: 1.45rem;
   font-weight: 600;
   line-height: 1;
+  white-space: nowrap;
   color: var(--nn-ink-strong);
 }
 
-.topbar__tagline {
-  display: block;
-  margin-top: 4px;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--nn-ink-muted);
+/* ---------- Main navigation ---------- */
+.topbar__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-2);
+  flex-shrink: 0;
 }
 
+.topbar__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid transparent; /* same size as the framed active link */
+  border-radius: var(--nn-radius-sm);
+  background: none;
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1.12rem;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+a.topbar__link:hover,
+button.topbar__link:hover {
+  background-color: var(--nn-surface-sunken);
+  color: var(--nn-ink-strong);
+}
+
+/* Current page: framed like the ornate login button, green with an inner
+   gold line and small gold diamonds on the short ends */
+.topbar__link.is-active,
+.topbar__link.is-active:hover {
+  background-color: var(--nn-primary);
+  border-color: #1c2e21;
+  box-shadow: inset 0 0 0 2px var(--nn-primary), inset 0 0 0 3px var(--nn-gold), var(--nn-shadow);
+  color: var(--nn-on-primary);
+}
+
+.topbar__link.is-active:hover {
+  background-color: var(--nn-primary-hover);
+  box-shadow: inset 0 0 0 2px var(--nn-primary-hover), inset 0 0 0 3px var(--nn-gold), var(--nn-shadow);
+}
+
+.topbar__link.is-active::before,
+.topbar__link.is-active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background-color: var(--nn-gold);
+  border: 1px solid #1c2e21;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.topbar__link.is-active::before {
+  left: -4px;
+}
+
+.topbar__link.is-active::after {
+  right: -4px;
+}
+
+.topbar__link.is-placeholder {
+  color: var(--nn-ink-faint);
+  cursor: default;
+}
+
+.topbar__link .bi:first-child {
+  font-size: 1.05rem;
+}
+
+.topbar__link.is-active .bi:first-child {
+  color: var(--nn-gold-soft);
+}
+
+.topbar__chevron {
+  font-size: 0.7rem;
+  transition: transform 0.15s;
+}
+
+.topbar__chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.topbar__dropdown {
+  position: relative;
+}
+
+/* ---------- Search and actions ---------- */
 .topbar__search {
-  flex: 1;
-  max-width: 720px;
-  margin: 0 auto;
+  flex: 1 1 200px;
+  min-width: 160px;
+  max-width: 420px;
+  margin-left: auto;
 }
 
 .topbar__actions {
   display: flex;
   align-items: center;
-  gap: var(--nn-space-5);
+  gap: var(--nn-space-4);
   flex-shrink: 0;
 }
 
@@ -105,6 +191,7 @@
   color: var(--nn-ink-muted);
 }
 
+/* ---------- Dropdown panels ---------- */
 .topbar__menu-panel {
   position: absolute;
   right: 0;
@@ -117,8 +204,15 @@
   box-shadow: var(--nn-shadow-raised);
 }
 
+.topbar__menu-panel--start {
+  right: auto;
+  left: 0;
+  min-width: 220px;
+}
+
 .topbar__menu-panel a,
-.topbar__menu-panel button {
+.topbar__menu-panel button,
+.topbar__menu-panel .is-placeholder {
   display: flex;
   align-items: center;
   gap: var(--nn-space-3);
@@ -131,6 +225,7 @@
   font-size: 1.05rem;
   text-align: left;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -139,19 +234,127 @@
   background-color: var(--nn-surface-sunken);
 }
 
-@media (max-width: 991px) {
+.topbar__menu-panel a.is-current {
+  color: var(--nn-primary);
+  font-weight: 600;
+}
+
+.topbar__menu-panel .is-placeholder {
+  color: var(--nn-ink-faint);
+  cursor: default;
+}
+
+.topbar__menu-rule {
+  margin: var(--nn-space-1) var(--nn-space-2);
+  border: 0;
+  border-top: 1px solid var(--nn-border);
+  opacity: 1;
+}
+
+.topbar__soon {
+  margin-left: auto;
+  padding-left: var(--nn-space-3);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Tighter brand and user button so the menu fits on laptop screens */
+@media (max-width: 1439px) {
   .topbar {
-    gap: var(--nn-space-3);
-    padding: 0 var(--nn-space-4);
+    gap: var(--nn-space-4);
+  }
+
+  .topbar__username {
+    display: none;
+  }
+}
+
+/* Compact menu: icons only, except the current page which keeps its label.
+   The other labels show as a tooltip on hover. */
+@media (min-width: 992px) and (max-width: 1279px) {
+  .topbar__label {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.25s ease, opacity 0.2s ease;
+  }
+
+  .topbar__link {
+    gap: 0;
+    padding: 7px 10px;
+    transition: background-color 0.15s, color 0.15s, gap 0.25s ease;
+  }
+
+  .topbar__link.is-active {
+    gap: 6px;
+  }
+
+  .topbar__link.is-active .topbar__label {
+    max-width: 8em;
+    opacity: 1;
+  }
+
+  .topbar__link .bi:first-child {
+    font-size: 1.2rem;
+  }
+
+  .topbar__chevron {
+    margin-left: 3px;
+  }
+
+  .topbar__link:not(.is-active)::before {
+    content: attr(data-label);
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    z-index: 31;
+    padding: 4px 10px;
+    border-radius: var(--nn-radius-sm);
+    background-color: var(--nn-ink-strong);
+    color: var(--nn-page);
+    font-size: 0.9rem;
+    font-weight: 400;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -4px);
+    transition: opacity 0.15s, transform 0.15s;
+  }
+
+  .topbar__link:not(.is-active):hover::before,
+  .topbar__link:not(.is-active):focus-visible::before {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  /* No tooltip over an open dropdown */
+  .topbar__link[aria-expanded='true']::before {
+    display: none;
+  }
+
+  .topbar__search {
+    min-width: 120px;
+  }
+}
+
+/* The menu moves into the drawer, opened with the hamburger button */
+@media (max-width: 991px) {
+  .topbar__nav {
+    display: none;
   }
 
   .topbar__menu {
     display: inline-flex;
   }
 
+  .topbar {
+    gap: var(--nn-space-3);
+    padding: 0 var(--nn-space-4);
+  }
+
   .topbar__search,
-  .topbar__tagline,
-  .topbar__username,
   .topbar__caret {
     display: none;
   }
@@ -171,11 +374,11 @@
   }
 
   .topbar__logo {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
   }
 
   .topbar__name {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 }

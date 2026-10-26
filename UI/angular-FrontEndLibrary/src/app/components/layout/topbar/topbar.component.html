@@ -9,11 +9,61 @@
 
   <a class="topbar__brand" routerLink="/home">
     <img src="assets/images/webpage-images/NyriaNestCircle.svg" alt="" class="topbar__logo" />
-    <span>
-      <span class="topbar__name">Nyria Nest</span>
-      <span class="topbar__tagline">Find your next adventure</span>
-    </span>
+    <span class="topbar__name">NyriaNest</span>
   </a>
+
+  <ng-template #dropdown let-group>
+    <div class="topbar__dropdown">
+      <button
+        type="button"
+        class="topbar__link"
+        [attr.data-label]="group.label"
+        [class.is-active]="isGroupActive(group)"
+        [attr.aria-expanded]="openMenu === group.id"
+        aria-haspopup="menu"
+        (click)="toggleMenu(group.id)"
+      >
+        <i class="bi {{ group.icon }}"></i><span class="topbar__label">{{ group.label }}</span>
+        <i class="bi bi-chevron-down topbar__chevron" [class.is-open]="openMenu === group.id"></i>
+      </button>
+
+      @if (openMenu === group.id) {
+        <div class="topbar__menu-panel topbar__menu-panel--start nn-panel" role="menu">
+          @for (item of group.items; track item.label) {
+            @if (item.route) {
+              <a role="menuitem" [routerLink]="item.route" routerLinkActive="is-current" (click)="openMenu = null">
+                <i class="bi {{ item.icon }}"></i>{{ item.label }}
+              </a>
+            } @else {
+              <span role="menuitem" aria-disabled="true" class="is-placeholder" title="Coming soon">
+                <i class="bi {{ item.icon }}"></i>{{ item.label }}
+                <span class="topbar__soon">Soon</span>
+              </span>
+            }
+          }
+        </div>
+      }
+    </div>
+  </ng-template>
+
+  <nav class="topbar__nav" aria-label="Main navigation">
+    @for (entry of entries; track $index) {
+      @if (entry.kind === 'group') {
+        <ng-container *ngTemplateOutlet="dropdown; context: { $implicit: entry.group }"></ng-container>
+      } @else if (entry.item.route) {
+        <a class="topbar__link" [routerLink]="entry.item.route" routerLinkActive="is-active" [attr.data-label]="entry.item.label">
+          <i class="bi {{ entry.item.icon }}"></i><span class="topbar__label">{{ entry.item.label }}</span>
+        </a>
+      } @else {
+        <span class="topbar__link is-placeholder nn-placeholder" title="Coming soon" [attr.data-label]="entry.item.label">
+          <i class="bi {{ entry.item.icon }}"></i><span class="topbar__label">{{ entry.item.label }}</span>
+        </span>
+      }
+    }
+    @if (isAdmin) {
+      <ng-container *ngTemplateOutlet="dropdown; context: { $implicit: adminGroup }"></ng-container>
+    }
+  </nav>
 
   <form class="nn-field topbar__search" role="search" (submit)="search($event, searchInput.value)">
     <i class="bi bi-search"></i>
@@ -21,7 +71,7 @@
       #searchInput
       class="nn-input"
       type="search"
-      placeholder="Search for books, authors or genres …"
+      placeholder="Search books, authors …"
       aria-label="Search the library"
     />
   </form>
@@ -39,9 +89,9 @@
     <div class="topbar__user">
       <button
         class="topbar__user-toggle"
-        [attr.aria-expanded]="userMenuOpen"
+        [attr.aria-expanded]="openMenu === 'user'"
         aria-haspopup="menu"
-        (click)="toggleUserMenu()"
+        (click)="toggleMenu('user')"
       >
         <img
           [src]="currentUser?.profilePictureUrl || 'assets/images/profile-pictures/BlueKidDragon.svg'"
@@ -52,14 +102,20 @@
         <i class="bi bi-caret-down-fill topbar__caret"></i>
       </button>
 
-      @if (userMenuOpen) {
+      @if (openMenu === 'user') {
         <div class="topbar__menu-panel nn-panel" role="menu">
-          <a role="menuitem" routerLink="/user-page/settings" (click)="userMenuOpen = false">
+          <span role="menuitem" aria-disabled="true" class="is-placeholder" title="Coming soon">
+            <i class="bi bi-envelope"></i>Messages
+            <span class="topbar__soon">Soon</span>
+          </span>
+          <span role="menuitem" aria-disabled="true" class="is-placeholder" title="Coming soon">
+            <i class="bi bi-chat-square-quote"></i>My reviews
+            <span class="topbar__soon">Soon</span>
+          </span>
+          <a role="menuitem" routerLink="/user-page/settings" routerLinkActive="is-current" (click)="openMenu = null">
             <i class="bi bi-gear"></i>Settings
           </a>
-          <a role="menuitem" routerLink="/user-page/readlist" (click)="userMenuOpen = false">
-            <i class="bi bi-heart"></i>Reading list
-          </a>
+          <hr class="topbar__menu-rule" />
           <button role="menuitem" (click)="logout()">
             <i class="bi bi-box-arrow-right"></i>Log out
           </button>

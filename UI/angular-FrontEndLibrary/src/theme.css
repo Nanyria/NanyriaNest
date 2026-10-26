@@ -561,6 +561,63 @@ body:has(.nn-theme) > app-root {
     var(--nn-page);
 }
 
+/* ---------- Page header ----------
+   Title with a flourish, subtitle underneath and an optional sketch on the right:
+   <header class="nn-page-header">…<span class="nn-page-header__art"></span></header> */
+.nn-page-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  min-height: 100px;
+  padding-right: 240px; /* keeps the text clear of the art */
+}
+
+.nn-page-header__art {
+  position: absolute;
+  right: 0;
+  bottom: -12px;
+  width: 260px;
+  height: 130px;
+  background: url('/assets/images/login-page/castle-sketch.png') no-repeat right bottom / contain;
+  opacity: 0.6;
+  pointer-events: none;
+  mask-image: linear-gradient(to right, transparent, #000 45%);
+}
+
+/* Small gold flourish after a page title */
+.nn-title-flourish {
+  display: inline-block;
+  width: 96px;
+  height: 28px;
+  margin-left: var(--nn-space-3);
+  vertical-align: middle;
+  background: url('/assets/images/login-page/divider-small.png') no-repeat center / contain;
+}
+
+/* Wide gold rule with a compass rose, between page sections */
+.nn-ornate-divider {
+  display: block;
+  width: min(620px, 92%);
+  aspect-ratio: 790 / 66;
+  margin: var(--nn-space-2) auto var(--nn-space-4);
+  background: url('/assets/images/login-page/divider-1.png') no-repeat center / contain;
+}
+
+@media (max-width: 899px) {
+  .nn-page-header {
+    padding-right: 0;
+  }
+
+  .nn-page-header__art {
+    display: none;
+  }
+
+  .nn-title-flourish {
+    width: 64px;
+  }
+}
+
 /* ---------- Placeholder marker ----------
    Features without backend support (challenges, reading progress, pages read,
    notifications) are rendered static. Tag their root with .nn-placeholder so

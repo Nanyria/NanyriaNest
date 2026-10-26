@@ -22,15 +22,19 @@
     </ul>
   </ng-template>
 
+  <ng-template #navSection let-group>
+    <div class="nn-divider"><span class="nn-divider__mark"></span></div>
+    <h2 class="sidebar__heading">{{ group.label }}</h2>
+    <ng-container *ngTemplateOutlet="navList; context: { $implicit: group.items }"></ng-container>
+  </ng-template>
+
   <ng-container *ngTemplateOutlet="navList; context: { $implicit: mainItems }"></ng-container>
 
-  <div class="nn-divider"><span class="nn-divider__mark"></span></div>
-  <h2 class="sidebar__heading">My collection</h2>
-  <ng-container *ngTemplateOutlet="navList; context: { $implicit: collectionItems }"></ng-container>
+  @for (group of groups; track group.id) {
+    <ng-container *ngTemplateOutlet="navSection; context: { $implicit: group }"></ng-container>
+  }
 
   @if (isAdmin) {
-    <div class="nn-divider"><span class="nn-divider__mark"></span></div>
-    <h2 class="sidebar__heading">Admin</h2>
-    <ng-container *ngTemplateOutlet="navList; context: { $implicit: adminItems }"></ng-container>
+    <ng-container *ngTemplateOutlet="navSection; context: { $implicit: adminGroup }"></ng-container>
   }
 </nav>

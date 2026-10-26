@@ -6,9 +6,22 @@ import {
   Output,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { NgTemplateOutlet } from '@angular/common';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs';
 import { AuthService } from '../../../Services/auth.service';
 import { ILoggedInUser } from '../../../Models/interfaces';
+import {
+  ADMIN_NAV,
+  MAIN_NAV,
+  NavGroup,
+  NavItem,
+  isNavGroup,
+} from '../nav-items';
+
+type TopbarEntry =
+  | { kind: 'link'; item: NavItem }
+  | { kind: 'group'; group: NavGroup };
 
 @Component({
   selector: 'app-topbar',
@@ -16,12 +29,19 @@ import { ILoggedInUser } from '../../../Models/interfaces';
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [RouterModule],
+  imports: [RouterModule, NgTemplateOutlet],
 })
 export class TopbarComponent {
   @Output() menuToggle = new EventEmitter<void>();
   currentUser: ILoggedInUser | null = null;
-  userMenuOpen = false;
+  openMenu: string | null = null; // id of the open dropdown, 'user' for the user menu
+
+  readonly entries: TopbarEntry[] = MAIN_NAV.map((entry) =>
+    isNavGroup(entry)
+      ? { kind: 'group', group: entry }
+      : { kind: 'link', item: entry },
+  );
+  readonly adminGroup = ADMIN_NAV;
 
   constructor(
     private authService: AuthService,
@@ -31,10 +51,25 @@ export class TopbarComponent {
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
     });
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => (this.openMenu = null));
   }
 
   get hasNewNotification(): boolean {
     return !!this.currentUser?.notifications?.some((n) => !n.isRead);
+  }
+
+  get isAdmin(): boolean {
+    return !!this.currentUser?.adminRole || !!this.currentUser?.isSuperAdmin;
+  }
+
+  // A dropdown is highlighted while one of its pages is open
+  isGroupActive(group: NavGroup): boolean {
+    return group.items.some(
+      (item) => !!item.route && this.router.url.startsWith(item.route),
+    );
   }
 
   // Searching from anywhere opens the library filtered by the term
@@ -45,25 +80,25 @@ export class TopbarComponent {
     });
   }
 
-  toggleUserMenu() {
-    this.userMenuOpen = !this.userMenuOpen;
+  toggleMenu(id: string) {
+    this.openMenu = this.openMenu === id ? null : id;
   }
 
-  // Close the user menu when clicking anywhere outside the topbar
+  // Close any open menu when clicking anywhere outside the topbar
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.userMenuOpen = false;
+      this.openMenu = null;
     }
   }
 
   @HostListener('document:keydown.escape')
   onEscape() {
-    this.userMenuOpen = false;
+    this.openMenu = null;
   }
 
   logout() {
-    this.userMenuOpen = false;
+    this.openMenu = null;
     this.authService.logout();
     this.router.navigate(['']);
   }

@@ -1,7 +1,7 @@
 <!--app.component.html-->
 
 @if (isAuthenticated()) {
-  <div class="nn-theme nn-shell" [class.sidebar-open]="sidebarOpen">
+  <div class="nn-theme nn-parchment nn-shell" [class.sidebar-open]="sidebarOpen">
     <app-topbar class="nn-shell__topbar" (menuToggle)="sidebarOpen = !sidebarOpen"></app-topbar>
     <app-sidebar class="nn-shell__sidebar" (navigate)="sidebarOpen = false"></app-sidebar>
     @if (sidebarOpen) {
