@@ -191,20 +191,20 @@
     </section>
   } @else {
     <!-- Browse: shelves that scroll sideways -->
-    <section class="nn-panel nn-panel--ornate library__section" aria-labelledby="recent-title">
+    <section class="nn-panel nn-panel--ornate library__section" aria-labelledby="arrivals-title">
       <header class="nn-section-header">
         <i class="bi bi-book-half nn-section-header__icon library__section-icon"></i>
         <div>
-          <h2 id="recent-title" class="nn-section-header__title">Recently published</h2>
-          <p class="nn-section-header__subtitle">The newest titles in the collection.</p>
+          <h2 id="arrivals-title" class="nn-section-header__title">New arrivals</h2>
+          <p class="nn-section-header__subtitle">Recently added to the library.</p>
         </div>
-        <button type="button" class="nn-link library__action" (click)="seeAll('newest')">
+        <button type="button" class="nn-link library__action" (click)="seeAll('added')">
           See all <i class="bi bi-arrow-right"></i>
         </button>
       </header>
-      <app-scroll-strip label="Recently published books">
+      <app-scroll-strip label="New arrivals">
         <app-book-cover-list
-          [books]="recentlyPublishedBooks"
+          [books]="newArrivalBooks"
           [user]="user"
           [currentUserId]="currentUserId"
           [shelf]="true"

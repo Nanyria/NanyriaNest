@@ -43,12 +43,14 @@ import { catchError } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 
 type StatusFilter = 'all' | 'available' | 'reserved' | 'checkedOut';
-type SortOption = 'title' | 'author' | 'newest' | 'popular';
+type SortOption = 'title' | 'author' | 'added' | 'newest' | 'popular';
 type BookFormatFilter = 'physical' | 'ebook' | 'audiobook' | 'all';
 
 // Genre chips shown in the filter panel before "+ More" is pressed
 const FILTER_GENRES_SHOWN = 6;
 
+const byRecentlyAdded = (a: Book, b: Book) =>
+  (Date.parse(b.dateAdded) || 0) - (Date.parse(a.dateAdded) || 0);
 const byNewest = (a: Book, b: Book) =>
   (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0);
 const byMostReviewed = (a: Book, b: Book) =>
@@ -115,6 +117,7 @@ export class LibraryComponent implements AfterViewInit {
   sortOptions: { value: SortOption; label: string }[] = [
     { value: 'title', label: 'Title (A–Z)' },
     { value: 'author', label: 'Author (A–Z)' },
+    { value: 'added', label: 'Recently added' },
     { value: 'newest', label: 'Newest published' },
     { value: 'popular', label: 'Most reviewed' },
   ];
@@ -219,6 +222,8 @@ export class LibraryComponent implements AfterViewInit {
       switch (this.sortBy) {
         case 'author':
           return (a.author ?? '').localeCompare(b.author ?? '');
+        case 'added':
+          return byRecentlyAdded(a, b);
         case 'newest':
           return byNewest(a, b);
         case 'popular':
@@ -282,8 +287,8 @@ export class LibraryComponent implements AfterViewInit {
   }
 
   // ---------- Browse view: shelves of books ----------
-  get recentlyPublishedBooks(): Book[] {
-    return [...this.books].sort(byNewest).slice(0, 12);
+  get newArrivalBooks(): Book[] {
+    return [...this.books].sort(byRecentlyAdded).slice(0, 12);
   }
 
   get popularBooks(): Book[] {
