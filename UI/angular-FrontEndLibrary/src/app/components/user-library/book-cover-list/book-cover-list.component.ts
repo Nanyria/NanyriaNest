@@ -22,6 +22,7 @@ export class BookCoverListComponent {
   @Input() currentUserId!: string;
   @Input() user: ILoggedInUser | null = null;
   @Input() viewMode: 'grid' | 'list' = 'grid';
+  @Input() shelf = false;
   @Output() bookRowClicked = new EventEmitter<Book>();
   @Output() readListToggled = new EventEmitter<Book>();
 

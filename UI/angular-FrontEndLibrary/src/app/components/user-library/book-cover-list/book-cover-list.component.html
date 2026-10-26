@@ -1,4 +1,4 @@
-<ul class="books" [class.books--list]="viewMode === 'list'">
+<ul class="books" [class.books--list]="viewMode === 'list'" [class.books--shelf]="shelf">
   @for (book of books; track book.bookId) {
     <li
       class="book"
@@ -31,20 +31,23 @@
       <div class="book__meta">
         <h3 class="book__title" [title]="book.title">{{ book.title }}</h3>
         <p class="book__author">{{ book.author }}</p>
-        <div class="book__tags">
-          <span class="nn-tag">{{ genreOptions.displayNames[book.genre] }}</span>
-          @if (statusBadge(book); as status) {
-            <span class="nn-tag book__status">{{ status }}</span>
-          }
-        </div>
-        <p class="book__reviews">
-          @if (reviewCount(book) > 0) {
-            <i class="bi bi-chat-left-text"></i>
-            {{ reviewCount(book) }} {{ reviewCount(book) === 1 ? 'review' : 'reviews' }}
-          } @else {
-            No reviews yet
-          }
-        </p>
+        <!-- Shelves show just cover, title and author, like a book on display -->
+        @if (!shelf) {
+          <div class="book__tags">
+            <span class="nn-tag">{{ genreOptions.displayNames[book.genre] }}</span>
+            @if (statusBadge(book); as status) {
+              <span class="nn-tag book__status">{{ status }}</span>
+            }
+          </div>
+          <p class="book__reviews">
+            @if (reviewCount(book) > 0) {
+              <i class="bi bi-chat-left-text"></i>
+              {{ reviewCount(book) }} {{ reviewCount(book) === 1 ? 'review' : 'reviews' }}
+            } @else {
+              No reviews yet
+            }
+          </p>
+        }
       </div>
     </li>
   }

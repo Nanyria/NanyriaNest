@@ -3,18 +3,18 @@
     @for (action of actions; track action) {
       <button
         (click)="action.action()"
-        [ngClass]="actionIconMap[action.label].styleClass"
+        [ngClass]="actionIconMap[action.label]?.styleClass"
         [disabled]="action.disabled"
         type="button"
       >
         @if (actionIconMap[action.label]?.icon?.endsWith(".svg")) {
           <img
-            [src]="actionIconMap[action.label].icon"
+            [src]="actionIconMap[action.label]?.icon"
             alt=""
             class="action-svg-icon"
           />
         } @else {
-          <i [ngClass]="actionIconMap[action.label].icon"></i>
+          <i [ngClass]="actionIconMap[action.label]?.icon"></i>
         }
         <span class="action-label">{{ action.label }}</span>
       </button>

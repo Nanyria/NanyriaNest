@@ -1,60 +1,196 @@
 .library {
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
-.library__header {
-  display: flex;
+/* ---------- Sections: framed panels joined by a small gold ornament ----------
+   Textured parchment inside, gold flourishes in all four corners: the top pair
+   is drawn by ::before, the bottom pair by ::after flipped upside down. */
+.library__section {
+  --panel-padding: var(--nn-space-5);
+  /* Scroll arrows centred on the panel's side borders */
+  --strip-arrow-offset: calc(-1 * var(--panel-padding) - 21px);
+  position: relative;
+  padding: var(--panel-padding) var(--panel-padding) var(--nn-space-4);
+  border-color: var(--nn-gold-soft);
+  background:
+    linear-gradient(rgba(250, 242, 226, 0.8), rgba(250, 242, 226, 0.8)),
+    url('/assets/images/webpage-images/backgrounds/paper%20background.png') center / cover,
+    var(--nn-surface);
+}
+
+.library__section::before,
+.library__section::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  height: 50px;
+  background:
+    url('/assets/images/login-page/corner-ornament-left.png') no-repeat left top / 44px auto,
+    url('/assets/images/login-page/corner-ornament-right.png') no-repeat right top / 44px auto;
+  pointer-events: none;
+}
+
+.library__section::before {
+  top: 7px;
+}
+
+.library__section::after {
+  bottom: 7px;
+  transform: scaleY(-1);
+}
+
+/* Keep the content above the corner flourishes */
+.library__section > * {
+  position: relative;
+}
+
+.library__section .nn-section-header {
   align-items: center;
-  gap: var(--nn-space-4);
 }
 
-.library__compass {
+.library__section-icon {
   flex-shrink: 0;
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   color: var(--nn-gold);
+  font-size: 2.4rem;
+  text-align: center;
+  line-height: 52px;
 }
 
-.library__ornament {
-  margin: var(--nn-space-4) auto var(--nn-space-5);
+.library__section .nn-section-header__title {
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
 }
 
-.library__panel {
+.library__action {
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--nn-font-body);
+  font-size: 1.1rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Sits across the borders of the panels above and below */
+.library__joint {
+  display: block;
+  width: 110px;
+  height: 30px;
+  margin: -10px auto;
+  position: relative;
+  z-index: 1;
+  background: url('/assets/images/login-page/divider-small.png') no-repeat center / contain;
+}
+
+/* ---------- Search and filters on small screens ---------- */
+.library__mobile-tools {
+  display: none;
+  gap: var(--nn-space-2);
+  margin-bottom: var(--nn-space-4);
+}
+
+.library__mobile-tools .nn-field {
+  flex: 1;
+}
+
+/* ---------- Genre cards: tinted tile with an illustration and the name ---------- */
+.genre-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: var(--nn-space-3);
+  padding: 4px 2px 10px;
+}
+
+.genre-grid .genre-card {
+  width: auto;
+}
+
+.genre-card {
+  flex: 0 0 auto;
+  width: 128px;
+  height: 136px;
   display: flex;
   flex-direction: column;
-  gap: var(--nn-space-4);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--nn-space-3) var(--nn-space-2) var(--nn-space-2);
+  border: 1px solid color-mix(in srgb, var(--genre-ink) 45%, var(--genre-tint));
+  border-radius: var(--nn-radius);
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(255, 255, 255, 0.6), transparent 65%),
+    var(--genre-tint);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35), var(--nn-shadow);
+  color: var(--nn-ink-strong);
+  font-family: var(--nn-font-body);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
+.genre-card:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35), var(--nn-shadow-raised);
+}
+
+.genre-card.is-active {
+  border-color: var(--nn-primary);
+  box-shadow: inset 0 0 0 2px var(--nn-primary), var(--nn-shadow-raised);
+}
+
+.genre-card__art {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--genre-ink);
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.genre-card__art img {
+  width: 100%;
+  height: 100%;
+  max-width: 84px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgba(42, 22, 14, 0.2));
+}
+
+.genre-card__label {
+  font-size: 0.98rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.genre-card.is-active .genre-card__label {
+  font-weight: 600;
+}
+
+/* ---------- Results ---------- */
 .library__toolbar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--nn-space-3);
+  padding-bottom: var(--nn-space-4);
+  margin-bottom: var(--nn-space-4);
+  border-bottom: 1px solid var(--nn-border);
 }
 
-.library__search {
-  flex: 1 1 280px;
-}
-
-.library__filters {
+.library__active-filters {
+  flex: 1 1 240px;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: var(--nn-space-2);
 }
 
-/* Thin line filling the space between the pills and the book count */
-.library__rule {
-  flex: 1 1 40px;
-  height: 1px;
-  margin: 0 var(--nn-space-3);
-  background-color: var(--nn-gold-soft);
-}
-
-.library__count {
-  color: var(--nn-ink-muted);
-  white-space: nowrap;
+.library__filter-chip {
+  gap: 4px;
+  padding-right: 12px;
 }
 
 .library__message {
@@ -65,6 +201,141 @@
   padding: var(--nn-space-6) 0;
   color: var(--nn-ink-muted);
   text-align: center;
+}
+
+/* ---------- Filter panel ("Refine your search") ---------- */
+.filter-backdrop {
+  position: fixed;
+  inset: var(--topbar-height, 80px) 0 0;
+  z-index: 21;
+}
+
+.filter-panel {
+  position: absolute;
+  top: 10px;
+  right: clamp(16px, 4vw, 72px);
+  width: min(420px, calc(100vw - 32px));
+  max-height: calc(100% - 20px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: var(--nn-space-5) var(--nn-space-5) 0;
+  color: var(--nn-ink);
+  background-color: var(--nn-surface);
+  border: 1px solid var(--nn-gold);
+  border-radius: var(--nn-radius-lg);
+  box-shadow: inset 0 0 0 4px var(--nn-surface), inset 0 0 0 5px var(--nn-gold-soft),
+    var(--nn-shadow-raised);
+}
+
+.filter-panel .nn-corner {
+  width: 44px;
+  height: 50px;
+  top: 8px;
+}
+
+.filter-panel .nn-corner--tl {
+  left: 8px;
+}
+
+.filter-panel .nn-corner--tr {
+  right: 8px;
+}
+
+.filter-panel__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  padding: 0 var(--nn-space-2);
+}
+
+.filter-panel__heading h2 {
+  flex: 1;
+  font-size: 1.65rem;
+}
+
+.filter-panel__reset {
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.filter-panel__close {
+  padding: 6px;
+  border: none;
+  background: none;
+  color: var(--nn-ink-muted);
+  cursor: pointer;
+}
+
+.filter-panel .nn-divider {
+  margin: var(--nn-space-3) 0;
+}
+
+.filter-panel fieldset {
+  margin: 0 0 var(--nn-space-4);
+  padding: 0;
+  border: 0;
+}
+
+.filter-panel legend {
+  float: none;
+  margin-bottom: var(--nn-space-2);
+  font: 600 1.25rem var(--nn-font-display);
+  color: var(--nn-ink-strong);
+}
+
+.filter-panel__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nn-space-2);
+}
+
+.filter-panel__more {
+  gap: 2px;
+  background-color: var(--nn-surface-sunken);
+  font-weight: 600;
+}
+
+.filter-panel__choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nn-space-2);
+}
+
+.filter-panel__choices label {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+  cursor: pointer;
+}
+
+.filter-panel__choices input[type='radio'] {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--nn-primary);
+}
+
+.filter-panel__apply {
+  justify-content: center;
+  gap: var(--nn-space-2);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 1.15rem;
+}
+
+/* Castle sketch fading in under the apply button */
+.filter-panel__art {
+  display: block;
+  height: 110px;
+  margin: var(--nn-space-2) -8px 0;
+  background: url('/assets/images/login-page/castle-sketch.png') no-repeat center bottom / contain;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* Book detail popup (info-card gets its own redesign later) */
@@ -89,15 +360,50 @@
   padding: var(--nn-space-5);
 }
 
+/* The topbar hides its search and Filters button below lg */
+@media (max-width: 991px) {
+  .library__mobile-tools {
+    display: flex;
+  }
+}
+
 @media (max-width: 600px) {
-  .library__compass {
-    width: 44px;
-    height: 44px;
+  .library__section {
+    --panel-padding: var(--nn-space-3);
+    padding-top: var(--nn-space-4);
   }
 
-  /* Search on its own row, then genre and sort sharing a row, then the toggle */
-  .library__search {
-    flex-basis: 100%;
+  .library__section::before,
+  .library__section::after {
+    background-size: 32px auto;
+  }
+
+  .library__section-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.8rem;
+    line-height: 40px;
+  }
+
+  .library__section .nn-section-header {
+    flex-wrap: wrap;
+  }
+
+  .library__section .nn-section-header__subtitle {
+    font-size: 0.95rem;
+  }
+
+  .genre-card {
+    width: 100px;
+    height: 112px;
+  }
+
+  .genre-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .genre-card__art {
+    font-size: 2rem;
   }
 
   .library__toolbar .nn-select-field {
@@ -109,13 +415,5 @@
     padding-left: 36px;
     padding-right: 28px;
     background-position: right 8px center;
-  }
-
-  .library__rule {
-    display: none;
-  }
-
-  .library__count {
-    width: 100%;
   }
 }
