@@ -24,6 +24,7 @@ namespace NyriaNest.Api.Models.Books
         public DateTime AvailabilityDate { get; set; }
         public BookTypeEnums BookType { get; set; }
         public LanguageEnums Language { get; set; }
+        public DateTime DateAdded { get; set; } = DateTime.UtcNow;
 
         // Lists
         public List<ReviewItem> Reviews { get; set; } = new();

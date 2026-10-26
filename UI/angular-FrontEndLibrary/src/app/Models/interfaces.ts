@@ -19,6 +19,7 @@ export interface Book {
   bookStatus: BookStatusEnum;
   bookType: BookTypeEnums;
   availabilityDate: Date;
+  dateAdded: string; // ISO string (DateTime in C#)
 
   reviews?: string[];
   statusHistory: StatusHistoryItem[];

@@ -21,8 +21,8 @@ import {
 @Component({
   selector: 'app-addbook',
   standalone: true,
-  templateUrl: './addbook.component.html',
-  styleUrls: ['./addbook.component.css'],
+  templateUrl: './addBook.component.html',
+  styleUrls: ['./addBook.component.css'],
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, RouterModule],
 })

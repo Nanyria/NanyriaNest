@@ -183,6 +183,11 @@ namespace NyriaNest.Api.Migrations
                     b.Property<string>("CoverImagePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateAdded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
                     b.Property<int>("Genre")
                         .HasColumnType("int");
 
@@ -212,6 +217,7 @@ namespace NyriaNest.Api.Migrations
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 2,
+                            DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             Genre = 9,
                             Language = 1,
                             PublicationYear = 1925,
@@ -225,6 +231,7 @@ namespace NyriaNest.Api.Migrations
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 2,
+                            DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             Genre = 9,
                             Language = 1,
                             PublicationYear = 1960,
@@ -238,6 +245,7 @@ namespace NyriaNest.Api.Migrations
                             BookDescription = "Lorem Ipsum",
                             BookStatus = 0,
                             BookType = 1,
+                            DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             Genre = 9,
                             Language = 1,
                             PublicationYear = 1949,

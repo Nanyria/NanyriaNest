@@ -117,6 +117,10 @@ namespace NyriaNest.Api.Data
                 .Property(b => b.Language)
                 .HasDefaultValue(LanguageEnums.Undefined);
 
+            modelBuilder.Entity<Book>()
+                .Property(b => b.DateAdded)
+                .HasDefaultValueSql("GETUTCDATE()");
+
             modelBuilder.Entity<CheckedOutItem>()
                 .Property(c => c.Id)
                 .ValueGeneratedOnAdd()
@@ -159,7 +163,8 @@ namespace NyriaNest.Api.Data
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Hardcover,
                     BookStatus = BookStatusEnum.Available,
-                    Language = LanguageEnums.English
+                    Language = LanguageEnums.English,
+                    DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, DateTimeKind.Utc)
                 },
                 new Book
                 {
@@ -171,7 +176,8 @@ namespace NyriaNest.Api.Data
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Hardcover,
                     BookStatus = BookStatusEnum.Available,
-                    Language = LanguageEnums.English
+                    Language = LanguageEnums.English,
+                    DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, DateTimeKind.Utc)
                 },
                 new Book
                 {
@@ -183,7 +189,8 @@ namespace NyriaNest.Api.Data
                     BookDescription = "Lorem Ipsum",
                     BookType = BookTypeEnums.Paperback,
                     BookStatus = BookStatusEnum.Available,
-                    Language = LanguageEnums.English
+                    Language = LanguageEnums.English,
+                    DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, DateTimeKind.Utc)
                 }
             );
 
