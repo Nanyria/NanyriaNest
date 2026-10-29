@@ -51,6 +51,7 @@ namespace NyriaNest.Api
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IBookRepo, BookRepo>();
             builder.Services.AddSingleton<IFileStorage, LocalFileStorage>();
+            builder.Services.AddScoped<IEpubService, EpubService>();
 
             builder.Services.AddAutoMapper(cfg =>
             {
