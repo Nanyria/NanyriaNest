@@ -26,7 +26,7 @@ namespace NyriaNest.Api.Models.Books.BookDTOs
 
         // Files
         public string? CoverImagePath { get; set; }
-        // public bool HasEpub { get; set; }   ← stage 5
+        public bool HasEpub { get; set; }
 
         // Aggregates (computed in the query)
         public int ReviewCount { get; set; }
