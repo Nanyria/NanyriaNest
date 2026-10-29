@@ -191,7 +191,21 @@ namespace NyriaNest.Api.Data
                     BookStatus = BookStatusEnum.Available,
                     Language = LanguageEnums.English,
                     DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, DateTimeKind.Utc)
+                },
+                new Book
+                {
+                    BookId = 1004,
+                    Title = "Howl's Moving Castle",
+                    Author = "Diana Wynne Jones",
+                    Genre = GenreEnums.Fantasy,
+                    PublicationYear = 1986,
+                    BookDescription = "Sophie is turned into an old woman by a witch's curse and seeks help from the wizard Howl in his moving castle.",
+                    BookType = BookTypeEnums.EBook,
+                    BookStatus = BookStatusEnum.Available,
+                    Language = LanguageEnums.English,
+                    DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, DateTimeKind.Utc)
                 }
+
             );
 
             modelBuilder.Entity<StatusHistoryItem>().HasData(
@@ -218,8 +232,18 @@ namespace NyriaNest.Api.Data
                     BookStatus = BookStatusEnum.Added,
                     Timestamp = new DateTime(2025, 5, 12, 0, 0, 0, DateTimeKind.Utc),   // was DateTime.UtcNow.AddDays(-3)
                     Notes = "Initial added status"
+                },
+                new StatusHistoryItem
+                {
+                    StatusHistoryItemId = 1004,
+                    BookId = 1004,
+                    BookStatus = BookStatusEnum.Added,
+                    Timestamp = new DateTime(2025, 5, 11, 0, 0, 0, DateTimeKind.Utc),
+                    Notes = "Initial added status"
                 }
             );
+
+
         }
     }
 }
