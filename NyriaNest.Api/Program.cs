@@ -1,13 +1,14 @@
-using NyriaNest.Api.Data;
-using NyriaNest.Api.Helpers;
-using NyriaNest.Api.Models.Users;
-using NyriaNest.Api.Repositories;
-using NyriaNest.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using NyriaNest.Api.Data;
+using NyriaNest.Api.Helpers;
+using NyriaNest.Api.Models.Users;
+using NyriaNest.Api.Repositories;
+using NyriaNest.Api.Services;
+using NyriaNest.Api.Storage;
 using System.Text;
 
 namespace NyriaNest.Api
@@ -49,6 +50,8 @@ namespace NyriaNest.Api
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IBookRepo, BookRepo>();
+            builder.Services.AddSingleton<IFileStorage, LocalFileStorage>();
+            builder.Services.AddScoped<IEpubService, EpubService>();
 
             builder.Services.AddAutoMapper(cfg =>
             {

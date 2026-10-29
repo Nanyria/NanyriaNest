@@ -16,6 +16,7 @@ export interface Book {
   publicationYear: string;
   bookDescription?: string;
   coverImagePath?: string;
+  hasEpub: boolean;
   bookStatus: BookStatusEnum;
   bookType: BookTypeEnums;
   availabilityDate: Date;
@@ -26,6 +27,8 @@ export interface Book {
   reservations: ReservationItem[];
   checkedOutBy?: CheckedOutItem;
 }
+
+//Delete later, not used in the project
 export interface UpdateBookDto {
   bookId: string;
   title: string;
@@ -51,7 +54,6 @@ export interface SlimBookDto {
 
 }
 
-
 export interface LibraryBook {
   bookId: string;
   title: string;
@@ -61,6 +63,7 @@ export interface LibraryBook {
   publicationYear: string;
   bookDescription?: string;
   coverImagePath?: string;
+  hasEpub: boolean;
   bookStatus: BookStatusEnum;
   bookType: BookTypeEnums;
   availabilityDate: string;
@@ -74,6 +77,7 @@ export interface LibraryBook {
   isReservedByMe: boolean;
   myReservationAvailableDate: string | null;
 }
+
 // The admin book table lists both: the library list (LibraryBook) and search results (Book)
 export type AdminBook = Book | LibraryBook;
 // User interfaces

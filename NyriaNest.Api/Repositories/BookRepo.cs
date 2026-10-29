@@ -76,6 +76,7 @@ namespace NyriaNest.Api.Repositories
                     PublicationYear = b.PublicationYear,
                     BookDescription = b.BookDescription,
                     CoverImagePath = b.CoverImagePath,
+                    HasEpub = b.EpubFileKey != null,
                     BookStatus = b.BookStatus,
                     BookType = b.BookType,
                     AvailabilityDate = b.AvailabilityDate,

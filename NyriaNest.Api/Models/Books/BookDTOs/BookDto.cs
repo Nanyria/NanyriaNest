@@ -6,24 +6,10 @@ using System.Text.Json.Serialization;
 
 namespace NyriaNest.Api.Models.Books.BookDTOs
 {
-    //public class BookDto
-    //{
-    //    public int BookID { get; set; }
-    //    public required string Title { get; set; }
-    //    public required string Author { get; set; }
-    //    public required GenreEnums Genre { get; set; }
-    //    public string GenreName => Genre.ToString();
-    //    public string? BookDescription { get; set; }
-    //    public int PublicationYear { get; set; }
-    //    public BookStatusEnum BookStatus { get; set; }
-    //    public string BookStatusName => BookStatus.ToString();
-    //    public List<StatusHistoryItemDto> StatusHistory { get; set; } = new();
-    //    public List<ReservationItemDto> Reservations { get; set; } = new();
-    //    public CheckedOutItemDto? CheckedOutBy { get; set; }
-    //}
 
     public class SlimBookDto
     {
+        // Book Information
         [Required]
         [MaxLength(100)]
         public required string Title { get; set; }
@@ -31,16 +17,20 @@ namespace NyriaNest.Api.Models.Books.BookDTOs
         [Required]
         [MaxLength(75)]
         public required string Author { get; set; }
-
-        public GenreEnums Genre { get; set; }
-        public int PublicationYear { get; set; }
         public string? BookDescription { get; set; }
+        public int PublicationYear { get; set; }
+        public string? CoverImagePath { get; set; }
+
+        // Classification
+        public GenreEnums Genre { get; set; }
         public BookTypeEnums BookType { get; set; }
         public LanguageEnums Language { get; set; }
-        public string? CoverImagePath { get; set; }
+
     }
+
     public class BookDto
     {
+        // Book Information
         [Required]
         [MaxLength(100)]
         public required string Title { get; set; }
@@ -48,59 +38,24 @@ namespace NyriaNest.Api.Models.Books.BookDTOs
         [Required]
         [MaxLength(75)]
         public required string Author { get; set; }
-
-        public GenreEnums Genre { get; set; }
-        public int PublicationYear { get; set; }
         public string? BookDescription { get; set; }
+        public int PublicationYear { get; set; }
+
+        // Classification
+        public GenreEnums Genre { get; set; }
         public BookTypeEnums BookType { get; set; }
         public LanguageEnums Language { get; set; }
+
+        // Library Status
         public DateTime AvailabilityDate { get; set; }
         public string? CoverImagePath { get; set; }
+
+        // Navigation properties
         public List<ReviewItemDto> Reviews { get; set; } = new();
         public List<StatusHistoryItemDto> StatusHistory { get; set; } = new();
         public List<ReservationItemDto> Reservations { get; set; } = new();
         public CheckedOutItemDto? CheckedOutBy { get; set; }
     }
-    //public class CreateBookDto
-    //{
-    //    [Required]
-    //    public string Title { get; set; }
-    //    [Required]
-    //    public string Author { get; set; }
-    //    [Required]
-    //    public GenreEnums Genre { get; set; }
-    //    public string? BookDescription { get; set; }
-    //    public int PublicationYear { get; set; }
 
-    //    public List<StatusHistoryItem> StatusHistory { get; set; } = new();
-    //    public BookStatusEnum BookStatus { get; set; } = BookStatusEnum.Available;
-    //    public List<ReservationItemDto>? Reservations { get; set; } = new();
-    //    public CheckedOutItemDto? CheckedOutBy { get; set; }
-
-    //}
-    //public class UpdateBookInfoDTO
-    //{
-
-    //    [Required]
-    //    public string Title { get; set; }
-    //    [Required]
-    //    public string Author { get; set; }
-    //    [Required]
-    //    public GenreEnums Genre { get; set; }
-    //    public int PublicationYear { get; set; }
-    //    public string BookDescription { get; set; }
-
-    //}
-    public class UpdateBookStatusDTO
-    {
-
-        public int BookID { get; set; }
-        public BookStatusEnum BookStatus { get; set; }
-        public DateTime AvailabilityDate { get; set; }
-        public CheckedOutItemDto? CheckedOutBy { get; set; }
-        public List<StatusHistoryItemDto> StatusHistory { get; set; } = new();
-        public List<ReservationItemDto> Reservations { get; set; } = new();
-
-    }
 }
 

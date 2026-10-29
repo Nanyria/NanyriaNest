@@ -188,6 +188,10 @@ namespace NyriaNest.Api.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
+                    b.Property<string>("EpubFileKey")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<int>("Genre")
                         .HasColumnType("int");
 
@@ -250,6 +254,20 @@ namespace NyriaNest.Api.Migrations
                             Language = 1,
                             PublicationYear = 1949,
                             Title = "1984"
+                        },
+                        new
+                        {
+                            BookId = 1004,
+                            Author = "Diana Wynne Jones",
+                            AvailabilityDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BookDescription = "Sophie is turned into an old woman by a witch's curse and seeks help from the wizard Howl in his moving castle.",
+                            BookStatus = 0,
+                            BookType = 3,
+                            DateAdded = new DateTime(2025, 5, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Genre = 1,
+                            Language = 1,
+                            PublicationYear = 1986,
+                            Title = "Howl's Moving Castle"
                         });
                 });
 
@@ -402,6 +420,14 @@ namespace NyriaNest.Api.Migrations
                             BookStatus = 5,
                             Notes = "Initial added status",
                             Timestamp = new DateTime(2025, 5, 12, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            StatusHistoryItemId = 1004,
+                            BookId = 1004,
+                            BookStatus = 5,
+                            Notes = "Initial added status",
+                            Timestamp = new DateTime(2025, 5, 11, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
 

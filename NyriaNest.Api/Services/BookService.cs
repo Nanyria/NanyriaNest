@@ -5,14 +5,10 @@ using NyriaNest.Api.Models;
 using NyriaNest.Api.Models.Books;
 using NyriaNest.Api.Models.Books.BookDTOs;
 using NyriaNest.Api.Models.History;
-using NyriaNest.Api.Models.History.HistoryDTOs;
 using NyriaNest.Api.Models.Users;
-using NyriaNest.Api.Models.Users.UserDTOs;
 using NyriaNest.Api.Repositories;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using NyriaNest.Api.Storage;
 using System.Net;
-using static NyriaNest.Api.Models.Books.BookDTOs.BookDto;
 
 
 namespace NyriaNest.Api.Services
@@ -25,6 +21,7 @@ namespace NyriaNest.Api.Services
         Task<APIResponse<List<Book>>> GetBooksByAuthorAsync(string author);
         // Accept optional userId of the actor who adds the book
         Task<APIResponse<Book>> AddBookAsync(SlimBookDto book, string? userId = null);
+        Task<APIResponse<Book>> AddEbookAsync(SlimBookDto bookDto, IFormFile file, CancellationToken ct = default);
         Task<APIResponse<Book>> DeleteBookAsync(int id);
         Task<APIResponse<Book>> UpdateBookInfoAsync(int id, SlimBookDto bookDto);
         Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string userId, BookStatusEnum bookStatus, string? n);
@@ -37,19 +34,24 @@ namespace NyriaNest.Api.Services
     }
     public class BookService : IBookService
     {
-
         private readonly IBookRepo _bookRepo;
         private readonly IMapper _mapper;
         private readonly IUserRepo _userRepo;
         private readonly AppDbContext _dbContext;
+        private readonly IFileStorage _fileStorage;
+        private readonly ILogger<BookService> _logger;
+        private readonly IEpubService _epubService;
 
-
-        public BookService(IBookRepo bookRepo, IMapper mapper, IUserRepo userRepo, AppDbContext dbContext)
+        public BookService(IBookRepo bookRepo, IMapper mapper, IUserRepo userRepo, AppDbContext dbContext,
+            IFileStorage fileStorage, ILogger<BookService> logger, IEpubService epubService)
         {
             _bookRepo = bookRepo;
             _mapper = mapper;
             _userRepo = userRepo;
             _dbContext = dbContext;
+            _fileStorage = fileStorage;
+            _logger = logger;
+            _epubService = epubService;
         }
 
         public async Task<APIResponse<List<Book>>> GetAllBooksAsync()
@@ -74,7 +76,6 @@ namespace NyriaNest.Api.Services
 
             return response;
         }
-
         public async Task<APIResponse<Book>> GetBookByIdAsync(int id)
         {
             var response = new APIResponse<Book>();
@@ -104,7 +105,6 @@ namespace NyriaNest.Api.Services
 
             return response;
         }
-
         public async Task<APIResponse<List<Book>>> GetBooksByTitleAsync(string title)
         {
             var response = new APIResponse<List<Book>>();
@@ -135,7 +135,6 @@ namespace NyriaNest.Api.Services
 
             return response;
         }
-
         public async Task<APIResponse<List<Book>>> GetBooksByAuthorAsync(string author)
         {
             var response = new APIResponse<List<Book>>();
@@ -166,7 +165,6 @@ namespace NyriaNest.Api.Services
 
             return response;
         }
-
         public async Task<APIResponse<Book>> AddBookAsync(SlimBookDto bookDto, string? userId = null)
         {
             var response = new APIResponse<Book>
@@ -291,7 +289,54 @@ namespace NyriaNest.Api.Services
 
             return response;
         }
+        public async Task<APIResponse<Book>> AddEbookAsync(SlimBookDto bookDto, IFormFile file, CancellationToken ct = default)
+        {
+            var response = new APIResponse<Book>
+            {
+                IsSuccess = false,
+                StatusCode = HttpStatusCode.BadRequest
+            };
 
+            // Validate the file before anything is written, so an invalid file never creates a book
+            var fileError = await _epubService.ValidateAsync(file, ct);
+            if (fileError is not null)
+            {
+                response.ErrorMessages.Add(fileError);
+                return response;
+            }
+
+            // This endpoint only creates e-books, whatever the client sent
+            bookDto.BookType = BookTypeEnums.EBook;
+
+            // Disposing the transaction without a commit rolls back the book and its history
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
+
+            var created = await AddBookAsync(bookDto);
+            if (!created.IsSuccess || created.Result is null)
+                return created;
+
+            var upload = await _epubService.UploadAsync(created.Result.BookId, file, ct);
+            if (!upload.IsSuccess)
+            {
+                response.StatusCode = upload.StatusCode;
+                response.ErrorMessages.AddRange(upload.ErrorMessages);
+                return response;
+            }
+
+            try
+            {
+                await transaction.CommitAsync(ct);
+            }
+            catch
+            {
+                // The book is rolled back, so don't leave its file behind
+                await _fileStorage.DeleteAsync(upload.Result!, CancellationToken.None);
+                throw;
+            }
+
+            // UploadAsync set EpubFileKey on the same tracked Book, so HasEpub is true here
+            return created;
+        }
         public async Task<APIResponse<Book>> DeleteBookAsync(int id)
         {
             var response = new APIResponse<Book>();
@@ -303,6 +348,21 @@ namespace NyriaNest.Api.Services
                 {
                     await _bookRepo.DeleteAsync(bookToDelete);
                     await _bookRepo.SaveAsync();
+
+                    // Delete the EPUB only after the book is gone from the database,
+                    // so a failed DB delete never leaves a book pointing at a missing file
+                    if (bookToDelete.EpubFileKey is not null)
+                    {
+                        try
+                        {
+                            await _fileStorage.DeleteAsync(bookToDelete.EpubFileKey);
+                        }
+                        catch (Exception ex)
+                        {
+                            // The book is already deleted; a leftover file is harmless, so log instead of failing
+                            _logger.LogWarning(ex, "Could not delete EPUB {Key} for deleted book {BookId}.", bookToDelete.EpubFileKey, id);
+                        }
+                    }
 
                     response.Result = bookToDelete;
                     response.IsSuccess = true;
@@ -323,7 +383,6 @@ namespace NyriaNest.Api.Services
 
             return response;
         }
-
         public async Task<APIResponse<Book>> UpdateBookInfoAsync(int id, SlimBookDto updatedBook)
         {
             var response = new APIResponse<Book>
@@ -366,7 +425,6 @@ namespace NyriaNest.Api.Services
 
             return response;
         }
-
         public async Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string? userId, BookStatusEnum bookStatus, string? notes)
         {
             var response = new APIResponse<Book>
@@ -406,35 +464,6 @@ namespace NyriaNest.Api.Services
             response.IsSuccess = true;
             response.StatusCode = HttpStatusCode.OK;
             return response;
-        }
-        public Book GetBookStatus(Book book, BookStatusEnum bookStatus)
-        {
-            // If the book was checked out and the user is now removed
-            if (book.CheckedOutBy == null && (bookStatus == BookStatusEnum.CheckedOut || bookStatus == BookStatusEnum.Returned))
-            {
-                // If there are reservations, set to Reserved, else Available
-                book.BookStatus = (book.Reservations != null && book.Reservations.Any())
-                    ? BookStatusEnum.Reserved
-                    : BookStatusEnum.Available;
-            }
-            else if (bookStatus == BookStatusEnum.Returned)
-            {
-                // Set to Reserved if there are reservations, otherwise Available
-                book.BookStatus = (book.Reservations != null && book.Reservations.Any())
-                    ? BookStatusEnum.Reserved
-                    : BookStatusEnum.Available;
-            }
-            else if (book.BookStatus != bookStatus)
-            {
-                // Determine status based on CheckedOutBy and Reservations
-                book.BookStatus = book.CheckedOutBy != null
-                    ? BookStatusEnum.CheckedOut
-                    : (book.Reservations != null && book.Reservations.Any())
-                        ? BookStatusEnum.Reserved
-                        : BookStatusEnum.Available;
-            }
-
-            return book;
         }
         public async Task<APIResponse<DateTime>> SetAvailabilityDatesForReservations(Book book)
         {
@@ -506,7 +535,35 @@ namespace NyriaNest.Api.Services
             book.StatusHistory.Add(statusHistoryItem);
             
         }
+        public Book GetBookStatus(Book book, BookStatusEnum bookStatus)
+        {
+            // If the book was checked out and the user is now removed
+            if (book.CheckedOutBy == null && (bookStatus == BookStatusEnum.CheckedOut || bookStatus == BookStatusEnum.Returned))
+            {
+                // If there are reservations, set to Reserved, else Available
+                book.BookStatus = (book.Reservations != null && book.Reservations.Any())
+                    ? BookStatusEnum.Reserved
+                    : BookStatusEnum.Available;
+            }
+            else if (bookStatus == BookStatusEnum.Returned)
+            {
+                // Set to Reserved if there are reservations, otherwise Available
+                book.BookStatus = (book.Reservations != null && book.Reservations.Any())
+                    ? BookStatusEnum.Reserved
+                    : BookStatusEnum.Available;
+            }
+            else if (book.BookStatus != bookStatus)
+            {
+                // Determine status based on CheckedOutBy and Reservations
+                book.BookStatus = book.CheckedOutBy != null
+                    ? BookStatusEnum.CheckedOut
+                    : (book.Reservations != null && book.Reservations.Any())
+                        ? BookStatusEnum.Reserved
+                        : BookStatusEnum.Available;
+            }
 
+            return book;
+        }
         public BookStatusEnum GetCurrentStatus(Book book)
         {
             return book.StatusHistory
@@ -646,5 +703,6 @@ namespace NyriaNest.Api.Services
             }
             return response;
         }
+    
     }
 }
