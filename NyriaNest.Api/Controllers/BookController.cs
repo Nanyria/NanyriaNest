@@ -33,6 +33,17 @@ public class BookController : ControllerBase
         return StatusCode((int)response.StatusCode, response);
     }
 
+    /// <summary>Create an e-book together with its EPUB file in one request.</summary>
+    [HttpPost("ebook")]
+    [Consumes("multipart/form-data")]
+    [RequestSizeLimit(EpubService.MaxFileSize + 1024 * 1024)] // file + room for the form fields
+    [RequestFormLimits(MultipartBodyLengthLimit = EpubService.MaxFileSize + 1024 * 1024)]
+    public async Task<IActionResult> AddEbook([FromForm] SlimBookDto book, IFormFile file, CancellationToken ct)
+    {
+        var response = await _bookService.AddEbookAsync(book, file, ct);
+        return StatusCode((int)response.StatusCode, response);
+    }
+
     [HttpDelete("{bookId:int}")]
     public async Task<IActionResult> DeleteBook(int bookId)
     {
