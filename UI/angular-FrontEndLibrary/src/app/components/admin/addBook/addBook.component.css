@@ -1,1 +1,742 @@
+/* Add book form: two columns on wide screens, one column on narrow ones.
+   Sized to fit a laptop screen without scrolling. */
 
+/* The negative margins cancel the shell's padding, so the edge leaves are
+   clipped at the edge of the main area rather than inside its padding */
+:host {
+  display: block;
+  margin: calc(-1 * var(--nn-space-5)) calc(-1 * var(--nn-space-6)) calc(-1 * var(--nn-space-6));
+  /* Tight above and below: on a laptop every pixel decides whether the page scrolls */
+  padding: var(--nn-space-4) var(--nn-space-6) var(--nn-space-1);
+  overflow: clip; /* the leaves must never make the page wider or taller */
+}
+
+@media (max-width: 991px) {
+  :host {
+    margin: calc(-1 * var(--nn-space-4));
+    padding: var(--nn-space-4);
+  }
+}
+
+.add-book {
+  /* Fields are lighter than the panels so they stand out */
+  --add-book-field: #fffcf6;
+
+  position: relative;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: var(--nn-space-2) var(--nn-space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nn-space-3);
+}
+
+/* Everything in the form sits above the decoration */
+.add-book > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Decoration ----------
+   Absolutely positioned so it adds no height, and behind the panels, so only
+   the parts reaching past the panel edges show. Longhands only: a background
+   shorthand here would reset the background-image each modifier sets. */
+.add-book > .add-book__decor,
+.add-book > .add-book__art {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.add-book > .add-book__decor {
+  opacity: 0.9;
+}
+
+/* The books stand on the Format card: it hides only their bottom edge */
+.add-book > .add-book__art {
+  top: -34px;
+  right: 8px;
+  width: 250px;
+  aspect-ratio: 700 / 343;
+  background-position: right bottom;
+  background-image: url('/assets/images/web-icons-1/booksQuill.png');
+}
+
+.add-book__decor--left {
+  top: 150px;
+  left: -120px;
+  width: 220px;
+  aspect-ratio: 620 / 400;
+  background-image: url('/assets/images/web-icons-1/loweLeaves.png');
+}
+
+.add-book__decor--corner {
+  bottom: 0;
+  left: -96px;
+  width: 300px;
+  aspect-ratio: 590 / 364;
+  background-image: url('/assets/images/web-icons-1/cornerLeaves.png');
+}
+
+.add-book__decor--right {
+  top: 110px;
+  right: -110px;
+  width: 200px;
+  aspect-ratio: 438 / 505;
+  background-image: url('/assets/images/web-icons-1/upperLeaves.png');
+}
+
+/* Narrower screens: the margins disappear, so the leaves would only clutter */
+@media (max-width: 1199px) {
+  .add-book > .add-book__decor {
+    display: none;
+  }
+
+  .add-book > .add-book__art {
+    width: 180px;
+  }
+}
+
+@media (max-width: 899px) {
+  .add-book > .add-book__art,
+  .add-book__divider {
+    display: none;
+  }
+}
+
+/* ---------- Header ---------- */
+.add-book__header {
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-3);
+}
+
+.add-book__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Starts at the cards' left edge, beside the breadcrumb and title */
+.add-book__compass {
+  flex: 0 0 auto;
+  width: 46px;
+  aspect-ratio: 1;
+  background: url('/assets/images/web-icons-1/compass-star.png') no-repeat center / contain;
+}
+
+/* Gold divider centred on the page, level with the title: the small ornament
+   in the middle, with CSS lines fading out on both sides. The gap between
+   the two lines leaves room for the ornament. */
+.add-book__divider {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 420px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 86px;
+  transform: translate(-50%, -50%);
+  background: url('/assets/images/login-page/divider-small.png') no-repeat center / 76px auto;
+  pointer-events: none;
+}
+
+.add-book__divider::before,
+.add-book__divider::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--nn-gold));
+}
+
+.add-book__divider::after {
+  background: linear-gradient(to left, transparent, var(--nn-gold));
+}
+
+/* The wider divider would run into the title on narrower screens */
+@media (max-width: 1099px) {
+  .add-book__divider {
+    display: none;
+  }
+}
+
+.add-book__breadcrumb {
+  font-size: 0.7rem;
+}
+
+.add-book__breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.add-book__breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.add-book__title {
+  font-size: 1.6rem;
+}
+
+.add-book__help {
+  margin: 0;
+  color: var(--nn-ink-muted);
+  font-size: 0.92rem;
+}
+
+.add-book__required {
+  margin-left: 2px;
+  color: var(--nn-accent);
+}
+
+/* ---------- Panels ---------- */
+.add-book__panel {
+  padding: var(--nn-space-3) var(--nn-space-4) 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Section title with a gold diamond and a thin rule running to the edge */
+.add-book__panel-title {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-book__panel-title > .bi {
+  color: var(--nn-gold-ink);
+  font-size: 1.35rem;
+}
+
+.add-book__title-rule {
+  position: relative;
+  flex: 1 1 auto;
+  height: 1px;
+  margin-left: 14px;
+  background-color: var(--nn-gold-soft);
+}
+
+.add-book__title-rule::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--nn-gold);
+  background-color: var(--nn-gold-soft);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* ---------- Format ---------- */
+.add-book__format {
+  gap: var(--nn-space-2);
+  padding-top: 10px;
+  padding-bottom: var(--nn-space-3);
+}
+
+.add-book__format-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px var(--nn-space-3);
+}
+
+.add-book__format-title {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: var(--nn-space-2);
+}
+
+.add-book__format-title > .bi {
+  color: var(--nn-gold-ink);
+  font-size: 1.1rem;
+}
+
+/* Matches the field labels, where the asterisk sits right after the word */
+.add-book__format-title .add-book__required {
+  font-size: 1rem;
+}
+
+.add-book__format-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nn-space-2) var(--nn-space-3);
+}
+
+.add-book__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nn-space-2);
+}
+
+/* Separate option buttons; the selected one is filled green */
+.add-book__option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nn-space-2);
+  min-height: 40px;
+  padding: 4px 18px;
+  border: 1px solid var(--nn-border-strong);
+  border-radius: var(--nn-radius-sm);
+  background-color: var(--add-book-field);
+  color: var(--nn-ink);
+  font-family: var(--nn-font-body);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.add-book__option .bi {
+  font-size: 1.1rem;
+}
+
+.add-book__option:hover:not(:disabled):not(.is-active) {
+  border-color: var(--nn-gold);
+  background-color: var(--nn-surface-hover);
+}
+
+.add-book__option.is-active {
+  border-color: var(--nn-primary-hover);
+  background-color: var(--nn-primary);
+  color: var(--nn-on-primary);
+}
+
+.add-book__option:disabled {
+  border-color: var(--nn-border);
+  color: var(--nn-ink-faint);
+  cursor: not-allowed;
+}
+
+.add-book__format-arrow {
+  color: var(--nn-ink-muted);
+  font-size: 1rem;
+}
+
+.add-book__soon {
+  margin-left: 4px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background-color: var(--nn-surface-sunken);
+  color: var(--nn-ink-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ---------- Columns ---------- */
+.add-book__columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.add-book__details {
+  flex: 3 1 560px;
+  min-width: 0;
+}
+
+.add-book__files {
+  flex: 2 1 360px;
+  min-width: 0;
+}
+
+/* ---------- Fields ---------- */
+.add-book__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px var(--nn-space-3);
+}
+
+.add-book__field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.add-book__field > label,
+.add-book__label {
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+.add-book__field--title {
+  flex: 3 1 240px;
+}
+
+.add-book__field--author {
+  flex: 2 1 200px;
+}
+
+.add-book__field--year {
+  flex: 1 1 110px;
+}
+
+.add-book__field--select {
+  flex: 2 1 170px;
+}
+
+/* Fills the rest of the panel so both columns end at the same height */
+.add-book__field--grow {
+  flex: 1 1 auto;
+}
+
+.add-book__optional {
+  color: var(--nn-ink-muted);
+  font-weight: 400;
+}
+
+/* The theme's fields are sized for single search boxes; this form has many,
+   so they are a little tighter here to fit a laptop screen */
+.add-book .nn-input {
+  padding: 5px 12px;
+  background-color: var(--add-book-field);
+}
+
+/* nn-select reserves room for a leading icon; these selects have none.
+   background-color only, so the theme's arrow image stays */
+.add-book__select {
+  width: 100%;
+  padding: 5px 38px 5px 12px;
+  background-color: var(--add-book-field);
+}
+
+.add-book__textarea {
+  flex: 1 1 auto;
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.add-book__error {
+  color: var(--nn-accent);
+  font-size: 0.9rem;
+}
+
+/* ---------- Cover ----------
+   Preview on the left; drop area and URL field stacked beside it.
+   Physical books get a larger cover; e-books a compact one (see --compact). */
+.add-book__cover-row {
+  display: flex;
+  gap: var(--nn-space-3);
+  align-items: stretch;
+}
+
+.add-book__cover-side {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nn-space-2);
+}
+
+/* A large preview, as in the template; the drop area and URL field beside it
+   fill its height */
+.add-book__cover {
+  width: 120px;
+  height: 180px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border: 1px solid var(--nn-border-strong);
+  border-radius: 4px;
+  background-color: var(--add-book-field);
+}
+
+.add-book__cover--empty {
+  padding: 4px;
+  color: var(--nn-gold);
+  background-color: var(--nn-surface-sunken);
+}
+
+.add-book__cover--empty svg {
+  width: 100%;
+  height: 100%;
+}
+
+.add-book__url {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* The drop area fills the height left beside the preview above the URL field */
+.add-book__cover-side .add-book__drop {
+  min-height: 0;
+}
+
+/* E-books also show the EPUB field, so the cover is a little smaller; still
+   tall enough to match the drop area and URL field beside it */
+.add-book__files--compact .add-book__cover {
+  width: 92px;
+  height: 138px;
+}
+
+.add-book__url label {
+  color: var(--nn-ink-muted);
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+/* ---------- Drop areas ---------- */
+.add-book__drop {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 84px;
+  margin: 0;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 1.5px dashed var(--nn-border-strong);
+  border-radius: var(--nn-radius);
+  background-color: var(--add-book-field);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.12s, border-color 0.12s;
+}
+
+.add-book__drop:hover,
+.add-book__drop:focus-within {
+  border-color: var(--nn-gold);
+  background-color: var(--nn-surface-hover);
+}
+
+.add-book__drop > .bi {
+  color: var(--nn-ink);
+  font-size: 1.4rem;
+}
+
+.add-book__drop--active {
+  border-style: solid;
+  border-color: var(--nn-primary);
+  background-color: #e6ece3;
+}
+
+.add-book__drop-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.add-book__drop-title {
+  color: var(--nn-ink);
+}
+
+/* Horizontal drop area: icon left, two lines of text right, centred as a group.
+   Fixed height rather than stretching to fill the panel. */
+.add-book__drop--row {
+  flex: 0 0 auto;
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--nn-space-3);
+  min-height: 72px;
+  padding: 8px 16px;
+  text-align: left;
+}
+
+.add-book__drop--row > .bi {
+  font-size: 1.6rem;
+}
+
+/* "browse" reads as the clickable part of the drop area */
+.add-book__browse {
+  color: var(--nn-primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.add-book__drop-hint {
+  color: var(--nn-ink-muted);
+  font-size: 0.88rem;
+}
+
+/* Same look as the real drop area with greyed-out text, until cover upload exists */
+.add-book__drop--disabled,
+.add-book__drop--disabled:hover {
+  border-color: var(--nn-border-strong);
+  background-color: var(--add-book-field);
+  cursor: not-allowed;
+}
+
+.add-book__drop--disabled > .bi,
+.add-book__drop--disabled .add-book__drop-title,
+.add-book__drop--disabled .add-book__browse {
+  color: var(--nn-ink-muted);
+}
+
+/* The real file input stays focusable for keyboard users but is invisible */
+.add-book__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+/* ---------- Chosen file / rejected file ----------
+   Same height as the drop area it replaces, buttons inside the card */
+.add-book__file {
+  min-width: 0;
+  min-height: 72px;
+  padding: 8px 10px 8px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nn-space-2) var(--nn-space-3);
+  border: 1px solid #b9cbb5;
+  border-radius: var(--nn-radius);
+  background-color: #eef3ec;
+}
+
+.add-book__file > .bi {
+  color: var(--nn-primary);
+  font-size: 1.6rem;
+}
+
+/* Name with the check mark right after it; the name is cut off before the mark is */
+.add-book__file-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.add-book__file-check {
+  flex: 0 0 auto;
+  color: var(--nn-primary);
+}
+
+/* Icon-only file buttons where there's no room for the labels */
+@media (max-width: 1399px) {
+  .add-book__btn-label {
+    display: none;
+  }
+
+  .add-book__file-btn {
+    padding: 6px 10px;
+  }
+}
+
+.add-book__file-text {
+  flex: 1 1 140px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-book__file-actions {
+  display: flex;
+  gap: var(--nn-space-2);
+  margin-left: auto;
+}
+
+.add-book__file-text strong,
+.add-book__file-text span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.add-book__file-text span {
+  color: var(--nn-ink-muted);
+  font-size: 0.9rem;
+}
+
+.add-book__file-btn {
+  position: relative;
+  margin: 0;
+  padding: 6px 14px;
+  font-size: 0.98rem;
+  background-color: var(--add-book-field);
+}
+
+.add-book__file-btn--remove {
+  color: var(--nn-accent);
+}
+
+.add-book__file--error {
+  border-color: #e2b2a9;
+  background-color: #fbedea;
+}
+
+.add-book__file--error > .bi,
+.add-book__file--error strong {
+  color: var(--nn-accent);
+}
+
+/* ---------- Server errors and actions ---------- */
+.add-book__banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid #e2b2a9;
+  border-radius: var(--nn-radius-sm);
+  background-color: #fbedea;
+  color: var(--nn-accent);
+}
+
+.add-book__banner strong {
+  margin-right: 4px;
+}
+
+/* Sticks to the bottom of the window only when the page is taller than the
+   screen, so Add book is always in reach. The row is transparent until it is
+   actually stuck; browsers without scroll-state queries keep it transparent. */
+.add-book > .add-book__actions-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  margin-top: -6px; /* the buttons sit closer to the cards than the cards sit to each other */
+  container-type: scroll-state;
+}
+
+.add-book__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--nn-space-2) var(--nn-space-3);
+  margin: 0 calc(-1 * var(--nn-space-2));
+  padding: var(--nn-space-1) var(--nn-space-2);
+  border-radius: var(--nn-radius-sm);
+}
+
+@container scroll-state(stuck: bottom) {
+  .add-book__actions {
+    background-color: color-mix(in srgb, var(--nn-page) 85%, transparent);
+    backdrop-filter: blur(4px);
+    box-shadow: var(--nn-shadow);
+  }
+}
+
+.add-book__actions .nn-btn--outline {
+  background-color: var(--add-book-field);
+}
+
+/* The hint explains why it is disabled, so it doesn't need to look faded out */
+.add-book__submit:disabled {
+  opacity: 0.75;
+}
+
+.add-book__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--nn-ink-muted);
+  font-size: 0.95rem;
+}
