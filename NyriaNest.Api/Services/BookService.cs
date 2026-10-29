@@ -5,14 +5,10 @@ using NyriaNest.Api.Models;
 using NyriaNest.Api.Models.Books;
 using NyriaNest.Api.Models.Books.BookDTOs;
 using NyriaNest.Api.Models.History;
-using NyriaNest.Api.Models.History.HistoryDTOs;
 using NyriaNest.Api.Models.Users;
-using NyriaNest.Api.Models.Users.UserDTOs;
 using NyriaNest.Api.Repositories;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using NyriaNest.Api.Storage;
 using System.Net;
-using static NyriaNest.Api.Models.Books.BookDTOs.BookDto;
 
 
 namespace NyriaNest.Api.Services
@@ -42,14 +38,18 @@ namespace NyriaNest.Api.Services
         private readonly IMapper _mapper;
         private readonly IUserRepo _userRepo;
         private readonly AppDbContext _dbContext;
+        private readonly IFileStorage _fileStorage;
+        private readonly ILogger<BookService> _logger;
 
-
-        public BookService(IBookRepo bookRepo, IMapper mapper, IUserRepo userRepo, AppDbContext dbContext)
+        public BookService(IBookRepo bookRepo, IMapper mapper, IUserRepo userRepo, AppDbContext dbContext,
+            IFileStorage fileStorage, ILogger<BookService> logger)
         {
             _bookRepo = bookRepo;
             _mapper = mapper;
             _userRepo = userRepo;
             _dbContext = dbContext;
+            _fileStorage = fileStorage;
+            _logger = logger;
         }
 
         public async Task<APIResponse<List<Book>>> GetAllBooksAsync()
@@ -303,6 +303,21 @@ namespace NyriaNest.Api.Services
                 {
                     await _bookRepo.DeleteAsync(bookToDelete);
                     await _bookRepo.SaveAsync();
+
+                    // Delete the EPUB only after the book is gone from the database,
+                    // so a failed DB delete never leaves a book pointing at a missing file
+                    if (bookToDelete.EpubFileKey is not null)
+                    {
+                        try
+                        {
+                            await _fileStorage.DeleteAsync(bookToDelete.EpubFileKey);
+                        }
+                        catch (Exception ex)
+                        {
+                            // The book is already deleted; a leftover file is harmless, so log instead of failing
+                            _logger.LogWarning(ex, "Could not delete EPUB {Key} for deleted book {BookId}.", bookToDelete.EpubFileKey, id);
+                        }
+                    }
 
                     response.Result = bookToDelete;
                     response.IsSuccess = true;
