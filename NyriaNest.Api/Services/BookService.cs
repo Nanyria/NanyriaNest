@@ -186,6 +186,7 @@ namespace NyriaNest.Api.Services
                     Title = bookDto.Title,
                     Author = bookDto.Author,
                     Genre = bookDto.Genre,
+                    Language = bookDto.Language,
                     BookDescription = bookDto.BookDescription,
                     PublicationYear = bookDto.PublicationYear,
                     BookType = bookDto.BookType,
