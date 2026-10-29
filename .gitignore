@@ -213,3 +213,6 @@ obj/
 *.key
 *.crt
 *.pfx
+
+# Uploaded files (EPUBs etc.)
+App_Data/
