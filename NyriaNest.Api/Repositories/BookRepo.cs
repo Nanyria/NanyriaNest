@@ -67,6 +67,8 @@ namespace NyriaNest.Api.Repositories
         {
             return await _db.Books
                 .AsNoTracking()
+                // Books an admin has marked Lost or Removed aren't part of the public catalogue
+                .Where(b => b.AdminStatus == null)
                 .OrderBy(b => b.Title)
                 .Select(b => new LibraryBookDto
                 {
