@@ -31,6 +31,8 @@ namespace NyriaNest.Api.Services
         Task<APIResponse<List<BookReviewDto>>> GetBookReviewsAsync (int bookId);
         Task<APIResponse<DateTime>> SetAvailabilityDatesForReservations(Book book);
         Task<APIResponse<List<LibraryBookDto>>> GetLibraryAsync(string? userId);
+        Task<APIResponse<Book>> SetAdminStatusAsync(int bookId, BookStatusEnum status, string? adminUserId, string? notes);
+        Task<APIResponse<Book>> ClearAdminStatusAsync(int bookId, string? adminUserId);
     }
     public class BookService : IBookService
     {
@@ -538,6 +540,12 @@ namespace NyriaNest.Api.Services
         }
         public Book GetBookStatus(Book book, BookStatusEnum bookStatus)
         {
+            // An admin-set status (Lost/Removed) always wins
+            if (book.AdminStatus is BookStatusEnum.Lost or BookStatusEnum.Removed)
+            {
+                book.BookStatus = book.AdminStatus.Value;
+                return book;
+            }
             // If the book was checked out and the user is now removed
             if (book.CheckedOutBy == null && (bookStatus == BookStatusEnum.CheckedOut || bookStatus == BookStatusEnum.Returned))
             {
@@ -704,6 +712,73 @@ namespace NyriaNest.Api.Services
             }
             return response;
         }
-    
+
+        public async Task<APIResponse<Book>> SetAdminStatusAsync(int bookId, BookStatusEnum status, string? adminUserId, string? notes)
+        {
+            var response = new APIResponse<Book> { IsSuccess = false, StatusCode = HttpStatusCode.BadRequest };
+
+            if (status is not (BookStatusEnum.Lost or BookStatusEnum.Removed))
+            {
+                response.ErrorMessages.Add("Admins can only set Lost or Removed.");
+                return response;
+            }
+
+            var book = await _bookRepo.GetByIdAsync(bookId);
+            if (book == null)
+            {
+                response.StatusCode = HttpStatusCode.NotFound;
+                response.ErrorMessages.Add("Book not found.");
+                return response;
+            }
+            if (book.CheckedOutBy != null)
+            {
+                response.ErrorMessages.Add("This book is checked out. Return it first.");
+                return response;
+            }
+
+            book.AdminStatus = status;
+            book.AdminStatusSetAt = DateTime.UtcNow;
+            book.AdminStatusNotes = notes;
+            GetBookStatus(book, status);
+
+            await AddHistoryIfAdminAsync(adminUserId, book, status, notes);
+            await _bookRepo.UpdateAsync(book);
+            await _bookRepo.SaveAsync();
+
+            response.Result = book;
+            response.IsSuccess = true;
+            response.StatusCode = HttpStatusCode.OK;
+            return response;
+        }
+
+        public async Task<APIResponse<Book>> ClearAdminStatusAsync(int bookId, string? adminUserId)
+        {
+            var response = new APIResponse<Book> { IsSuccess = false, StatusCode = HttpStatusCode.NotFound };
+            var book = await _bookRepo.GetByIdAsync(bookId);
+            if (book == null) { response.ErrorMessages.Add("Book not found."); return response; }
+
+            book.AdminStatus = null;
+            book.AdminStatusSetAt = null;
+            book.AdminStatusNotes = null;
+            // "Returned" makes GetBookStatus recompute: Reserved if there are reservations, else Available
+            GetBookStatus(book, BookStatusEnum.Returned);
+
+            await AddHistoryIfAdminAsync(adminUserId, book, book.BookStatus, "Restored by admin");
+            await _bookRepo.UpdateAsync(book);
+            await _bookRepo.SaveAsync();
+
+            response.Result = book;
+            response.IsSuccess = true;
+            response.StatusCode = HttpStatusCode.OK;
+            return response;
+        }
+
+        private async Task AddHistoryIfAdminAsync(string? adminUserId, Book book, BookStatusEnum status, string? notes)
+        {
+            if (string.IsNullOrEmpty(adminUserId)) return;
+            var admin = await _userRepo.GetByIdAsync<User>(adminUserId);
+            if (admin != null) AddStatusHistoryItem(admin, book, status, notes);
+        }
+
     }
 }

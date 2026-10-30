@@ -48,7 +48,11 @@ namespace NyriaNest.Api.Models.Books
         public List<ReservationItem> Reservations { get; set; } = new();
         public CheckedOutItem? CheckedOutBy { get; set; }
 
-
+        // Set only by an admin (Lost or Removed). When set, it wins over loans and reservations.
+        public BookStatusEnum? AdminStatus { get; set; }
+        public DateTime? AdminStatusSetAt { get; set; }
+        [MaxLength(500)]
+        public string? AdminStatusNotes { get; set; }
 
     }
 }

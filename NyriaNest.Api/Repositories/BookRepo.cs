@@ -35,15 +35,16 @@ namespace NyriaNest.Api.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Book> GetByIdAsync(int id)
+        public async Task<Book?> GetByIdAsync(int id)
         {
             return await _db.Books
-                   .Include(b => b.Reviews)
-                       .ThenInclude(r => r.User)
-                   .Include(b => b.Reviews)
-                       .ThenInclude(r => r.RatingItem)
-                   .Include(b => b.CheckedOutBy)
-                   .FirstOrDefaultAsync(b => b.BookId == id);
+                .Include(b => b.Reviews)
+                    .ThenInclude(r => r.User)
+                .Include(b => b.Reviews)
+                    .ThenInclude(r => r.RatingItem)
+                .Include(b => b.CheckedOutBy)
+                .Include(b => b.Reservations)
+                .FirstOrDefaultAsync(b => b.BookId == id);
         }
 
         public async Task<IEnumerable<Book>> GetByTitleAsync(string title)
