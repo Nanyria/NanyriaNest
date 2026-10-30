@@ -351,6 +351,17 @@ namespace NyriaNest.Api.Services
             try
             {
                 var bookToDelete = await _bookRepo.GetByIdAsync(id);
+
+                // Deleting a book someone has borrowed would wipe out their loan
+                // (and the loan's FK is Restrict, so the delete would fail anyway)
+                if (bookToDelete?.CheckedOutBy != null)
+                {
+                    response.IsSuccess = false;
+                    response.ErrorMessages.Add("Return this book before deleting it.");
+                    response.StatusCode = HttpStatusCode.Conflict;
+                    return response;
+                }
+
                 if (bookToDelete != null)
                 {
                     await _bookRepo.DeleteAsync(bookToDelete);
