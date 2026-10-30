@@ -118,26 +118,27 @@ namespace NyriaNest.Api.Repositories
 
             // Status is worked out from loans, reservations and the admin status,
             // the same way GetBookStatus does, rather than trusting the stored BookStatus
+            // (Returned and Added are rejected by the service before we get here)
             books = q.Status switch
             {
-                "available"  => books.Where(b => b.AdminStatus == null && b.CheckedOutBy == null && !b.Reservations.Any()),
-                "checkedOut" => books.Where(b => b.CheckedOutBy != null),
-                "overdue"    => books.Where(b => b.CheckedOutBy != null && b.CheckedOutBy.ReturnDate < now),
-                "reserved"   => books.Where(b => b.AdminStatus == null && b.CheckedOutBy == null && b.Reservations.Any()),
-                "lost"       => books.Where(b => b.AdminStatus == BookStatusEnum.Lost),
-                "removed"    => books.Where(b => b.AdminStatus == BookStatusEnum.Removed),
-                _ => books
+                BookStatusEnum.Available  => books.Where(b => b.AdminStatus == null && b.CheckedOutBy == null && !b.Reservations.Any()),
+                BookStatusEnum.CheckedOut => books.Where(b => b.CheckedOutBy != null),
+                BookStatusEnum.Overdue    => books.Where(b => b.CheckedOutBy != null && b.CheckedOutBy.ReturnDate < now),
+                BookStatusEnum.Reserved   => books.Where(b => b.AdminStatus == null && b.CheckedOutBy == null && b.Reservations.Any()),
+                BookStatusEnum.Lost       => books.Where(b => b.AdminStatus == BookStatusEnum.Lost),
+                BookStatusEnum.Removed    => books.Where(b => b.AdminStatus == BookStatusEnum.Removed),
+                _ => books // no status filter
             };
 
             // Each sort ends with a unique tie-breaker. Without one, books with the same
             // title can swap places between pages, so one shows up twice and another never.
             books = q.Sort switch
             {
-                "title_desc" => books.OrderByDescending(b => b.Title).ThenBy(b => b.BookId),
-                "author_asc" => books.OrderBy(b => b.Author).ThenBy(b => b.Title).ThenBy(b => b.BookId),
-                "year_desc"  => books.OrderByDescending(b => b.PublicationYear).ThenBy(b => b.Title).ThenBy(b => b.BookId),
-                "year_asc"   => books.OrderBy(b => b.PublicationYear).ThenBy(b => b.Title).ThenBy(b => b.BookId),
-                _            => books.OrderBy(b => b.Title).ThenBy(b => b.BookId),
+                CatalogueSort.TitleDesc => books.OrderByDescending(b => b.Title).ThenBy(b => b.BookId),
+                CatalogueSort.AuthorAsc => books.OrderBy(b => b.Author).ThenBy(b => b.Title).ThenBy(b => b.BookId),
+                CatalogueSort.YearDesc  => books.OrderByDescending(b => b.PublicationYear).ThenBy(b => b.Title).ThenBy(b => b.BookId),
+                CatalogueSort.YearAsc   => books.OrderBy(b => b.PublicationYear).ThenBy(b => b.Title).ThenBy(b => b.BookId),
+                _                       => books.OrderBy(b => b.Title).ThenBy(b => b.BookId), // TitleAsc
             };
 
             var total = await books.CountAsync();

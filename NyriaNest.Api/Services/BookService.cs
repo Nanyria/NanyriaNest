@@ -700,6 +700,17 @@ namespace NyriaNest.Api.Services
         public async Task<APIResponse<PagedResult<AdminBookDto>>> GetAdminCatalogueAsync(AdminCatalogueQuery q)
         {
             var response = new APIResponse<PagedResult<AdminBookDto>>();
+
+            // Returned and Added are momentary events, not states a book stays in,
+            // so filtering by them would silently match nothing useful
+            if (q.Status is BookStatusEnum.Returned or BookStatusEnum.Added)
+            {
+                response.IsSuccess = false;
+                response.StatusCode = HttpStatusCode.BadRequest;
+                response.ErrorMessages.Add($"Can't filter by {q.Status}.");
+                return response;
+            }
+
             try
             {
                 response.Result = await _bookRepo.GetAdminCatalogueAsync(q);

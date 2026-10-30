@@ -3,16 +3,31 @@ using NyriaNest.Api.Helpers.Enums;
 namespace NyriaNest.Api.Models.Books.BookDTOs
 {
     // Query string for GET /api/Book/catalogue. Every filter is optional.
+    // Enums accept names in any case or numbers, e.g. ?status=checkedOut or ?status=2.
     public class AdminCatalogueQuery
     {
         public string? Q { get; set; }              // matches title or author
         public GenreEnums? Genre { get; set; }
         public BookTypeEnums? BookType { get; set; }
-        public string? Status { get; set; }         // available | checkedOut | overdue | reserved | lost | removed
+
+        // Worked out from loans, reservations and the admin status, not read from the
+        // stored BookStatus (Overdue, for example, comes from the due date).
+        // Returned and Added aren't states a book stays in, so they're rejected.
+        public BookStatusEnum? Status { get; set; }
+
         public bool NeedsAttention { get; set; }    // e-books with no EPUB file
-        public string Sort { get; set; } = "title_asc";
+        public CatalogueSort Sort { get; set; } = CatalogueSort.TitleAsc;
         public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 10;
+    }
+
+    public enum CatalogueSort
+    {
+        TitleAsc,
+        TitleDesc,
+        AuthorAsc,
+        YearDesc,   // newest first
+        YearAsc,    // oldest first
     }
 
     // One page of results plus the total, so the UI can show "1–10 of 42"
