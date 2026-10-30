@@ -22,6 +22,18 @@ export class BookService {
     return this.http.post<any>(this.apiUrl, book);
   }
 
+  // Creates an e-book and stores its EPUB in one request (multipart form data)
+  addEbook(book: SlimBookDto, file: File): Observable<any> {
+    const formData = new FormData();
+    Object.entries(book).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        formData.append(key, String(value));
+      }
+    });
+    formData.append('file', file, file.name);
+    return this.http.post<any>(`${this.apiUrl}/ebook`, formData);
+  }
+
   updateBook(bookID: string, updatedBook: SlimBookDto): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${bookID}`, updatedBook);
   }

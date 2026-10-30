@@ -15,25 +15,28 @@
       <span class="nn-corner nn-corner--tr"></span>
       <span class="nn-corner nn-corner--bl"></span>
       <span class="nn-corner nn-corner--br"></span>
-      <span class="nn-edge-ornament start-auth__edge start-auth__edge--top"></span>
 
       <div class="start-brand">
-        <img
-          src="assets/images/login-page/dragon-medallion.png"
-          alt=""
-          class="start-brand__logo"
-        />
-        <div class="start-brand__name">Nyria Nest</div>
-        <div class="start-brand__tagline">Find your next adventure</div>
+        <div class="start-brand__lockup">
+          <img
+            src="assets/images/logos/DragonLogo.svg"
+            alt=""
+            class="start-brand__logo"
+          />
+          <div class="start-brand__text">
+            <div class="start-brand__name">NyriaNest</div>
+            <div class="start-brand__tagline">Find your next adventure</div>
+          </div>
+        </div>
       </div>
       <div class="nn-divider"><span class="nn-divider__mark"></span></div>
 
       @if (!showRegister) {
         <app-login></app-login>
-        <div class="nn-divider"><span class="nn-muted">or</span></div>
-        <button class="nn-btn nn-btn--outline nn-btn--block" (click)="showRegister = true">
-          Sign up
-        </button>
+        <p class="start-auth__switch">
+          New to the Nest?
+          <button type="button" class="nn-link-button" (click)="showRegister = true">Create an account</button>
+        </p>
       } @else {
         <app-register-user></app-register-user>
         <p class="start-auth__switch">
@@ -41,8 +44,6 @@
           <button type="button" class="nn-link-button" (click)="showRegister = false">Log in</button>
         </p>
       }
-
-      <span class="nn-edge-ornament start-auth__edge start-auth__edge--bottom"></span>
     </section>
   </div>
 </div>

@@ -1,4 +1,4 @@
-/* theme.css — Nyria Nest parchment design system.
+/* theme.css — NyriaNest parchment design system.
    New UI builds on these tokens and nn-* classes. The old variables in
    styles.css stay until every page has been migrated. */
 
@@ -552,12 +552,12 @@ body:has(.nn-theme) > app-root {
   background: url('/assets/images/ornaments/edge.svg') no-repeat center / contain;
 }
 
-/* Parchment page background: paper texture washed out under a vignette */
+/* Parchment page background. The paper already has darker stained edges,
+   so it only gets a light wash to keep text and panels easy to read */
 .nn-parchment {
   background:
-    radial-gradient(ellipse at center, transparent 50%, rgba(122, 88, 48, 0.22) 100%),
-    linear-gradient(rgba(243, 231, 208, 0.82), rgba(243, 231, 208, 0.82)),
-    url('/assets/images/webpage-images/backgrounds/paper%20background.png') center / cover,
+    linear-gradient(rgba(243, 231, 208, 0.3), rgba(243, 231, 208, 0.3)),
+    url('/assets/images/backgrounds/paperBackground.jpg') center / cover,
     var(--nn-page);
 }
 
