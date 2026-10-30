@@ -29,13 +29,17 @@ namespace NyriaNest.Api.Services
         Task<APIResponse<List<ReservationItem>>> GetBookReservationsAsync(int bookId);
         Task<APIResponse<List<Book>>> GetBooksByGenreAsync(GenreEnums genre, string sortBy = "Title", bool ascending = true);
         Task<APIResponse<List<BookReviewDto>>> GetBookReviewsAsync (int bookId);
-        Task<APIResponse<DateTime>> SetAvailabilityDatesForReservations(Book book);
+        void RecalculateAvailabilityDates(Book book);
         Task<APIResponse<List<LibraryBookDto>>> GetLibraryAsync(string? userId);
         Task<APIResponse<Book>> SetAdminStatusAsync(int bookId, BookStatusEnum status, string? adminUserId, string? notes);
         Task<APIResponse<Book>> ClearAdminStatusAsync(int bookId, string? adminUserId);
     }
     public class BookService : IBookService
     {
+        // How long a loan lasts. Used for the due date and for spacing out the
+        // reservation queue, so the two can't drift apart.
+        public const int LoanPeriodMonths = 1;
+
         private readonly IBookRepo _bookRepo;
         private readonly IMapper _mapper;
         private readonly IUserRepo _userRepo;
@@ -468,59 +472,34 @@ namespace NyriaNest.Api.Services
             response.StatusCode = HttpStatusCode.OK;
             return response;
         }
-        public async Task<APIResponse<DateTime>> SetAvailabilityDatesForReservations(Book book)
+        /// <summary>
+        /// Recalculates when the book is expected to be available for each person in
+        /// the reservation queue. Call it whenever the loan or the queue changes.
+        /// A reservation's AvailabilityDate is an estimate, not a hold expiry.
+        /// </summary>
+        // Plain (not async) on purpose: it only updates tracked entities in memory,
+        // and callers used to block on it with .Wait(), which can deadlock.
+        public void RecalculateAvailabilityDates(Book book)
         {
-            var response = new APIResponse<DateTime>
+            // The queue starts when the current loan is due, or today if nobody has the book
+            var baseDate = book.CheckedOutBy?.ReturnDate ?? DateTime.UtcNow;
+
+            // First come, first served
+            var queue = book.Reservations
+                .OrderBy(r => r.ReservationDate)
+                .ToList();
+
+            // Each person after the first waits one more loan period
+            for (int i = 0; i < queue.Count; i++)
             {
-                IsSuccess = false,
-                StatusCode = HttpStatusCode.BadRequest
-            };
-            try
-            {
-                DateTime baseDate;
-                if (book.CheckedOutBy != null)
-                {
-                    // Book is checked out, start from return date
-                    baseDate = book.CheckedOutBy.ReturnDate;
-                }
-                else
-                {
-                    // Book is available, start from today
-                    baseDate = DateTime.UtcNow;
-                }
-
-                if (book.Reservations == null || book.Reservations.Count == 0)
-                {
-                    response.Result = baseDate;
-                    response.IsSuccess = true;
-                    response.StatusCode = HttpStatusCode.OK;
-                }
-                else
-                {   // Sort reservations by ReservationDate (FIFO)
-                    var sortedReservations = book.Reservations
-                        .OrderBy(r => r.ReservationDate)
-                        .ToList();
-
-                    for (int i = 0; i < sortedReservations.Count; i++)
-                    {
-                        sortedReservations[i].AvailabilityDate = baseDate.AddMonths(i);
-                    }
-                    book.AvailabilityDate = sortedReservations.Count > 0
-                    ? sortedReservations.Last().AvailabilityDate ?? baseDate
-                    : baseDate;
-
-                    response.Result = book.AvailabilityDate;
-                    response.StatusCode = HttpStatusCode.OK;
-
-
-                }
+                queue[i].AvailabilityDate = baseDate.AddMonths(i * LoanPeriodMonths);
             }
-            catch (Exception ex)
-            {
-                response.ErrorMessages.Add(ex.Message);
-                response.StatusCode = HttpStatusCode.InternalServerError;
-            }
-            return response;
+
+            // The book's own date is when the last person in the queue gets it
+            // (or when it's free, if there's no queue)
+            book.AvailabilityDate = queue.Count > 0
+                ? queue[^1].AvailabilityDate ?? baseDate
+                : baseDate;
         }
         public void AddStatusHistoryItem(User user, Book book, BookStatusEnum bookStatus, string? notes)
         {
