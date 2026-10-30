@@ -1,4 +1,4 @@
-<form class="add-book" [formGroup]="addBookForm" (ngSubmit)="onSubmit()" novalidate>
+<form class="add-book nn-compact" [formGroup]="addBookForm" (ngSubmit)="onSubmit()" novalidate>
   <!-- Decoration only: books art behind the top right of the Format card,
        leaves peeking out behind the panels -->
   <span class="add-book__art" aria-hidden="true"></span>
@@ -7,22 +7,22 @@
   <span class="add-book__decor add-book__decor--right" aria-hidden="true"></span>
 
   <!-- Compass lines up with the left edge of the cards; the divider is centred on the page -->
-  <header class="add-book__header">
-    <span class="add-book__compass" aria-hidden="true"></span>
-    <div class="add-book__heading">
-      <nav class="nn-eyebrow add-book__breadcrumb" aria-label="Breadcrumb">
+  <header class="nn-admin-header">
+    <span class="nn-admin-header__compass" aria-hidden="true"></span>
+    <div class="nn-admin-header__heading">
+      <nav class="nn-eyebrow nn-admin-header__breadcrumb" aria-label="Breadcrumb">
         <a routerLink="/admin/manage-books">Admin / Books</a> / Add book
       </nav>
-      <h1 class="add-book__title">Add a new book</h1>
+      <h1 class="nn-admin-header__title">Add a new book</h1>
     </div>
-    <span class="add-book__divider" aria-hidden="true"></span>
+    <span class="nn-admin-header__divider" aria-hidden="true"></span>
   </header>
 
   <!-- Format: physical/digital first, then the matching types -->
   <section class="nn-panel add-book__panel add-book__format" aria-labelledby="format-label">
     <div class="add-book__format-head">
       <h2 id="format-label" class="add-book__format-title">
-        <i class="bi bi-layers" aria-hidden="true"></i><span>Format<span class="add-book__required" aria-hidden="true">*</span></span>
+        <i class="bi bi-layers" aria-hidden="true"></i><span>Format<span class="nn-required" aria-hidden="true">*</span></span>
       </h2>
       <p class="add-book__help">Select what type of book this is. Additional fields will appear based on your selection.</p>
     </div>
@@ -64,21 +64,21 @@
   <div class="add-book__columns">
     <!-- Left: what the admin types -->
     <section class="nn-panel add-book__panel add-book__details" aria-labelledby="details-title">
-      <h2 id="details-title" class="add-book__panel-title">
+      <h2 id="details-title" class="nn-section-title">
         <i class="bi bi-book" aria-hidden="true"></i>Book details
-        <span class="add-book__title-rule" aria-hidden="true"></span>
+        <span class="nn-section-title__rule" aria-hidden="true"></span>
       </h2>
 
       <div class="add-book__row">
         <div class="add-book__field add-book__field--title">
-          <label for="title">Title<span class="add-book__required" aria-hidden="true">*</span></label>
+          <label class="nn-field-label" for="title">Title<span class="nn-required" aria-hidden="true">*</span></label>
           <input id="title" class="nn-input" formControlName="title" placeholder="Enter book title" maxlength="100" required />
           @if (showError('title')) {
             <span class="add-book__error">Title is required.</span>
           }
         </div>
         <div class="add-book__field add-book__field--author">
-          <label for="author">Author<span class="add-book__required" aria-hidden="true">*</span></label>
+          <label class="nn-field-label" for="author">Author<span class="nn-required" aria-hidden="true">*</span></label>
           <input id="author" class="nn-input" formControlName="author" placeholder="Enter author name" maxlength="75" required />
           @if (showError('author')) {
             <span class="add-book__error">Author is required.</span>
@@ -88,15 +88,15 @@
 
       <div class="add-book__row">
         <div class="add-book__field add-book__field--year">
-          <label for="publicationYear">Publication year<span class="add-book__required" aria-hidden="true">*</span></label>
+          <label class="nn-field-label" for="publicationYear">Publication year<span class="nn-required" aria-hidden="true">*</span></label>
           <input id="publicationYear" class="nn-input" formControlName="publicationYear" placeholder="YYYY" inputmode="numeric" maxlength="4" required />
           @if (showError('publicationYear')) {
             <span class="add-book__error">Enter a four-digit year.</span>
           }
         </div>
         <div class="add-book__field add-book__field--select">
-          <label for="genre">Genre<span class="add-book__required" aria-hidden="true">*</span></label>
-          <select id="genre" class="nn-select add-book__select" formControlName="genre" required>
+          <label class="nn-field-label" for="genre">Genre<span class="nn-required" aria-hidden="true">*</span></label>
+          <select id="genre" class="nn-select nn-select--plain add-book__select" formControlName="genre" required>
             <option [ngValue]="null" disabled>Select genre</option>
             @for (genre of genreOptions; track genre) {
               <option [ngValue]="genre">{{ GenreDisplayNames[genre] }}</option>
@@ -107,8 +107,8 @@
           }
         </div>
         <div class="add-book__field add-book__field--select">
-          <label for="language">Language<span class="add-book__required" aria-hidden="true">*</span></label>
-          <select id="language" class="nn-select add-book__select" formControlName="language" required>
+          <label class="nn-field-label" for="language">Language<span class="nn-required" aria-hidden="true">*</span></label>
+          <select id="language" class="nn-select nn-select--plain add-book__select" formControlName="language" required>
             @for (language of languageOptions; track language) {
               <option [ngValue]="language">{{ LanguageDisplayNames[language] }}</option>
             }
@@ -117,7 +117,7 @@
       </div>
 
       <div class="add-book__field add-book__field--grow">
-        <label for="bookDescription">Description</label>
+        <label class="nn-field-label" for="bookDescription">Description</label>
         <textarea id="bookDescription" class="nn-input add-book__textarea" formControlName="bookDescription" rows="4" placeholder="Write a description of the book…"></textarea>
       </div>
     </section>
@@ -125,13 +125,13 @@
     <!-- Right: cover and files -->
     <!-- E-books also need the EPUB field, so the cover gets a compact layout to keep the page short -->
     <section class="nn-panel add-book__panel add-book__files" [class.add-book__files--compact]="isEbook" aria-labelledby="files-title">
-      <h2 id="files-title" class="add-book__panel-title">
+      <h2 id="files-title" class="nn-section-title">
         <i class="bi bi-file-earmark" aria-hidden="true"></i>Files and cover
-        <span class="add-book__title-rule" aria-hidden="true"></span>
+        <span class="nn-section-title__rule" aria-hidden="true"></span>
       </h2>
 
       <div class="add-book__field">
-        <span class="add-book__label">Cover image <span class="add-book__optional">· optional</span></span>
+        <span class="nn-field-label">Cover image <span class="add-book__optional">· optional</span></span>
         <div class="add-book__cover-row">
           @if (coverUrl && !coverPreviewFailed) {
             <img class="add-book__cover" [src]="coverUrl" alt="Cover preview" (error)="coverPreviewFailed = true" />
@@ -170,7 +170,7 @@
 
       @if (isEbook) {
         <div class="add-book__field">
-          <span class="add-book__label">EPUB file<span class="add-book__required" aria-hidden="true">*</span></span>
+          <span class="nn-field-label">EPUB file<span class="nn-required" aria-hidden="true">*</span></span>
 
           <!-- Chosen or rejected file: one card, with its buttons inside -->
           @if (epubFile) {
