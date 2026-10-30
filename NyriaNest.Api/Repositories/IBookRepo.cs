@@ -1,7 +1,6 @@
 ﻿using NyriaNest.Api.Helpers.Enums;
 using NyriaNest.Api.Models.Books;
 using NyriaNest.Api.Models.Books.BookDTOs;
-using System.Net;
 
 namespace NyriaNest.Api.Repositories
 {
@@ -13,9 +12,9 @@ namespace NyriaNest.Api.Repositories
         Task<IEnumerable<Book>> GetByAuthorAsync(string author);
         Task<IEnumerable<Book>> GetByGenreAsync(GenreEnums genre);
         Task<List<LibraryBookDto>> GetLibraryListAsync(string? userId);
+        Task<PagedResult<AdminBookDto>> GetAdminCatalogueAsync(AdminCatalogueQuery q);
         Task CreateBookAsync(Book book);
         Task UpdateAsync(Book book);
-        Task UpdateStatusAsync(int id, Book book);
         Task DeleteAsync(Book book);
         Task SaveAsync();
     }

@@ -14,11 +14,18 @@ using System.Security.Claims;
 public class BookController : ControllerBase
 {
     private readonly IBookService _bookService;
-    private readonly IUserService _userService;
-    public BookController(IBookService bookService, IUserService userService)
+    public BookController(IBookService bookService)
     {
         _bookService = bookService;
-        _userService = userService;
+    }
+
+    /// <summary>Admin catalogue with search, filters, sorting and paging.</summary>
+    /// <remarks>Example: GET /api/Book/catalogue?q=sand&amp;bookType=3&amp;status=available&amp;page=1</remarks>
+    [HttpGet("catalogue")]
+    public async Task<IActionResult> GetCatalogue([FromQuery] AdminCatalogueQuery query)
+    {
+        var response = await _bookService.GetAdminCatalogueAsync(query);
+        return StatusCode((int)response.StatusCode, response);
     }
 
     [HttpGet("{id:int}")]

@@ -24,13 +24,14 @@ namespace NyriaNest.Api.Services
         Task<APIResponse<Book>> AddEbookAsync(SlimBookDto bookDto, IFormFile file, CancellationToken ct = default);
         Task<APIResponse<Book>> DeleteBookAsync(int id);
         Task<APIResponse<Book>> UpdateBookInfoAsync(int id, SlimBookDto bookDto);
-        Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string userId, BookStatusEnum bookStatus, string? n);
+        Task<APIResponse<Book>> UpdateBookStatusAsync(Book book, string? userId, BookStatusEnum bookStatus, string? notes);
         Task<APIResponse<List<StatusHistoryItem>>> GetBookHistoryAsync(int bookId);
         Task<APIResponse<List<ReservationItem>>> GetBookReservationsAsync(int bookId);
         Task<APIResponse<List<Book>>> GetBooksByGenreAsync(GenreEnums genre, string sortBy = "Title", bool ascending = true);
         Task<APIResponse<List<BookReviewDto>>> GetBookReviewsAsync (int bookId);
         void RecalculateAvailabilityDates(Book book);
         Task<APIResponse<List<LibraryBookDto>>> GetLibraryAsync(string? userId);
+        Task<APIResponse<PagedResult<AdminBookDto>>> GetAdminCatalogueAsync(AdminCatalogueQuery q);
         Task<APIResponse<Book>> SetAdminStatusAsync(int bookId, BookStatusEnum status, string? adminUserId, string? notes);
         Task<APIResponse<Book>> ClearAdminStatusAsync(int bookId, string? adminUserId);
     }
@@ -563,13 +564,6 @@ namespace NyriaNest.Api.Services
 
             return book;
         }
-        public BookStatusEnum GetCurrentStatus(Book book)
-        {
-            return book.StatusHistory
-                .OrderByDescending(sh => sh.Timestamp)
-                .FirstOrDefault()?.BookStatus ?? BookStatusEnum.Available;
-        }
-
         public async Task<APIResponse<List<StatusHistoryItem>>> GetBookHistoryAsync(int bookId)
         {
             var response = new APIResponse<List<StatusHistoryItem>>
@@ -699,6 +693,26 @@ namespace NyriaNest.Api.Services
                 response.IsSuccess = false;
                 response.StatusCode = HttpStatusCode.InternalServerError;
                 response.ErrorMessages.Add(ex.Message);
+            }
+            return response;
+        }
+
+        public async Task<APIResponse<PagedResult<AdminBookDto>>> GetAdminCatalogueAsync(AdminCatalogueQuery q)
+        {
+            var response = new APIResponse<PagedResult<AdminBookDto>>();
+            try
+            {
+                response.Result = await _bookRepo.GetAdminCatalogueAsync(q);
+                response.IsSuccess = true;
+                response.StatusCode = HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                // Log the details, but don't send exception text to the client
+                _logger.LogError(ex, "Failed to load admin catalogue");
+                response.IsSuccess = false;
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.ErrorMessages.Add("Could not load the catalogue.");
             }
             return response;
         }
